@@ -255,6 +255,11 @@ body {
 
 /* Mobile layout */
 @media (max-width: 768px) {
+    .site-title {
+        padding: 16px 16px 12px 16px;
+        font-size: 17px;
+    }
+    
     .filters-container {
         padding: 12px 0;
     }
