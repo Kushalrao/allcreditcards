@@ -361,57 +361,91 @@ function setupMobileInteractions(canvas) {
     canvasContainer.addEventListener('touchmove', handleTouchMove, { passive: false });
     canvasContainer.addEventListener('touchend', handleTouchEnd, { passive: true });
     
-    const updateScroll = () => {
-        // TEMPORARILY DISABLED: Transform the wrapper to simulate scrolling
-        // This might be causing flattening - testing without it first
-        // canvasWrapper.style.transform = `translateY(-${scrollY}px)`;
-        // COMMENTED OUT: Dynamic rotation on scroll - testing static 3D first
-        // updateCardRotations(imageItems, scrollY, tappedCardId);
-    };
+    // This function is now defined inside setupMobileInteractions
     
-    // NEW APPROACH: Use separate wrappers for translation and rotation
-    // Find all translate wrappers (they contain rotate wrappers which contain image-items)
+    // Get all translate wrappers and their inner elements
     const translateWrappers = Array.from(canvas.querySelectorAll('.image-translate-wrapper'));
-    
-    translateWrappers.forEach((translateWrapper, index) => {
-        const offsetY = index * 8;
+    const wrapperData = translateWrappers.map((translateWrapper, index) => {
         const rotateWrapper = translateWrapper.querySelector('.image-rotate-wrapper');
         const imageItem = translateWrapper.querySelector('.image-item');
-        
-        if (!rotateWrapper || !imageItem) return;
-        
-        // Apply translation to outer wrapper
-        translateWrapper.style.transform = `translate3d(0, ${offsetY}px, 0)`;
-        translateWrapper.style.webkitTransform = `translate3d(0, ${offsetY}px, 0)`;
-        
-        // Apply rotation to inner wrapper
-        rotateWrapper.style.transform = `rotateX(-30deg)`;
-        rotateWrapper.style.webkitTransform = `rotateX(-30deg)`;
-        
-        // DEBUG: Log to verify transforms are applied
-        console.log(`Card ${index}: Applied translate: translate3d(0, ${offsetY}px, 0)`);
-        console.log(`Card ${index}: Applied rotate: rotateX(-30deg)`);
-        
-        // Check computed transforms
-        requestAnimationFrame(() => {
-            const translateTransform = window.getComputedStyle(translateWrapper).transform;
-            const rotateTransform = window.getComputedStyle(rotateWrapper).transform;
-            
-            console.log(`Card ${index}: Computed translate transform:`, translateTransform);
-            console.log(`Card ${index}: Computed rotate transform:`, rotateTransform);
-            
-            const isTranslate3D = translateTransform.includes('matrix3d') || 
-                                 (translateTransform.includes('matrix') && translateTransform.split(',').length > 6);
-            const isRotate3D = rotateTransform.includes('matrix3d') || 
-                              (rotateTransform.includes('matrix') && rotateTransform.split(',').length > 6);
-            
-            console.log(`Card ${index}: Translate is 3D:`, isTranslate3D);
-            console.log(`Card ${index}: Rotate is 3D:`, isRotate3D);
-        });
+        return { translateWrapper, rotateWrapper, imageItem, index };
     });
     
-    // Initial update - just set wrapper position, no rotation update
+    // Track tapped card
+    let tappedCardId = null;
+    
+    // Update card rotations based on scroll position
+    const updateCardRotations = (scrollY) => {
+        const deviceHeight = window.innerHeight;
+        const cardHeight = 200;
+        const cardSpacing = -100;
+        const screenTop = 200;
+        
+        wrapperData.forEach(({ translateWrapper, rotateWrapper, imageItem, index }) => {
+            if (!rotateWrapper || !imageItem) return;
+            
+            const offsetY = index * 8;
+            
+            // Handle tapped cards (rotate to 0°)
+            if (imageItem.dataset.imagePath === tappedCardId || imageItem.classList.contains('tapped')) {
+                rotateWrapper.style.transform = `rotateX(0deg)`;
+                rotateWrapper.style.webkitTransform = `rotateX(0deg)`;
+                translateWrapper.style.transform = `translate3d(0, ${offsetY}px, 0)`;
+                translateWrapper.style.webkitTransform = `translate3d(0, ${offsetY}px, 0)`;
+                return;
+            }
+            
+            // Calculate card position considering scroll
+            const baseCardPosition = index * (cardHeight + cardSpacing);
+            const currentCardPosition = baseCardPosition - scrollY;
+            const cardCenterY = currentCardPosition + cardHeight / 2;
+            const distanceFromTop = cardCenterY - screenTop;
+            
+            // Normalize distance for rotation interpolation
+            const maxDistance = deviceHeight * 0.6;
+            const normalizedDistance = Math.max(0, Math.min(1, distanceFromTop / maxDistance));
+            
+            // Interpolate between -10° (top) and -60° (bottom)
+            const topRotation = -10.0;
+            const bottomRotation = -60.0;
+            const dynamicRotation = topRotation + normalizedDistance * (bottomRotation - topRotation);
+            
+            // Apply transforms to separate wrappers
+            translateWrapper.style.transform = `translate3d(0, ${offsetY}px, 0)`;
+            translateWrapper.style.webkitTransform = `translate3d(0, ${offsetY}px, 0)`;
+            rotateWrapper.style.transform = `rotateX(${dynamicRotation}deg)`;
+            rotateWrapper.style.webkitTransform = `rotateX(${dynamicRotation}deg)`;
+        });
+    };
+    
+    const updateScroll = () => {
+        // Transform the wrapper to simulate scrolling
+        canvasWrapper.style.transform = `translateY(-${scrollY}px)`;
+        updateCardRotations(scrollY);
+    };
+    
+    // Initial update
     updateScroll();
+    
+    // Track tapped card
+    wrapperData.forEach(({ imageItem }) => {
+        imageItem.addEventListener('click', () => {
+            if (tappedCardId === imageItem.dataset.imagePath) {
+                tappedCardId = null;
+                imageItem.classList.remove('tapped');
+            } else {
+                wrapperData.forEach(({ imageItem: item }) => item.classList.remove('tapped'));
+                tappedCardId = imageItem.dataset.imagePath;
+                imageItem.classList.add('tapped');
+            }
+            
+            if (navigator.vibrate) {
+                navigator.vibrate(10);
+            }
+            
+            updateScroll();
+        });
+    });
     
     // Update on resize
     window.addEventListener('resize', () => {
