@@ -412,6 +412,13 @@ function setupMobileInteractions(canvas) {
             translateWrapper.style.webkitTransform = `translate3d(0, ${offsetY}px, 0)`;
             rotateWrapper.style.transform = `rotateX(${dynamicRotation}deg)`;
             rotateWrapper.style.webkitTransform = `rotateX(${dynamicRotation}deg)`;
+            
+            // Verify transform was applied (for debugging)
+            if (index < 3) {
+                const computedTransform = window.getComputedStyle(rotateWrapper).transform;
+                const isMatrix3d = computedTransform.includes('matrix3d');
+                console.log(`Card ${index}: Applied rotateX(${dynamicRotation}deg), Computed: ${computedTransform.substring(0, 50)}..., Is3D: ${isMatrix3d}`);
+            }
         });
     };
     
