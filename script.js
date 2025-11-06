@@ -410,6 +410,123 @@ function removeActiveFilter() {
     applyFilter(null, null);
 }
 
+// Filter grid by AI recommendations
+function filterGridByAI(recommendedCardNames, query) {
+    console.log(`AI recommended ${recommendedCardNames.length} cards for query: "${query}"`);
+    
+    // Filter card data to only show recommended cards
+    const filteredData = cardData.filter(card => 
+        recommendedCardNames.includes(card['Card Name'])
+    );
+    
+    if (filteredData.length === 0) {
+        console.warn('No cards matched the recommendations');
+        return;
+    }
+    
+    // Use the existing filter logic to remake the grid
+    const canvas = document.getElementById('canvas');
+    if (!canvas) return;
+    
+    // Clear active filter state
+    activeFilter = null;
+    document.querySelectorAll('.filter-tab').forEach(tab => {
+        tab.classList.remove('active');
+    });
+    
+    // Fade out existing cards
+    allImageItems.forEach(item => {
+        item.classList.remove('fade-in');
+        item.classList.add('fade-out');
+    });
+    
+    // After fade out, recreate grid with filtered data
+    setTimeout(() => {
+        canvas.innerHTML = '';
+        allImageItems = [];
+        
+        const isMobile = window.innerWidth <= 768;
+        const canvasContainer = document.getElementById('canvasContainer');
+        
+        if (isMobile) {
+            canvas.style.width = '100%';
+            canvas.style.height = 'auto';
+            
+            for (let i = 0; i < filteredData.length; i++) {
+                const card = filteredData[i];
+                const imagePath = imagePaths[i % imagePaths.length];
+                const imageItem = createImageItem(imagePath, card, 0, i);
+                imageItem.dataset.cardIndex = i;
+                imageItem.classList.remove('visible');
+                imageItem.style.opacity = '0';
+                canvas.appendChild(imageItem);
+                allImageItems.push(imageItem);
+                
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(() => {
+                        imageItem.classList.add('fade-in');
+                        imageItem.style.removeProperty('opacity');
+                    });
+                });
+            }
+            
+            if (canvasContainer) {
+                canvasContainer.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        } else {
+            const totalCards = filteredData.length;
+            const cardsPerRow = GRID_COLS;
+            const totalRows = Math.ceil(totalCards / cardsPerRow);
+            const CARD_TOTAL_HEIGHT = 192;
+            const totalWidth = GRID_COLS * (IMAGE_WIDTH + GAP) + GAP;
+            const totalHeight = totalRows * (CARD_TOTAL_HEIGHT + GAP) + GAP;
+            
+            canvas.style.width = `${totalWidth}px`;
+            canvas.style.minHeight = `${totalHeight}px`;
+            canvas.style.height = 'auto';
+            
+            let cardIndex = 0;
+            for (let row = 0; row < totalRows && cardIndex < filteredData.length; row++) {
+                for (let col = 0; col < GRID_COLS && cardIndex < filteredData.length; col++) {
+                    const card = filteredData[cardIndex];
+                    const imagePath = imagePaths[cardIndex % imagePaths.length];
+                    const imageItem = createImageItem(imagePath, card, row, col);
+                    imageItem.classList.remove('visible');
+                    imageItem.style.opacity = '0';
+                    canvas.appendChild(imageItem);
+                    allImageItems.push(imageItem);
+                    
+                    requestAnimationFrame(() => {
+                        requestAnimationFrame(() => {
+                            imageItem.classList.add('fade-in');
+                            imageItem.style.removeProperty('opacity');
+                        });
+                    });
+                    cardIndex++;
+                }
+            }
+            
+            if (canvasContainer) {
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(() => {
+                        const actualHeight = canvas.offsetHeight;
+                        const actualWidth = canvas.offsetWidth;
+                        const startX = (actualWidth - window.innerWidth) / 2;
+                        const startY = (actualHeight - window.innerHeight) / 2;
+                        canvasContainer.scrollTo({
+                            left: Math.max(0, startX),
+                            top: Math.max(0, startY),
+                            behavior: 'smooth'
+                        });
+                    });
+                });
+            }
+        }
+        
+        console.log(`Filtered to ${filteredData.length} AI-recommended cards`);
+    }, 300);
+}
+
 // Apply filter with fade transition
 function applyFilter(filterType, filterValue) {
     const canvas = document.getElementById('canvas');
@@ -558,33 +675,15 @@ let currentController = null; // For aborting pending requests
 // Initialize search bar
 function initSearchBar() {
     const searchBar = document.getElementById('searchBar');
-    const overlay = document.getElementById('recommendationsOverlay');
-    const closeButton = document.getElementById('closeRecommendations');
-    
     if (!searchBar) return;
     
-    // Handle search input with debouncing
+    // Handle search input
     searchBar.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') {
             const query = searchBar.value.trim();
             if (query.length > 0) {
                 handleSearch(query);
             }
-        }
-    });
-    
-    // Close modal handlers
-    closeButton.addEventListener('click', closeRecommendations);
-    overlay.addEventListener('click', (e) => {
-        if (e.target === overlay) {
-            closeRecommendations();
-        }
-    });
-    
-    // ESC key to close
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && overlay.classList.contains('show')) {
-            closeRecommendations();
         }
     });
 }
@@ -599,9 +698,11 @@ async function handleSearch(query) {
     }
     currentController = new AbortController();
     
-    // Show modal with loading state
-    showRecommendationsModal();
-    showLoading();
+    // Show loading state in search bar
+    const searchBar = document.getElementById('searchBar');
+    const originalPlaceholder = searchBar.placeholder;
+    searchBar.placeholder = 'Analyzing 500 cards...';
+    searchBar.disabled = true;
     
     try {
         const response = await fetch('/api/recommend', {
@@ -621,7 +722,12 @@ async function handleSearch(query) {
         }
         
         const data = await response.json();
-        displayRecommendations(data, query);
+        
+        // Filter grid to show only recommended cards
+        filterGridByAI(data.recommendedCardNames, query);
+        
+        // Clear search bar
+        searchBar.value = '';
         
     } catch (error) {
         if (error.name === 'AbortError') {
@@ -634,90 +740,18 @@ async function handleSearch(query) {
         showError(error.message, details);
     } finally {
         currentController = null;
+        searchBar.disabled = false;
+        searchBar.placeholder = originalPlaceholder;
     }
 }
 
-// Show recommendations modal
-function showRecommendationsModal() {
-    const overlay = document.getElementById('recommendationsOverlay');
-    overlay.classList.add('show');
-    document.body.style.overflow = 'hidden'; // Prevent background scrolling
-}
-
-// Close recommendations modal
-function closeRecommendations() {
-    const overlay = document.getElementById('recommendationsOverlay');
-    overlay.classList.remove('show');
-    document.body.style.overflow = ''; // Restore scrolling
-    
-    // Abort any pending request
-    if (currentController) {
-        currentController.abort();
-        currentController = null;
-    }
-}
-
-// Show loading state
-function showLoading() {
-    const content = document.getElementById('recommendationsContent');
-    const title = document.getElementById('recommendationsTitle');
-    
-    title.textContent = 'Finding the best cards for you...';
-    content.innerHTML = `
-        <div class="loading-spinner">
-            <div class="spinner"></div>
-            <p>Analyzing ${cardData.length} credit cards...</p>
-        </div>
-    `;
-}
-
-// Display recommendations
-function displayRecommendations(data, query) {
-    const content = document.getElementById('recommendationsContent');
-    const title = document.getElementById('recommendationsTitle');
-    
-    title.textContent = 'AI Recommendations';
-    
-    // Format the recommendation text (convert markdown-like formatting to HTML)
-    let formattedRecommendation = data.recommendation
-        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // Bold
-        .replace(/\n\n/g, '</p><p>') // Paragraphs
-        .replace(/\n/g, '<br>'); // Line breaks
-    
-    content.innerHTML = `
-        <div style="margin-bottom: 20px; padding: 16px; background: #f8f9fa; border-radius: 8px; border-left: 3px solid #000;">
-            <p style="margin: 0; font-size: 14px; color: #666;">
-                <strong>Your query:</strong> "${query}"
-            </p>
-            <p style="margin: 8px 0 0 0; font-size: 13px; color: #999;">
-                Analyzed ${data.totalCardsAnalyzed} cards
-            </p>
-        </div>
-        <div style="white-space: pre-wrap;">
-            <p>${formattedRecommendation}</p>
-        </div>
-    `;
-}
-
-// Show error message
+// Show error message (simple alert for now)
 function showError(message, details = '') {
-    const content = document.getElementById('recommendationsContent');
-    const title = document.getElementById('recommendationsTitle');
-    
-    title.textContent = 'Error';
-    
-    let detailsHtml = '';
+    let errorMsg = `Unable to get recommendations:\n\n${message}`;
     if (details) {
-        detailsHtml = `<br><br><small style="color: #999;">Details: ${details}</small>`;
+        errorMsg += `\n\nDetails: ${details}`;
     }
-    
-    content.innerHTML = `
-        <div class="error-message">
-            <strong>Unable to get recommendations</strong><br><br>
-            ${message}${detailsHtml}<br><br>
-            Please try again or refine your search query.
-        </div>
-    `;
+    alert(errorMsg);
 }
 
 // Initialize search on load
@@ -726,4 +760,5 @@ if (document.readyState === 'loading') {
 } else {
     initSearchBar();
 }
+
 
