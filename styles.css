@@ -8,33 +8,40 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
     background: #ffffff;
     color: #000000;
-    overflow: hidden;
+    /* CRITICAL: overflow: hidden on body flattens 3D on children! */
+    /* overflow: hidden; */
     height: 100vh;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    transform-style: preserve-3d;
+    -webkit-transform-style: preserve-3d;
 }
 
 .container {
-    display: flex;
-    flex-direction: column;
+    /* CRITICAL: display: flex flattens 3D transforms in WebKit! */
+    /* display: flex; */
+    /* flex-direction: column; */
     height: 100vh;
+    transform-style: preserve-3d;
+    -webkit-transform-style: preserve-3d;
 }
 
 .canvas-container {
-    flex: 1;
-    overflow: auto;
+    /* flex: 1; */
+    /* CRITICAL: overflow: auto flattens 3D transforms! */
+    /* overflow: auto; */
     position: relative;
     background: #ffffff;
-    scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
+    /* scroll-behavior: smooth; */
+    /* -webkit-overflow-scrolling: touch; */
     height: 100vh;
-    scroll-snap-type: none;
-    overscroll-behavior: contain;
-    will-change: scroll-position;
-    scroll-padding: 0;
+    /* scroll-snap-type: none; */
+    /* overscroll-behavior: contain; */
+    /* will-change: scroll-position; */
+    /* scroll-padding: 0; */
     scrollbar-width: none; /* Firefox - hide scrollbar */
     -ms-overflow-style: none; /* IE and Edge - hide scrollbar */
-    /* CRITICAL: Preserve 3D context even with overflow */
+    /* CRITICAL: Preserve 3D context */
     transform-style: preserve-3d;
     -webkit-transform-style: preserve-3d;
 }

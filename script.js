@@ -377,11 +377,24 @@ function setupMobileInteractions(canvas) {
             const computedTransformStyle = window.getComputedStyle(item).transformStyle;
             console.log(`Card ${index}: Computed transform-style:`, computedTransformStyle);
             
-            // Log parent transform-style too
-            if (wrapperEl) {
-                const wrapperTransformStyle = window.getComputedStyle(wrapperEl).transformStyle;
-                const wrapperPerspective = window.getComputedStyle(wrapperEl).perspective;
-                console.log(`Card ${index}: Wrapper transform-style:`, wrapperTransformStyle, 'perspective:', wrapperPerspective);
+            // CRITICAL DEBUG: Check ALL parent elements for flattening properties
+            let currentEl = item.parentElement;
+            let level = 0;
+            while (currentEl && level < 5) {
+                const styles = window.getComputedStyle(currentEl);
+                console.log(`Parent ${level} (${currentEl.className}):`, {
+                    transformStyle: styles.transformStyle,
+                    perspective: styles.perspective,
+                    overflow: styles.overflow,
+                    overflowX: styles.overflowX,
+                    overflowY: styles.overflowY,
+                    opacity: styles.opacity,
+                    filter: styles.filter,
+                    willChange: styles.willChange,
+                    transform: styles.transform
+                });
+                currentEl = currentEl.parentElement;
+                level++;
             }
         });
     });
