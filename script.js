@@ -85,13 +85,18 @@ async function initCanvas() {
         // Create vertical stack based on card data
         createGrid(canvas);
     } else {
-        // Desktop: Calculate total dimensions
+        // Desktop: Calculate total dimensions based on actual card count
+        const totalCards = cardData.length;
+        const totalRows = Math.ceil(totalCards / GRID_COLS);
+        // Card height includes: image (158px) + card name (~20px) + network (~14px) = ~192px
+        const CARD_TOTAL_HEIGHT = 192;
         const totalWidth = GRID_COLS * (IMAGE_WIDTH + GAP) + GAP;
-        const totalHeight = GRID_ROWS * (IMAGE_HEIGHT + GAP) + GAP;
+        const totalHeight = totalRows * (CARD_TOTAL_HEIGHT + GAP) + GAP;
         
-        // Set canvas size
+        // Set canvas size - use min-height to allow grid to grow with content
         canvas.style.width = `${totalWidth}px`;
-        canvas.style.height = `${totalHeight}px`;
+        canvas.style.minHeight = `${totalHeight}px`;
+        canvas.style.height = 'auto';
         
         // Start at center
         const startX = (totalWidth - window.innerWidth) / 2;
@@ -218,8 +223,9 @@ function createGrid(canvas) {
         }
     } else {
         // Desktop: Create grid based on card data
+        const totalRows = Math.ceil(totalCards / GRID_COLS);
         let cardIndex = 0;
-        for (let row = 0; row < GRID_ROWS && cardIndex < totalCards; row++) {
+        for (let row = 0; row < totalRows && cardIndex < totalCards; row++) {
             for (let col = 0; col < GRID_COLS && cardIndex < totalCards; col++) {
                 const card = cardData[cardIndex];
                 // Cycle through available images
@@ -442,8 +448,13 @@ function applyFilter(filterType, filterValue) {
         
         // Recreate grid with filtered data
         const isMobile = window.innerWidth <= 768;
+        const canvasContainer = document.getElementById('canvasContainer');
         
         if (isMobile) {
+            // Mobile: Reset canvas styles
+            canvas.style.width = '100%';
+            canvas.style.height = 'auto';
+            
             // Mobile: Create vertical stack based on filtered data
             for (let i = 0; i < filteredData.length; i++) {
                 const card = filteredData[i];
@@ -463,10 +474,31 @@ function applyFilter(filterType, filterValue) {
                     });
                 });
             }
+            
+            // Scroll to top on mobile
+            if (canvasContainer) {
+                canvasContainer.scrollTo({ top: 0, behavior: 'smooth' });
+            }
         } else {
+            // Desktop: Calculate grid dimensions based on filtered data
+            const totalFilteredCards = filteredData.length;
+            const cardsPerRow = GRID_COLS;
+            const totalRows = Math.ceil(totalFilteredCards / cardsPerRow);
+            
+            // Calculate actual dimensions needed
+            // Card height includes: image (158px) + card name (~20px) + network (~14px) = ~192px
+            const CARD_TOTAL_HEIGHT = 192;
+            const totalWidth = GRID_COLS * (IMAGE_WIDTH + GAP) + GAP;
+            const totalHeight = totalRows * (CARD_TOTAL_HEIGHT + GAP) + GAP;
+            
+            // Set canvas size - use min-height to allow grid to grow with content
+            canvas.style.width = `${totalWidth}px`;
+            canvas.style.minHeight = `${totalHeight}px`;
+            canvas.style.height = 'auto';
+            
             // Desktop: Create grid based on filtered data
             let cardIndex = 0;
-            for (let row = 0; row < GRID_ROWS && cardIndex < filteredData.length; row++) {
+            for (let row = 0; row < totalRows && cardIndex < filteredData.length; row++) {
                 for (let col = 0; col < GRID_COLS && cardIndex < filteredData.length; col++) {
                     const card = filteredData[cardIndex];
                     const imagePath = imagePaths[cardIndex % imagePaths.length];
@@ -485,6 +517,23 @@ function applyFilter(filterType, filterValue) {
                     });
                     cardIndex++;
                 }
+            }
+            
+            // Scroll to center after grid is recreated - wait for layout
+            if (canvasContainer) {
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(() => {
+                        const actualHeight = canvas.offsetHeight;
+                        const actualWidth = canvas.offsetWidth;
+                        const startX = (actualWidth - window.innerWidth) / 2;
+                        const startY = (actualHeight - window.innerHeight) / 2;
+                        canvasContainer.scrollTo({
+                            left: Math.max(0, startX),
+                            top: Math.max(0, startY),
+                            behavior: 'smooth'
+                        });
+                    });
+                });
             }
         }
         
