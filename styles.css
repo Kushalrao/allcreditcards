@@ -98,3 +98,19 @@ body {
     background: rgba(0, 0, 0, 0.3);
 }
 
+/* Mobile layout */
+@media (max-width: 768px) {
+    .canvas {
+        grid-template-columns: repeat(20, 102px);
+        grid-auto-rows: minmax(63px, auto);
+        column-gap: 33px;
+        row-gap: 41px;
+        padding: 30px;
+    }
+    
+    .image-item {
+        width: 102px;
+        height: 63px;
+    }
+}
+
