@@ -125,8 +125,12 @@ body {
 }
 
 .image-item.fade-in {
-    opacity: 1;
+    opacity: 1 !important;
     transition: opacity 0.3s ease;
+}
+
+.image-item[style*="opacity: 0"] {
+    opacity: 0 !important;
 }
 
 .image-item.visible {

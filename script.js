@@ -406,33 +406,89 @@ function removeActiveFilter() {
 
 // Apply filter with fade transition
 function applyFilter(filterType, filterValue) {
-    // Step 1: Fade out all cards
+    const canvas = document.getElementById('canvas');
+    if (!canvas) return;
+    
+    // Step 1: Fade out all existing cards
     allImageItems.forEach(item => {
         item.classList.remove('fade-in');
         item.classList.add('fade-out');
     });
     
-    // Step 2: After fade out, filter and fade in
+    // Step 2: After fade out, filter data and recreate grid
     setTimeout(() => {
-        allImageItems.forEach(item => {
-            let shouldShow = true;
-            
-            if (filterType && filterValue) {
-                const itemValue = item.dataset[filterType];
-                shouldShow = itemValue === filterValue;
+        // Filter card data
+        let filteredData = cardData;
+        
+        if (filterType && filterValue) {
+            filteredData = cardData.filter(card => {
+                if (filterType === 'network') {
+                    return card['Network'] === filterValue;
+                } else if (filterType === 'feeType') {
+                    const annualFee = card['Annual Fee (INR)'];
+                    const feeValue = typeof annualFee === 'string' ? parseInt(annualFee.replace(/,/g, '')) : annualFee;
+                    const cardFeeType = (feeValue && feeValue > 0) ? 'Paid' : 'Free';
+                    return cardFeeType === filterValue;
+                } else if (filterType === 'bank') {
+                    return card['Bank/Issuer'] === filterValue;
+                }
+                return true;
+            });
+        }
+        
+        // Clear canvas
+        canvas.innerHTML = '';
+        allImageItems = [];
+        
+        // Recreate grid with filtered data
+        const isMobile = window.innerWidth <= 768;
+        
+        if (isMobile) {
+            // Mobile: Create vertical stack based on filtered data
+            for (let i = 0; i < filteredData.length; i++) {
+                const card = filteredData[i];
+                const imagePath = imagePaths[i % imagePaths.length];
+                const imageItem = createImageItem(imagePath, card, 0, i);
+                imageItem.dataset.cardIndex = i;
+                // Remove initial fadeIn animation, start with opacity 0
+                imageItem.classList.remove('visible');
+                imageItem.style.opacity = '0';
+                canvas.appendChild(imageItem);
+                allImageItems.push(imageItem);
+                // Trigger fade in using requestAnimationFrame
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(() => {
+                        imageItem.classList.add('fade-in');
+                        imageItem.style.removeProperty('opacity');
+                    });
+                });
             }
-            
-            if (shouldShow) {
-                item.style.display = '';
-                item.classList.remove('fade-out');
-                // Force reflow to ensure transition
-                void item.offsetHeight;
-                item.classList.add('fade-in');
-            } else {
-                item.style.display = 'none';
-                item.classList.remove('fade-out', 'fade-in');
+        } else {
+            // Desktop: Create grid based on filtered data
+            let cardIndex = 0;
+            for (let row = 0; row < GRID_ROWS && cardIndex < filteredData.length; row++) {
+                for (let col = 0; col < GRID_COLS && cardIndex < filteredData.length; col++) {
+                    const card = filteredData[cardIndex];
+                    const imagePath = imagePaths[cardIndex % imagePaths.length];
+                    const imageItem = createImageItem(imagePath, card, row, col);
+                    // Remove initial fadeIn animation, start with opacity 0
+                    imageItem.classList.remove('visible');
+                    imageItem.style.opacity = '0';
+                    canvas.appendChild(imageItem);
+                    allImageItems.push(imageItem);
+                    // Trigger fade in using requestAnimationFrame
+                    requestAnimationFrame(() => {
+                        requestAnimationFrame(() => {
+                            imageItem.classList.add('fade-in');
+                            imageItem.style.removeProperty('opacity');
+                        });
+                    });
+                    cardIndex++;
+                }
             }
-        });
+        }
+        
+        console.log(`Filtered to ${filteredData.length} cards`);
     }, 300); // Wait for fade out to complete
 }
 
