@@ -1,0 +1,4002 @@
+[
+  {
+    "Card Name": "HDFC Infinia Credit Card",
+    "Bank/Issuer": "HDFC Bank",
+    "Card Type": "Super Premium",
+    "Annual Fee (INR)": "12,500",
+    "Network": "Visa",
+    "Key Benefits": "5 RP per Rs 150, 10X on SmartBuy, Unlimited lounge access"
+  },
+  {
+    "Card Name": "HDFC Diners Club Black",
+    "Bank/Issuer": "HDFC Bank",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "10,000",
+    "Network": "Diners Club",
+    "Key Benefits": "10X rewards on SmartBuy, Unlimited lounge, Golf access"
+  },
+  {
+    "Card Name": "HDFC Regalia Credit Card",
+    "Bank/Issuer": "HDFC Bank",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "2,500",
+    "Network": "Visa",
+    "Key Benefits": "4 RP per Rs 150, 8 domestic lounges, 6 international"
+  },
+  {
+    "Card Name": "HDFC Regalia Gold Credit Card",
+    "Bank/Issuer": "HDFC Bank",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "2,500",
+    "Network": "Visa",
+    "Key Benefits": "Similar to Regalia with additional brand rewards"
+  },
+  {
+    "Card Name": "HDFC Millennia Credit Card",
+    "Bank/Issuer": "HDFC Bank",
+    "Card Type": "Lifestyle",
+    "Annual Fee (INR)": 1000,
+    "Network": "Visa",
+    "Key Benefits": "5% cashback on online shopping, 1% on other spends"
+  },
+  {
+    "Card Name": "HDFC MoneyBack Plus Credit Card",
+    "Bank/Issuer": "HDFC Bank",
+    "Card Type": "Cashback",
+    "Annual Fee (INR)": 500,
+    "Network": "Visa",
+    "Key Benefits": "10X CashPoints on select platforms"
+  },
+  {
+    "Card Name": "HDFC Freedom Credit Card",
+    "Bank/Issuer": "HDFC Bank",
+    "Card Type": "Lifestyle",
+    "Annual Fee (INR)": 500,
+    "Network": "Visa",
+    "Key Benefits": "Cashback on dining, movies, groceries"
+  },
+  {
+    "Card Name": "HDFC Swiggy Credit Card",
+    "Bank/Issuer": "HDFC Bank",
+    "Card Type": "Co-branded",
+    "Annual Fee (INR)": 500,
+    "Network": "Visa",
+    "Key Benefits": "10% cashback on Swiggy, 5% on online"
+  },
+  {
+    "Card Name": "HDFC IndiGo Credit Card",
+    "Bank/Issuer": "HDFC Bank",
+    "Card Type": "Co-branded",
+    "Annual Fee (INR)": "1,500",
+    "Network": "Visa",
+    "Key Benefits": "5 6E Rewards per Rs 100 on IndiGo bookings"
+  },
+  {
+    "Card Name": "HDFC Marriott Bonvoy Credit Card",
+    "Bank/Issuer": "HDFC Bank",
+    "Card Type": "Co-branded",
+    "Annual Fee (INR)": "3,000",
+    "Network": "Visa",
+    "Key Benefits": "Free night award, Marriott points"
+  },
+  {
+    "Card Name": "HDFC Tata Neu Infinity Credit Card",
+    "Bank/Issuer": "HDFC Bank",
+    "Card Type": "Co-branded",
+    "Annual Fee (INR)": "3,000",
+    "Network": "Visa",
+    "Key Benefits": "5% NeuCoins on Tata brands"
+  },
+  {
+    "Card Name": "HDFC Tata Neu Plus Credit Card",
+    "Bank/Issuer": "HDFC Bank",
+    "Card Type": "Co-branded",
+    "Annual Fee (INR)": 500,
+    "Network": "Visa",
+    "Key Benefits": "1.5% NeuCoins, UPI enabled"
+  },
+  {
+    "Card Name": "HDFC Business MoneyBack Credit Card",
+    "Bank/Issuer": "HDFC Bank",
+    "Card Type": "Business",
+    "Annual Fee (INR)": 1000,
+    "Network": "Visa",
+    "Key Benefits": "Cashback on business expenses"
+  },
+  {
+    "Card Name": "HDFC Pixel Play Credit Card",
+    "Bank/Issuer": "HDFC Bank",
+    "Card Type": "Entertainment",
+    "Annual Fee (INR)": 500,
+    "Network": "Visa",
+    "Key Benefits": "Movie and gaming benefits"
+  },
+  {
+    "Card Name": "HDFC Solitaire Credit Card",
+    "Bank/Issuer": "HDFC Bank",
+    "Card Type": "Super Premium",
+    "Annual Fee (INR)": "5,000",
+    "Network": "Visa",
+    "Key Benefits": "Premium lifestyle benefits"
+  },
+  {
+    "Card Name": "HDFC ISIC Student Forex Plus",
+    "Bank/Issuer": "HDFC Bank",
+    "Card Type": "Student",
+    "Annual Fee (INR)": "Free",
+    "Network": "Visa",
+    "Key Benefits": "For students, forex benefits"
+  },
+  {
+    "Card Name": "HDFC EasyShop Platinum Credit Card",
+    "Bank/Issuer": "HDFC Bank",
+    "Card Type": "Shopping",
+    "Annual Fee (INR)": 500,
+    "Network": "Visa",
+    "Key Benefits": "Shopping rewards"
+  },
+  {
+    "Card Name": "HDFC Diners Club Premium",
+    "Bank/Issuer": "HDFC Bank",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "2,500",
+    "Network": "Diners Club",
+    "Key Benefits": "Travel and dining benefits"
+  },
+  {
+    "Card Name": "HDFC Corporate Platinum Credit Card",
+    "Bank/Issuer": "HDFC Bank",
+    "Card Type": "Corporate",
+    "Annual Fee (INR)": "As per corporate",
+    "Network": "Visa",
+    "Key Benefits": "Business travel benefits"
+  },
+  {
+    "Card Name": "HDFC Freedom RuPay Credit Card",
+    "Bank/Issuer": "HDFC Bank",
+    "Card Type": "Lifestyle",
+    "Annual Fee (INR)": 500,
+    "Network": "RuPay",
+    "Key Benefits": "UPI enabled, cashback"
+  },
+  {
+    "Card Name": "SBI Card ELITE",
+    "Bank/Issuer": "SBI Card",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "4,999",
+    "Network": "Mastercard",
+    "Key Benefits": "5X dining rewards, Priority Pass, 2 free movie tickets/month"
+  },
+  {
+    "Card Name": "SBI Card PRIME",
+    "Bank/Issuer": "SBI Card",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "2,999",
+    "Network": "Mastercard",
+    "Key Benefits": "2 RP per Rs 100, milestone rewards"
+  },
+  {
+    "Card Name": "SBI SimplyCLICK Credit Card",
+    "Bank/Issuer": "SBI Card",
+    "Card Type": "Shopping",
+    "Annual Fee (INR)": 499,
+    "Network": "Mastercard",
+    "Key Benefits": "10X on select online partners"
+  },
+  {
+    "Card Name": "SBI SimplySAVE Credit Card",
+    "Bank/Issuer": "SBI Card",
+    "Card Type": "Shopping",
+    "Annual Fee (INR)": 499,
+    "Network": "Mastercard",
+    "Key Benefits": "10 RP per Rs 150 on groceries, dining"
+  },
+  {
+    "Card Name": "SBI Cashback Credit Card",
+    "Bank/Issuer": "SBI Card",
+    "Card Type": "Cashback",
+    "Annual Fee (INR)": "1,499",
+    "Network": "Mastercard",
+    "Key Benefits": "5% cashback on online shopping"
+  },
+  {
+    "Card Name": "SBI BPCL Octane Credit Card",
+    "Bank/Issuer": "SBI Card",
+    "Card Type": "Fuel",
+    "Annual Fee (INR)": "1,499",
+    "Network": "Mastercard",
+    "Key Benefits": "25X rewards at BPCL, 1% fuel surcharge waiver"
+  },
+  {
+    "Card Name": "SBI Club Vistara Prime Credit Card",
+    "Bank/Issuer": "SBI Card",
+    "Card Type": "Travel",
+    "Annual Fee (INR)": "2,999",
+    "Network": "Mastercard",
+    "Key Benefits": "Vistara points, lounge access"
+  },
+  {
+    "Card Name": "SBI Club Vistara Credit Card",
+    "Bank/Issuer": "SBI Card",
+    "Card Type": "Travel",
+    "Annual Fee (INR)": "1,499",
+    "Network": "Mastercard",
+    "Key Benefits": "Vistara points, travel benefits"
+  },
+  {
+    "Card Name": "SBI Etihad Guest Credit Card",
+    "Bank/Issuer": "SBI Card",
+    "Card Type": "Travel",
+    "Annual Fee (INR)": "1,499",
+    "Network": "Mastercard",
+    "Key Benefits": "Etihad miles, travel benefits"
+  },
+  {
+    "Card Name": "SBI Air India Signature Credit Card",
+    "Bank/Issuer": "SBI Card",
+    "Card Type": "Travel",
+    "Annual Fee (INR)": "4,999",
+    "Network": "Mastercard",
+    "Key Benefits": "30 Air India points per Rs 100"
+  },
+  {
+    "Card Name": "SBI Air India Platinum Credit Card",
+    "Bank/Issuer": "SBI Card",
+    "Card Type": "Travel",
+    "Annual Fee (INR)": "1,499",
+    "Network": "Mastercard",
+    "Key Benefits": "15 Air India points per Rs 100"
+  },
+  {
+    "Card Name": "SBI IRCTC Premier Credit Card",
+    "Bank/Issuer": "SBI Card",
+    "Card Type": "Travel",
+    "Annual Fee (INR)": "1,499",
+    "Network": "Mastercard",
+    "Key Benefits": "10% value back on rail tickets"
+  },
+  {
+    "Card Name": "SBI IRCTC Platinum Credit Card",
+    "Bank/Issuer": "SBI Card",
+    "Card Type": "Travel",
+    "Annual Fee (INR)": 499,
+    "Network": "Mastercard",
+    "Key Benefits": "Railway booking benefits"
+  },
+  {
+    "Card Name": "SBI Yatra Credit Card",
+    "Bank/Issuer": "SBI Card",
+    "Card Type": "Travel",
+    "Annual Fee (INR)": 499,
+    "Network": "Mastercard",
+    "Key Benefits": "Travel booking rewards"
+  },
+  {
+    "Card Name": "SBI Aurum Credit Card",
+    "Bank/Issuer": "SBI Card",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "3,499",
+    "Network": "Mastercard",
+    "Key Benefits": "5%+ returns, unlimited lounge"
+  },
+  {
+    "Card Name": "SBI Card Unnati",
+    "Bank/Issuer": "SBI Card",
+    "Card Type": "Entry Level",
+    "Annual Fee (INR)": 499,
+    "Network": "Mastercard",
+    "Key Benefits": "Basic rewards"
+  },
+  {
+    "Card Name": "SBI Pulse Credit Card",
+    "Bank/Issuer": "SBI Card",
+    "Card Type": "Lifestyle",
+    "Annual Fee (INR)": "1,499",
+    "Network": "Mastercard",
+    "Key Benefits": "Fitness and wellness benefits"
+  },
+  {
+    "Card Name": "SBI Apollo Credit Card",
+    "Bank/Issuer": "SBI Card",
+    "Card Type": "Health",
+    "Annual Fee (INR)": "1,499",
+    "Network": "Mastercard",
+    "Key Benefits": "Healthcare rewards"
+  },
+  {
+    "Card Name": "SBI Ola Money Credit Card",
+    "Bank/Issuer": "SBI Card",
+    "Card Type": "Co-branded",
+    "Annual Fee (INR)": 499,
+    "Network": "Mastercard",
+    "Key Benefits": "Rewards on Ola rides"
+  },
+  {
+    "Card Name": "SBI Max Credit Card PRIME",
+    "Bank/Issuer": "SBI Card",
+    "Card Type": "Lifestyle",
+    "Annual Fee (INR)": "1,499",
+    "Network": "Mastercard",
+    "Key Benefits": "Max fashion rewards"
+  },
+  {
+    "Card Name": "SBI Lifestyle Home Centre PRIME",
+    "Bank/Issuer": "SBI Card",
+    "Card Type": "Shopping",
+    "Annual Fee (INR)": "1,499",
+    "Network": "Mastercard",
+    "Key Benefits": "Furniture shopping benefits"
+  },
+  {
+    "Card Name": "SBI Reliance Card PRIME",
+    "Bank/Issuer": "SBI Card",
+    "Card Type": "Co-branded",
+    "Annual Fee (INR)": "2,999",
+    "Network": "Mastercard",
+    "Key Benefits": "Reliance store benefits"
+  },
+  {
+    "Card Name": "SBI Tata Neu Plus Credit Card",
+    "Bank/Issuer": "SBI Card",
+    "Card Type": "Co-branded",
+    "Annual Fee (INR)": 499,
+    "Network": "Mastercard",
+    "Key Benefits": "7% on Tata brands"
+  },
+  {
+    "Card Name": "SBI Titan Credit Card",
+    "Bank/Issuer": "SBI Card",
+    "Card Type": "Co-branded",
+    "Annual Fee (INR)": "1,499",
+    "Network": "Mastercard",
+    "Key Benefits": "7.5% cashback on Titan products"
+  },
+  {
+    "Card Name": "SBI PhonePe SELECT BLACK",
+    "Bank/Issuer": "SBI Card",
+    "Card Type": "Co-branded",
+    "Annual Fee (INR)": "1,499",
+    "Network": "Mastercard",
+    "Key Benefits": "10 RP per Rs 100 on PhonePe"
+  },
+  {
+    "Card Name": "SBI PhonePe PURPLE",
+    "Bank/Issuer": "SBI Card",
+    "Card Type": "Co-branded",
+    "Annual Fee (INR)": 499,
+    "Network": "Mastercard",
+    "Key Benefits": "3 RP per Rs 100 on PhonePe"
+  },
+  {
+    "Card Name": "SBI Flipkart Card",
+    "Bank/Issuer": "SBI Card",
+    "Card Type": "Shopping",
+    "Annual Fee (INR)": 499,
+    "Network": "Mastercard",
+    "Key Benefits": "Flipkart cashback"
+  },
+  {
+    "Card Name": "SBI Platinum Corporate Credit Card",
+    "Bank/Issuer": "SBI Card",
+    "Card Type": "Corporate",
+    "Annual Fee (INR)": "Variable",
+    "Network": "Mastercard",
+    "Key Benefits": "Corporate benefits"
+  },
+  {
+    "Card Name": "SBI Doctor's Credit Card",
+    "Bank/Issuer": "SBI Card",
+    "Card Type": "Professional",
+    "Annual Fee (INR)": "2,999",
+    "Network": "Mastercard",
+    "Key Benefits": "For medical professionals"
+  },
+  {
+    "Card Name": "ICICI Amazon Pay Credit Card",
+    "Bank/Issuer": "ICICI Bank",
+    "Card Type": "Co-branded",
+    "Annual Fee (INR)": "Free",
+    "Network": "Mastercard",
+    "Key Benefits": "5% on Amazon, unlimited rewards"
+  },
+  {
+    "Card Name": "ICICI Coral Credit Card",
+    "Bank/Issuer": "ICICI Bank",
+    "Card Type": "Entry Level",
+    "Annual Fee (INR)": 500,
+    "Network": "Mastercard",
+    "Key Benefits": "Reward points, lounge access"
+  },
+  {
+    "Card Name": "ICICI Rubyx Credit Card",
+    "Bank/Issuer": "ICICI Bank",
+    "Card Type": "Mid-tier",
+    "Annual Fee (INR)": "3,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Enhanced rewards, travel benefits"
+  },
+  {
+    "Card Name": "ICICI Sapphiro Credit Card",
+    "Bank/Issuer": "ICICI Bank",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "3,500",
+    "Network": "Mastercard",
+    "Key Benefits": "Premium travel and dining"
+  },
+  {
+    "Card Name": "ICICI Emeralde Credit Card",
+    "Bank/Issuer": "ICICI Bank",
+    "Card Type": "Super Premium",
+    "Annual Fee (INR)": "12,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Ultra-premium benefits"
+  },
+  {
+    "Card Name": "ICICI Emeralde Private Metal",
+    "Bank/Issuer": "ICICI Bank",
+    "Card Type": "Super Premium",
+    "Annual Fee (INR)": "10,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Metal card, exclusive privileges"
+  },
+  {
+    "Card Name": "ICICI Manchester United Credit Card",
+    "Bank/Issuer": "ICICI Bank",
+    "Card Type": "Co-branded",
+    "Annual Fee (INR)": "3,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Man United fan benefits"
+  },
+  {
+    "Card Name": "ICICI HPCL Credit Card",
+    "Bank/Issuer": "ICICI Bank",
+    "Card Type": "Fuel",
+    "Annual Fee (INR)": 500,
+    "Network": "Mastercard",
+    "Key Benefits": "Fuel rewards"
+  },
+  {
+    "Card Name": "ICICI Student Travel Credit Card",
+    "Bank/Issuer": "ICICI Bank",
+    "Card Type": "Student",
+    "Annual Fee (INR)": "Free",
+    "Network": "Mastercard",
+    "Key Benefits": "For students"
+  },
+  {
+    "Card Name": "ICICI Expressions Credit Card",
+    "Bank/Issuer": "ICICI Bank",
+    "Card Type": "Lifestyle",
+    "Annual Fee (INR)": 500,
+    "Network": "Mastercard",
+    "Key Benefits": "Customizable design"
+  },
+  {
+    "Card Name": "ICICI Instant Platinum Credit Card",
+    "Bank/Issuer": "ICICI Bank",
+    "Card Type": "Entry Level",
+    "Annual Fee (INR)": 199,
+    "Network": "Mastercard",
+    "Key Benefits": "Instant approval"
+  },
+  {
+    "Card Name": "ICICI Visa Signature Credit Card",
+    "Bank/Issuer": "ICICI Bank",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "Variable",
+    "Network": "Mastercard",
+    "Key Benefits": "Premium travel"
+  },
+  {
+    "Card Name": "ICICI MMT Credit Card",
+    "Bank/Issuer": "ICICI Bank",
+    "Card Type": "Travel",
+    "Annual Fee (INR)": "1,000",
+    "Network": "Mastercard",
+    "Key Benefits": "MakeMyTrip benefits"
+  },
+  {
+    "Card Name": "ICICI Diamant Credit Card",
+    "Bank/Issuer": "ICICI Bank",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "Variable",
+    "Network": "Mastercard",
+    "Key Benefits": "Premium rewards"
+  },
+  {
+    "Card Name": "ICICI Unifare Credit Card",
+    "Bank/Issuer": "ICICI Bank",
+    "Card Type": "Corporate",
+    "Annual Fee (INR)": "Free",
+    "Network": "Mastercard",
+    "Key Benefits": "Corporate travel"
+  },
+  {
+    "Card Name": "ICICI Ferrari World Credit Card",
+    "Bank/Issuer": "ICICI Bank",
+    "Card Type": "Lifestyle",
+    "Annual Fee (INR)": "3,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Ferrari theme benefits"
+  },
+  {
+    "Card Name": "ICICI Gold Credit Card",
+    "Bank/Issuer": "ICICI Bank",
+    "Card Type": "Basic",
+    "Annual Fee (INR)": 500,
+    "Network": "Mastercard",
+    "Key Benefits": "Entry level rewards"
+  },
+  {
+    "Card Name": "ICICI Taj Credit Card",
+    "Bank/Issuer": "ICICI Bank",
+    "Card Type": "Co-branded",
+    "Annual Fee (INR)": "2,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Taj Hotels benefits"
+  },
+  {
+    "Card Name": "Axis Bank Magnus Credit Card",
+    "Bank/Issuer": "Axis Bank",
+    "Card Type": "Super Premium",
+    "Annual Fee (INR)": "10,000",
+    "Network": "Mastercard",
+    "Key Benefits": "12 EDGE miles per Rs 200, unlimited lounge"
+  },
+  {
+    "Card Name": "Axis Bank Magnus For Burgundy",
+    "Bank/Issuer": "Axis Bank",
+    "Card Type": "Super Premium",
+    "Annual Fee (INR)": "10,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Enhanced Magnus benefits"
+  },
+  {
+    "Card Name": "Axis Bank Reserve Credit Card",
+    "Bank/Issuer": "Axis Bank",
+    "Card Type": "Super Premium",
+    "Annual Fee (INR)": "50,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Ultra-premium concierge"
+  },
+  {
+    "Card Name": "Axis Bank Atlas Credit Card",
+    "Bank/Issuer": "Axis Bank",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "5,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Airline and hotel points transfer"
+  },
+  {
+    "Card Name": "Axis Bank Horizon Credit Card",
+    "Bank/Issuer": "Axis Bank",
+    "Card Type": "Travel",
+    "Annual Fee (INR)": "3,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Travel miles"
+  },
+  {
+    "Card Name": "Axis Bank Vistara Signature",
+    "Bank/Issuer": "Axis Bank",
+    "Card Type": "Travel",
+    "Annual Fee (INR)": "3,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Vistara CV points"
+  },
+  {
+    "Card Name": "Axis Bank Vistara Infinite",
+    "Bank/Issuer": "Axis Bank",
+    "Card Type": "Travel",
+    "Annual Fee (INR)": "10,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Premium Vistara benefits"
+  },
+  {
+    "Card Name": "Axis Bank My Zone Credit Card",
+    "Bank/Issuer": "Axis Bank",
+    "Card Type": "Lifestyle",
+    "Annual Fee (INR)": "1,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Entertainment and dining"
+  },
+  {
+    "Card Name": "Axis Bank Neo Credit Card",
+    "Bank/Issuer": "Axis Bank",
+    "Card Type": "Entry Level",
+    "Annual Fee (INR)": 250,
+    "Network": "Mastercard",
+    "Key Benefits": "Basic rewards"
+  },
+  {
+    "Card Name": "Axis Bank Ace Credit Card",
+    "Bank/Issuer": "Axis Bank",
+    "Card Type": "Cashback",
+    "Annual Fee (INR)": 499,
+    "Network": "Mastercard",
+    "Key Benefits": "Cashback on bill payments"
+  },
+  {
+    "Card Name": "Axis Bank Flipkart Credit Card",
+    "Bank/Issuer": "Axis Bank",
+    "Card Type": "Co-branded",
+    "Annual Fee (INR)": 500,
+    "Network": "Mastercard",
+    "Key Benefits": "4% on Flipkart"
+  },
+  {
+    "Card Name": "Axis Bank Buzz Credit Card",
+    "Bank/Issuer": "Axis Bank",
+    "Card Type": "Entry Level",
+    "Annual Fee (INR)": 500,
+    "Network": "Mastercard",
+    "Key Benefits": "Online shopping benefits"
+  },
+  {
+    "Card Name": "Axis Bank Miles & More Credit Card",
+    "Bank/Issuer": "Axis Bank",
+    "Card Type": "Travel",
+    "Annual Fee (INR)": "3,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Lufthansa miles"
+  },
+  {
+    "Card Name": "Axis Bank IndianOil Credit Card",
+    "Bank/Issuer": "Axis Bank",
+    "Card Type": "Fuel",
+    "Annual Fee (INR)": 500,
+    "Network": "Mastercard",
+    "Key Benefits": "Fuel rewards"
+  },
+  {
+    "Card Name": "Axis Bank Airtel Credit Card",
+    "Bank/Issuer": "Axis Bank",
+    "Card Type": "Co-branded",
+    "Annual Fee (INR)": 500,
+    "Network": "Mastercard",
+    "Key Benefits": "25% on Airtel, 10% on utilities"
+  },
+  {
+    "Card Name": "Axis Bank Insta Easy Credit Card",
+    "Bank/Issuer": "Axis Bank",
+    "Card Type": "Entry Level",
+    "Annual Fee (INR)": 499,
+    "Network": "Mastercard",
+    "Key Benefits": "Easy approval"
+  },
+  {
+    "Card Name": "Axis Bank Priority Credit Card",
+    "Bank/Issuer": "Axis Bank",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "3,500",
+    "Network": "Mastercard",
+    "Key Benefits": "Priority banking benefits"
+  },
+  {
+    "Card Name": "Axis Bank Burgundy Credit Card",
+    "Bank/Issuer": "Axis Bank",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "Variable",
+    "Network": "Mastercard",
+    "Key Benefits": "Wealth management benefits"
+  },
+  {
+    "Card Name": "Axis Bank Select Credit Card",
+    "Bank/Issuer": "Axis Bank",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "3,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Premium rewards"
+  },
+  {
+    "Card Name": "Kotak Mahindra Aqua Gold",
+    "Bank/Issuer": "Kotak Bank",
+    "Card Type": "Entry Level",
+    "Annual Fee (INR)": "Free",
+    "Network": "Mastercard",
+    "Key Benefits": "Lifetime free, basic rewards"
+  },
+  {
+    "Card Name": "Kotak League Platinum Credit Card",
+    "Bank/Issuer": "Kotak Bank",
+    "Card Type": "Entry Level",
+    "Annual Fee (INR)": 500,
+    "Network": "Mastercard",
+    "Key Benefits": "Rewards and cashback"
+  },
+  {
+    "Card Name": "Kotak Royale Signature Credit Card",
+    "Bank/Issuer": "Kotak Bank",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "1,999",
+    "Network": "Mastercard",
+    "Key Benefits": "Premium benefits"
+  },
+  {
+    "Card Name": "Kotak Privy League Signature",
+    "Bank/Issuer": "Kotak Bank",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "2,999",
+    "Network": "Mastercard",
+    "Key Benefits": "Exclusive privileges"
+  },
+  {
+    "Card Name": "Kotak White Credit Card",
+    "Bank/Issuer": "Kotak Bank",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": 999,
+    "Network": "Mastercard",
+    "Key Benefits": "Premium rewards"
+  },
+  {
+    "Card Name": "Kotak PVR Gold Credit Card",
+    "Bank/Issuer": "Kotak Bank",
+    "Card Type": "Entertainment",
+    "Annual Fee (INR)": 500,
+    "Network": "Mastercard",
+    "Key Benefits": "Movie benefits"
+  },
+  {
+    "Card Name": "Kotak IndiGo Ka-ching Credit Card",
+    "Bank/Issuer": "Kotak Bank",
+    "Card Type": "Travel",
+    "Annual Fee (INR)": 500,
+    "Network": "Mastercard",
+    "Key Benefits": "IndiGo rewards"
+  },
+  {
+    "Card Name": "Kotak 811 #DreamDifferent",
+    "Bank/Issuer": "Kotak Bank",
+    "Card Type": "Entry Level",
+    "Annual Fee (INR)": "Free",
+    "Network": "RuPay",
+    "Key Benefits": "For students, lifetime free"
+  },
+  {
+    "Card Name": "Kotak Urbane Gold Credit Card",
+    "Bank/Issuer": "Kotak Bank",
+    "Card Type": "Lifestyle",
+    "Annual Fee (INR)": "Free",
+    "Network": "RuPay",
+    "Key Benefits": "Lifestyle benefits"
+  },
+  {
+    "Card Name": "Kotak Essentia Platinum",
+    "Bank/Issuer": "Kotak Bank",
+    "Card Type": "Mid-tier",
+    "Annual Fee (INR)": 500,
+    "Network": "Mastercard",
+    "Key Benefits": "Enhanced rewards"
+  },
+  {
+    "Card Name": "Kotak Delight Platinum",
+    "Bank/Issuer": "Kotak Bank",
+    "Card Type": "Shopping",
+    "Annual Fee (INR)": 500,
+    "Network": "Mastercard",
+    "Key Benefits": "Shopping rewards"
+  },
+  {
+    "Card Name": "Kotak Solaris Platinum",
+    "Bank/Issuer": "Kotak Bank",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "Variable",
+    "Network": "Mastercard",
+    "Key Benefits": "Premium features"
+  },
+  {
+    "Card Name": "Kotak Silk Inspire Credit Card",
+    "Bank/Issuer": "Kotak Bank",
+    "Card Type": "Women",
+    "Annual Fee (INR)": 500,
+    "Network": "Mastercard",
+    "Key Benefits": "For women"
+  },
+  {
+    "Card Name": "Kotak League Black Credit Card",
+    "Bank/Issuer": "Kotak Bank",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "1,500",
+    "Network": "Mastercard",
+    "Key Benefits": "Premium lifestyle"
+  },
+  {
+    "Card Name": "Kotak Mahindra Zen Signature",
+    "Bank/Issuer": "Kotak Bank",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "2,499",
+    "Network": "Mastercard",
+    "Key Benefits": "Luxury benefits"
+  },
+  {
+    "Card Name": "IDFC FIRST Wealth Credit Card",
+    "Bank/Issuer": "IDFC Bank",
+    "Card Type": "Super Premium",
+    "Annual Fee (INR)": "10,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Ultra-premium benefits"
+  },
+  {
+    "Card Name": "IDFC FIRST Select Credit Card",
+    "Bank/Issuer": "IDFC Bank",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "3,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Premium rewards"
+  },
+  {
+    "Card Name": "IDFC FIRST Millenia Credit Card",
+    "Bank/Issuer": "IDFC Bank",
+    "Card Type": "Lifestyle",
+    "Annual Fee (INR)": "Free",
+    "Network": "Mastercard",
+    "Key Benefits": "Lifetime free, 2.5% cashback"
+  },
+  {
+    "Card Name": "IDFC FIRST Classic Credit Card",
+    "Bank/Issuer": "IDFC Bank",
+    "Card Type": "Entry Level",
+    "Annual Fee (INR)": "Free",
+    "Network": "Mastercard",
+    "Key Benefits": "Lifetime free, basic rewards"
+  },
+  {
+    "Card Name": "IDFC FIRST Power Credit Card",
+    "Bank/Issuer": "IDFC Bank",
+    "Card Type": "Fuel",
+    "Annual Fee (INR)": 500,
+    "Network": "Mastercard",
+    "Key Benefits": "Fuel benefits"
+  },
+  {
+    "Card Name": "IDFC FIRST Vistara Credit Card",
+    "Bank/Issuer": "IDFC Bank",
+    "Card Type": "Travel",
+    "Annual Fee (INR)": "2,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Vistara CV points"
+  },
+  {
+    "Card Name": "IDFC FIRST Club Vistara",
+    "Bank/Issuer": "IDFC Bank",
+    "Card Type": "Travel",
+    "Annual Fee (INR)": "2,999",
+    "Network": "Mastercard",
+    "Key Benefits": "Premium Vistara benefits"
+  },
+  {
+    "Card Name": "IDFC FIRST Mayura Credit Card",
+    "Bank/Issuer": "IDFC Bank",
+    "Card Type": "Travel",
+    "Annual Fee (INR)": "Free",
+    "Network": "RuPay",
+    "Key Benefits": "Zero forex markup"
+  },
+  {
+    "Card Name": "IDFC FIRST Ashva Credit Card",
+    "Bank/Issuer": "IDFC Bank",
+    "Card Type": "Lifestyle",
+    "Annual Fee (INR)": "2,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Lifestyle rewards"
+  },
+  {
+    "Card Name": "IndusInd Bank Legend Credit Card",
+    "Bank/Issuer": "IndusInd Bank",
+    "Card Type": "Super Premium",
+    "Annual Fee (INR)": "10,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Premium travel and lifestyle"
+  },
+  {
+    "Card Name": "IndusInd Bank Pioneer Heritage Metal",
+    "Bank/Issuer": "IndusInd Bank",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "5,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Metal card benefits"
+  },
+  {
+    "Card Name": "IndusInd Bank Crest Credit Card",
+    "Bank/Issuer": "IndusInd Bank",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "3,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Premium rewards"
+  },
+  {
+    "Card Name": "IndusInd Bank Signature Credit Card",
+    "Bank/Issuer": "IndusInd Bank",
+    "Card Type": "Mid-tier",
+    "Annual Fee (INR)": "2,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Enhanced rewards"
+  },
+  {
+    "Card Name": "IndusInd Bank Platinum Credit Card",
+    "Bank/Issuer": "IndusInd Bank",
+    "Card Type": "Entry Level",
+    "Annual Fee (INR)": "1,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Basic rewards"
+  },
+  {
+    "Card Name": "IndusInd Bank Platinum Aura Edge",
+    "Bank/Issuer": "IndusInd Bank",
+    "Card Type": "Mid-tier",
+    "Annual Fee (INR)": "1,500",
+    "Network": "Mastercard",
+    "Key Benefits": "Shopping rewards"
+  },
+  {
+    "Card Name": "IndusInd Bank Duo Credit Card",
+    "Bank/Issuer": "IndusInd Bank",
+    "Card Type": "Entry Level",
+    "Annual Fee (INR)": 500,
+    "Network": "Mastercard",
+    "Key Benefits": "Two cards in one"
+  },
+  {
+    "Card Name": "IndusInd Bank Nexxt Credit Card",
+    "Bank/Issuer": "IndusInd Bank",
+    "Card Type": "Youth",
+    "Annual Fee (INR)": 500,
+    "Network": "Mastercard",
+    "Key Benefits": "For young professionals"
+  },
+  {
+    "Card Name": "IndusInd Bank Eazydiner Credit Card",
+    "Bank/Issuer": "IndusInd Bank",
+    "Card Type": "Dining",
+    "Annual Fee (INR)": "1,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Dining rewards"
+  },
+  {
+    "Card Name": "YES Bank Marquee Credit Card",
+    "Bank/Issuer": "YES Bank",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "10,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Premium travel, unlimited lounge"
+  },
+  {
+    "Card Name": "YES Bank Prosperity Rewards Plus",
+    "Bank/Issuer": "YES Bank",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "2,499",
+    "Network": "Mastercard",
+    "Key Benefits": "Enhanced rewards"
+  },
+  {
+    "Card Name": "YES Bank Prosperity Edge Credit Card",
+    "Bank/Issuer": "YES Bank",
+    "Card Type": "Mid-tier",
+    "Annual Fee (INR)": "1,499",
+    "Network": "Mastercard",
+    "Key Benefits": "Rewards and benefits"
+  },
+  {
+    "Card Name": "YES Bank First Exclusive Credit Card",
+    "Bank/Issuer": "YES Bank",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "2,500",
+    "Network": "Mastercard",
+    "Key Benefits": "Premium features"
+  },
+  {
+    "Card Name": "YES Bank First Preferred Credit Card",
+    "Bank/Issuer": "YES Bank",
+    "Card Type": "Mid-tier",
+    "Annual Fee (INR)": "1,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Preferred benefits"
+  },
+  {
+    "Card Name": "YES Bank Kiwi Credit Card",
+    "Bank/Issuer": "YES Bank",
+    "Card Type": "Digital",
+    "Annual Fee (INR)": 499,
+    "Network": "Mastercard",
+    "Key Benefits": "Digital RuPay, UPI"
+  },
+  {
+    "Card Name": "YES Bank Paisabazaar PaisaSave",
+    "Bank/Issuer": "YES Bank",
+    "Card Type": "Cashback",
+    "Annual Fee (INR)": 499,
+    "Network": "Mastercard",
+    "Key Benefits": "3% online cashback"
+  },
+  {
+    "Card Name": "Standard Chartered DigiSmart",
+    "Bank/Issuer": "Standard Chartered",
+    "Card Type": "Entry Level",
+    "Annual Fee (INR)": 499,
+    "Network": "Mastercard",
+    "Key Benefits": "Digital benefits"
+  },
+  {
+    "Card Name": "Standard Chartered Platinum Rewards",
+    "Bank/Issuer": "Standard Chartered",
+    "Card Type": "Mid-tier",
+    "Annual Fee (INR)": "1,499",
+    "Network": "Mastercard",
+    "Key Benefits": "Reward points"
+  },
+  {
+    "Card Name": "Standard Chartered Super Value Titanium",
+    "Bank/Issuer": "Standard Chartered",
+    "Card Type": "Entry Level",
+    "Annual Fee (INR)": 750,
+    "Network": "Mastercard",
+    "Key Benefits": "Value rewards"
+  },
+  {
+    "Card Name": "Standard Chartered Manhattan Credit Card",
+    "Bank/Issuer": "Standard Chartered",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "3,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Premium lifestyle"
+  },
+  {
+    "Card Name": "Standard Chartered Ultimate Credit Card",
+    "Bank/Issuer": "Standard Chartered",
+    "Card Type": "Super Premium",
+    "Annual Fee (INR)": "5,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Premium travel"
+  },
+  {
+    "Card Name": "Standard Chartered Priority Visa Infinite",
+    "Bank/Issuer": "Standard Chartered",
+    "Card Type": "Super Premium",
+    "Annual Fee (INR)": "10,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Infinite privileges"
+  },
+  {
+    "Card Name": "RBL Bank Platinum Maxima",
+    "Bank/Issuer": "RBL Bank",
+    "Card Type": "Mid-tier",
+    "Annual Fee (INR)": "1,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Enhanced rewards"
+  },
+  {
+    "Card Name": "RBL Bank World Safari",
+    "Bank/Issuer": "RBL Bank",
+    "Card Type": "Travel",
+    "Annual Fee (INR)": "3,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Zero forex markup"
+  },
+  {
+    "Card Name": "RBL Bank ShopRite Credit Card",
+    "Bank/Issuer": "RBL Bank",
+    "Card Type": "Shopping",
+    "Annual Fee (INR)": 500,
+    "Network": "Mastercard",
+    "Key Benefits": "Shopping rewards"
+  },
+  {
+    "Card Name": "RBL Bank Bajaj Finserv Credit Card",
+    "Bank/Issuer": "RBL Bank",
+    "Card Type": "Co-branded",
+    "Annual Fee (INR)": 500,
+    "Network": "Mastercard",
+    "Key Benefits": "EMI benefits"
+  },
+  {
+    "Card Name": "RBL Bank IndianOil XTRA",
+    "Bank/Issuer": "RBL Bank",
+    "Card Type": "Fuel",
+    "Annual Fee (INR)": "1,000",
+    "Network": "Mastercard",
+    "Key Benefits": "8.5% fuel savings"
+  },
+  {
+    "Card Name": "RBL Bank Popcorn Credit Card",
+    "Bank/Issuer": "RBL Bank",
+    "Card Type": "Entertainment",
+    "Annual Fee (INR)": 500,
+    "Network": "Mastercard",
+    "Key Benefits": "Movie benefits"
+  },
+  {
+    "Card Name": "HSBC Visa Platinum Credit Card",
+    "Bank/Issuer": "HSBC",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "1,499",
+    "Network": "Mastercard",
+    "Key Benefits": "Premium rewards"
+  },
+  {
+    "Card Name": "HSBC Live+ Credit Card",
+    "Bank/Issuer": "HSBC",
+    "Card Type": "Lifestyle",
+    "Annual Fee (INR)": 999,
+    "Network": "Mastercard",
+    "Key Benefits": "Lifestyle benefits"
+  },
+  {
+    "Card Name": "HSBC Cashback Credit Card",
+    "Bank/Issuer": "HSBC",
+    "Card Type": "Cashback",
+    "Annual Fee (INR)": 500,
+    "Network": "Mastercard",
+    "Key Benefits": "Cashback on spends"
+  },
+  {
+    "Card Name": "HSBC Smart Value Titanium",
+    "Bank/Issuer": "HSBC",
+    "Card Type": "Entry Level",
+    "Annual Fee (INR)": 500,
+    "Network": "Mastercard",
+    "Key Benefits": "Basic rewards"
+  },
+  {
+    "Card Name": "HSBC Premier Credit Card",
+    "Bank/Issuer": "HSBC",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "2,999",
+    "Network": "Mastercard",
+    "Key Benefits": "Premier banking benefits"
+  },
+  {
+    "Card Name": "HSBC Premier World Elite Mastercard",
+    "Bank/Issuer": "HSBC",
+    "Card Type": "Super Premium",
+    "Annual Fee (INR)": "5,000",
+    "Network": "Mastercard",
+    "Key Benefits": "World elite privileges"
+  },
+  {
+    "Card Name": "American Express Platinum Card",
+    "Bank/Issuer": "American Express",
+    "Card Type": "Super Premium",
+    "Annual Fee (INR)": "60,000",
+    "Network": "American Express",
+    "Key Benefits": "Ultra-premium benefits"
+  },
+  {
+    "Card Name": "American Express Platinum Travel",
+    "Bank/Issuer": "Amex",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "5,000",
+    "Network": "American Express",
+    "Key Benefits": "3.5% rewards, Taj vouchers"
+  },
+  {
+    "Card Name": "American Express Gold Card",
+    "Bank/Issuer": "Amex",
+    "Card Type": "Mid-tier",
+    "Annual Fee (INR)": "4,500",
+    "Network": "American Express",
+    "Key Benefits": "Rewards program"
+  },
+  {
+    "Card Name": "American Express Membership Rewards",
+    "Bank/Issuer": "Amex",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "1,500",
+    "Network": "American Express",
+    "Key Benefits": "18,000 bonus points"
+  },
+  {
+    "Card Name": "American Express SmartEarn",
+    "Bank/Issuer": "Amex",
+    "Card Type": "Cashback",
+    "Annual Fee (INR)": "4,500",
+    "Network": "American Express",
+    "Key Benefits": "5% cashback"
+  },
+  {
+    "Card Name": "Bank of Baroda Premier Credit Card",
+    "Bank/Issuer": "Bank of Baroda",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "2,500",
+    "Network": "Mastercard",
+    "Key Benefits": "Premium benefits"
+  },
+  {
+    "Card Name": "Bank of Baroda Select Credit Card",
+    "Bank/Issuer": "Bank of Baroda",
+    "Card Type": "Mid-tier",
+    "Annual Fee (INR)": "1,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Enhanced rewards"
+  },
+  {
+    "Card Name": "Bank of Baroda Prime Credit Card",
+    "Bank/Issuer": "Bank of Baroda",
+    "Card Type": "Entry Level",
+    "Annual Fee (INR)": 500,
+    "Network": "Mastercard",
+    "Key Benefits": "Basic rewards"
+  },
+  {
+    "Card Name": "Bank of Baroda Easy Credit Card",
+    "Bank/Issuer": "Bank of Baroda",
+    "Card Type": "Entry Level",
+    "Annual Fee (INR)": 250,
+    "Network": "Mastercard",
+    "Key Benefits": "Easy approval"
+  },
+  {
+    "Card Name": "AU Bank LIT Credit Card",
+    "Bank/Issuer": "AU Bank",
+    "Card Type": "Youth",
+    "Annual Fee (INR)": 500,
+    "Network": "Visa",
+    "Key Benefits": "For young users"
+  },
+  {
+    "Card Name": "AU Bank Altura Credit Card",
+    "Bank/Issuer": "AU Bank",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "1,499",
+    "Network": "Visa",
+    "Key Benefits": "Premium rewards"
+  },
+  {
+    "Card Name": "AU Bank Altura Plus Credit Card",
+    "Bank/Issuer": "AU Bank",
+    "Card Type": "Super Premium",
+    "Annual Fee (INR)": "3,499",
+    "Network": "Visa",
+    "Key Benefits": "Enhanced benefits"
+  },
+  {
+    "Card Name": "AU Bank Xcite Credit Card",
+    "Bank/Issuer": "AU Bank",
+    "Card Type": "Lifestyle",
+    "Annual Fee (INR)": "Free",
+    "Network": "Visa",
+    "Key Benefits": "Lifestyle benefits"
+  },
+  {
+    "Card Name": "AU Bank Zenith Credit Card",
+    "Bank/Issuer": "AU Bank",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "2,999",
+    "Network": "Visa",
+    "Key Benefits": "Premium lifestyle"
+  },
+  {
+    "Card Name": "Federal Bank Celesta Credit Card",
+    "Bank/Issuer": "Federal Bank",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "1,499",
+    "Network": "Visa",
+    "Key Benefits": "Premium rewards"
+  },
+  {
+    "Card Name": "Federal Bank Imperio Credit Card",
+    "Bank/Issuer": "Federal Bank",
+    "Card Type": "Mid-tier",
+    "Annual Fee (INR)": 999,
+    "Network": "Visa",
+    "Key Benefits": "Enhanced rewards"
+  },
+  {
+    "Card Name": "Federal Bank Signet Credit Card",
+    "Bank/Issuer": "Federal Bank",
+    "Card Type": "Entry Level",
+    "Annual Fee (INR)": 499,
+    "Network": "Visa",
+    "Key Benefits": "Basic rewards"
+  },
+  {
+    "Card Name": "PNB Pride Platinum Credit Card",
+    "Bank/Issuer": "Punjab National Bank",
+    "Card Type": "Mid-tier",
+    "Annual Fee (INR)": 500,
+    "Network": "Mastercard",
+    "Key Benefits": "Rewards program"
+  },
+  {
+    "Card Name": "PNB Pride Classic Credit Card",
+    "Bank/Issuer": "Punjab National Bank",
+    "Card Type": "Entry Level",
+    "Annual Fee (INR)": 250,
+    "Network": "Mastercard",
+    "Key Benefits": "Basic rewards"
+  },
+  {
+    "Card Name": "Canara Bank Credit Card",
+    "Bank/Issuer": "Canara Bank",
+    "Card Type": "Entry Level",
+    "Annual Fee (INR)": 500,
+    "Network": "Mastercard",
+    "Key Benefits": "Basic benefits"
+  },
+  {
+    "Card Name": "Bank of India Credit Card",
+    "Bank/Issuer": "Bank of India",
+    "Card Type": "Entry Level",
+    "Annual Fee (INR)": 500,
+    "Network": "Visa",
+    "Key Benefits": "Rewards program"
+  },
+  {
+    "Card Name": "Union Bank of India Credit Card",
+    "Bank/Issuer": "Union Bank of India",
+    "Card Type": "Entry Level",
+    "Annual Fee (INR)": 500,
+    "Network": "Mastercard",
+    "Key Benefits": "Basic rewards"
+  },
+  {
+    "Card Name": "Indian Bank Credit Card",
+    "Bank/Issuer": "Indian Bank",
+    "Card Type": "Entry Level",
+    "Annual Fee (INR)": 500,
+    "Network": "Mastercard",
+    "Key Benefits": "Rewards program"
+  },
+  {
+    "Card Name": "City Union Bank Credit Card",
+    "Bank/Issuer": "City Union Bank",
+    "Card Type": "Entry Level",
+    "Annual Fee (INR)": 450,
+    "Network": "Mastercard",
+    "Key Benefits": "Basic benefits"
+  },
+  {
+    "Card Name": "South Indian Bank Credit Card",
+    "Bank/Issuer": "South Indian Bank",
+    "Card Type": "Entry Level",
+    "Annual Fee (INR)": 500,
+    "Network": "Mastercard",
+    "Key Benefits": "Rewards program"
+  },
+  {
+    "Card Name": "Karur Vysya Bank Credit Card",
+    "Bank/Issuer": "Karur Vysya Bank",
+    "Card Type": "Entry Level",
+    "Annual Fee (INR)": 500,
+    "Network": "Visa",
+    "Key Benefits": "Basic rewards"
+  },
+  {
+    "Card Name": "Tamilnad Mercantile Bank Credit Card",
+    "Bank/Issuer": "Tamilnad Mercantile Bank",
+    "Card Type": "Entry Level",
+    "Annual Fee (INR)": 450,
+    "Network": "Visa",
+    "Key Benefits": "Basic benefits"
+  },
+  {
+    "Card Name": "DCB Bank Credit Card",
+    "Bank/Issuer": "DCB Bank",
+    "Card Type": "Mid-tier",
+    "Annual Fee (INR)": "1,000",
+    "Network": "Visa",
+    "Key Benefits": "Enhanced rewards"
+  },
+  {
+    "Card Name": "Dhanlaxmi Bank Credit Card",
+    "Bank/Issuer": "Dhanlaxmi Bank",
+    "Card Type": "Entry Level",
+    "Annual Fee (INR)": 500,
+    "Network": "Visa",
+    "Key Benefits": "Basic rewards"
+  },
+  {
+    "Card Name": "Jammu & Kashmir Bank Credit Card",
+    "Bank/Issuer": "J&K Bank",
+    "Card Type": "Entry Level",
+    "Annual Fee (INR)": 500,
+    "Network": "Visa",
+    "Key Benefits": "Basic benefits"
+  },
+  {
+    "Card Name": "Karnataka Bank Credit Card",
+    "Bank/Issuer": "Karnataka Bank",
+    "Card Type": "Entry Level",
+    "Annual Fee (INR)": 500,
+    "Network": "Visa",
+    "Key Benefits": "Rewards program"
+  },
+  {
+    "Card Name": "Lakshmi Vilas Bank Credit Card",
+    "Bank/Issuer": "Lakshmi Vilas Bank",
+    "Card Type": "Entry Level",
+    "Annual Fee (INR)": 500,
+    "Network": "Visa",
+    "Key Benefits": "Basic rewards"
+  },
+  {
+    "Card Name": "Saraswat Bank Credit Card",
+    "Bank/Issuer": "Saraswat Bank",
+    "Card Type": "Entry Level",
+    "Annual Fee (INR)": 500,
+    "Network": "Visa",
+    "Key Benefits": "Basic benefits"
+  },
+  {
+    "Card Name": "Bajaj Finserv RBL Credit Card",
+    "Bank/Issuer": "Bajaj Finserv",
+    "Card Type": "EMI",
+    "Annual Fee (INR)": 500,
+    "Network": "Visa",
+    "Key Benefits": "EMI facility"
+  },
+  {
+    "Card Name": "Slice Credit Card",
+    "Bank/Issuer": "Slice (Now One Card)",
+    "Card Type": "Digital",
+    "Annual Fee (INR)": "Free",
+    "Network": "Visa",
+    "Key Benefits": "Digital credit card"
+  },
+  {
+    "Card Name": "OneCard Credit Card",
+    "Bank/Issuer": "OneCard",
+    "Card Type": "Digital",
+    "Annual Fee (INR)": "Free",
+    "Network": "Visa",
+    "Key Benefits": "Lifetime free, app-based"
+  },
+  {
+    "Card Name": "Uni Credit Card",
+    "Bank/Issuer": "Uni Cards",
+    "Card Type": "Digital",
+    "Annual Fee (INR)": "Free",
+    "Network": "Visa",
+    "Key Benefits": "Digital RuPay"
+  },
+  {
+    "Card Name": "Kiwi Credit Card",
+    "Bank/Issuer": "Kiwi",
+    "Card Type": "Digital",
+    "Annual Fee (INR)": 499,
+    "Network": "Visa",
+    "Key Benefits": "Digital with cashback"
+  },
+  {
+    "Card Name": "Fi Credit Card",
+    "Bank/Issuer": "Fi Money",
+    "Card Type": "Digital",
+    "Annual Fee (INR)": "Free",
+    "Network": "Visa",
+    "Key Benefits": "Digital banking"
+  },
+  {
+    "Card Name": "Jupiter Credit Card",
+    "Bank/Issuer": "Jupiter",
+    "Card Type": "Digital",
+    "Annual Fee (INR)": "Free",
+    "Network": "Visa",
+    "Key Benefits": "Digital credit"
+  },
+  {
+    "Card Name": "Federal Bank Scapia Credit Card",
+    "Bank/Issuer": "Federal Bank",
+    "Card Type": "Travel",
+    "Annual Fee (INR)": "Free",
+    "Network": "Visa/RuPay",
+    "Key Benefits": "Travel focused, lounge access"
+  },
+  {
+    "Card Name": "Niyo Global Card",
+    "Bank/Issuer": "Niyo",
+    "Card Type": "Travel",
+    "Annual Fee (INR)": "Free",
+    "Network": "Visa",
+    "Key Benefits": "Zero forex"
+  },
+  {
+    "Card Name": "Axis Bank My Zone Credit Card (Student)",
+    "Bank/Issuer": "Axis Bank",
+    "Card Type": "Student",
+    "Annual Fee (INR)": 250,
+    "Network": "Mastercard",
+    "Key Benefits": "For students"
+  },
+  {
+    "Card Name": "IDFC FIRST WOW Credit Card",
+    "Bank/Issuer": "IDFC Bank",
+    "Card Type": "Lifestyle",
+    "Annual Fee (INR)": "2,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Lifestyle rewards"
+  },
+  {
+    "Card Name": "SBI Unnati Secured Credit Card",
+    "Bank/Issuer": "SBI Card",
+    "Card Type": "Secured",
+    "Annual Fee (INR)": 499,
+    "Network": "Mastercard",
+    "Key Benefits": "Against FD"
+  },
+  {
+    "Card Name": "Bank of Baroda Secured Credit Card",
+    "Bank/Issuer": "Bank of Baroda",
+    "Card Type": "Secured",
+    "Annual Fee (INR)": 500,
+    "Network": "Mastercard",
+    "Key Benefits": "Against FD"
+  },
+  {
+    "Card Name": "Kotak Secured Credit Card",
+    "Bank/Issuer": "Kotak Bank",
+    "Card Type": "Secured",
+    "Annual Fee (INR)": "Free",
+    "Network": "Mastercard",
+    "Key Benefits": "Against FD"
+  },
+  {
+    "Card Name": "ICICI Coral Contactless Credit Card",
+    "Bank/Issuer": "ICICI Bank",
+    "Card Type": "Contactless",
+    "Annual Fee (INR)": 500,
+    "Network": "Mastercard",
+    "Key Benefits": "NFC enabled"
+  },
+  {
+    "Card Name": "HDFC MoneyBack+ RuPay Credit Card",
+    "Bank/Issuer": "HDFC Bank",
+    "Card Type": "RuPay",
+    "Annual Fee (INR)": 500,
+    "Network": "RuPay",
+    "Key Benefits": "UPI enabled"
+  },
+  {
+    "Card Name": "SBI SimplySAVE RuPay Credit Card",
+    "Bank/Issuer": "SBI Card",
+    "Card Type": "RuPay",
+    "Annual Fee (INR)": 499,
+    "Network": "RuPay",
+    "Key Benefits": "UPI enabled"
+  },
+  {
+    "Card Name": "Axis Bank Ace RuPay Credit Card",
+    "Bank/Issuer": "Axis Bank",
+    "Card Type": "RuPay",
+    "Annual Fee (INR)": 499,
+    "Network": "RuPay",
+    "Key Benefits": "UPI cashback"
+  },
+  {
+    "Card Name": "ICICI HPCL Coral Credit Card",
+    "Bank/Issuer": "ICICI Bank",
+    "Card Type": "Fuel",
+    "Annual Fee (INR)": 500,
+    "Network": "Mastercard",
+    "Key Benefits": "HPCL fuel rewards"
+  },
+  {
+    "Card Name": "BPCL SBI Card Octane Prime",
+    "Bank/Issuer": "SBI Card",
+    "Card Type": "Fuel",
+    "Annual Fee (INR)": "1,999",
+    "Network": "Mastercard",
+    "Key Benefits": "Enhanced BPCL benefits"
+  },
+  {
+    "Card Name": "HPCL IndusInd Bank Credit Card",
+    "Bank/Issuer": "IndusInd Bank",
+    "Card Type": "Fuel",
+    "Annual Fee (INR)": "1,000",
+    "Network": "Mastercard",
+    "Key Benefits": "HPCL rewards"
+  },
+  {
+    "Card Name": "Shell Credit Card",
+    "Bank/Issuer": "IndusInd Bank",
+    "Card Type": "Fuel",
+    "Annual Fee (INR)": 500,
+    "Network": "Mastercard",
+    "Key Benefits": "Shell fuel rewards"
+  },
+  {
+    "Card Name": "BookMyShow ICICI Credit Card",
+    "Bank/Issuer": "ICICI Bank",
+    "Card Type": "Entertainment",
+    "Annual Fee (INR)": 500,
+    "Network": "Mastercard",
+    "Key Benefits": "Movie benefits"
+  },
+  {
+    "Card Name": "BookMyShow SBI Credit Card",
+    "Bank/Issuer": "SBI Card",
+    "Card Type": "Cashback",
+    "Annual Fee (INR)": 499,
+    "Network": "Mastercard",
+    "Key Benefits": "Movie tickets"
+  },
+  {
+    "Card Name": "Zomato HDFC Credit Card",
+    "Bank/Issuer": "HDFC Bank",
+    "Card Type": "Dining",
+    "Annual Fee (INR)": 500,
+    "Network": "Visa",
+    "Key Benefits": "Dining rewards"
+  },
+  {
+    "Card Name": "Big Bazaar Future Pay Credit Card",
+    "Bank/Issuer": "IDFC Bank",
+    "Card Type": "Shopping",
+    "Annual Fee (INR)": 500,
+    "Network": "Mastercard",
+    "Key Benefits": "Big Bazaar benefits"
+  },
+  {
+    "Card Name": "Reliance One Credit Card",
+    "Bank/Issuer": "SBI Card",
+    "Card Type": "Co-branded",
+    "Annual Fee (INR)": "2,999",
+    "Network": "Mastercard",
+    "Key Benefits": "Reliance benefits"
+  },
+  {
+    "Card Name": "Lifestyle Home Credit Card",
+    "Bank/Issuer": "SBI Card",
+    "Card Type": "Shopping",
+    "Annual Fee (INR)": "1,499",
+    "Network": "Mastercard",
+    "Key Benefits": "Furniture shopping"
+  },
+  {
+    "Card Name": "Max Fashion SBI Credit Card",
+    "Bank/Issuer": "SBI Card",
+    "Card Type": "Fashion",
+    "Annual Fee (INR)": "1,499",
+    "Network": "Mastercard",
+    "Key Benefits": "Max store benefits"
+  },
+  {
+    "Card Name": "Central Credit Card",
+    "Bank/Issuer": "SBI Card",
+    "Card Type": "Shopping",
+    "Annual Fee (INR)": 999,
+    "Network": "Mastercard",
+    "Key Benefits": "Central store rewards"
+  },
+  {
+    "Card Name": "Westside Credit Card",
+    "Bank/Issuer": "SBI Card",
+    "Card Type": "Fashion",
+    "Annual Fee (INR)": 999,
+    "Network": "Mastercard",
+    "Key Benefits": "Westside benefits"
+  },
+  {
+    "Card Name": "Pantaloons Credit Card",
+    "Bank/Issuer": "Various",
+    "Card Type": "Shopping",
+    "Annual Fee (INR)": 500,
+    "Network": "Visa",
+    "Key Benefits": "Pantaloons rewards"
+  },
+  {
+    "Card Name": "Shoppers Stop Credit Card",
+    "Bank/Issuer": "ICICI Bank",
+    "Card Type": "Shopping",
+    "Annual Fee (INR)": 500,
+    "Network": "Mastercard",
+    "Key Benefits": "Shoppers Stop benefits"
+  },
+  {
+    "Card Name": "Indian Oil Citibank Credit Card",
+    "Bank/Issuer": "Citibank",
+    "Card Type": "Fuel",
+    "Annual Fee (INR)": "1,000",
+    "Network": "Visa",
+    "Key Benefits": "IOC fuel rewards"
+  },
+  {
+    "Card Name": "Citibank Rewards Credit Card",
+    "Bank/Issuer": "Citibank",
+    "Card Type": "Rewards",
+    "Annual Fee (INR)": "1,000",
+    "Network": "Visa",
+    "Key Benefits": "Reward points"
+  },
+  {
+    "Card Name": "Citibank Cashback Credit Card",
+    "Bank/Issuer": "Citibank",
+    "Card Type": "Cashback",
+    "Annual Fee (INR)": 500,
+    "Network": "Visa",
+    "Key Benefits": "Cashback on spends"
+  },
+  {
+    "Card Name": "Citibank Premiermiles Credit Card",
+    "Bank/Issuer": "Citibank",
+    "Card Type": "Travel",
+    "Annual Fee (INR)": "3,000",
+    "Network": "Visa",
+    "Key Benefits": "Travel miles"
+  },
+  {
+    "Card Name": "Citibank Prestige Credit Card",
+    "Bank/Issuer": "Citibank",
+    "Card Type": "Super Premium",
+    "Annual Fee (INR)": "10,000",
+    "Network": "Visa",
+    "Key Benefits": "Ultra-premium benefits"
+  },
+  {
+    "Card Name": "DBS Vantage Credit Card",
+    "Bank/Issuer": "DBS Bank",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "2,500",
+    "Network": "Visa",
+    "Key Benefits": "Premium rewards"
+  },
+  {
+    "Card Name": "DBS Platinum Credit Card",
+    "Bank/Issuer": "DBS Bank",
+    "Card Type": "Mid-tier",
+    "Annual Fee (INR)": "1,000",
+    "Network": "Visa",
+    "Key Benefits": "Rewards program"
+  },
+  {
+    "Card Name": "DBS Yatra Credit Card",
+    "Bank/Issuer": "DBS Bank",
+    "Card Type": "Travel",
+    "Annual Fee (INR)": 500,
+    "Network": "Visa",
+    "Key Benefits": "Travel booking benefits"
+  },
+  {
+    "Card Name": "HSBC Travel One Credit Card",
+    "Bank/Issuer": "HSBC",
+    "Card Type": "Travel",
+    "Annual Fee (INR)": "1,499",
+    "Network": "Mastercard",
+    "Key Benefits": "Travel rewards"
+  },
+  {
+    "Card Name": "HSBC Visa Infinite Credit Card",
+    "Bank/Issuer": "HSBC",
+    "Card Type": "Super Premium",
+    "Annual Fee (INR)": "10,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Infinite privileges"
+  },
+  {
+    "Card Name": "Standard Chartered Emirates Skywards",
+    "Bank/Issuer": "Standard Chartered",
+    "Card Type": "Travel",
+    "Annual Fee (INR)": "3,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Emirates miles"
+  },
+  {
+    "Card Name": "Jet Privilege HDFC Credit Card",
+    "Bank/Issuer": "HDFC Bank",
+    "Card Type": "Travel",
+    "Annual Fee (INR)": "2,500",
+    "Network": "Visa",
+    "Key Benefits": "Jet Airways miles (if resumed)"
+  },
+  {
+    "Card Name": "Club ITC Credit Card",
+    "Bank/Issuer": "HDFC Bank",
+    "Card Type": "Lifestyle",
+    "Annual Fee (INR)": "2,000",
+    "Network": "Visa",
+    "Key Benefits": "ITC Hotels benefits"
+  },
+  {
+    "Card Name": "Oberoi One Credit Card",
+    "Bank/Issuer": "Standard Chartered",
+    "Card Type": "Luxury",
+    "Annual Fee (INR)": "5,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Oberoi Hotels benefits"
+  },
+  {
+    "Card Name": "Taj Epicure ICICI Credit Card",
+    "Bank/Issuer": "ICICI Bank",
+    "Card Type": "Luxury",
+    "Annual Fee (INR)": "2,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Taj Hotels benefits"
+  },
+  {
+    "Card Name": "IHG Rewards ICICI Credit Card",
+    "Bank/Issuer": "ICICI Bank",
+    "Card Type": "Travel",
+    "Annual Fee (INR)": "2,000",
+    "Network": "Mastercard",
+    "Key Benefits": "IHG Hotels points"
+  },
+  {
+    "Card Name": "Marriott Bonvoy American Express",
+    "Bank/Issuer": "Amex",
+    "Card Type": "Travel",
+    "Annual Fee (INR)": "10,000",
+    "Network": "American Express",
+    "Key Benefits": "Marriott points"
+  },
+  {
+    "Card Name": "Qatar Airways ICICI Credit Card",
+    "Bank/Issuer": "ICICI Bank",
+    "Card Type": "Travel",
+    "Annual Fee (INR)": "2,500",
+    "Network": "Mastercard",
+    "Key Benefits": "Qatar miles"
+  },
+  {
+    "Card Name": "Emirates Skywards Standard Chartered",
+    "Bank/Issuer": "Standard Chartered",
+    "Card Type": "Travel",
+    "Annual Fee (INR)": "3,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Emirates miles"
+  },
+  {
+    "Card Name": "Singapore Airlines KrisFlyer ICICI",
+    "Bank/Issuer": "ICICI Bank",
+    "Card Type": "Travel",
+    "Annual Fee (INR)": "3,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Singapore Airlines miles"
+  },
+  {
+    "Card Name": "British Airways ICICI Credit Card",
+    "Bank/Issuer": "ICICI Bank",
+    "Card Type": "Travel",
+    "Annual Fee (INR)": "2,500",
+    "Network": "Mastercard",
+    "Key Benefits": "BA Avios points"
+  },
+  {
+    "Card Name": "Axis Bank Vistara Gold",
+    "Bank/Issuer": "Axis Bank",
+    "Card Type": "Travel",
+    "Annual Fee (INR)": "2,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Vistara Gold benefits"
+  },
+  {
+    "Card Name": "Club Vistara SBI Card",
+    "Bank/Issuer": "SBI Card",
+    "Card Type": "Travel",
+    "Annual Fee (INR)": 999,
+    "Network": "Mastercard",
+    "Key Benefits": "Basic Vistara benefits"
+  },
+  {
+    "Card Name": "Air India SBI Card Premier",
+    "Bank/Issuer": "SBI Card",
+    "Card Type": "Travel",
+    "Annual Fee (INR)": "2,999",
+    "Network": "Mastercard",
+    "Key Benefits": "Enhanced Air India benefits"
+  },
+  {
+    "Card Name": "Etihad Guest Platinum SBI Card",
+    "Bank/Issuer": "SBI Card",
+    "Card Type": "Travel",
+    "Annual Fee (INR)": "2,499",
+    "Network": "Mastercard",
+    "Key Benefits": "Etihad Platinum benefits"
+  },
+  {
+    "Card Name": "Yatra SBI Card Premier",
+    "Bank/Issuer": "SBI Card",
+    "Card Type": "Travel",
+    "Annual Fee (INR)": 999,
+    "Network": "Mastercard",
+    "Key Benefits": "Yatra Premier benefits"
+  },
+  {
+    "Card Name": "MakeMyTrip ICICI Credit Card",
+    "Bank/Issuer": "ICICI Bank",
+    "Card Type": "Travel",
+    "Annual Fee (INR)": "1,500",
+    "Network": "Mastercard",
+    "Key Benefits": "MMT Gold benefits"
+  },
+  {
+    "Card Name": "Cleartrip Credit Card",
+    "Bank/Issuer": "Various",
+    "Card Type": "Travel",
+    "Annual Fee (INR)": 999,
+    "Network": "Visa",
+    "Key Benefits": "Cleartrip rewards"
+  },
+  {
+    "Card Name": "Goibibo Credit Card",
+    "Bank/Issuer": "Various",
+    "Card Type": "Travel",
+    "Annual Fee (INR)": 999,
+    "Network": "Visa",
+    "Key Benefits": "Goibibo benefits"
+  },
+  {
+    "Card Name": "Ola Money SBI Credit Card",
+    "Bank/Issuer": "SBI Card",
+    "Card Type": "Co-branded",
+    "Annual Fee (INR)": 499,
+    "Network": "Mastercard",
+    "Key Benefits": "Ola ride rewards"
+  },
+  {
+    "Card Name": "Uber HDFC Credit Card",
+    "Bank/Issuer": "HDFC Bank",
+    "Card Type": "Co-branded",
+    "Annual Fee (INR)": 500,
+    "Network": "Visa",
+    "Key Benefits": "Uber ride benefits"
+  },
+  {
+    "Card Name": "Swiggy HDFC Bank Credit Card",
+    "Bank/Issuer": "HDFC Bank",
+    "Card Type": "Food",
+    "Annual Fee (INR)": 500,
+    "Network": "Visa",
+    "Key Benefits": "10% on Swiggy"
+  },
+  {
+    "Card Name": "Zomato Edition Credit Card",
+    "Bank/Issuer": "RBL Bank",
+    "Card Type": "Dining",
+    "Annual Fee (INR)": "1,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Dining rewards"
+  },
+  {
+    "Card Name": "Cult.fit Credit Card",
+    "Bank/Issuer": "HDFC Bank",
+    "Card Type": "Fitness",
+    "Annual Fee (INR)": 500,
+    "Network": "Visa",
+    "Key Benefits": "Fitness benefits"
+  },
+  {
+    "Card Name": "Netflix HDFC Credit Card",
+    "Bank/Issuer": "HDFC Bank",
+    "Card Type": "Entertainment",
+    "Annual Fee (INR)": 500,
+    "Network": "Visa",
+    "Key Benefits": "Netflix subscription benefits"
+  },
+  {
+    "Card Name": "Amazon Prime ICICI Credit Card",
+    "Bank/Issuer": "ICICI Bank",
+    "Card Type": "Co-branded",
+    "Annual Fee (INR)": "Free",
+    "Network": "Mastercard",
+    "Key Benefits": "Prime membership benefits"
+  },
+  {
+    "Card Name": "Flipkart Axis Credit Card",
+    "Bank/Issuer": "Axis Bank",
+    "Card Type": "Shopping",
+    "Annual Fee (INR)": 500,
+    "Network": "Mastercard",
+    "Key Benefits": "Flipkart rewards"
+  },
+  {
+    "Card Name": "Myntra Kotak Credit Card",
+    "Bank/Issuer": "Kotak Bank",
+    "Card Type": "Fashion",
+    "Annual Fee (INR)": 500,
+    "Network": "Mastercard",
+    "Key Benefits": "Myntra benefits"
+  },
+  {
+    "Card Name": "BookMyShow SBI Premier",
+    "Bank/Issuer": "SBI Card",
+    "Card Type": "Entertainment",
+    "Annual Fee (INR)": 999,
+    "Network": "Mastercard",
+    "Key Benefits": "Enhanced movie benefits"
+  },
+  {
+    "Card Name": "PVR Inox Kotak Credit Card",
+    "Bank/Issuer": "Kotak Bank",
+    "Card Type": "Entertainment",
+    "Annual Fee (INR)": 500,
+    "Network": "Mastercard",
+    "Key Benefits": "PVR Inox benefits"
+  },
+  {
+    "Card Name": "Apollo 24/7 SBI Credit Card",
+    "Bank/Issuer": "SBI Card",
+    "Card Type": "Health",
+    "Annual Fee (INR)": 999,
+    "Network": "Mastercard",
+    "Key Benefits": "Healthcare rewards"
+  },
+  {
+    "Card Name": "PharmEasy Credit Card",
+    "Bank/Issuer": "Various",
+    "Card Type": "Health",
+    "Annual Fee (INR)": 500,
+    "Network": "Visa",
+    "Key Benefits": "Medicine purchase benefits"
+  },
+  {
+    "Card Name": "Netmeds Credit Card",
+    "Bank/Issuer": "Various",
+    "Card Type": "Health",
+    "Annual Fee (INR)": 500,
+    "Network": "Visa",
+    "Key Benefits": "Healthcare rewards"
+  },
+  {
+    "Card Name": "1mg Credit Card",
+    "Bank/Issuer": "Various",
+    "Card Type": "Health",
+    "Annual Fee (INR)": 500,
+    "Network": "Visa",
+    "Key Benefits": "Medicine benefits"
+  },
+  {
+    "Card Name": "Lenskart Credit Card",
+    "Bank/Issuer": "Various",
+    "Card Type": "Eyewear",
+    "Annual Fee (INR)": 500,
+    "Network": "Visa",
+    "Key Benefits": "Eyewear purchase benefits"
+  },
+  {
+    "Card Name": "Nykaa Credit Card",
+    "Bank/Issuer": "Various",
+    "Card Type": "Beauty",
+    "Annual Fee (INR)": 500,
+    "Network": "Visa",
+    "Key Benefits": "Beauty purchase rewards"
+  },
+  {
+    "Card Name": "AJIO Credit Card",
+    "Bank/Issuer": "Various",
+    "Card Type": "Fashion",
+    "Annual Fee (INR)": 500,
+    "Network": "Visa",
+    "Key Benefits": "AJIO shopping benefits"
+  },
+  {
+    "Card Name": "Meesho Credit Card",
+    "Bank/Issuer": "Various",
+    "Card Type": "Shopping",
+    "Annual Fee (INR)": "Free",
+    "Network": "Visa",
+    "Key Benefits": "Meesho rewards"
+  },
+  {
+    "Card Name": "PayTM Credit Card",
+    "Bank/Issuer": "Various",
+    "Card Type": "Digital Wallet",
+    "Annual Fee (INR)": "Free",
+    "Network": "Visa",
+    "Key Benefits": "PayTM benefits"
+  },
+  {
+    "Card Name": "PhonePe Credit Card",
+    "Bank/Issuer": "SBI Card",
+    "Card Type": "Digital",
+    "Annual Fee (INR)": 499,
+    "Network": "Mastercard",
+    "Key Benefits": "PhonePe rewards"
+  },
+  {
+    "Card Name": "Google Pay Credit Card",
+    "Bank/Issuer": "Various",
+    "Card Type": "Digital Wallet",
+    "Annual Fee (INR)": "Free",
+    "Network": "Visa",
+    "Key Benefits": "Google Pay benefits"
+  },
+  {
+    "Card Name": "MobiKwik Credit Card",
+    "Bank/Issuer": "Various",
+    "Card Type": "Digital Wallet",
+    "Annual Fee (INR)": "Free",
+    "Network": "Visa",
+    "Key Benefits": "MobiKwik rewards"
+  },
+  {
+    "Card Name": "Freecharge Credit Card",
+    "Bank/Issuer": "Various",
+    "Card Type": "Digital",
+    "Annual Fee (INR)": "Free",
+    "Network": "Visa",
+    "Key Benefits": "Freecharge benefits"
+  },
+  {
+    "Card Name": "Payzapp HDFC Credit Card",
+    "Bank/Issuer": "HDFC Bank",
+    "Card Type": "Digital",
+    "Annual Fee (INR)": "Free",
+    "Network": "Visa",
+    "Key Benefits": "Digital wallet benefits"
+  },
+  {
+    "Card Name": "ICICI Pockets Credit Card",
+    "Bank/Issuer": "ICICI Bank",
+    "Card Type": "Digital",
+    "Annual Fee (INR)": "Free",
+    "Network": "Mastercard",
+    "Key Benefits": "Pockets wallet benefits"
+  },
+  {
+    "Card Name": "Axis Bank Liberty Credit Card",
+    "Bank/Issuer": "Axis Bank",
+    "Card Type": "Basic",
+    "Annual Fee (INR)": 250,
+    "Network": "Mastercard",
+    "Key Benefits": "Entry level"
+  },
+  {
+    "Card Name": "IDFC FIRST Swyp Credit Card",
+    "Bank/Issuer": "IDFC Bank",
+    "Card Type": "Entry Level",
+    "Annual Fee (INR)": "Free",
+    "Network": "Mastercard",
+    "Key Benefits": "Basic rewards"
+  },
+  {
+    "Card Name": "SBI Card SimplySave UPI",
+    "Bank/Issuer": "SBI Card",
+    "Card Type": "RuPay",
+    "Annual Fee (INR)": 499,
+    "Network": "Mastercard",
+    "Key Benefits": "UPI enabled savings"
+  },
+  {
+    "Card Name": "HDFC UPI Credit Card",
+    "Bank/Issuer": "HDFC Bank",
+    "Card Type": "RuPay",
+    "Annual Fee (INR)": 500,
+    "Network": "Visa",
+    "Key Benefits": "UPI payments"
+  },
+  {
+    "Card Name": "Kotak League RuPay Credit Card",
+    "Bank/Issuer": "Kotak Bank",
+    "Card Type": "RuPay",
+    "Annual Fee (INR)": 500,
+    "Network": "RuPay",
+    "Key Benefits": "UPI enabled"
+  },
+  {
+    "Card Name": "Yes Bank RuPay Credit Card",
+    "Bank/Issuer": "YES Bank",
+    "Card Type": "RuPay",
+    "Annual Fee (INR)": "Free",
+    "Network": "RuPay",
+    "Key Benefits": "UPI enabled"
+  },
+  {
+    "Card Name": "IndusInd Bank RuPay Credit Card",
+    "Bank/Issuer": "IndusInd Bank",
+    "Card Type": "RuPay",
+    "Annual Fee (INR)": 500,
+    "Network": "RuPay",
+    "Key Benefits": "UPI payments"
+  },
+  {
+    "Card Name": "BOB RuPay Credit Card",
+    "Bank/Issuer": "Bank of Baroda",
+    "Card Type": "RuPay",
+    "Annual Fee (INR)": 500,
+    "Network": "RuPay",
+    "Key Benefits": "UPI enabled"
+  },
+  {
+    "Card Name": "Union Bank RuPay Credit Card",
+    "Bank/Issuer": "Union Bank",
+    "Card Type": "RuPay",
+    "Annual Fee (INR)": 500,
+    "Network": "RuPay",
+    "Key Benefits": "UPI payments"
+  },
+  {
+    "Card Name": "PNB RuPay Credit Card",
+    "Bank/Issuer": "Punjab National Bank",
+    "Card Type": "RuPay",
+    "Annual Fee (INR)": 500,
+    "Network": "RuPay",
+    "Key Benefits": "UPI enabled"
+  },
+  {
+    "Card Name": "Canara Bank RuPay Credit Card",
+    "Bank/Issuer": "Canara Bank",
+    "Card Type": "RuPay",
+    "Annual Fee (INR)": 500,
+    "Network": "RuPay",
+    "Key Benefits": "UPI payments"
+  },
+  {
+    "Card Name": "SBI Student Plus Credit Card",
+    "Bank/Issuer": "SBI Card",
+    "Card Type": "Student",
+    "Annual Fee (INR)": 250,
+    "Network": "Mastercard",
+    "Key Benefits": "For students"
+  },
+  {
+    "Card Name": "ICICI Student Advantage Credit Card",
+    "Bank/Issuer": "ICICI Bank",
+    "Card Type": "Student",
+    "Annual Fee (INR)": "Free",
+    "Network": "Mastercard",
+    "Key Benefits": "Student benefits"
+  },
+  {
+    "Card Name": "HDFC Multicurrency ForexPlus Card",
+    "Bank/Issuer": "HDFC Bank",
+    "Card Type": "Forex",
+    "Annual Fee (INR)": "Free",
+    "Network": "Visa",
+    "Key Benefits": "Travel card"
+  },
+  {
+    "Card Name": "ICICI Travel Credit Card",
+    "Bank/Issuer": "ICICI Bank",
+    "Card Type": "Travel",
+    "Annual Fee (INR)": 500,
+    "Network": "Mastercard",
+    "Key Benefits": "Travel benefits"
+  },
+  {
+    "Card Name": "Axis Bank Travel Currency Card",
+    "Bank/Issuer": "Axis Bank",
+    "Card Type": "Forex",
+    "Annual Fee (INR)": "Free",
+    "Network": "Mastercard",
+    "Key Benefits": "Forex card"
+  },
+  {
+    "Card Name": "YES Bank Travel Forex Card",
+    "Bank/Issuer": "YES Bank",
+    "Card Type": "Forex",
+    "Annual Fee (INR)": "Free",
+    "Network": "Mastercard",
+    "Key Benefits": "Multi-currency"
+  },
+  {
+    "Card Name": "Thomas Cook Borderless Card",
+    "Bank/Issuer": "Thomas Cook",
+    "Card Type": "Forex",
+    "Annual Fee (INR)": "Free",
+    "Network": "Visa",
+    "Key Benefits": "Forex prepaid"
+  },
+  {
+    "Card Name": "HDFC Regalia First Credit Card",
+    "Bank/Issuer": "HDFC Bank",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "2,500",
+    "Network": "Visa",
+    "Key Benefits": "First variant rewards"
+  },
+  {
+    "Card Name": "ICICI Sapphiro Dual Credit Card",
+    "Bank/Issuer": "ICICI Bank",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "3,500",
+    "Network": "Mastercard",
+    "Key Benefits": "Dual card benefits"
+  },
+  {
+    "Card Name": "Axis Bank Burgundy Private Credit Card",
+    "Bank/Issuer": "Axis Bank",
+    "Card Type": "Exclusive",
+    "Annual Fee (INR)": "10,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Private banking"
+  },
+  {
+    "Card Name": "Kotak White Reserve Credit Card",
+    "Bank/Issuer": "Kotak Bank",
+    "Card Type": "Super Premium",
+    "Annual Fee (INR)": "5,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Reserve benefits"
+  },
+  {
+    "Card Name": "YES Bank First Business Credit Card",
+    "Bank/Issuer": "YES Bank",
+    "Card Type": "Business",
+    "Annual Fee (INR)": "2,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Business expenses"
+  },
+  {
+    "Card Name": "HDFC Business Advantage Credit Card",
+    "Bank/Issuer": "HDFC Bank",
+    "Card Type": "Business",
+    "Annual Fee (INR)": "1,500",
+    "Network": "Visa",
+    "Key Benefits": "Business rewards"
+  },
+  {
+    "Card Name": "ICICI Business Credit Card",
+    "Bank/Issuer": "ICICI Bank",
+    "Card Type": "Business",
+    "Annual Fee (INR)": "1,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Business spends"
+  },
+  {
+    "Card Name": "Axis Bank Business Credit Card",
+    "Bank/Issuer": "Axis Bank",
+    "Card Type": "Business",
+    "Annual Fee (INR)": "1,500",
+    "Network": "Mastercard",
+    "Key Benefits": "Corporate benefits"
+  },
+  {
+    "Card Name": "SBI Corporate Card",
+    "Bank/Issuer": "SBI Card",
+    "Card Type": "Corporate",
+    "Annual Fee (INR)": "Variable",
+    "Network": "Mastercard",
+    "Key Benefits": "Corporate spends"
+  },
+  {
+    "Card Name": "American Express Corporate Card",
+    "Bank/Issuer": "Amex",
+    "Card Type": "Corporate",
+    "Annual Fee (INR)": "Variable",
+    "Network": "American Express",
+    "Key Benefits": "Corporate rewards"
+  },
+  {
+    "Card Name": "Standard Chartered Corporate Card",
+    "Bank/Issuer": "Standard Chartered",
+    "Card Type": "Corporate",
+    "Annual Fee (INR)": "Variable",
+    "Network": "Mastercard",
+    "Key Benefits": "Business travel"
+  },
+  {
+    "Card Name": "HSBC Business Credit Card",
+    "Bank/Issuer": "HSBC",
+    "Card Type": "Business",
+    "Annual Fee (INR)": "2,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Business expenses"
+  },
+  {
+    "Card Name": "IndusInd Bank Corporate Credit Card",
+    "Bank/Issuer": "IndusInd Bank",
+    "Card Type": "Corporate",
+    "Annual Fee (INR)": "Variable",
+    "Network": "Mastercard",
+    "Key Benefits": "Business rewards"
+  },
+  {
+    "Card Name": "IDFC Corporate Credit Card",
+    "Bank/Issuer": "IDFC Bank",
+    "Card Type": "Corporate",
+    "Annual Fee (INR)": "Variable",
+    "Network": "Mastercard",
+    "Key Benefits": "Corporate benefits"
+  },
+  {
+    "Card Name": "RBL Bank Corporate Credit Card",
+    "Bank/Issuer": "RBL Bank",
+    "Card Type": "Corporate",
+    "Annual Fee (INR)": "Variable",
+    "Network": "Mastercard",
+    "Key Benefits": "Business spends"
+  },
+  {
+    "Card Name": "YES Bank Corporate Credit Card",
+    "Bank/Issuer": "YES Bank",
+    "Card Type": "Corporate",
+    "Annual Fee (INR)": "Variable",
+    "Network": "Mastercard",
+    "Key Benefits": "Corporate rewards"
+  },
+  {
+    "Card Name": "Kotak Business Credit Card",
+    "Bank/Issuer": "Kotak Bank",
+    "Card Type": "Business",
+    "Annual Fee (INR)": "1,500",
+    "Network": "Mastercard",
+    "Key Benefits": "Business expenses"
+  },
+  {
+    "Card Name": "AU Bank Business Credit Card",
+    "Bank/Issuer": "AU Bank",
+    "Card Type": "Business",
+    "Annual Fee (INR)": "1,500",
+    "Network": "Visa",
+    "Key Benefits": "Business rewards"
+  },
+  {
+    "Card Name": "Federal Bank Corporate Credit Card",
+    "Bank/Issuer": "Federal Bank",
+    "Card Type": "Corporate",
+    "Annual Fee (INR)": "Variable",
+    "Network": "Visa",
+    "Key Benefits": "Business benefits"
+  },
+  {
+    "Card Name": "BOB Business Credit Card",
+    "Bank/Issuer": "Bank of Baroda",
+    "Card Type": "Business",
+    "Annual Fee (INR)": "1,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Business spends"
+  },
+  {
+    "Card Name": "PNB Business Credit Card",
+    "Bank/Issuer": "Punjab National Bank",
+    "Card Type": "Business",
+    "Annual Fee (INR)": "1,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Business rewards"
+  },
+  {
+    "Card Name": "Canara Bank Business Credit Card",
+    "Bank/Issuer": "Canara Bank",
+    "Card Type": "Business",
+    "Annual Fee (INR)": "1,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Business benefits"
+  },
+  {
+    "Card Name": "Union Bank Business Credit Card",
+    "Bank/Issuer": "Union Bank",
+    "Card Type": "Business",
+    "Annual Fee (INR)": "1,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Business spends"
+  },
+  {
+    "Card Name": "SBI Card Select",
+    "Bank/Issuer": "SBI Card",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "1,999",
+    "Network": "Mastercard",
+    "Key Benefits": "Select member benefits"
+  },
+  {
+    "Card Name": "ICICI Platinum Chip Credit Card",
+    "Bank/Issuer": "ICICI Bank",
+    "Card Type": "Entry Level",
+    "Annual Fee (INR)": 500,
+    "Network": "Mastercard",
+    "Key Benefits": "EMV chip card"
+  },
+  {
+    "Card Name": "HDFC Times Credit Card",
+    "Bank/Issuer": "HDFC Bank",
+    "Card Type": "Lifestyle",
+    "Annual Fee (INR)": 999,
+    "Network": "Visa",
+    "Key Benefits": "Times group benefits"
+  },
+  {
+    "Card Name": "Axis Bank Edge Reward Credit Card",
+    "Bank/Issuer": "Axis Bank",
+    "Card Type": "Rewards",
+    "Annual Fee (INR)": "1,500",
+    "Network": "Mastercard",
+    "Key Benefits": "EDGE miles"
+  },
+  {
+    "Card Name": "Kotak Aqua Platinum Credit Card",
+    "Bank/Issuer": "Kotak Bank",
+    "Card Type": "Mid-tier",
+    "Annual Fee (INR)": 500,
+    "Network": "RuPay",
+    "Key Benefits": "Enhanced aqua benefits"
+  },
+  {
+    "Card Name": "IDFC Eka Credit Card",
+    "Bank/Issuer": "IDFC Bank",
+    "Card Type": "Entry Level",
+    "Annual Fee (INR)": "Free",
+    "Network": "Mastercard",
+    "Key Benefits": "Basic rewards"
+  },
+  {
+    "Card Name": "IndusInd Bank Pinnacle Credit Card",
+    "Bank/Issuer": "IndusInd Bank",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "5,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Pinnacle benefits"
+  },
+  {
+    "Card Name": "YES Bank Yes Cart Credit Card",
+    "Bank/Issuer": "YES Bank",
+    "Card Type": "Shopping",
+    "Annual Fee (INR)": 500,
+    "Network": "Mastercard",
+    "Key Benefits": "Shopping rewards"
+  },
+  {
+    "Card Name": "RBL Bank Titanium Credit Card",
+    "Bank/Issuer": "RBL Bank",
+    "Card Type": "Entry Level",
+    "Annual Fee (INR)": 500,
+    "Network": "Mastercard",
+    "Key Benefits": "Basic rewards"
+  },
+  {
+    "Card Name": "HSBC Gold Credit Card",
+    "Bank/Issuer": "HSBC",
+    "Card Type": "Mid-tier",
+    "Annual Fee (INR)": 999,
+    "Network": "Mastercard",
+    "Key Benefits": "Gold benefits"
+  },
+  {
+    "Card Name": "Standard Chartered Titanium Credit Card",
+    "Bank/Issuer": "Standard Chartered",
+    "Card Type": "Entry Level",
+    "Annual Fee (INR)": 750,
+    "Network": "Mastercard",
+    "Key Benefits": "Titanium rewards"
+  },
+  {
+    "Card Name": "American Express Green Card",
+    "Bank/Issuer": "Amex",
+    "Card Type": "Entry Level",
+    "Annual Fee (INR)": "1,000",
+    "Network": "American Express",
+    "Key Benefits": "Green card benefits"
+  },
+  {
+    "Card Name": "AU Bank Vetta Credit Card",
+    "Bank/Issuer": "AU Bank",
+    "Card Type": "Mid-tier",
+    "Annual Fee (INR)": 999,
+    "Network": "Visa",
+    "Key Benefits": "Enhanced rewards"
+  },
+  {
+    "Card Name": "Federal Bank Rainforest Credit Card",
+    "Bank/Issuer": "Federal Bank",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "2,499",
+    "Network": "Visa",
+    "Key Benefits": "Premium lifestyle"
+  },
+  {
+    "Card Name": "South Indian Bank Prime Credit Card",
+    "Bank/Issuer": "South Indian Bank",
+    "Card Type": "Mid-tier",
+    "Annual Fee (INR)": 750,
+    "Network": "Mastercard",
+    "Key Benefits": "Prime benefits"
+  },
+  {
+    "Card Name": "DCB Bank Titanium Credit Card",
+    "Bank/Issuer": "DCB Bank",
+    "Card Type": "Mid-tier",
+    "Annual Fee (INR)": "1,500",
+    "Network": "Visa",
+    "Key Benefits": "Titanium rewards"
+  },
+  {
+    "Card Name": "Karnataka Bank Platinum Credit Card",
+    "Bank/Issuer": "Karnataka Bank",
+    "Card Type": "Mid-tier",
+    "Annual Fee (INR)": 750,
+    "Network": "Visa",
+    "Key Benefits": "Platinum benefits"
+  },
+  {
+    "Card Name": "City Union Bank Prime Credit Card",
+    "Bank/Issuer": "City Union Bank",
+    "Card Type": "Mid-tier",
+    "Annual Fee (INR)": 600,
+    "Network": "Mastercard",
+    "Key Benefits": "Prime rewards"
+  },
+  {
+    "Card Name": "Karur Vysya Bank Platinum Card",
+    "Bank/Issuer": "Karur Vysya Bank",
+    "Card Type": "Mid-tier",
+    "Annual Fee (INR)": 750,
+    "Network": "Visa",
+    "Key Benefits": "Platinum benefits"
+  },
+  {
+    "Card Name": "Tamilnad Mercantile Bank Premium Card",
+    "Bank/Issuer": "Tamilnad Mercantile Bank",
+    "Card Type": "Mid-tier",
+    "Annual Fee (INR)": 650,
+    "Network": "Visa",
+    "Key Benefits": "Premium rewards"
+  },
+  {
+    "Card Name": "J&K Bank Platinum Credit Card",
+    "Bank/Issuer": "J&K Bank",
+    "Card Type": "Mid-tier",
+    "Annual Fee (INR)": 750,
+    "Network": "Visa",
+    "Key Benefits": "Platinum benefits"
+  },
+  {
+    "Card Name": "Indian Bank Platinum Credit Card",
+    "Bank/Issuer": "Indian Bank",
+    "Card Type": "Mid-tier",
+    "Annual Fee (INR)": 750,
+    "Network": "Mastercard",
+    "Key Benefits": "Platinum rewards"
+  },
+  {
+    "Card Name": "Saraswat Bank Co-operative Premium Card",
+    "Bank/Issuer": "Saraswat Bank",
+    "Card Type": "Mid-tier",
+    "Annual Fee (INR)": 750,
+    "Network": "Visa",
+    "Key Benefits": "Premium benefits"
+  },
+  {
+    "Card Name": "HDFC Business Black Credit Card",
+    "Bank/Issuer": "HDFC Bank",
+    "Card Type": "Business",
+    "Annual Fee (INR)": "10,000",
+    "Network": "Visa",
+    "Key Benefits": "Black card benefits"
+  },
+  {
+    "Card Name": "ICICI Rubyx Business Credit Card",
+    "Bank/Issuer": "ICICI Bank",
+    "Card Type": "Business",
+    "Annual Fee (INR)": "3,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Business Rubyx"
+  },
+  {
+    "Card Name": "Axis Bank Magnus Business Credit Card",
+    "Bank/Issuer": "Axis Bank",
+    "Card Type": "Business",
+    "Annual Fee (INR)": "10,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Business Magnus"
+  },
+  {
+    "Card Name": "SBI Elite Business Credit Card",
+    "Bank/Issuer": "SBI Card",
+    "Card Type": "Business",
+    "Annual Fee (INR)": "4,999",
+    "Network": "Mastercard",
+    "Key Benefits": "Elite business"
+  },
+  {
+    "Card Name": "American Express Business Gold",
+    "Bank/Issuer": "Amex",
+    "Card Type": "Business",
+    "Annual Fee (INR)": "10,000",
+    "Network": "American Express",
+    "Key Benefits": "Business gold"
+  },
+  {
+    "Card Name": "American Express Business Platinum",
+    "Bank/Issuer": "Amex",
+    "Card Type": "Business",
+    "Annual Fee (INR)": "60,000",
+    "Network": "American Express",
+    "Key Benefits": "Business platinum"
+  },
+  {
+    "Card Name": "HDFC Dealer Net Credit Card",
+    "Bank/Issuer": "HDFC Bank",
+    "Card Type": "Business",
+    "Annual Fee (INR)": "Variable",
+    "Network": "Visa",
+    "Key Benefits": "For dealers"
+  },
+  {
+    "Card Name": "ICICI Fleet Credit Card",
+    "Bank/Issuer": "ICICI Bank",
+    "Card Type": "Business",
+    "Annual Fee (INR)": "Variable",
+    "Network": "Mastercard",
+    "Key Benefits": "Fleet management"
+  },
+  {
+    "Card Name": "Axis Bank Transport Credit Card",
+    "Bank/Issuer": "Axis Bank",
+    "Card Type": "Business",
+    "Annual Fee (INR)": "Variable",
+    "Network": "Mastercard",
+    "Key Benefits": "Transport business"
+  },
+  {
+    "Card Name": "SBI Commercial Credit Card",
+    "Bank/Issuer": "SBI Card",
+    "Card Type": "Business",
+    "Annual Fee (INR)": "Variable",
+    "Network": "Mastercard",
+    "Key Benefits": "Commercial use"
+  },
+  {
+    "Card Name": "Kotak Net Credit Card",
+    "Bank/Issuer": "Kotak Bank",
+    "Card Type": "Business",
+    "Annual Fee (INR)": "Variable",
+    "Network": "Mastercard",
+    "Key Benefits": "Business net"
+  },
+  {
+    "Card Name": "IDFC Dealernet Credit Card",
+    "Bank/Issuer": "IDFC Bank",
+    "Card Type": "Business",
+    "Annual Fee (INR)": "Variable",
+    "Network": "Mastercard",
+    "Key Benefits": "For dealers"
+  },
+  {
+    "Card Name": "YES Bank Business Premier Card",
+    "Bank/Issuer": "YES Bank",
+    "Card Type": "Business",
+    "Annual Fee (INR)": "3,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Business premier"
+  },
+  {
+    "Card Name": "RBL Bank Business Platinum",
+    "Bank/Issuer": "RBL Bank",
+    "Card Type": "Business",
+    "Annual Fee (INR)": "2,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Business platinum"
+  },
+  {
+    "Card Name": "IndusInd Bank Exclusive Credit Card",
+    "Bank/Issuer": "IndusInd Bank",
+    "Card Type": "Super Premium",
+    "Annual Fee (INR)": "15,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Exclusive benefits"
+  },
+  {
+    "Card Name": "Kotak Royale Burgundy Credit Card",
+    "Bank/Issuer": "Kotak Bank",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "3,499",
+    "Network": "Mastercard",
+    "Key Benefits": "Burgundy benefits"
+  },
+  {
+    "Card Name": "HDFC Six Credit Card",
+    "Bank/Issuer": "HDFC Bank",
+    "Card Type": "Lifestyle",
+    "Annual Fee (INR)": 500,
+    "Network": "Visa",
+    "Key Benefits": "Six benefits"
+  },
+  {
+    "Card Name": "ICICI Visa Platinum Credit Card",
+    "Bank/Issuer": "ICICI Bank",
+    "Card Type": "Mid-tier",
+    "Annual Fee (INR)": "1,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Visa platinum"
+  },
+  {
+    "Card Name": "Axis Bank Flipkart Kids Credit Card",
+    "Bank/Issuer": "Axis Bank",
+    "Card Type": "Co-branded",
+    "Annual Fee (INR)": 500,
+    "Network": "Mastercard",
+    "Key Benefits": "Kids shopping"
+  },
+  {
+    "Card Name": "SBI Unnati Plus Credit Card",
+    "Bank/Issuer": "SBI Card",
+    "Card Type": "Entry Level",
+    "Annual Fee (INR)": 750,
+    "Network": "Mastercard",
+    "Key Benefits": "Enhanced Unnati"
+  },
+  {
+    "Card Name": "HDFC MoneyBack Premium Credit Card",
+    "Bank/Issuer": "HDFC Bank",
+    "Card Type": "Cashback",
+    "Annual Fee (INR)": "1,000",
+    "Network": "Visa",
+    "Key Benefits": "Premium moneyback"
+  },
+  {
+    "Card Name": "ICICI Coral American Express Card",
+    "Bank/Issuer": "ICICI Bank",
+    "Card Type": "Entry Level",
+    "Annual Fee (INR)": 500,
+    "Network": "American Express",
+    "Key Benefits": "Amex variant"
+  },
+  {
+    "Card Name": "Axis Bank MyChoice Credit Card",
+    "Bank/Issuer": "Axis Bank",
+    "Card Type": "Customizable",
+    "Annual Fee (INR)": "1,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Choose benefits"
+  },
+  {
+    "Card Name": "Kotak Zen Credit Card",
+    "Bank/Issuer": "Kotak Bank",
+    "Card Type": "Wellness",
+    "Annual Fee (INR)": "1,499",
+    "Network": "Mastercard",
+    "Key Benefits": "Wellness focus"
+  },
+  {
+    "Card Name": "IDFC Power Plus Credit Card",
+    "Bank/Issuer": "IDFC Bank",
+    "Card Type": "Fuel",
+    "Annual Fee (INR)": "1,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Enhanced fuel"
+  },
+  {
+    "Card Name": "YES Bank Prosperity Edge Plus Card",
+    "Bank/Issuer": "YES Bank",
+    "Card Type": "Mid-tier",
+    "Annual Fee (INR)": "1,999",
+    "Network": "Mastercard",
+    "Key Benefits": "Enhanced prosperity"
+  },
+  {
+    "Card Name": "RBL Bank Platinum Luxe Card",
+    "Bank/Issuer": "RBL Bank",
+    "Card Type": "Mid-tier",
+    "Annual Fee (INR)": "1,500",
+    "Network": "Mastercard",
+    "Key Benefits": "Luxe benefits"
+  },
+  {
+    "Card Name": "HSBC Advance Credit Card",
+    "Bank/Issuer": "HSBC",
+    "Card Type": "Mid-tier",
+    "Annual Fee (INR)": "1,499",
+    "Network": "Mastercard",
+    "Key Benefits": "Advance banking"
+  },
+  {
+    "Card Name": "Standard Chartered Priority Banking Card",
+    "Bank/Issuer": "Standard Chartered",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "3,500",
+    "Network": "Mastercard",
+    "Key Benefits": "Priority benefits"
+  },
+  {
+    "Card Name": "American Express Express Card",
+    "Bank/Issuer": "Amex",
+    "Card Type": "Basic",
+    "Annual Fee (INR)": "1,500",
+    "Network": "American Express",
+    "Key Benefits": "Express benefits"
+  },
+  {
+    "Card Name": "AU Bank Vista Credit Card",
+    "Bank/Issuer": "AU Bank",
+    "Card Type": "Mid-tier",
+    "Annual Fee (INR)": "1,299",
+    "Network": "Visa",
+    "Key Benefits": "Vista rewards"
+  },
+  {
+    "Card Name": "Federal Bank Signet Pro Card",
+    "Bank/Issuer": "Federal Bank",
+    "Card Type": "Mid-tier",
+    "Annual Fee (INR)": 799,
+    "Network": "Visa",
+    "Key Benefits": "Pro benefits"
+  },
+  {
+    "Card Name": "BOB Emerald Credit Card",
+    "Bank/Issuer": "Bank of Baroda",
+    "Card Type": "Mid-tier",
+    "Annual Fee (INR)": "1,500",
+    "Network": "Mastercard",
+    "Key Benefits": "Emerald rewards"
+  },
+  {
+    "Card Name": "PNB Pride Gold Credit Card",
+    "Bank/Issuer": "Punjab National Bank",
+    "Card Type": "Mid-tier",
+    "Annual Fee (INR)": 750,
+    "Network": "Mastercard",
+    "Key Benefits": "Gold benefits"
+  },
+  {
+    "Card Name": "Canara Bank Premium Credit Card",
+    "Bank/Issuer": "Canara Bank",
+    "Card Type": "Mid-tier",
+    "Annual Fee (INR)": "1,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Premium rewards"
+  },
+  {
+    "Card Name": "Union Bank Platinum Credit Card",
+    "Bank/Issuer": "Union Bank",
+    "Card Type": "Mid-tier",
+    "Annual Fee (INR)": "1,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Platinum benefits"
+  },
+  {
+    "Card Name": "Indian Bank Premium Credit Card",
+    "Bank/Issuer": "Indian Bank",
+    "Card Type": "Mid-tier",
+    "Annual Fee (INR)": 750,
+    "Network": "Mastercard",
+    "Key Benefits": "Premium rewards"
+  },
+  {
+    "Card Name": "SBI Phoenix Credit Card",
+    "Bank/Issuer": "SBI Card",
+    "Card Type": "Mid-tier",
+    "Annual Fee (INR)": "1,299",
+    "Network": "Mastercard",
+    "Key Benefits": "Phoenix benefits"
+  },
+  {
+    "Card Name": "ICICI Emerald Credit Card",
+    "Bank/Issuer": "ICICI Bank",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "Variable",
+    "Network": "Mastercard",
+    "Key Benefits": "Emerald rewards"
+  },
+  {
+    "Card Name": "HDFC Corporate Regalia Credit Card",
+    "Bank/Issuer": "HDFC Bank",
+    "Card Type": "Corporate",
+    "Annual Fee (INR)": "2,500",
+    "Network": "Visa",
+    "Key Benefits": "Corporate regalia"
+  },
+  {
+    "Card Name": "Axis Bank Corporate Atlas Card",
+    "Bank/Issuer": "Axis Bank",
+    "Card Type": "Corporate",
+    "Annual Fee (INR)": "5,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Corporate atlas"
+  },
+  {
+    "Card Name": "Kotak Corporate League Card",
+    "Bank/Issuer": "Kotak Bank",
+    "Card Type": "Corporate",
+    "Annual Fee (INR)": "1,500",
+    "Network": "Mastercard",
+    "Key Benefits": "Corporate league"
+  },
+  {
+    "Card Name": "IDFC Corporate Select Card",
+    "Bank/Issuer": "IDFC Bank",
+    "Card Type": "Corporate",
+    "Annual Fee (INR)": "3,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Corporate select"
+  },
+  {
+    "Card Name": "YES Bank Corporate Marquee Card",
+    "Bank/Issuer": "YES Bank",
+    "Card Type": "Corporate",
+    "Annual Fee (INR)": "10,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Corporate marquee"
+  },
+  {
+    "Card Name": "IndusInd Corporate Legend Card",
+    "Bank/Issuer": "IndusInd Bank",
+    "Card Type": "Corporate",
+    "Annual Fee (INR)": "10,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Corporate legend"
+  },
+  {
+    "Card Name": "RBL Corporate Safari Card",
+    "Bank/Issuer": "RBL Bank",
+    "Card Type": "Corporate",
+    "Annual Fee (INR)": "3,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Corporate safari"
+  },
+  {
+    "Card Name": "HSBC Corporate Premier Card",
+    "Bank/Issuer": "HSBC",
+    "Card Type": "Corporate",
+    "Annual Fee (INR)": "2,999",
+    "Network": "Mastercard",
+    "Key Benefits": "Corporate premier"
+  },
+  {
+    "Card Name": "Standard Chartered Corporate Ultimate",
+    "Bank/Issuer": "Standard Chartered",
+    "Card Type": "Corporate",
+    "Annual Fee (INR)": "5,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Corporate ultimate"
+  },
+  {
+    "Card Name": "American Express Corporate Platinum",
+    "Bank/Issuer": "Amex",
+    "Card Type": "Corporate",
+    "Annual Fee (INR)": "60,000",
+    "Network": "American Express",
+    "Key Benefits": "Corporate platinum"
+  },
+  {
+    "Card Name": "HDFC EasyShop Woman's Credit Card",
+    "Bank/Issuer": "HDFC Bank",
+    "Card Type": "Women",
+    "Annual Fee (INR)": 500,
+    "Network": "Visa",
+    "Key Benefits": "Women focused"
+  },
+  {
+    "Card Name": "SBI Elite Woman Credit Card",
+    "Bank/Issuer": "SBI Card",
+    "Card Type": "Women",
+    "Annual Fee (INR)": "4,999",
+    "Network": "Mastercard",
+    "Key Benefits": "Women elite"
+  },
+  {
+    "Card Name": "ICICI Woman Credit Card",
+    "Bank/Issuer": "ICICI Bank",
+    "Card Type": "Women",
+    "Annual Fee (INR)": 500,
+    "Network": "Mastercard",
+    "Key Benefits": "Women benefits"
+  },
+  {
+    "Card Name": "Axis Bank My Choice Woman Card",
+    "Bank/Issuer": "Axis Bank",
+    "Card Type": "Women",
+    "Annual Fee (INR)": "1,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Women myChoice"
+  },
+  {
+    "Card Name": "Kotak Silk Credit Card",
+    "Bank/Issuer": "Kotak Bank",
+    "Card Type": "Women",
+    "Annual Fee (INR)": 500,
+    "Network": "Mastercard",
+    "Key Benefits": "Silk benefits"
+  },
+  {
+    "Card Name": "IndusInd Bank Aura Credit Card",
+    "Bank/Issuer": "IndusInd Bank",
+    "Card Type": "Women",
+    "Annual Fee (INR)": "1,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Women aura"
+  },
+  {
+    "Card Name": "YES Bank First Woman Credit Card",
+    "Bank/Issuer": "YES Bank",
+    "Card Type": "Women",
+    "Annual Fee (INR)": "1,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Women first"
+  },
+  {
+    "Card Name": "Standard Chartered Woman Credit Card",
+    "Bank/Issuer": "Standard Chartered",
+    "Card Type": "Women",
+    "Annual Fee (INR)": "1,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Women focused"
+  },
+  {
+    "Card Name": "Bajaj Finserv EMI Card",
+    "Bank/Issuer": "Bajaj Finserv",
+    "Card Type": "EMI",
+    "Annual Fee (INR)": "Free",
+    "Network": "Visa",
+    "Key Benefits": "No-cost EMI"
+  },
+  {
+    "Card Name": "ZestMoney Credit Line",
+    "Bank/Issuer": "ZestMoney",
+    "Card Type": "Digital",
+    "Annual Fee (INR)": "Free",
+    "Network": "Visa",
+    "Key Benefits": "Digital credit line"
+  },
+  {
+    "Card Name": "LazyPay Credit Card",
+    "Bank/Issuer": "LazyPay",
+    "Card Type": "Digital",
+    "Annual Fee (INR)": "Free",
+    "Network": "Visa",
+    "Key Benefits": "Buy now pay later"
+  },
+  {
+    "Card Name": "Simpl Credit Card",
+    "Bank/Issuer": "Simpl",
+    "Card Type": "Digital",
+    "Annual Fee (INR)": "Free",
+    "Network": "Visa",
+    "Key Benefits": "Pay later"
+  },
+  {
+    "Card Name": "epaylater Credit Line",
+    "Bank/Issuer": "epaylater",
+    "Card Type": "Digital",
+    "Annual Fee (INR)": "Free",
+    "Network": "Visa",
+    "Key Benefits": "Credit line"
+  },
+  {
+    "Card Name": "HDFC Regalia Business Credit Card",
+    "Bank/Issuer": "HDFC Bank",
+    "Card Type": "Business",
+    "Annual Fee (INR)": "2,500",
+    "Network": "Visa",
+    "Key Benefits": "Business regalia"
+  },
+  {
+    "Card Name": "SBI Card Pulse Plus",
+    "Bank/Issuer": "SBI Card",
+    "Card Type": "Lifestyle",
+    "Annual Fee (INR)": "1,999",
+    "Network": "Mastercard",
+    "Key Benefits": "Enhanced pulse"
+  },
+  {
+    "Card Name": "ICICI Platinum Premier Credit Card",
+    "Bank/Issuer": "ICICI Bank",
+    "Card Type": "Mid-tier",
+    "Annual Fee (INR)": "1,500",
+    "Network": "Mastercard",
+    "Key Benefits": "Premier platinum"
+  },
+  {
+    "Card Name": "Axis Bank Priority Plus Credit Card",
+    "Bank/Issuer": "Axis Bank",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "4,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Priority plus"
+  },
+  {
+    "Card Name": "Kotak League Titanium Credit Card",
+    "Bank/Issuer": "Kotak Bank",
+    "Card Type": "Mid-tier",
+    "Annual Fee (INR)": 750,
+    "Network": "Mastercard",
+    "Key Benefits": "Titanium league"
+  },
+  {
+    "Card Name": "IDFC FIRST Signature Credit Card",
+    "Bank/Issuer": "IDFC Bank",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "5,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Signature benefits"
+  },
+  {
+    "Card Name": "IndusInd Bank Exclusive Plus Card",
+    "Bank/Issuer": "IndusInd Bank",
+    "Card Type": "Super Premium",
+    "Annual Fee (INR)": "20,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Exclusive plus"
+  },
+  {
+    "Card Name": "YES Bank First Elite Credit Card",
+    "Bank/Issuer": "YES Bank",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "3,500",
+    "Network": "Mastercard",
+    "Key Benefits": "Elite first"
+  },
+  {
+    "Card Name": "RBL Bank Safari Plus Credit Card",
+    "Bank/Issuer": "RBL Bank",
+    "Card Type": "Travel",
+    "Annual Fee (INR)": "4,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Safari plus"
+  },
+  {
+    "Card Name": "HSBC Visa Premier Credit Card",
+    "Bank/Issuer": "HSBC",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "2,499",
+    "Network": "Mastercard",
+    "Key Benefits": "Visa premier"
+  },
+  {
+    "Card Name": "Standard Chartered Platinum Credit Card",
+    "Bank/Issuer": "Standard Chartered",
+    "Card Type": "Mid-tier",
+    "Annual Fee (INR)": "1,999",
+    "Network": "Mastercard",
+    "Key Benefits": "Standard platinum"
+  },
+  {
+    "Card Name": "American Express Express Plus",
+    "Bank/Issuer": "Amex",
+    "Card Type": "Mid-tier",
+    "Annual Fee (INR)": "3,000",
+    "Network": "American Express",
+    "Key Benefits": "Express plus"
+  },
+  {
+    "Card Name": "AU Bank Royale Credit Card",
+    "Bank/Issuer": "AU Bank",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "2,499",
+    "Network": "Visa",
+    "Key Benefits": "Royale benefits"
+  },
+  {
+    "Card Name": "Federal Bank Celesta Plus Card",
+    "Bank/Issuer": "Federal Bank",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "1,999",
+    "Network": "Visa",
+    "Key Benefits": "Celesta plus"
+  },
+  {
+    "Card Name": "BOB Ruby Credit Card",
+    "Bank/Issuer": "Bank of Baroda",
+    "Card Type": "Mid-tier",
+    "Annual Fee (INR)": "2,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Ruby rewards"
+  },
+  {
+    "Card Name": "PNB Pride Premium Credit Card",
+    "Bank/Issuer": "Punjab National Bank",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "1,500",
+    "Network": "Mastercard",
+    "Key Benefits": "Pride premium"
+  },
+  {
+    "Card Name": "Canara Bank Gold Credit Card",
+    "Bank/Issuer": "Canara Bank",
+    "Card Type": "Mid-tier",
+    "Annual Fee (INR)": "1,200",
+    "Network": "Mastercard",
+    "Key Benefits": "Gold benefits"
+  },
+  {
+    "Card Name": "Union Bank Premium Credit Card",
+    "Bank/Issuer": "Union Bank",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "1,500",
+    "Network": "Mastercard",
+    "Key Benefits": "Union premium"
+  },
+  {
+    "Card Name": "Indian Bank Gold Credit Card",
+    "Bank/Issuer": "Indian Bank",
+    "Card Type": "Mid-tier",
+    "Annual Fee (INR)": 999,
+    "Network": "Mastercard",
+    "Key Benefits": "Gold rewards"
+  },
+  {
+    "Card Name": "SBI Card Rising Star",
+    "Bank/Issuer": "SBI Card",
+    "Card Type": "Youth",
+    "Annual Fee (INR)": 500,
+    "Network": "Mastercard",
+    "Key Benefits": "Youth focused"
+  },
+  {
+    "Card Name": "HDFC Young Stars Credit Card",
+    "Bank/Issuer": "HDFC Bank",
+    "Card Type": "Youth",
+    "Annual Fee (INR)": 500,
+    "Network": "Visa",
+    "Key Benefits": "Young professionals"
+  },
+  {
+    "Card Name": "ICICI Student First Credit Card",
+    "Bank/Issuer": "ICICI Bank",
+    "Card Type": "Student",
+    "Annual Fee (INR)": "Free",
+    "Network": "Mastercard",
+    "Key Benefits": "Student first"
+  },
+  {
+    "Card Name": "Axis Bank Youth Credit Card",
+    "Bank/Issuer": "Axis Bank",
+    "Card Type": "Youth",
+    "Annual Fee (INR)": 250,
+    "Network": "Mastercard",
+    "Key Benefits": "Youth benefits"
+  },
+  {
+    "Card Name": "Kotak 811 Supercard",
+    "Bank/Issuer": "Kotak Bank",
+    "Card Type": "Digital",
+    "Annual Fee (INR)": "Free",
+    "Network": "RuPay",
+    "Key Benefits": "Super digital"
+  },
+  {
+    "Card Name": "IDFC FIRST Power Plus Premium",
+    "Bank/Issuer": "IDFC Bank",
+    "Card Type": "Fuel",
+    "Annual Fee (INR)": "1,500",
+    "Network": "Mastercard",
+    "Key Benefits": "Premium fuel"
+  },
+  {
+    "Card Name": "IndusInd Bank Iconia Credit Card",
+    "Bank/Issuer": "IndusInd Bank",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "8,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Iconia benefits"
+  },
+  {
+    "Card Name": "YES Bank Reserv Credit Card",
+    "Bank/Issuer": "YES Bank",
+    "Card Type": "Super Premium",
+    "Annual Fee (INR)": "15,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Reserv benefits"
+  },
+  {
+    "Card Name": "RBL Bank Premier Credit Card",
+    "Bank/Issuer": "RBL Bank",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "2,500",
+    "Network": "Mastercard",
+    "Key Benefits": "Premier rewards"
+  },
+  {
+    "Card Name": "HSBC Premier Mastercard Black",
+    "Bank/Issuer": "HSBC",
+    "Card Type": "Super Premium",
+    "Annual Fee (INR)": "10,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Mastercard black"
+  },
+  {
+    "Card Name": "Standard Chartered Super Platinum",
+    "Bank/Issuer": "Standard Chartered",
+    "Card Type": "Mid-tier",
+    "Annual Fee (INR)": "2,500",
+    "Network": "Mastercard",
+    "Key Benefits": "Super platinum"
+  },
+  {
+    "Card Name": "Amex Business Gold Plus",
+    "Bank/Issuer": "Amex",
+    "Card Type": "Business",
+    "Annual Fee (INR)": "15,000",
+    "Network": "American Express",
+    "Key Benefits": "Business gold plus"
+  },
+  {
+    "Card Name": "AU Bank Ixigo Credit Card",
+    "Bank/Issuer": "AU Bank",
+    "Card Type": "Travel",
+    "Annual Fee (INR)": "1,000",
+    "Network": "Visa",
+    "Key Benefits": "Travel rewards"
+  },
+  {
+    "Card Name": "BOB Sapphire Credit Card",
+    "Bank/Issuer": "Bank of Baroda",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "3,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Sapphire rewards"
+  },
+  {
+    "Card Name": "PNB Global Credit Card",
+    "Bank/Issuer": "Punjab National Bank",
+    "Card Type": "Travel",
+    "Annual Fee (INR)": "2,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Global travel"
+  },
+  {
+    "Card Name": "Canara Bank International Card",
+    "Bank/Issuer": "Canara Bank",
+    "Card Type": "Travel",
+    "Annual Fee (INR)": "1,500",
+    "Network": "Mastercard",
+    "Key Benefits": "International benefits"
+  },
+  {
+    "Card Name": "HDFC Smart Platinum Credit Card",
+    "Bank/Issuer": "HDFC Bank",
+    "Card Type": "Entry Level",
+    "Annual Fee (INR)": 750,
+    "Network": "Visa",
+    "Key Benefits": "Smart platinum"
+  },
+  {
+    "Card Name": "SBI Card Miles Premier",
+    "Bank/Issuer": "SBI Card",
+    "Card Type": "Travel",
+    "Annual Fee (INR)": "2,499",
+    "Network": "Mastercard",
+    "Key Benefits": "Miles premier"
+  },
+  {
+    "Card Name": "ICICI Expressions Plus Credit Card",
+    "Bank/Issuer": "ICICI Bank",
+    "Card Type": "Lifestyle",
+    "Annual Fee (INR)": "1,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Expressions plus"
+  },
+  {
+    "Card Name": "Axis Bank Reserve Plus Credit Card",
+    "Bank/Issuer": "Axis Bank",
+    "Card Type": "Super Premium",
+    "Annual Fee (INR)": "75,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Reserve plus"
+  },
+  {
+    "Card Name": "Kotak Royale Plus Credit Card",
+    "Bank/Issuer": "Kotak Bank",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "2,999",
+    "Network": "Mastercard",
+    "Key Benefits": "Royale plus"
+  },
+  {
+    "Card Name": "IDFC FIRST Private Credit Card",
+    "Bank/Issuer": "IDFC Bank",
+    "Card Type": "Super Premium",
+    "Annual Fee (INR)": "25,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Private banking"
+  },
+  {
+    "Card Name": "IndusInd Bank Platinum Plus Card",
+    "Bank/Issuer": "IndusInd Bank",
+    "Card Type": "Mid-tier",
+    "Annual Fee (INR)": "1,500",
+    "Network": "Mastercard",
+    "Key Benefits": "Platinum plus"
+  },
+  {
+    "Card Name": "YES Bank Elite Plus Credit Card",
+    "Bank/Issuer": "YES Bank",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "5,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Elite plus"
+  },
+  {
+    "Card Name": "RBL Bank World Elite Credit Card",
+    "Bank/Issuer": "RBL Bank",
+    "Card Type": "Super Premium",
+    "Annual Fee (INR)": "10,000",
+    "Network": "Mastercard",
+    "Key Benefits": "World elite"
+  },
+  {
+    "Card Name": "HSBC Visa Signature Credit Card",
+    "Bank/Issuer": "HSBC",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "3,499",
+    "Network": "Mastercard",
+    "Key Benefits": "Visa signature"
+  },
+  {
+    "Card Name": "Standard Chartered Titanium Plus",
+    "Bank/Issuer": "Standard Chartered",
+    "Card Type": "Mid-tier",
+    "Annual Fee (INR)": "1,500",
+    "Network": "Mastercard",
+    "Key Benefits": "Titanium plus"
+  },
+  {
+    "Card Name": "American Express Blue Card",
+    "Bank/Issuer": "Amex",
+    "Card Type": "Entry Level",
+    "Annual Fee (INR)": 500,
+    "Network": "American Express",
+    "Key Benefits": "Blue benefits"
+  },
+  {
+    "Card Name": "AU Bank Altura Premium Card",
+    "Bank/Issuer": "AU Bank",
+    "Card Type": "Super Premium",
+    "Annual Fee (INR)": "5,000",
+    "Network": "Visa",
+    "Key Benefits": "Altura premium"
+  },
+  {
+    "Card Name": "Federal Bank Celesta Signature",
+    "Bank/Issuer": "Federal Bank",
+    "Card Type": "Super Premium",
+    "Annual Fee (INR)": "5,000",
+    "Network": "Visa",
+    "Key Benefits": "Celesta signature"
+  },
+  {
+    "Card Name": "BOB Diamond Credit Card",
+    "Bank/Issuer": "Bank of Baroda",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "4,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Diamond rewards"
+  },
+  {
+    "Card Name": "PNB Platinum Plus Credit Card",
+    "Bank/Issuer": "Punjab National Bank",
+    "Card Type": "Mid-tier",
+    "Annual Fee (INR)": "1,200",
+    "Network": "Mastercard",
+    "Key Benefits": "Platinum plus"
+  },
+  {
+    "Card Name": "Canara Bank Elite Credit Card",
+    "Bank/Issuer": "Canara Bank",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "2,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Elite benefits"
+  },
+  {
+    "Card Name": "Union Bank Signature Credit Card",
+    "Bank/Issuer": "Union Bank",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "2,500",
+    "Network": "Mastercard",
+    "Key Benefits": "Signature benefits"
+  },
+  {
+    "Card Name": "Indian Bank Signature Credit Card",
+    "Bank/Issuer": "Indian Bank",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "2,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Signature rewards"
+  },
+  {
+    "Card Name": "SBI Card Global Credit Card",
+    "Bank/Issuer": "SBI Card",
+    "Card Type": "Travel",
+    "Annual Fee (INR)": "2,999",
+    "Network": "Mastercard",
+    "Key Benefits": "Global travel"
+  },
+  {
+    "Card Name": "HDFC Times Titanium Credit Card",
+    "Bank/Issuer": "HDFC Bank",
+    "Card Type": "Lifestyle",
+    "Annual Fee (INR)": "1,499",
+    "Network": "Visa",
+    "Key Benefits": "Times titanium"
+  },
+  {
+    "Card Name": "ICICI Coral Plus Credit Card",
+    "Bank/Issuer": "ICICI Bank",
+    "Card Type": "Mid-tier",
+    "Annual Fee (INR)": "1,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Coral plus"
+  },
+  {
+    "Card Name": "Axis Bank Burgundy Reserve",
+    "Bank/Issuer": "Axis Bank",
+    "Card Type": "Super Premium",
+    "Annual Fee (INR)": "25,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Burgundy reserve"
+  },
+  {
+    "Card Name": "Kotak White Plus Credit Card",
+    "Bank/Issuer": "Kotak Bank",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "1,999",
+    "Network": "Mastercard",
+    "Key Benefits": "White plus"
+  },
+  {
+    "Card Name": "IDFC FIRST Club Premium Card",
+    "Bank/Issuer": "IDFC Bank",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "4,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Club premium"
+  },
+  {
+    "Card Name": "IndusInd Bank Signature Plus Card",
+    "Bank/Issuer": "IndusInd Bank",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "3,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Signature plus"
+  },
+  {
+    "Card Name": "YES Bank Premium Rewards Card",
+    "Bank/Issuer": "YES Bank",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "4,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Premium rewards"
+  },
+  {
+    "Card Name": "RBL Bank Black Credit Card",
+    "Bank/Issuer": "RBL Bank",
+    "Card Type": "Super Premium",
+    "Annual Fee (INR)": "15,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Black card"
+  },
+  {
+    "Card Name": "HSBC World Elite Credit Card",
+    "Bank/Issuer": "HSBC",
+    "Card Type": "Super Premium",
+    "Annual Fee (INR)": "15,000",
+    "Network": "Mastercard",
+    "Key Benefits": "World elite"
+  },
+  {
+    "Card Name": "Standard Chartered Infinite Card",
+    "Bank/Issuer": "Standard Chartered",
+    "Card Type": "Super Premium",
+    "Annual Fee (INR)": "20,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Infinite privileges"
+  },
+  {
+    "Card Name": "American Express Centurion Card",
+    "Bank/Issuer": "Amex",
+    "Card Type": "Exclusive",
+    "Annual Fee (INR)": "Invitation",
+    "Network": "American Express",
+    "Key Benefits": "Centurion benefits"
+  },
+  {
+    "Card Name": "AU Bank Black Credit Card",
+    "Bank/Issuer": "AU Bank",
+    "Card Type": "Super Premium",
+    "Annual Fee (INR)": "10,000",
+    "Network": "Visa",
+    "Key Benefits": "Black card"
+  },
+  {
+    "Card Name": "Federal Bank Imperio Plus Card",
+    "Bank/Issuer": "Federal Bank",
+    "Card Type": "Mid-tier",
+    "Annual Fee (INR)": "1,499",
+    "Network": "Visa",
+    "Key Benefits": "Imperio plus"
+  },
+  {
+    "Card Name": "BOB Titanium Plus Credit Card",
+    "Bank/Issuer": "Bank of Baroda",
+    "Card Type": "Mid-tier",
+    "Annual Fee (INR)": "1,200",
+    "Network": "Mastercard",
+    "Key Benefits": "Titanium plus"
+  },
+  {
+    "Card Name": "PNB Classic Plus Credit Card",
+    "Bank/Issuer": "Punjab National Bank",
+    "Card Type": "Entry Level",
+    "Annual Fee (INR)": 600,
+    "Network": "Mastercard",
+    "Key Benefits": "Classic plus"
+  },
+  {
+    "Card Name": "Canara Bank Silver Credit Card",
+    "Bank/Issuer": "Canara Bank",
+    "Card Type": "Entry Level",
+    "Annual Fee (INR)": 400,
+    "Network": "Mastercard",
+    "Key Benefits": "Silver benefits"
+  },
+  {
+    "Card Name": "HDFC MoneyBack Business Card",
+    "Bank/Issuer": "HDFC Bank",
+    "Card Type": "Business",
+    "Annual Fee (INR)": "1,000",
+    "Network": "Visa",
+    "Key Benefits": "Business moneyback"
+  },
+  {
+    "Card Name": "SBI Card IRCTC Platinum Plus",
+    "Bank/Issuer": "SBI Card",
+    "Card Type": "Travel",
+    "Annual Fee (INR)": 749,
+    "Network": "Mastercard",
+    "Key Benefits": "IRCTC plus"
+  },
+  {
+    "Card Name": "ICICI Diamant Plus Credit Card",
+    "Bank/Issuer": "ICICI Bank",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "Variable",
+    "Network": "Mastercard",
+    "Key Benefits": "Diamant plus"
+  },
+  {
+    "Card Name": "Axis Bank Magnus Burgundy Plus",
+    "Bank/Issuer": "Axis Bank",
+    "Card Type": "Super Premium",
+    "Annual Fee (INR)": "15,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Magnus burgundy plus"
+  },
+  {
+    "Card Name": "Kotak Mahindra Imperial Card",
+    "Bank/Issuer": "Kotak Bank",
+    "Card Type": "Super Premium",
+    "Annual Fee (INR)": "10,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Imperial benefits"
+  },
+  {
+    "Card Name": "IDFC FIRST Ashva Premium Card",
+    "Bank/Issuer": "IDFC Bank",
+    "Card Type": "Lifestyle",
+    "Annual Fee (INR)": "3,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Ashva premium"
+  },
+  {
+    "Card Name": "IndusInd Bank Heritage Plus Card",
+    "Bank/Issuer": "IndusInd Bank",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "7,500",
+    "Network": "Mastercard",
+    "Key Benefits": "Heritage plus"
+  },
+  {
+    "Card Name": "YES Bank Reserv Plus Credit Card",
+    "Bank/Issuer": "YES Bank",
+    "Card Type": "Super Premium",
+    "Annual Fee (INR)": "25,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Reserv plus"
+  },
+  {
+    "Card Name": "RBL Bank Platinum Elite Card",
+    "Bank/Issuer": "RBL Bank",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "3,500",
+    "Network": "Mastercard",
+    "Key Benefits": "Platinum elite"
+  },
+  {
+    "Card Name": "HSBC Premier Plus Credit Card",
+    "Bank/Issuer": "HSBC",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "4,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Premier plus"
+  },
+  {
+    "Card Name": "Standard Chartered Manhattan Plus",
+    "Bank/Issuer": "Standard Chartered",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "4,500",
+    "Network": "Mastercard",
+    "Key Benefits": "Manhattan plus"
+  },
+  {
+    "Card Name": "American Express Platinum Reserve",
+    "Bank/Issuer": "Amex",
+    "Card Type": "Super Premium",
+    "Annual Fee (INR)": "50,000",
+    "Network": "American Express",
+    "Key Benefits": "Platinum reserve"
+  },
+  {
+    "Card Name": "AU Bank Zenith Plus Credit Card",
+    "Bank/Issuer": "AU Bank",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "4,000",
+    "Network": "Visa",
+    "Key Benefits": "Zenith plus"
+  },
+  {
+    "Card Name": "Federal Bank Rainforest Plus Card",
+    "Bank/Issuer": "Federal Bank",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "3,500",
+    "Network": "Visa",
+    "Key Benefits": "Rainforest plus"
+  },
+  {
+    "Card Name": "BOB Emerald Plus Credit Card",
+    "Bank/Issuer": "Bank of Baroda",
+    "Card Type": "Mid-tier",
+    "Annual Fee (INR)": "2,500",
+    "Network": "Mastercard",
+    "Key Benefits": "Emerald plus"
+  },
+  {
+    "Card Name": "PNB Pride Platinum Plus Card",
+    "Bank/Issuer": "Punjab National Bank",
+    "Card Type": "Mid-tier",
+    "Annual Fee (INR)": "1,500",
+    "Network": "Mastercard",
+    "Key Benefits": "Pride platinum plus"
+  },
+  {
+    "Card Name": "Canara Bank Platinum Plus Card",
+    "Bank/Issuer": "Canara Bank",
+    "Card Type": "Mid-tier",
+    "Annual Fee (INR)": "1,500",
+    "Network": "Mastercard",
+    "Key Benefits": "Platinum plus"
+  },
+  {
+    "Card Name": "Union Bank Elite Credit Card",
+    "Bank/Issuer": "Union Bank",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "3,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Elite benefits"
+  },
+  {
+    "Card Name": "Indian Bank Premier Plus Card",
+    "Bank/Issuer": "Indian Bank",
+    "Card Type": "Mid-tier",
+    "Annual Fee (INR)": "1,500",
+    "Network": "Mastercard",
+    "Key Benefits": "Premier plus"
+  },
+  {
+    "Card Name": "SBI Card Aurum Plus",
+    "Bank/Issuer": "SBI Card",
+    "Card Type": "Super Premium",
+    "Annual Fee (INR)": "5,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Aurum plus"
+  },
+  {
+    "Card Name": "HDFC Infinia Reserve Credit Card",
+    "Bank/Issuer": "HDFC Bank",
+    "Card Type": "Super Premium",
+    "Annual Fee (INR)": "20,000",
+    "Network": "Visa",
+    "Key Benefits": "Infinia reserve"
+  },
+  {
+    "Card Name": "ICICI Emeralde Reserve Card",
+    "Bank/Issuer": "ICICI Bank",
+    "Card Type": "Super Premium",
+    "Annual Fee (INR)": "20,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Emeralde reserve"
+  },
+  {
+    "Card Name": "Axis Bank Atlas Premium Card",
+    "Bank/Issuer": "Axis Bank",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "7,500",
+    "Network": "Mastercard",
+    "Key Benefits": "Atlas premium"
+  },
+  {
+    "Card Name": "Kotak White Reserve Plus Card",
+    "Bank/Issuer": "Kotak Bank",
+    "Card Type": "Super Premium",
+    "Annual Fee (INR)": "10,000",
+    "Network": "Mastercard",
+    "Key Benefits": "White reserve plus"
+  },
+  {
+    "Card Name": "IDFC FIRST Wealth Plus Card",
+    "Bank/Issuer": "IDFC Bank",
+    "Card Type": "Super Premium",
+    "Annual Fee (INR)": "15,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Wealth plus"
+  },
+  {
+    "Card Name": "IndusInd Bank Crest Plus Card",
+    "Bank/Issuer": "IndusInd Bank",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "5,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Crest plus"
+  },
+  {
+    "Card Name": "YES Bank Marquee Reserv Card",
+    "Bank/Issuer": "YES Bank",
+    "Card Type": "Super Premium",
+    "Annual Fee (INR)": "20,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Marquee reserv"
+  },
+  {
+    "Card Name": "RBL Bank World Safari Plus Card",
+    "Bank/Issuer": "RBL Bank",
+    "Card Type": "Travel",
+    "Annual Fee (INR)": "5,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Safari plus"
+  },
+  {
+    "Card Name": "HSBC Visa Infinite Plus Card",
+    "Bank/Issuer": "HSBC",
+    "Card Type": "Super Premium",
+    "Annual Fee (INR)": "15,000",
+    "Network": "Mastercard",
+    "Key Benefits": "Infinite plus"
+  },
+  {
+    "Card Name": "Standard Chartered Platinum Rewards Plus",
+    "Bank/Issuer": "Standard Chartered",
+    "Card Type": "Mid-tier",
+    "Annual Fee (INR)": "2,500",
+    "Network": "Mastercard",
+    "Key Benefits": "Platinum rewards plus"
+  },
+  {
+    "Card Name": "American Express Gold Reserve",
+    "Bank/Issuer": "Amex",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "10,000",
+    "Network": "American Express",
+    "Key Benefits": "Gold reserve"
+  },
+  {
+    "Card Name": "AU Bank LIT Plus Credit Card",
+    "Bank/Issuer": "AU Bank",
+    "Card Type": "Youth",
+    "Annual Fee (INR)": 999,
+    "Network": "Visa",
+    "Key Benefits": "LIT plus"
+  },
+  {
+    "Card Name": "Federal Bank Signet Premium Card",
+    "Bank/Issuer": "Federal Bank",
+    "Card Type": "Mid-tier",
+    "Annual Fee (INR)": "1,200",
+    "Network": "Visa",
+    "Key Benefits": "Signet premium"
+  },
+  {
+    "Card Name": "BOB Prime Plus Credit Card",
+    "Bank/Issuer": "Bank of Baroda",
+    "Card Type": "Entry Level",
+    "Annual Fee (INR)": 750,
+    "Network": "Mastercard",
+    "Key Benefits": "Prime plus"
+  },
+  {
+    "Card Name": "PNB Classic Premium Credit Card",
+    "Bank/Issuer": "Punjab National Bank",
+    "Card Type": "Entry Level",
+    "Annual Fee (INR)": 500,
+    "Network": "Mastercard",
+    "Key Benefits": "Classic premium"
+  },
+  {
+    "Card Name": "Axis Bank Neo Plus Credit Card",
+    "Bank/Issuer": "Axis Bank",
+    "Card Type": "Entry Level",
+    "Annual Fee (INR)": 500,
+    "Network": "Mastercard",
+    "Key Benefits": "Neo plus"
+  },
+  {
+    "Card Name": "Kotak Essentia Plus Credit Card",
+    "Bank/Issuer": "Kotak Bank",
+    "Card Type": "Mid-tier",
+    "Annual Fee (INR)": 999,
+    "Network": "Mastercard",
+    "Key Benefits": "Essentia plus"
+  },
+  {
+    "Card Name": "IDFC FIRST Mayura Plus Card",
+    "Bank/Issuer": "IDFC Bank",
+    "Card Type": "Travel",
+    "Annual Fee (INR)": "Free",
+    "Network": "RuPay",
+    "Key Benefits": "Mayura plus"
+  }
+]
