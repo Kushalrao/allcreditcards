@@ -211,43 +211,23 @@ body {
     }
     
     .image-item {
+        /* MINIMAL TEST: Strip everything except essentials */
         width: 80vw;
         max-width: 320px;
         height: 200px;
-        border-radius: 13px;
-        cursor: pointer;
-        position: relative;
-        margin: 0 auto -100px auto; /* Center horizontally with auto margins, negative bottom spacing */
-        /* Critical for 3D: transform-style must be preserve-3d */
+        margin: 0 auto 20px auto;
+        background: red; /* Temporary - to see if card is rendering */
         transform-style: preserve-3d;
         -webkit-transform-style: preserve-3d;
-        transform-origin: center center;
-        transition: box-shadow 0.3s ease, margin-top 0.4s ease-out, margin-bottom 0.4s ease-out;
-        /* CRITICAL: will-change: transform can sometimes cause flattening - remove it */
-        /* will-change: transform; */
-        backface-visibility: visible; /* Changed to visible for debugging */
-        -webkit-backface-visibility: visible;
-        /* CRITICAL FIX: Both overflow: hidden AND clip-path flatten 3D in WebKit! */
-        /* Remove both and accept unclipped corners during 3D rotation, or use a wrapper */
-        /* overflow: hidden; */
-        /* clip-path: inset(0 round 13px); */
-        /* NO transform in CSS - let JavaScript handle it completely */
+        /* Remove ALL other properties that might flatten */
     }
     
-    /* Image inside card - must preserve 3D to rotate with parent */
+    /* Image inside card - also minimal */
     .image-item > img {
-        position: absolute;
-        top: 0;
-        left: 0;
         width: 100%;
         height: 100%;
-        object-fit: cover;
-        transform-style: preserve-3d;
-        -webkit-transform-style: preserve-3d;
-        backface-visibility: visible;
-        -webkit-backface-visibility: visible;
-        border-radius: 13px;
-        /* Ensure image rotates with parent - no own transform */
+        display: block;
+        /* Removed position: absolute and all transform-style */
     }
     
     /* Remove transition on transform for dynamic updates - update immediately */
