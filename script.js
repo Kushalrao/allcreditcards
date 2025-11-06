@@ -349,6 +349,9 @@ function setupMobileInteractions(canvas) {
         const viewportBottom = deviceHeight;
         const viewportHeight = viewportBottom - viewportTop;
         
+        // Track visible cards for logging
+        const visibleCards = [];
+        
         // Calculate positions directly from scroll and card index (no getBoundingClientRect)
         wrapperData.forEach(({ translateWrapper, rotateWrapper, imageItem, index }) => {
             if (!rotateWrapper || !imageItem) return;
@@ -394,10 +397,13 @@ function setupMobileInteractions(canvas) {
                 const bottomRotation = -39.0;
                 dynamicRotation = topRotation + normalizedPosition * (bottomRotation - topRotation);
                 
-                // DEBUG: Log rotation for first 5 cards
-                if (index < 5) {
-                    console.log(`Card ${index}: rotation=${dynamicRotation.toFixed(1)}deg, centerY=${currentCardCenterY.toFixed(1)}, scrollY=${scrollY.toFixed(1)}, normalized=${normalizedPosition.toFixed(3)}, visible=${isCardVisible}`);
-                }
+                // Track visible card for logging
+                visibleCards.push({
+                    index: index,
+                    rotation: dynamicRotation,
+                    centerY: currentCardCenterY,
+                    normalized: normalizedPosition
+                });
             } else {
                 // Card is outside viewport
                 if (currentCardBottom <= viewportTop) {
@@ -412,14 +418,18 @@ function setupMobileInteractions(canvas) {
             translateWrapper.style.webkitTransform = `translate3d(0, ${offsetY}px, 0)`;
             rotateWrapper.style.transform = `rotateX(${dynamicRotation}deg)`;
             rotateWrapper.style.webkitTransform = `rotateX(${dynamicRotation}deg)`;
-            
-            // Verify transform was applied (for debugging)
-            if (index < 3) {
-                const computedTransform = window.getComputedStyle(rotateWrapper).transform;
-                const isMatrix3d = computedTransform.includes('matrix3d');
-                console.log(`Card ${index}: Applied rotateX(${dynamicRotation}deg), Computed: ${computedTransform.substring(0, 50)}..., Is3D: ${isMatrix3d}`);
-            }
         });
+        
+        // Log viewport information
+        console.log(`\n=== VIEWPORT INFO (scrollY: ${scrollY.toFixed(1)}px) ===`);
+        console.log(`Cards in viewport: ${visibleCards.length}`);
+        if (visibleCards.length > 0) {
+            console.log('Visible cards and their rotations:');
+            visibleCards.forEach(card => {
+                console.log(`  Card ${card.index}: rotation=${card.rotation.toFixed(1)}deg, centerY=${card.centerY.toFixed(1)}, normalized=${card.normalized.toFixed(3)}`);
+            });
+        }
+        console.log('==========================================\n');
     };
     
     const updateScroll = () => {
