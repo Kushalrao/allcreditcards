@@ -859,4 +859,55 @@ if (document.readyState === 'loading') {
     setupMobileDynamicRotation();
 }
 
+// ============================================
+// SCROLL-BASED HEADER COLLAPSE
+// ============================================
+
+function setupHeaderCollapse() {
+    const canvasContainer = document.getElementById('canvasContainer');
+    const filtersContainer = document.getElementById('filtersContainer');
+    
+    if (!canvasContainer || !filtersContainer) return;
+    
+    let lastScrollTop = 0;
+    let ticking = false;
+    const scrollThreshold = 10; // Minimum scroll distance to trigger
+    
+    function updateHeader() {
+        const scrollTop = canvasContainer.scrollTop;
+        const scrollDifference = scrollTop - lastScrollTop;
+        
+        // Only update if scroll difference is significant
+        if (Math.abs(scrollDifference) > scrollThreshold) {
+            if (scrollDifference < 0) {
+                // Scrolling up (content moving down) - hide filters
+                filtersContainer.classList.add('hidden');
+            } else if (scrollDifference > 0) {
+                // Scrolling down (content moving up) - show filters
+                filtersContainer.classList.remove('hidden');
+            }
+            
+            lastScrollTop = scrollTop;
+        }
+        
+        ticking = false;
+    }
+    
+    function onScroll() {
+        if (!ticking) {
+            requestAnimationFrame(updateHeader);
+            ticking = true;
+        }
+    }
+    
+    canvasContainer.addEventListener('scroll', onScroll, { passive: true });
+}
+
+// Initialize header collapse
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupHeaderCollapse);
+} else {
+    setupHeaderCollapse();
+}
+
 
