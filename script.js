@@ -300,6 +300,9 @@ function setupMobileInteractions(canvas) {
     
     console.log('Setting up mobile interactions, found', imageItems.length, 'cards');
     
+    // Get all translate wrappers first
+    const translateWrappers = Array.from(canvas.querySelectorAll('.image-translate-wrapper'));
+    
     // Calculate total height needed for scrolling
     // Card height (200px) + spacing (-39px) = 161px per card
     const cardHeight = 200;
@@ -368,8 +371,7 @@ function setupMobileInteractions(canvas) {
     canvasContainer.addEventListener('touchmove', handleTouchMove, { passive: false });
     canvasContainer.addEventListener('touchend', handleTouchEnd, { passive: true });
     
-    // Get all translate wrappers and their inner elements
-    const translateWrappers = Array.from(canvas.querySelectorAll('.image-translate-wrapper'));
+    // Get all translate wrappers and their inner elements (already defined above)
     const wrapperData = translateWrappers.map((translateWrapper, index) => {
         const rotateWrapper = translateWrapper.querySelector('.image-rotate-wrapper');
         const imageItem = translateWrapper.querySelector('.image-item');
