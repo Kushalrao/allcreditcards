@@ -354,9 +354,9 @@ function setupMobileInteractions(canvas) {
         const viewportTop = 0;
         const viewportBottom = viewportHeight;
         
-        // Rotation values (reduced for less distortion with many cards)
-        const topRotation = -5.0;       // Items at top of viewport (nearly flat)
-        const bottomRotation = -25.0;   // Items entering from bottom (subtle angle)
+        // Rotation values (matching SwiftUI reference)
+        const topRotation = -10.0;      // Items at reference point (nearly flat)
+        const bottomRotation = -60.0;   // Items at max distance (angled away)
         
         // Card dimensions and spacing
         const cardHeight = 200;
@@ -431,13 +431,16 @@ function setupMobileInteractions(canvas) {
             let normalizedPosition = null;
             
             if (isInViewport) {
-                // Card is visible in viewport - linear interpolation
-                // Top of viewport (0): -5° (face-on, what you're looking at)
-                // Bottom of viewport (1): -25° (angled away, entering from below)
-                const cardPositionInViewport = cardCenterY - viewportTop;
-                normalizedPosition = Math.max(0, Math.min(1, cardPositionInViewport / viewportHeight));
+                // Card is visible in viewport - MATCHING SwiftUI implementation
+                // Reference point: 200px from top of screen (accounting for top padding)
+                const screenTop = 200;
+                const distanceFromTop = cardCenterY - screenTop;
                 
-                // Simple linear interpolation from top to bottom
+                // Normalize distance over 60% of viewport height (matching SwiftUI)
+                const maxDistance = viewportHeight * 0.6;
+                normalizedPosition = Math.max(0, Math.min(1, distanceFromTop / maxDistance));
+                
+                // Interpolate between -10° (at reference point) and -60° (at max distance)
                 dynamicRotation = topRotation + normalizedPosition * (bottomRotation - topRotation);
                 
                 // Track cards in viewport for debugging
@@ -446,6 +449,7 @@ function setupMobileInteractions(canvas) {
                     cardTop: cardTop.toFixed(1),
                     cardBottom: cardBottom.toFixed(1),
                     cardCenterY: cardCenterY.toFixed(1),
+                    distanceFromTop: distanceFromTop.toFixed(1),
                     normalizedPosition: normalizedPosition.toFixed(3),
                     rotation: dynamicRotation.toFixed(1)
                 });
@@ -463,15 +467,16 @@ function setupMobileInteractions(canvas) {
         
         // Log viewport cards (throttle to every 10th call to reduce noise)
         if (Math.random() < 0.1) {
-            console.log(`\n=== Viewport: 0 to ${viewportHeight.toFixed(0)}px, Cards in viewport: ${inViewportCards.length} ===`);
+            console.log(`\n=== Viewport: 0 to ${viewportHeight.toFixed(0)}px, Ref: 200px, Max Distance: ${(viewportHeight * 0.6).toFixed(0)}px ===`);
+            console.log(`Cards in viewport: ${inViewportCards.length}`);
             if (inViewportCards.length > 0) {
                 console.log('First 3 cards:');
                 inViewportCards.slice(0, 3).forEach(c => {
-                    console.log(`  Card ${c.index}: top=${c.cardTop}, center=${c.cardCenterY}, bottom=${c.cardBottom}, norm=${c.normalizedPosition}, rot=${c.rotation}°`);
+                    console.log(`  Card ${c.index}: center=${c.cardCenterY}, distFromRef=${c.distanceFromTop}, norm=${c.normalizedPosition}, rot=${c.rotation}°`);
                 });
                 console.log('Last 3 cards:');
                 inViewportCards.slice(-3).forEach(c => {
-                    console.log(`  Card ${c.index}: top=${c.cardTop}, center=${c.cardCenterY}, bottom=${c.cardBottom}, norm=${c.normalizedPosition}, rot=${c.rotation}°`);
+                    console.log(`  Card ${c.index}: center=${c.cardCenterY}, distFromRef=${c.distanceFromTop}, norm=${c.normalizedPosition}, rot=${c.rotation}°`);
                 });
             }
         }
