@@ -524,6 +524,13 @@ function filterGridByAI(recommendedCardNames, query) {
         }
         
         console.log(`Filtered to ${filteredData.length} AI-recommended cards`);
+        
+        // Re-apply mobile dynamic rotation after grid is remade
+        if (window.innerWidth <= 768) {
+            setTimeout(() => {
+                setupMobileDynamicRotation();
+            }, 400);
+        }
     }, 300);
 }
 
@@ -655,6 +662,13 @@ function applyFilter(filterType, filterValue) {
         }
         
         console.log(`Filtered to ${filteredData.length} cards`);
+        
+        // Re-apply mobile dynamic rotation after grid is remade
+        if (window.innerWidth <= 768) {
+            setTimeout(() => {
+                setupMobileDynamicRotation();
+            }, 400);
+        }
     }, 300); // Wait for fade out to complete
 }
 
@@ -759,6 +773,90 @@ if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initSearchBar);
 } else {
     initSearchBar();
+}
+
+// ============================================
+// MOBILE DYNAMIC ROTATION BASED ON SCROLL
+// ============================================
+
+let mobileRotationScrollHandler = null;
+let mobileRotationResizeHandler = null;
+
+function setupMobileDynamicRotation() {
+    const isMobile = window.innerWidth <= 768;
+    if (!isMobile) return;
+    
+    const canvasContainer = document.getElementById('canvasContainer');
+    if (!canvasContainer) return;
+    
+    // Remove previous listeners if any
+    if (mobileRotationScrollHandler) {
+        canvasContainer.removeEventListener('scroll', mobileRotationScrollHandler);
+    }
+    if (mobileRotationResizeHandler) {
+        window.removeEventListener('resize', mobileRotationResizeHandler);
+    }
+    
+    let ticking = false;
+    
+    function updateCardRotations() {
+        const viewportHeight = window.innerHeight;
+        const imageItems = document.querySelectorAll('.image-item');
+        
+        imageItems.forEach(item => {
+            const imageContainer = item.querySelector('.image-container');
+            if (!imageContainer) return;
+            
+            const rect = item.getBoundingClientRect();
+            const cardTop = rect.top;
+            const cardBottom = rect.bottom;
+            const cardCenter = cardTop + (rect.height / 2);
+            
+            // Only apply rotation if card is in viewport or near it
+            if (cardBottom > -100 && cardTop < viewportHeight + 100) {
+                // Calculate normalized position (0 = top, 1 = bottom)
+                const normalizedPosition = Math.max(0, Math.min(1, cardCenter / viewportHeight));
+                
+                // Interpolate rotation: top (0deg) to bottom (-40deg)
+                const rotation = -40 * normalizedPosition;
+                
+                // Apply rotation
+                imageContainer.style.transform = `rotateX(${rotation}deg)`;
+            }
+        });
+        
+        ticking = false;
+    }
+    
+    mobileRotationScrollHandler = function onScroll() {
+        if (!ticking) {
+            requestAnimationFrame(updateCardRotations);
+            ticking = true;
+        }
+    };
+    
+    mobileRotationResizeHandler = function onResize() {
+        const isMobileNow = window.innerWidth <= 768;
+        if (isMobileNow) {
+            updateCardRotations();
+        }
+    };
+    
+    // Initial rotation calculation
+    updateCardRotations();
+    
+    // Listen to scroll events
+    canvasContainer.addEventListener('scroll', mobileRotationScrollHandler, { passive: true });
+    
+    // Recalculate on window resize
+    window.addEventListener('resize', mobileRotationResizeHandler);
+}
+
+// Initialize mobile dynamic rotation
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupMobileDynamicRotation);
+} else {
+    setupMobileDynamicRotation();
 }
 
 
