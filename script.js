@@ -399,15 +399,17 @@ function setupMobileInteractions(canvas) {
                 return;
             }
             
-            // Calculate card position considering scroll
-            const baseCardPosition = index * (cardHeight + cardSpacing);
-            const currentCardPosition = baseCardPosition - scrollY;
-            const cardCenterY = currentCardPosition + cardHeight / 2;
-            const distanceFromTop = cardCenterY - screenTop;
+            // Calculate card position relative to viewport (not total list height)
+            const cardRect = imageItem.getBoundingClientRect();
+            const cardCenterY = cardRect.top + cardRect.height / 2;
+            const viewportTop = screenTop; // Top of visible area
+            const viewportBottom = deviceHeight; // Bottom of viewport
+            const distanceFromTop = cardCenterY - viewportTop;
             
-            // Normalize distance for rotation interpolation
-            const maxDistance = deviceHeight * 0.6;
-            const normalizedDistance = Math.max(0, Math.min(1, distanceFromTop / maxDistance));
+            // Normalize distance based on viewport height only
+            // Cards rotate from -10° (at top) to -39° (at bottom of viewport)
+            const viewportHeight = viewportBottom - viewportTop;
+            const normalizedDistance = Math.max(0, Math.min(1, distanceFromTop / viewportHeight));
             
             // Interpolate between -10° (top) and -39° (bottom)
             const topRotation = -10.0;
