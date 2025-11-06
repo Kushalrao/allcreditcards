@@ -308,7 +308,11 @@ body {
     }
     
     .image-item {
-        margin: 0 auto 41px auto;
+        margin: -200px auto 0 auto;
+    }
+    
+    .image-item:first-child {
+        margin-top: 0;
     }
     
     .search-bar {
