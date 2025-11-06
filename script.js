@@ -25,21 +25,53 @@ const GAP = 43; // Gap between images (consistent horizontal and vertical)
 async function loadCardData() {
     try {
         const response = await fetch('data.txt');
-        const text = await response.text();
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const text = await response.text().trim();
+        
+        // Check if file is empty
+        if (!text || text.length === 0) {
+            throw new Error('data.txt is empty');
+        }
+        
+        // Try to parse JSON
         cardData = JSON.parse(text);
+        
+        // Validate it's an array
+        if (!Array.isArray(cardData)) {
+            throw new Error('data.txt does not contain a valid JSON array');
+        }
+        
         console.log(`Loaded ${cardData.length} credit cards from data.txt`);
         return cardData;
     } catch (error) {
         console.error('Error loading card data:', error);
-        // Fallback: create empty array or use image paths
-        return [];
+        throw error; // Re-throw to let caller handle
     }
 }
 
 // Initialize canvas
 async function initCanvas() {
-    // Load card data first
-    await loadCardData();
+    try {
+        // Load card data first
+        await loadCardData();
+        
+        // If no data loaded, show error
+        if (cardData.length === 0) {
+            console.error('No card data loaded. Check data.txt file.');
+            const canvas = document.getElementById('canvas');
+            canvas.innerHTML = '<div style="padding: 50px; text-align: center; color: #999;">No card data found. Please check data.txt file.</div>';
+            return;
+        }
+    } catch (error) {
+        console.error('Failed to initialize:', error);
+        const canvas = document.getElementById('canvas');
+        canvas.innerHTML = '<div style="padding: 50px; text-align: center; color: #999;">Error loading card data. Check console for details.</div>';
+        return;
+    }
     
     const canvas = document.getElementById('canvas');
     const canvasContainer = document.getElementById('canvasContainer');
