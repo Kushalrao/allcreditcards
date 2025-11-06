@@ -399,22 +399,48 @@ function setupMobileInteractions(canvas) {
                 return;
             }
             
-            // Calculate card position relative to viewport (not total list height)
+            // Calculate card position relative to viewport
             const cardRect = imageItem.getBoundingClientRect();
+            const cardTop = cardRect.top;
+            const cardBottom = cardRect.bottom;
             const cardCenterY = cardRect.top + cardRect.height / 2;
-            const viewportTop = screenTop; // Top of visible area
+            
+            // Viewport boundaries
+            const viewportTop = screenTop; // Top of visible area (200px from top)
             const viewportBottom = deviceHeight; // Bottom of viewport
-            const distanceFromTop = cardCenterY - viewportTop;
+            const viewportHeight = viewportBottom - viewportTop; // Actual visible height
             
-            // Normalize distance based on viewport height only
-            // Cards rotate from -10° (at top) to -39° (at bottom of viewport)
-            const viewportHeight = viewportBottom - viewportTop;
-            const normalizedDistance = Math.max(0, Math.min(1, distanceFromTop / viewportHeight));
+            // Check if card is visible in viewport
+            const isCardVisible = cardBottom > viewportTop && cardTop < viewportBottom;
             
-            // Interpolate between -10° (top) and -39° (bottom)
+            if (!isCardVisible) {
+                // Card is outside viewport - don't rotate (or set to default)
+                // Cards above viewport: less rotation, cards below: more rotation
+                if (cardBottom <= viewportTop) {
+                    // Card is above viewport (exited top) - use top rotation
+                    rotateWrapper.style.transform = `rotateX(-10deg)`;
+                    rotateWrapper.style.webkitTransform = `rotateX(-10deg)`;
+                } else {
+                    // Card is below viewport (entering from bottom) - use bottom rotation
+                    rotateWrapper.style.transform = `rotateX(-39deg)`;
+                    rotateWrapper.style.webkitTransform = `rotateX(-39deg)`;
+                }
+                translateWrapper.style.transform = `translate3d(0, ${offsetY}px, 0)`;
+                translateWrapper.style.webkitTransform = `translate3d(0, ${offsetY}px, 0)`;
+                return;
+            }
+            
+            // Card is visible - calculate rotation based on viewport position
+            // Card center Y position relative to viewport top
+            const distanceFromViewportTop = cardCenterY - viewportTop;
+            
+            // Normalize: 0 = at top of viewport, 1 = at bottom of viewport
+            const normalizedPosition = Math.max(0, Math.min(1, distanceFromViewportTop / viewportHeight));
+            
+            // Interpolate rotation: -10° at top of viewport, -39° at bottom of viewport
             const topRotation = -10.0;
             const bottomRotation = -39.0;
-            const dynamicRotation = topRotation + normalizedDistance * (bottomRotation - topRotation);
+            const dynamicRotation = topRotation + normalizedPosition * (bottomRotation - topRotation);
             
             // Apply transforms to separate wrappers
             translateWrapper.style.transform = `translate3d(0, ${offsetY}px, 0)`;
