@@ -148,8 +148,8 @@ function createGrid(canvas) {
     console.log('Image paths:', imagePaths);
     
     if (isMobile) {
-        // Mobile: Create vertical stack with 100 cards (repeating the 8 images)
-        const totalCards = 100;
+        // Mobile: Create vertical stack with 5 cards (repeating the 8 images)
+        const totalCards = 5;
         for (let i = 0; i < totalCards; i++) {
             // Cycle through images
             const imagePath = imagePaths[i % imagePaths.length];
@@ -414,9 +414,9 @@ function setupMobileInteractions(canvas) {
                 const clampedPosition = Math.max(0, Math.min(viewportHeight, cardPositionInViewport));
                 normalizedPosition = clampedPosition / viewportHeight;
                 
-                // Interpolate: -10° at top of viewport, -39° at bottom of viewport
+                // Interpolate: -10° at top of viewport, -60° at bottom of viewport (matching SwiftUI exactly)
                 const topRotation = -10.0;
-                const bottomRotation = -39.0;
+                const bottomRotation = -60.0;
                 dynamicRotation = topRotation + normalizedPosition * (bottomRotation - topRotation);
                 
                 // Track visible card for logging
@@ -431,7 +431,7 @@ function setupMobileInteractions(canvas) {
                 if (currentCardBottom <= viewportTop) {
                     dynamicRotation = -10.0; // Above viewport
                 } else {
-                    dynamicRotation = -39.0; // Below viewport
+                    dynamicRotation = -60.0; // Below viewport (matching SwiftUI)
                 }
             }
             
