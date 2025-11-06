@@ -406,6 +406,7 @@ function setupMobileInteractions(canvas) {
         });
         
         // Second pass: Read positions for cards in range (batch read)
+        const inViewportCards = [];
         cardsToUpdate.forEach(({ translateWrapper, rotateWrapper, imageItem, index, offsetY }) => {
             // Get actual viewport position using getBoundingClientRect (only for cards in range)
             const rect = imageItem.getBoundingClientRect();
@@ -419,16 +420,27 @@ function setupMobileInteractions(canvas) {
             const isInViewport = !isAboveViewport && !isBelowViewport;
             
             let dynamicRotation;
+            let normalizedPosition = null;
             
             if (isInViewport) {
                 // Card is visible in viewport - linear interpolation
                 // Top of viewport (0): -10° (face-on, what you're looking at)
                 // Bottom of viewport (1): -60° (angled away, entering from below)
                 const cardPositionInViewport = cardCenterY - viewportTop;
-                const normalizedPosition = Math.max(0, Math.min(1, cardPositionInViewport / viewportHeight));
+                normalizedPosition = Math.max(0, Math.min(1, cardPositionInViewport / viewportHeight));
                 
                 // Simple linear interpolation from top to bottom
                 dynamicRotation = topRotation + normalizedPosition * (bottomRotation - topRotation);
+                
+                // Track cards in viewport for debugging
+                inViewportCards.push({
+                    index,
+                    cardTop: cardTop.toFixed(1),
+                    cardBottom: cardBottom.toFixed(1),
+                    cardCenterY: cardCenterY.toFixed(1),
+                    normalizedPosition: normalizedPosition.toFixed(3),
+                    rotation: dynamicRotation.toFixed(1)
+                });
             } else {
                 // Card is outside viewport - use bottom rotation
                 dynamicRotation = bottomRotation;
@@ -440,6 +452,16 @@ function setupMobileInteractions(canvas) {
             rotateWrapper.style.transform = `rotateX(${dynamicRotation}deg)`;
             rotateWrapper.style.webkitTransform = `rotateX(${dynamicRotation}deg)`;
         });
+        
+        // Log viewport cards (throttle to every 10th call to reduce noise)
+        if (Math.random() < 0.1) {
+            console.log(`Viewport: 0 to ${viewportHeight.toFixed(0)}px`);
+            console.log(`Cards in viewport: ${inViewportCards.length}`);
+            if (inViewportCards.length > 0) {
+                console.log('First 3 visible cards:', inViewportCards.slice(0, 3));
+                console.log('Last 3 visible cards:', inViewportCards.slice(-3));
+            }
+        }
     };
     
     const updateScroll = () => {
