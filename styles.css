@@ -219,9 +219,11 @@ body {
     }
     
     .image-rotate-wrapper {
+        height: 200px;
         transform-style: preserve-3d;
         -webkit-transform-style: preserve-3d;
         /* This wrapper handles rotateX */
+        /* Fixed height prevents bounding box expansion from rotation */
     }
     
     .image-item {
