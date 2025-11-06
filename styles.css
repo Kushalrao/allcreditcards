@@ -227,9 +227,10 @@ body {
         will-change: transform;
         backface-visibility: visible; /* Changed to visible for debugging */
         -webkit-backface-visibility: visible;
-        /* CRITICAL: overflow: hidden flattens 3D! Use clip-path instead */
+        /* CRITICAL FIX: Both overflow: hidden AND clip-path flatten 3D in WebKit! */
+        /* Remove both and accept unclipped corners during 3D rotation, or use a wrapper */
         /* overflow: hidden; */
-        clip-path: inset(0 round 13px);
+        /* clip-path: inset(0 round 13px); */
         /* NO transform in CSS - let JavaScript handle it completely */
     }
     
