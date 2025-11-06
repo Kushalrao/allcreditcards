@@ -195,8 +195,8 @@ body {
         -webkit-perspective-origin: 50% 50%;
         transform-style: preserve-3d;
         -webkit-transform-style: preserve-3d;
-        /* This will be transformed for scrolling instead of using overflow */
-        will-change: transform;
+        /* TEMPORARILY: No transform on wrapper to test if it's causing flattening */
+        /* will-change: transform; */
     }
     
     .canvas {
@@ -208,6 +208,7 @@ body {
         height: auto;
         transform-style: preserve-3d;
         -webkit-transform-style: preserve-3d;
+        /* TESTING: Check if flex causes flattening - might need to use block instead */
     }
     
     .image-item {
@@ -226,7 +227,7 @@ body {
         will-change: transform;
         backface-visibility: visible; /* Changed to visible for debugging */
         -webkit-backface-visibility: visible;
-        /* CRITICAL FIX: overflow: hidden flattens 3D transforms! Use clip-path instead */
+        /* CRITICAL: overflow: hidden flattens 3D! Use clip-path instead */
         /* overflow: hidden; */
         clip-path: inset(0 round 13px);
         /* NO transform in CSS - let JavaScript handle it completely */

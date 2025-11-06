@@ -326,8 +326,9 @@ function setupMobileInteractions(canvas) {
     canvasContainer.addEventListener('touchend', handleTouchEnd, { passive: true });
     
     const updateScroll = () => {
-        // Transform the wrapper to simulate scrolling
-        canvasWrapper.style.transform = `translateY(-${scrollY}px)`;
+        // TEMPORARILY DISABLED: Transform the wrapper to simulate scrolling
+        // This might be causing flattening - testing without it first
+        // canvasWrapper.style.transform = `translateY(-${scrollY}px)`;
         // COMMENTED OUT: Dynamic rotation on scroll - testing static 3D first
         // updateCardRotations(imageItems, scrollY, tappedCardId);
     };
@@ -336,8 +337,10 @@ function setupMobileInteractions(canvas) {
     // This is the first step - get basic 3D rotation working before adding dynamic scroll rotation
     imageItems.forEach((item, index) => {
         const offsetY = index * 8;
-        // Set a static -30deg rotation to test 3D
-        const testTransform = `translate3d(0, ${offsetY}px, 0) rotateX(-30deg)`;
+        
+        // TEST: Try different approaches to force 3D
+        // Approach 1: Use perspective() function in transform
+        const testTransform = `perspective(1000px) translate3d(0, ${offsetY}px, 0) rotateX(-30deg)`;
         item.style.transform = testTransform;
         item.style.webkitTransform = testTransform;
         
@@ -345,19 +348,42 @@ function setupMobileInteractions(canvas) {
         item.style.transformStyle = 'preserve-3d';
         item.style.webkitTransformStyle = 'preserve-3d';
         
+        // Also ensure parent elements have preserve-3d
+        const canvasEl = item.closest('.canvas');
+        if (canvasEl) {
+            canvasEl.style.transformStyle = 'preserve-3d';
+            canvasEl.style.webkitTransformStyle = 'preserve-3d';
+        }
+        const wrapperEl = item.closest('.canvas-wrapper');
+        if (wrapperEl) {
+            wrapperEl.style.transformStyle = 'preserve-3d';
+            wrapperEl.style.webkitTransformStyle = 'preserve-3d';
+        }
+        
         // DEBUG: Log to verify transform is applied
         console.log(`Card ${index}: Applied transform:`, testTransform);
-        const computedTransform = window.getComputedStyle(item).transform;
-        console.log(`Card ${index}: Computed transform:`, computedTransform);
         
-        // Check if it's a 3D matrix
-        const is3D = computedTransform.includes('matrix3d') || 
-                     (computedTransform.includes('matrix') && computedTransform.split(',').length > 6);
-        console.log(`Card ${index}: Is 3D transform:`, is3D);
-        
-        // Also log the computed transform-style
-        const computedTransformStyle = window.getComputedStyle(item).transformStyle;
-        console.log(`Card ${index}: Computed transform-style:`, computedTransformStyle);
+        // Wait a frame before checking computed styles
+        requestAnimationFrame(() => {
+            const computedTransform = window.getComputedStyle(item).transform;
+            console.log(`Card ${index}: Computed transform:`, computedTransform);
+            
+            // Check if it's a 3D matrix
+            const is3D = computedTransform.includes('matrix3d') || 
+                         (computedTransform.includes('matrix') && computedTransform.split(',').length > 6);
+            console.log(`Card ${index}: Is 3D transform:`, is3D);
+            
+            // Also log the computed transform-style
+            const computedTransformStyle = window.getComputedStyle(item).transformStyle;
+            console.log(`Card ${index}: Computed transform-style:`, computedTransformStyle);
+            
+            // Log parent transform-style too
+            if (wrapperEl) {
+                const wrapperTransformStyle = window.getComputedStyle(wrapperEl).transformStyle;
+                const wrapperPerspective = window.getComputedStyle(wrapperEl).perspective;
+                console.log(`Card ${index}: Wrapper transform-style:`, wrapperTransformStyle, 'perspective:', wrapperPerspective);
+            }
+        });
     });
     
     // Initial update - just set wrapper position, no rotation update
