@@ -270,11 +270,16 @@ function setupMobileInteractions(canvas) {
         item.style.transformStyle = 'preserve-3d';
         item.style.webkitTransformStyle = 'preserve-3d';
         
-        // Also ensure parent has preserve-3d
+        // Also ensure all parents have preserve-3d
         const canvas = item.closest('.canvas');
         if (canvas) {
             canvas.style.transformStyle = 'preserve-3d';
             canvas.style.webkitTransformStyle = 'preserve-3d';
+        }
+        const wrapper = item.closest('.canvas-wrapper');
+        if (wrapper) {
+            wrapper.style.transformStyle = 'preserve-3d';
+            wrapper.style.webkitTransformStyle = 'preserve-3d';
         }
         
         // DEBUG: Log to verify transform is applied
@@ -287,12 +292,12 @@ function setupMobileInteractions(canvas) {
                      (computedTransform.includes('matrix') && computedTransform.split(',').length > 6);
         console.log(`Card ${index}: Is 3D transform:`, is3D);
         
-        // Verify perspective is set on container
-        const container = document.getElementById('canvasContainer');
-        if (container) {
-            const perspective = window.getComputedStyle(container).perspective;
-            const transformStyle = window.getComputedStyle(container).transformStyle;
-            console.log(`Card ${index}: Container perspective:`, perspective, 'transform-style:', transformStyle);
+        // Verify perspective is set on wrapper
+        const wrapperEl = document.getElementById('canvasWrapper');
+        if (wrapperEl) {
+            const perspective = window.getComputedStyle(wrapperEl).perspective;
+            const transformStyle = window.getComputedStyle(wrapperEl).transformStyle;
+            console.log(`Card ${index}: Wrapper perspective:`, perspective, 'transform-style:', transformStyle);
         }
     });
     

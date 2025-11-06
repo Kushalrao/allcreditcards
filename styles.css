@@ -180,14 +180,21 @@ body {
         scroll-behavior: smooth;
         -webkit-overflow-scrolling: touch;
         overscroll-behavior-y: contain;
-        /* CRITICAL: Perspective must be on the scrolling container for 3D to work */
+        /* Overflow creates flattening - we'll handle 3D in wrapper */
+    }
+    
+    /* Wrapper inside container - this has perspective and preserves 3D */
+    .canvas-wrapper {
+        /* CRITICAL: Perspective must be on a non-overflow parent for 3D to work */
         perspective: 1000px;
         perspective-origin: 50% 50%;
         -webkit-perspective: 1000px;
         -webkit-perspective-origin: 50% 50%;
-        /* CRITICAL: Preserve 3D context even with overflow */
         transform-style: preserve-3d;
         -webkit-transform-style: preserve-3d;
+        /* Force 3D rendering context */
+        transform: translateZ(0);
+        -webkit-transform: translateZ(0);
     }
     
     .canvas {
