@@ -1,4 +1,4 @@
-// Version: 2025-01-15-v3 - Fixed rotation at -30deg baseline
+// Version: 2025-01-15-v4 - No rotation, mobile and desktop same structure
 // Image paths from Assets folder
 const imagePaths = [
     'Assets/1.png',
@@ -155,14 +155,11 @@ function createGrid(canvas) {
             const imagePath = imagePaths[i % imagePaths.length];
             usedImages.add(imagePath);
             
-            // Create image item directly (no wrapper needed)
+            // Create image item (same structure as desktop)
             const imageItem = createImageItem(imagePath, 0, i);
             imageItem.dataset.cardIndex = i;
             canvas.appendChild(imageItem);
         }
-        
-        // Setup mobile interactions
-        setupMobileInteractions(canvas);
     } else {
         // Desktop: Create grid
         for (let row = 0; row < GRID_ROWS; row++) {
@@ -182,215 +179,34 @@ function createGrid(canvas) {
     console.log('Images used in grid:', usedImages.size, 'out of', imagePaths.length);
 }
 
-// Create an image item element
+// Create an image item element (same for mobile and desktop)
 function createImageItem(imagePath, row, col) {
-    const isMobile = window.innerWidth <= 768;
+    const imageItem = document.createElement('div');
+    imageItem.className = 'image-item';
+    imageItem.dataset.imagePath = imagePath;
+    imageItem.dataset.row = row;
+    imageItem.dataset.col = col;
     
-    // For mobile: Use wrapper approach for 3D
-    if (isMobile) {
-        // Outer wrapper for translation
-        const translateWrapper = document.createElement('div');
-        translateWrapper.className = 'image-translate-wrapper';
-        
-        // Inner wrapper for rotation
-        const rotateWrapper = document.createElement('div');
-        rotateWrapper.className = 'image-rotate-wrapper';
-        
-        // The actual image item
-        const imageItem = document.createElement('div');
-        imageItem.className = 'image-item';
-        imageItem.dataset.imagePath = imagePath;
-        imageItem.dataset.row = row;
-        imageItem.dataset.col = col;
-        
-        const img = document.createElement('img');
-        const pathParts = imagePath.split('/');
-        const encodedPath = pathParts.map(part => encodeURIComponent(part)).join('/');
-        img.src = encodedPath;
-        img.alt = imagePath.split('/').pop();
-        img.loading = 'lazy';
-        
-        img.onload = () => {
-            imageItem.classList.add('visible');
-        };
-        
-        img.onerror = (e) => {
-            console.error('Failed to load image:', imagePath);
-            imageItem.style.background = '#e5e5e5';
-            imageItem.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #999;">Image not found</div>';
-        };
-        
-        imageItem.appendChild(img);
-        rotateWrapper.appendChild(imageItem);
-        translateWrapper.appendChild(rotateWrapper);
-        
-        // Mobile: NO tap interaction here - handled in setupMobileInteractions()
-        
-        return translateWrapper;
-    } else {
-        // Desktop: Original structure
-        const imageItem = document.createElement('div');
-        imageItem.className = 'image-item';
-        imageItem.dataset.imagePath = imagePath;
-        imageItem.dataset.row = row;
-        imageItem.dataset.col = col;
-        
-        const img = document.createElement('img');
-        const pathParts = imagePath.split('/');
-        const encodedPath = pathParts.map(part => encodeURIComponent(part)).join('/');
-        img.src = encodedPath;
-        img.alt = imagePath.split('/').pop();
-        img.loading = 'lazy';
-        
-        img.onload = () => {
-            imageItem.classList.add('visible');
-        };
-        
-        img.onerror = (e) => {
-            console.error('Failed to load image:', imagePath);
-            imageItem.style.background = '#e5e5e5';
-            imageItem.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #999;">Image not found</div>';
-        };
-        
-        imageItem.appendChild(img);
-        setup3DRotation(imageItem);
-        
-        return imageItem;
-    }
-}
-
-// Setup mobile interactions - FIXED ROTATION ONLY
-function setupMobileInteractions(canvas) {
-    // CRITICAL: Only run on mobile
-    if (window.innerWidth > 768) {
-        console.warn('[MOBILE SETUP] Called on desktop - skipping');
-        return;
-    }
+    const img = document.createElement('img');
+    const pathParts = imagePath.split('/');
+    const encodedPath = pathParts.map(part => encodeURIComponent(part)).join('/');
+    img.src = encodedPath;
+    img.alt = imagePath.split('/').pop();
+    img.loading = 'lazy';
     
-    const translateWrappers = Array.from(canvas.querySelectorAll('.image-translate-wrapper'));
-    let tappedCardId = null;
-    const FIXED_ROTATION = -30.0;
+    img.onload = () => {
+        imageItem.classList.add('visible');
+    };
     
-    console.log(`[MOBILE SETUP] Found ${translateWrappers.length} cards - applying FIXED ${FIXED_ROTATION}° rotation to ALL`);
-    console.log(`[MOBILE SETUP] NO scroll listeners will be added`);
+    img.onerror = (e) => {
+        console.error('Failed to load image:', imagePath);
+        imageItem.style.background = '#e5e5e5';
+        imageItem.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #999;">Image not found</div>';
+    };
     
-    // Apply fixed rotation to all cards ONCE - no scroll listeners
-    translateWrappers.forEach((translateWrapper, index) => {
-        const rotateWrapper = translateWrapper.querySelector('.image-rotate-wrapper');
-        const imageItem = translateWrapper.querySelector('.image-item');
-        
-        if (!rotateWrapper || !imageItem) {
-            console.error(`[ERROR] Card ${index}: Missing wrapper or item`);
-            return;
-        }
-        
-        const offsetY = index * 8;
-        
-        // CRITICAL: Remove any existing transforms first
-        rotateWrapper.style.removeProperty('transform');
-        rotateWrapper.style.removeProperty('-webkit-transform');
-        translateWrapper.style.removeProperty('transform');
-        translateWrapper.style.removeProperty('-webkit-transform');
-        
-        // Apply fixed transforms - SET ONCE, NEVER CHANGE
-        translateWrapper.style.transform = `translate3d(0, ${offsetY}px, 0)`;
-        translateWrapper.style.webkitTransform = `translate3d(0, ${offsetY}px, 0)`;
-        rotateWrapper.style.transform = `rotateX(${FIXED_ROTATION}deg)`;
-        rotateWrapper.style.webkitTransform = `rotateX(${FIXED_ROTATION}deg)`;
-        
-        // Store expected rotation value for monitoring
-        rotateWrapper.dataset.expectedRotation = FIXED_ROTATION;
-        rotateWrapper.dataset.isFixed = 'true';
-        
-        // Monitor if transform changes (to detect if something else is modifying it)
-        if (index === 0) {
-            const checkTransform = () => {
-                const currentTransform = rotateWrapper.style.transform;
-                const computedTransform = window.getComputedStyle(rotateWrapper).transform;
-                if (!currentTransform.includes(`${FIXED_ROTATION}deg`) && !imageItem.classList.contains('tapped')) {
-                    console.warn(`[WARNING] Card 0 transform changed!`);
-                    console.warn(`  Inline style: ${currentTransform}`);
-                    console.warn(`  Computed style: ${computedTransform}`);
-                    console.warn(`  Expected: rotateX(${FIXED_ROTATION}deg)`);
-                }
-            };
-            // Check periodically
-            setInterval(checkTransform, 1000);
-        }
-        
-        // Verify it was set
-        if (index < 3) {
-            const computed = window.getComputedStyle(rotateWrapper).transform;
-            console.log(`[CARD ${index}] Set rotation to ${FIXED_ROTATION}°, computed: ${computed}`);
-        }
-        
-        // Handle tap interaction - ONLY changes tapped card to 0°, rest stay at FIXED_ROTATION
-        imageItem.addEventListener('click', () => {
-            // Toggle tapped state
-            if (tappedCardId === imageItem.dataset.imagePath) {
-                // Untap: restore to fixed rotation
-                tappedCardId = null;
-                imageItem.classList.remove('tapped');
-                rotateWrapper.style.transform = `rotateX(${FIXED_ROTATION}deg)`;
-                rotateWrapper.style.webkitTransform = `rotateX(${FIXED_ROTATION}deg)`;
-            } else {
-                // Tap: set all others to fixed rotation, this one to 0°
-                translateWrappers.forEach((tw) => {
-                    const rw = tw.querySelector('.image-rotate-wrapper');
-                    const ii = tw.querySelector('.image-item');
-                    ii.classList.remove('tapped');
-                    rw.style.transform = `rotateX(${FIXED_ROTATION}deg)`;
-                    rw.style.webkitTransform = `rotateX(${FIXED_ROTATION}deg)`;
-                });
-                
-                tappedCardId = imageItem.dataset.imagePath;
-                imageItem.classList.add('tapped');
-                rotateWrapper.style.transform = `rotateX(0deg)`;
-                rotateWrapper.style.webkitTransform = `rotateX(0deg)`;
-            }
-            
-            if (navigator.vibrate) {
-                navigator.vibrate(10);
-            }
-        });
-    });
+    imageItem.appendChild(img);
     
-    // CRITICAL: Verify NO scroll listeners exist
-    console.log(`[MOBILE SETUP] Complete - NO scroll listeners should exist`);
-    console.log(`[VERIFY] Check browser console - if you see rotation changing on scroll, something else is modifying transforms`);
-}
-
-// Setup interactive 3D rotation based on cursor position
-function setup3DRotation(imageItem) {
-    const maxRotation = 13; // Maximum rotation in degrees
-    
-    imageItem.addEventListener('mousemove', (e) => {
-        const rect = imageItem.getBoundingClientRect();
-        const centerX = rect.left + rect.width / 2;
-        const centerY = rect.top + rect.height / 2;
-        
-        // Calculate mouse position relative to card center
-        const mouseX = e.clientX - centerX;
-        const mouseY = e.clientY - centerY;
-        
-        // Calculate rotation angles (normalized to -1 to 1, then multiplied by maxRotation)
-        // Clamp values to ensure they don't exceed maxRotation
-        const rotateY = Math.max(-maxRotation, Math.min(maxRotation, (mouseX / (rect.width / 2)) * maxRotation));
-        const rotateX = Math.max(-maxRotation, Math.min(maxRotation, -(mouseY / (rect.height / 2)) * maxRotation));
-        
-        // Apply 3D rotation with scale - using translateZ for better 3D effect
-        imageItem.style.transform = `perspective(1000px) scale(1.02) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(10px)`;
-    });
-    
-    imageItem.addEventListener('mouseleave', () => {
-        // Reset to default state when mouse leaves
-        imageItem.style.transform = 'perspective(1000px) scale(1) rotateX(0deg) rotateY(0deg) translateZ(0px)';
-    });
-    
-    imageItem.addEventListener('mouseenter', () => {
-        // Slight scale on enter
-        imageItem.style.transform = 'perspective(1000px) scale(1.02) rotateX(0deg) rotateY(0deg) translateZ(0px)';
-    });
+    return imageItem;
 }
 
 // Initialize when DOM is ready
