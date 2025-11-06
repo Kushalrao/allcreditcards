@@ -81,14 +81,48 @@ body {
     border-radius: inherit;
 }
 
+/* Card information overlay */
+.card-info-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 0 12px 12px 12px;
+    pointer-events: none;
+}
+
+.card-name {
+    font-size: 13px;
+    color: rgba(0, 0, 0, 0.79);
+    margin-top: 9px;
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+.card-network {
+    font-size: 9px;
+    color: rgba(0, 0, 0, 0.60);
+    margin-top: 5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
 /* Mobile specific image styling */
 @media (max-width: 768px) {
+    .image-item {
+        position: relative;
+    }
+    
     .image-item img {
         width: 100%;
         height: 100%;
         object-fit: cover;
         display: block;
-        position: relative;
+        position: absolute;
+        top: 0;
+        left: 0;
         border-radius: 13px;
     }
 }

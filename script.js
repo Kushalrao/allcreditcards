@@ -1,5 +1,5 @@
-// Version: 2025-01-15-v4 - No rotation, mobile and desktop same structure
-// Image paths from Assets folder
+// Version: 2025-01-15-v5 - Load card data from data.txt and display card names/networks
+// Image paths from Assets folder (will cycle through for cards)
 const imagePaths = [
     'Assets/1.png',
     'Assets/2.png',
@@ -11,6 +11,9 @@ const imagePaths = [
     'Assets/8.png'
 ];
 
+// Card data will be loaded from data.txt
+let cardData = [];
+
 // Grid configuration
 const GRID_COLS = 20; // Number of columns
 const GRID_ROWS = 20; // Number of rows
@@ -18,8 +21,26 @@ const IMAGE_WIDTH = 218; // Width of each image in pixels (67% of 325px)
 const IMAGE_HEIGHT = 134; // Height of each image in pixels (67% of 200px)
 const GAP = 43; // Gap between images (consistent horizontal and vertical)
 
+// Load card data from data.txt
+async function loadCardData() {
+    try {
+        const response = await fetch('data.txt');
+        const text = await response.text();
+        cardData = JSON.parse(text);
+        console.log(`Loaded ${cardData.length} credit cards from data.txt`);
+        return cardData;
+    } catch (error) {
+        console.error('Error loading card data:', error);
+        // Fallback: create empty array or use image paths
+        return [];
+    }
+}
+
 // Initialize canvas
-function initCanvas() {
+async function initCanvas() {
+    // Load card data first
+    await loadCardData();
+    
     const canvas = document.getElementById('canvas');
     const canvasContainer = document.getElementById('canvasContainer');
     const isMobile = window.innerWidth <= 768;
@@ -29,11 +50,8 @@ function initCanvas() {
         canvas.style.width = '100%';
         canvas.style.height = 'auto';
         
-        // Create vertical stack of 8 images
+        // Create vertical stack based on card data
         createGrid(canvas);
-        
-        // Setup mobile interactions
-        setupMobileInteractions(canvas);
     } else {
         // Desktop: Calculate total dimensions
         const totalWidth = GRID_COLS * (IMAGE_WIDTH + GAP) + GAP;
@@ -138,60 +156,64 @@ function setupSmoothScrolling(canvasContainer) {
 }
 
 
-// Create grid of images
+// Create grid of images based on card data
 function createGrid(canvas) {
-    let imageIndex = 0;
-    const usedImages = new Set();
     const isMobile = window.innerWidth <= 768;
+    const totalCards = cardData.length || 0;
     
-    console.log('Total images available:', imagePaths.length);
-    console.log('Image paths:', imagePaths);
+    console.log(`Creating grid with ${totalCards} cards from data.txt`);
+    
+    if (totalCards === 0) {
+        console.warn('No card data loaded, using fallback');
+        return;
+    }
     
     if (isMobile) {
-        // Mobile: Create vertical stack with 100 cards (repeating the 8 images)
-        const totalCards = 100;
+        // Mobile: Create vertical stack based on card data
         for (let i = 0; i < totalCards; i++) {
-            // Cycle through images
+            const card = cardData[i];
+            // Cycle through available images
             const imagePath = imagePaths[i % imagePaths.length];
-            usedImages.add(imagePath);
             
-            // Create image item (same structure as desktop)
-            const imageItem = createImageItem(imagePath, 0, i);
+            // Create image item with card data
+            const imageItem = createImageItem(imagePath, card, 0, i);
             imageItem.dataset.cardIndex = i;
             canvas.appendChild(imageItem);
         }
     } else {
-        // Desktop: Create grid
-        for (let row = 0; row < GRID_ROWS; row++) {
-            for (let col = 0; col < GRID_COLS; col++) {
-                // Cycle through images
-                const imagePath = imagePaths[imageIndex % imagePaths.length];
-                usedImages.add(imagePath);
-                imageIndex++;
+        // Desktop: Create grid based on card data
+        let cardIndex = 0;
+        for (let row = 0; row < GRID_ROWS && cardIndex < totalCards; row++) {
+            for (let col = 0; col < GRID_COLS && cardIndex < totalCards; col++) {
+                const card = cardData[cardIndex];
+                // Cycle through available images
+                const imagePath = imagePaths[cardIndex % imagePaths.length];
                 
-                // Create image item
-                const imageItem = createImageItem(imagePath, row, col);
+                // Create image item with card data
+                const imageItem = createImageItem(imagePath, card, row, col);
                 canvas.appendChild(imageItem);
+                cardIndex++;
             }
         }
     }
     
-    console.log('Images used in grid:', usedImages.size, 'out of', imagePaths.length);
+    console.log(`Created ${totalCards} card items`);
 }
 
-// Create an image item element (same for mobile and desktop)
-function createImageItem(imagePath, row, col) {
+// Create an image item element with card data (same for mobile and desktop)
+function createImageItem(imagePath, card, row, col) {
     const imageItem = document.createElement('div');
     imageItem.className = 'image-item';
     imageItem.dataset.imagePath = imagePath;
     imageItem.dataset.row = row;
     imageItem.dataset.col = col;
     
+    // Create image
     const img = document.createElement('img');
     const pathParts = imagePath.split('/');
     const encodedPath = pathParts.map(part => encodeURIComponent(part)).join('/');
     img.src = encodedPath;
-    img.alt = imagePath.split('/').pop();
+    img.alt = card ? card['Card Name'] : imagePath.split('/').pop();
     img.loading = 'lazy';
     
     img.onload = () => {
@@ -205,6 +227,26 @@ function createImageItem(imagePath, row, col) {
     };
     
     imageItem.appendChild(img);
+    
+    // Add card information overlay if card data exists
+    if (card) {
+        const overlay = document.createElement('div');
+        overlay.className = 'card-info-overlay';
+        
+        // Card Name - 13px, black 79% opacity, 9px margin-top
+        const cardName = document.createElement('div');
+        cardName.className = 'card-name';
+        cardName.textContent = card['Card Name'] || '';
+        overlay.appendChild(cardName);
+        
+        // Network Name - 9px, all caps, 8% letter spacing, 60% opacity, 5px margin-top
+        const networkName = document.createElement('div');
+        networkName.className = 'card-network';
+        networkName.textContent = (card['Network'] || '').toUpperCase();
+        overlay.appendChild(networkName);
+        
+        imageItem.appendChild(overlay);
+    }
     
     return imageItem;
 }
