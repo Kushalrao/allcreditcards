@@ -204,8 +204,6 @@ body {
         -webkit-backface-visibility: hidden;
         /* Keep overflow hidden but ensure 3D works */
         overflow: hidden;
-        /* Force 3D rendering context */
-        transform: translateZ(0);
     }
     
     /* Inner wrapper for image to ensure it rotates with parent */
