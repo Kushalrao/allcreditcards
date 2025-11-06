@@ -399,40 +399,62 @@ function setupMobileInteractions(canvas) {
                 return;
             }
             
-            // Calculate card position based on scroll position (matching SwiftUI approach)
-            // Base position of card in the stack
+            // Calculate card position based on scroll position
             const actualCardHeight = cardHeight + cardSpacing; // 161px per card
             const baseCardPosition = index * actualCardHeight;
-            // Current position after scrolling (wrapper is translated by -scrollY)
             const currentCardPosition = baseCardPosition - scrollY;
-            // Card center Y position relative to viewport
-            const cardCenterY = currentCardPosition + cardHeight / 2;
+            const currentCardTop = currentCardPosition;
+            const currentCardBottom = currentCardPosition + cardHeight;
+            const currentCardCenterY = currentCardPosition + cardHeight / 2;
             
-            // Calculate distance from top of screen (matching Swift: distanceFromTop)
-            const distanceFromTop = cardCenterY - screenTop;
+            // Viewport boundaries
+            const viewportTop = screenTop; // Top of visible area (200px from top)
+            const viewportBottom = deviceHeight; // Bottom of viewport
+            const viewportHeight = viewportBottom - viewportTop;
             
-            // Normalize the distance to a 0-1 range for rotation interpolation
-            // Using deviceHeight * 0.6 as maxDistance (matching Swift approach)
-            const maxDistance = deviceHeight * 0.6; // Maximum distance for full rotation
-            const normalizedDistance = Math.max(0, Math.min(1, distanceFromTop / maxDistance));
+            // Check if card is visible in viewport
+            const isCardVisible = currentCardBottom > viewportTop && currentCardTop < viewportBottom;
             
-            // Interpolate between -10° (top) and -39° (bottom)
-            const topRotation = -10.0;
-            const bottomRotation = -39.0;
-            const dynamicRotation = topRotation + normalizedDistance * (bottomRotation - topRotation);
+            let dynamicRotation;
             
-            // DEBUG: Log rotation calculation for first few cards
-            if (index < 5) {
-                console.log(`Card ${index}:`, {
-                    scrollY: scrollY.toFixed(1),
-                    baseCardPosition: baseCardPosition.toFixed(1),
-                    currentCardPosition: currentCardPosition.toFixed(1),
-                    cardCenterY: cardCenterY.toFixed(1),
-                    distanceFromTop: distanceFromTop.toFixed(1),
-                    maxDistance: maxDistance.toFixed(1),
-                    normalizedDistance: normalizedDistance.toFixed(3),
-                    dynamicRotation: dynamicRotation.toFixed(1) + 'deg'
-                });
+            if (isCardVisible) {
+                // Card is visible - calculate rotation based on viewport position
+                // Card center Y relative to viewport top
+                const cardPositionInViewport = currentCardCenterY - viewportTop;
+                
+                // Normalize: 0 = at top of viewport, 1 = at bottom of viewport
+                // Clamp to ensure it's within viewport bounds
+                const clampedPosition = Math.max(0, Math.min(viewportHeight, cardPositionInViewport));
+                const normalizedPosition = clampedPosition / viewportHeight;
+                
+                // Interpolate: -10° at top of viewport, -39° at bottom of viewport
+                const topRotation = -10.0;
+                const bottomRotation = -39.0;
+                dynamicRotation = topRotation + normalizedPosition * (bottomRotation - topRotation);
+                
+                // DEBUG: Log for visible cards
+                if (index < 10) {
+                    console.log(`Card ${index} [VISIBLE]:`, {
+                        scrollY: scrollY.toFixed(1),
+                        currentCardTop: currentCardTop.toFixed(1),
+                        currentCardBottom: currentCardBottom.toFixed(1),
+                        currentCardCenterY: currentCardCenterY.toFixed(1),
+                        viewportTop: viewportTop,
+                        viewportBottom: viewportBottom,
+                        cardPositionInViewport: cardPositionInViewport.toFixed(1),
+                        normalizedPosition: normalizedPosition.toFixed(3),
+                        dynamicRotation: dynamicRotation.toFixed(1) + 'deg'
+                    });
+                }
+            } else {
+                // Card is outside viewport - use default rotation based on position
+                if (currentCardBottom <= viewportTop) {
+                    // Card is above viewport - use top rotation
+                    dynamicRotation = -10.0;
+                } else {
+                    // Card is below viewport - use bottom rotation
+                    dynamicRotation = -39.0;
+                }
             }
             
             // Apply transforms to separate wrappers
