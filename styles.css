@@ -211,7 +211,7 @@ body {
     .image-translate-wrapper {
         width: 80vw;
         max-width: 320px;
-        margin: 0 auto -100px auto;
+        margin: 0 auto -39px auto;
         transform-style: preserve-3d;
         -webkit-transform-style: preserve-3d;
         /* This wrapper handles translateY */

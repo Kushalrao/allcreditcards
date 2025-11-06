@@ -373,7 +373,7 @@ function setupMobileInteractions(canvas) {
     const updateCardRotations = (scrollY) => {
         const deviceHeight = window.innerHeight;
         const cardHeight = 200;
-        const cardSpacing = -100;
+        const cardSpacing = -39;
         const screenTop = 200;
         
         wrapperData.forEach(({ translateWrapper, rotateWrapper, imageItem, index }) => {
@@ -400,9 +400,9 @@ function setupMobileInteractions(canvas) {
             const maxDistance = deviceHeight * 0.6;
             const normalizedDistance = Math.max(0, Math.min(1, distanceFromTop / maxDistance));
             
-            // Interpolate between -10° (top) and -60° (bottom)
+            // Interpolate between -10° (top) and -39° (bottom)
             const topRotation = -10.0;
-            const bottomRotation = -60.0;
+            const bottomRotation = -39.0;
             const dynamicRotation = topRotation + normalizedDistance * (bottomRotation - topRotation);
             
             // Apply transforms to separate wrappers
