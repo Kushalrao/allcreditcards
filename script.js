@@ -250,92 +250,118 @@ function setupMobileTapInteraction(imageItem) {
 // Setup mobile scroll-based dynamic rotation (matching Safari tabs exactly)
 function setupMobileInteractions(canvas) {
     const canvasContainer = document.getElementById('canvasContainer');
+    const canvasWrapper = document.getElementById('canvasWrapper');
     const imageItems = Array.from(canvas.querySelectorAll('.image-item'));
     let tappedCardId = null;
+    let scrollY = 0;
+    let isDragging = false;
+    let startY = 0;
+    let velocity = 0;
+    let lastY = 0;
+    let lastTime = Date.now();
     
     console.log('Setting up mobile interactions, found', imageItems.length, 'cards');
+    
+    // Calculate total height needed for scrolling
+    const totalHeight = imageItems.length * 100 + 200; // Approximate height
+    canvasWrapper.style.minHeight = `${totalHeight}px`;
+    
+    // Handle touch/mouse scrolling without overflow
+    const handleWheel = (e) => {
+        e.preventDefault();
+        scrollY -= e.deltaY * 0.5;
+        scrollY = Math.max(0, Math.min(scrollY, totalHeight - window.innerHeight));
+        updateScroll();
+    };
+    
+    const handleTouchStart = (e) => {
+        isDragging = true;
+        startY = e.touches[0].clientY;
+        lastY = startY;
+        lastTime = Date.now();
+        velocity = 0;
+    };
+    
+    const handleTouchMove = (e) => {
+        if (!isDragging) return;
+        e.preventDefault();
+        const currentY = e.touches[0].clientY;
+        const deltaY = lastY - currentY;
+        const currentTime = Date.now();
+        const deltaTime = currentTime - lastTime;
+        
+        if (deltaTime > 0) {
+            velocity = deltaY / deltaTime;
+        }
+        
+        scrollY += deltaY;
+        scrollY = Math.max(0, Math.min(scrollY, totalHeight - window.innerHeight));
+        
+        lastY = currentY;
+        lastTime = currentTime;
+        updateScroll();
+    };
+    
+    const handleTouchEnd = () => {
+        isDragging = false;
+        // Apply momentum scrolling
+        if (Math.abs(velocity) > 0.1) {
+            const momentum = () => {
+                scrollY += velocity * 16;
+                velocity *= 0.95; // Friction
+                scrollY = Math.max(0, Math.min(scrollY, totalHeight - window.innerHeight));
+                updateScroll();
+                if (Math.abs(velocity) > 0.01) {
+                    requestAnimationFrame(momentum);
+                }
+            };
+            requestAnimationFrame(momentum);
+        }
+    };
+    
+    // Add event listeners for custom scrolling
+    canvasContainer.addEventListener('wheel', handleWheel, { passive: false });
+    canvasContainer.addEventListener('touchstart', handleTouchStart, { passive: false });
+    canvasContainer.addEventListener('touchmove', handleTouchMove, { passive: false });
+    canvasContainer.addEventListener('touchend', handleTouchEnd, { passive: true });
+    
+    const updateScroll = () => {
+        // Transform the wrapper to simulate scrolling
+        canvasWrapper.style.transform = `translateY(-${scrollY}px)`;
+        updateCardRotations(imageItems, scrollY, tappedCardId);
+    };
     
     // DEBUG: First, set default rotation on all cards to verify 3D is working
     imageItems.forEach((item, index) => {
         const offsetY = index * 8;
         // Set a default rotation to test 3D (e.g., -30deg)
         // This will be overridden by updateCardRotations
-        // CRITICAL FIX: Apply transform with matrix3d directly to force 3D
-        // Since overflow flattens transforms, we need to use a different approach
-        // Calculate the 3D matrix manually for rotateX(-30deg)
-        const angle = -30 * Math.PI / 180; // Convert to radians
-        const cos = Math.cos(angle);
-        const sin = Math.sin(angle);
-        
-        // 3D rotation matrix for rotateX(-30deg) + translateY
-        // matrix3d(a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p)
-        const matrix3d = `matrix3d(
-            1, 0, 0, 0,
-            0, ${cos}, ${sin}, 0,
-            0, ${-sin}, ${cos}, 0,
-            0, ${offsetY}, 0, 1
-        )`.replace(/\s+/g, ' ').trim();
-        
-        item.style.transform = matrix3d;
-        item.style.webkitTransform = matrix3d;
+        // Use simple rotateX now that overflow is removed
+        const testTransform = `translate3d(0, ${offsetY}px, 0) rotateX(-30deg)`;
+        item.style.transform = testTransform;
+        item.style.webkitTransform = testTransform;
         
         // Force browser to recognize 3D transform
         item.style.transformStyle = 'preserve-3d';
         item.style.webkitTransformStyle = 'preserve-3d';
         
-        // Also ensure all parents have preserve-3d
-        const canvas = item.closest('.canvas');
-        if (canvas) {
-            canvas.style.transformStyle = 'preserve-3d';
-            canvas.style.webkitTransformStyle = 'preserve-3d';
-        }
-        const wrapper = item.closest('.canvas-wrapper');
-        if (wrapper) {
-            wrapper.style.transformStyle = 'preserve-3d';
-            wrapper.style.webkitTransformStyle = 'preserve-3d';
-        }
-        
         // DEBUG: Log to verify transform is applied
-        console.log(`Card ${index}: Applied matrix3d:`, matrix3d);
+        console.log(`Card ${index}: Applied transform:`, testTransform);
         const computedTransform = window.getComputedStyle(item).transform;
         console.log(`Card ${index}: Computed transform:`, computedTransform);
         
-        // Check if it's a 3D matrix (should have more than 6 values)
+        // Check if it's a 3D matrix
         const is3D = computedTransform.includes('matrix3d') || 
                      (computedTransform.includes('matrix') && computedTransform.split(',').length > 6);
         console.log(`Card ${index}: Is 3D transform:`, is3D);
-        
-        // Verify perspective is set on wrapper
-        const wrapperEl = document.getElementById('canvasWrapper');
-        if (wrapperEl) {
-            const perspective = window.getComputedStyle(wrapperEl).perspective;
-            const transformStyle = window.getComputedStyle(wrapperEl).transformStyle;
-            console.log(`Card ${index}: Wrapper perspective:`, perspective, 'transform-style:', transformStyle);
-        }
     });
     
-    // Track scroll offset (equivalent to GeometryReader in Swift)
-    const updateScrollOffset = () => {
-        // Get scroll position - this is the key: scrollTop gives us the scroll offset
-        const scrollViewContentOffset = canvasContainer.scrollTop;
-        updateCardRotations(imageItems, scrollViewContentOffset, tappedCardId);
-    };
-    
-    // Track scroll position with requestAnimationFrame for smooth updates
-    let rafId = null;
-    canvasContainer.addEventListener('scroll', () => {
-        if (rafId) cancelAnimationFrame(rafId);
-        rafId = requestAnimationFrame(updateScrollOffset);
-    }, { passive: true });
-    
-    // Initial update - ensure cards get initial rotation
-    requestAnimationFrame(() => {
-        updateScrollOffset();
-    });
+    // Initial update
+    updateScroll();
     
     // Update on resize
     window.addEventListener('resize', () => {
-        requestAnimationFrame(updateScrollOffset);
+        updateScroll();
     });
     
     // Track tapped card
@@ -357,13 +383,13 @@ function setupMobileInteractions(canvas) {
                 navigator.vibrate(10);
             }
             
-            updateScrollOffset();
+            updateScroll();
         });
     });
 }
 
 // Update card rotations based on scroll position (exact match to Safari tabs Swift code)
-function updateCardRotations(imageItems, scrollViewContentOffset, tappedCardId) {
+function updateCardRotations(imageItems, scrollY, tappedCardId) {
     const deviceHeight = window.innerHeight;
     const cardHeight = 200; // Card height
     const cardSpacing = -100; // Negative spacing (LazyVStack spacing: -100)
@@ -375,16 +401,19 @@ function updateCardRotations(imageItems, scrollViewContentOffset, tappedCardId) 
         
         // Handle tapped cards (rotate to 0°)
         if (item.dataset.imagePath === tappedCardId || item.classList.contains('tapped')) {
-            // Tapped cards: rotate to 0° (flat) using matrix3d
-            const matrix3d = `matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, ${offsetY}, 0, 1)`;
-            item.style.transform = matrix3d;
-            item.style.webkitTransform = matrix3d;
+            // Tapped cards: rotate to 0° (flat)
+            item.style.transform = `translate3d(0, ${offsetY}px, 0) rotateX(0deg)`;
+            item.style.webkitTransform = `translate3d(0, ${offsetY}px, 0) rotateX(0deg)`;
             return;
         }
         
-        // Get actual card position relative to viewport
-        const rect = item.getBoundingClientRect();
-        const cardCenterY = rect.top + rect.height / 2;
+        // Calculate card position considering scroll
+        // Base position of card in the stack
+        const baseCardPosition = index * (cardHeight + cardSpacing);
+        // Current position after scrolling (wrapper is translated by -scrollY)
+        const currentCardPosition = baseCardPosition - scrollY;
+        // Card center Y position relative to viewport
+        const cardCenterY = currentCardPosition + cardHeight / 2;
         
         // Calculate distance from top of screen
         const distanceFromTop = cardCenterY - screenTop;
@@ -398,27 +427,15 @@ function updateCardRotations(imageItems, scrollViewContentOffset, tappedCardId) 
         const bottomRotation = -60.0;
         const dynamicRotation = topRotation + normalizedDistance * (bottomRotation - topRotation);
         
-        // Apply rotation with 3D transform using matrix3d
-        // CRITICAL: Use matrix3d directly to force 3D rendering
-        // This bypasses browser optimizations that flatten transforms
-        const angle = dynamicRotation * Math.PI / 180; // Convert to radians
-        const cos = Math.cos(angle);
-        const sin = Math.sin(angle);
-        
-        // 3D rotation matrix for rotateX + translateY
-        const matrix3d = `matrix3d(
-            1, 0, 0, 0,
-            0, ${cos}, ${sin}, 0,
-            0, ${-sin}, ${cos}, 0,
-            0, ${offsetY}, 0, 1
-        )`.replace(/\s+/g, ' ').trim();
-        
-        item.style.transform = matrix3d;
-        item.style.webkitTransform = matrix3d;
+        // Apply rotation with 3D transform
+        // Now that overflow is removed, simple rotateX should work
+        const transformValue = `translate3d(0, ${offsetY}px, 0) rotateX(${dynamicRotation}deg)`;
+        item.style.transform = transformValue;
+        item.style.webkitTransform = transformValue;
         
         // DEBUG: Log rotation values
         if (index === 0) {
-            console.log(`Card 0 rotation: ${dynamicRotation}deg, distanceFromTop: ${distanceFromTop}, normalized: ${normalizedDistance}`);
+            console.log(`Card 0 rotation: ${dynamicRotation}deg, distanceFromTop: ${distanceFromTop}, normalized: ${normalizedDistance}, scrollY: ${scrollY}`);
         }
         
         // Image should automatically rotate with parent due to transform-style: preserve-3d

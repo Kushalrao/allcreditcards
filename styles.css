@@ -177,10 +177,13 @@ body {
 @media (max-width: 768px) {
     .canvas-container {
         background: #F3F9E7;
-        scroll-behavior: smooth;
-        -webkit-overflow-scrolling: touch;
-        overscroll-behavior-y: contain;
-        /* Overflow creates flattening - we'll handle 3D in wrapper */
+        /* CRITICAL: Remove overflow to prevent 3D flattening */
+        /* We'll handle scrolling via transform on wrapper */
+        overflow: visible;
+        position: relative;
+        height: 100vh;
+        /* Enable touch scrolling via JavaScript */
+        touch-action: pan-y;
     }
     
     /* Wrapper inside container - this has perspective and preserves 3D */
@@ -192,7 +195,8 @@ body {
         -webkit-perspective-origin: 50% 50%;
         transform-style: preserve-3d;
         -webkit-transform-style: preserve-3d;
-        /* NO transform here - let children handle their own transforms */
+        /* This will be transformed for scrolling instead of using overflow */
+        will-change: transform;
     }
     
     .canvas {
