@@ -103,8 +103,7 @@ body {
     .canvas {
         grid-template-columns: repeat(20, 166px);
         grid-auto-rows: minmax(102px, auto);
-        column-gap: 33px;
-        row-gap: 41px;
+        gap: 41px 33px; /* row-gap column-gap */
         padding: 30px;
     }
     
