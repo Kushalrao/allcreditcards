@@ -101,16 +101,16 @@ body {
 /* Mobile layout */
 @media (max-width: 768px) {
     .canvas {
-        grid-template-columns: repeat(20, 102px);
-        grid-auto-rows: minmax(63px, auto);
+        grid-template-columns: repeat(20, 166px);
+        grid-auto-rows: minmax(102px, auto);
         column-gap: 33px;
         row-gap: 41px;
         padding: 30px;
     }
     
     .image-item {
-        width: 102px;
-        height: 63px;
+        width: 166px;
+        height: 102px;
     }
 }
 
