@@ -112,7 +112,8 @@ body {
     padding: 20px;
     z-index: 1000;
     pointer-events: none;
-    background: transparent;
+    background: transparent !important;
+    backdrop-filter: none;
 }
 
 .search-bar {
