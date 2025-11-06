@@ -47,9 +47,11 @@ body {
     overflow: hidden;
     background: #f5f5f5;
     cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     opacity: 0;
     animation: fadeIn 0.5s ease forwards;
+    transform-style: preserve-3d;
+    perspective: 1000px;
 }
 
 .image-item.visible {
@@ -57,7 +59,7 @@ body {
 }
 
 .image-item:hover {
-    transform: scale(1.02);
+    transform: scale(1.02) rotateX(2deg) rotateY(-2deg);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
@@ -110,6 +112,12 @@ body {
     .image-item {
         width: 166px;
         height: 102px;
+        transform-style: flat;
+        perspective: none;
+    }
+    
+    .image-item:hover {
+        transform: scale(1.02);
     }
 }
 
