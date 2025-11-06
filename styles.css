@@ -10,6 +10,8 @@ body {
     color: #000000;
     overflow: hidden;
     height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 .container {
@@ -45,6 +47,9 @@ body {
     height: fit-content;
     perspective: 1000px;
     transform-style: preserve-3d;
+    will-change: transform;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
 }
 
 .image-item {
@@ -151,6 +156,9 @@ body {
 @media (max-width: 768px) {
     .canvas-container {
         background: #F3F9E7;
+        scroll-behavior: smooth;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior-y: contain;
     }
     
     .canvas {
@@ -160,6 +168,9 @@ body {
         padding: 20px 16px;
         width: 100%;
         height: auto;
+        perspective: 1000px; /* Perspective on parent (matching Swift's rotation3DEffect) */
+        perspective-origin: center center;
+        transform-style: preserve-3d;
     }
     
     .image-item {
@@ -171,7 +182,11 @@ body {
         position: relative;
         margin-bottom: -100px; /* Negative spacing matching LazyVStack spacing: -100 */
         transform-style: preserve-3d;
+        transform-origin: center center; /* Ensure rotation happens around center */
         transition: transform 0.3s ease-out, box-shadow 0.3s ease, margin-top 0.4s ease-out, margin-bottom 0.4s ease-out;
+        will-change: transform;
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
     }
     
     /* Shadows for cards below the top one (matching Safari tabs: index > 0) */

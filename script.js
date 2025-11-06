@@ -95,11 +95,19 @@ function setupSmoothScrolling(canvasContainer) {
 
     // Enhanced smooth wheel scrolling with momentum and easing
     let wheelTimeout;
+    let momentumAnimationId = null;
+    
     canvasContainer.addEventListener('wheel', (e) => {
         e.preventDefault();
         
         const deltaX = e.deltaX || 0;
         const deltaY = e.deltaY || 0;
+        
+        // Cancel any existing momentum animation
+        if (momentumAnimationId) {
+            cancelAnimationFrame(momentumAnimationId);
+            momentumAnimationId = null;
+        }
         
         // Clear any existing timeout
         clearTimeout(wheelTimeout);
@@ -110,18 +118,15 @@ function setupSmoothScrolling(canvasContainer) {
         }
         
         scrollAnimationFrame = requestAnimationFrame(() => {
-            // Apply momentum-based scrolling with easing
-            const momentumX = deltaX * 1.2; // Slight momentum multiplier
-            const momentumY = deltaY * 1.2;
+            // Apply smooth scrolling with enhanced delta
+            const smoothX = deltaX * 1.1; // Slight enhancement for smoother feel
+            const smoothY = deltaY * 1.1;
             
             canvasContainer.scrollBy({
-                left: momentumX,
-                top: momentumY,
-                behavior: 'auto' // Use auto for better performance, we'll handle smoothness
+                left: smoothX,
+                top: smoothY,
+                behavior: 'auto'
             });
-            
-            // Apply smooth momentum decay
-            applyMomentumScroll(canvasContainer, momentumX, momentumY);
         });
         
         // Reset scrolling flag after a delay
@@ -131,37 +136,6 @@ function setupSmoothScrolling(canvasContainer) {
     }, { passive: false });
 }
 
-// Apply momentum-based smooth scrolling with decay
-function applyMomentumScroll(container, initialX, initialY) {
-    let currentX = initialX;
-    let currentY = initialY;
-    const friction = 0.92; // Friction coefficient for smooth decay
-    const minVelocity = 0.1; // Minimum velocity threshold
-    
-    function animate() {
-        if (Math.abs(currentX) < minVelocity && Math.abs(currentY) < minVelocity) {
-            return; // Stop animation when velocity is too low
-        }
-        
-        container.scrollBy({
-            left: currentX,
-            top: currentY,
-            behavior: 'auto'
-        });
-        
-        // Apply friction
-        currentX *= friction;
-        currentY *= friction;
-        
-        // Continue animation if there's still momentum
-        if (Math.abs(currentX) >= minVelocity || Math.abs(currentY) >= minVelocity) {
-            requestAnimationFrame(animate);
-        }
-    }
-    
-    // Start animation
-    requestAnimationFrame(animate);
-}
 
 // Create grid of images
 function createGrid(canvas) {
@@ -331,10 +305,13 @@ function updateCardRotations(imageItems, scrollViewContentOffset, tappedCardId) 
     const screenTop = 200; // Account for top padding and bill display
     
     imageItems.forEach((item, index) => {
+        // Calculate offset Y (matching Swift: CGFloat(index) * 8)
+        const offsetY = index * 8;
+        
         // Handle tapped cards (rotate to 0°)
         if (item.dataset.imagePath === tappedCardId || item.classList.contains('tapped')) {
-            const offsetY = index * 8;
-            item.style.transform = `translateY(${offsetY}px) perspective(500px) rotateX(0deg)`;
+            // Tapped cards: rotate to 0° (flat)
+            item.style.transform = `translateY(${offsetY}px) rotateX(0deg)`;
             return;
         }
         
@@ -357,12 +334,9 @@ function updateCardRotations(imageItems, scrollViewContentOffset, tappedCardId) 
         const bottomRotation = -60.0;
         const dynamicRotation = topRotation + normalizedDistance * (bottomRotation - topRotation);
         
-        // Calculate offset Y (matching Swift: CGFloat(index) * 8)
-        const offsetY = index * 8;
-        
-        // Apply rotation with perspective: 0.5 (matching Swift's rotation3DEffect perspective: 0.5)
-        // Note: CSS perspective is in pixels, Swift's 0.5 is a multiplier, so we use 500px
-        item.style.transform = `translateY(${offsetY}px) perspective(500px) rotateX(${dynamicRotation}deg)`;
+        // Apply rotation (perspective is on parent container, not in transform)
+        // Matching Swift's rotation3DEffect with axis: (x: 1, y: 0, z: 0)
+        item.style.transform = `translateY(${offsetY}px) rotateX(${dynamicRotation}deg)`;
     });
 }
 
