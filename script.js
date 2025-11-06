@@ -147,9 +147,11 @@ function createGrid(canvas) {
     console.log('Image paths:', imagePaths);
     
     if (isMobile) {
-        // Mobile: Create vertical stack with only the 8 images (no infinite canvas)
-        for (let i = 0; i < imagePaths.length; i++) {
-            const imagePath = imagePaths[i];
+        // Mobile: Create vertical stack with 100 cards (repeating the 8 images)
+        const totalCards = 100;
+        for (let i = 0; i < totalCards; i++) {
+            // Cycle through images
+            const imagePath = imagePaths[i % imagePaths.length];
             usedImages.add(imagePath);
             
             // Create image item directly (no wrapper needed)
@@ -299,7 +301,12 @@ function setupMobileInteractions(canvas) {
     console.log('Setting up mobile interactions, found', imageItems.length, 'cards');
     
     // Calculate total height needed for scrolling
-    const totalHeight = imageItems.length * 100 + 200; // Approximate height
+    // Card height (200px) + spacing (-39px) = 161px per card
+    const cardHeight = 200;
+    const cardSpacing = -39;
+    const actualCardHeight = cardHeight + cardSpacing; // 161px
+    const totalCards = translateWrappers.length;
+    const totalHeight = totalCards * actualCardHeight + 200; // Add padding
     canvasWrapper.style.minHeight = `${totalHeight}px`;
     
     // Handle touch/mouse scrolling without overflow
