@@ -866,8 +866,9 @@ if (document.readyState === 'loading') {
 function setupHeaderCollapse() {
     const canvasContainer = document.getElementById('canvasContainer');
     const filtersContainer = document.getElementById('filtersContainer');
+    const siteTitle = document.querySelector('.site-title');
     
-    if (!canvasContainer || !filtersContainer) return;
+    if (!canvasContainer || !filtersContainer || !siteTitle) return;
     
     let lastScrollTop = 0;
     let ticking = false;
@@ -880,11 +881,13 @@ function setupHeaderCollapse() {
         // Only update if scroll difference is significant
         if (Math.abs(scrollDifference) > scrollThreshold) {
             if (scrollDifference > 0 && scrollTop > 50) {
-                // Scrolling down - hide filters
+                // Scrolling down - hide filters and collapse heading
                 filtersContainer.classList.add('hidden');
+                siteTitle.classList.add('collapsed');
             } else if (scrollDifference < 0) {
-                // Scrolling up - show filters
+                // Scrolling up - show filters and expand heading
                 filtersContainer.classList.remove('hidden');
+                siteTitle.classList.remove('collapsed');
             }
             
             lastScrollTop = scrollTop;
