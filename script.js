@@ -358,7 +358,7 @@ function setupMobileInteractions(canvas) {
         const topRotation = -5.0;       // Items at top of viewport (nearly flat)
         const bottomRotation = -25.0;   // Items entering from bottom (subtle angle)
         
-        // OPTIMIZATION: Calculate approximate positions first to avoid getBoundingClientRect on all cards
+        // Card dimensions and spacing
         const cardHeight = 200;
         const cardSpacing = -39;
         const actualCardHeight = cardHeight + cardSpacing; // 161px per card
@@ -401,18 +401,26 @@ function setupMobileInteractions(canvas) {
                 return;
             }
             
-            // Card is in range - add to batch for getBoundingClientRect
+            // Card is in range - add to batch for calculation
             cardsToUpdate.push({ translateWrapper, rotateWrapper, imageItem, index, offsetY });
         });
         
-        // Second pass: Read positions for cards in range (batch read)
+        // Second pass: Calculate rotations mathematically (NO getBoundingClientRect to avoid feedback loop)
         const inViewportCards = [];
         cardsToUpdate.forEach(({ translateWrapper, rotateWrapper, imageItem, index, offsetY }) => {
-            // Get actual viewport position using getBoundingClientRect (only for cards in range)
-            const rect = imageItem.getBoundingClientRect();
-            const cardTop = rect.top;
-            const cardBottom = rect.bottom;
-            const cardCenterY = rect.top + rect.height / 2;
+            // CRITICAL: Calculate position mathematically, NOT using getBoundingClientRect!
+            // getBoundingRect on rotated elements returns inflated dimensions, creating feedback loop
+            
+            // Calculate card's actual position in the document flow
+            const translateYOffset = index * 8;
+            const cardTopInDocument = canvasTopPadding + (index * actualCardHeight) + translateYOffset;
+            const cardBottomInDocument = cardTopInDocument + cardHeight;
+            const cardCenterInDocument = cardTopInDocument + (cardHeight / 2);
+            
+            // Calculate position relative to viewport (accounting for scroll)
+            const cardTop = cardTopInDocument - scrollY;
+            const cardBottom = cardBottomInDocument - scrollY;
+            const cardCenterY = cardCenterInDocument - scrollY;
             
             // Determine card position relative to viewport
             const isAboveViewport = cardBottom <= viewportTop;
@@ -424,8 +432,8 @@ function setupMobileInteractions(canvas) {
             
             if (isInViewport) {
                 // Card is visible in viewport - linear interpolation
-                // Top of viewport (0): -10° (face-on, what you're looking at)
-                // Bottom of viewport (1): -60° (angled away, entering from below)
+                // Top of viewport (0): -5° (face-on, what you're looking at)
+                // Bottom of viewport (1): -25° (angled away, entering from below)
                 const cardPositionInViewport = cardCenterY - viewportTop;
                 normalizedPosition = Math.max(0, Math.min(1, cardPositionInViewport / viewportHeight));
                 
