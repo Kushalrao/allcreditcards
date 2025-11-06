@@ -292,33 +292,57 @@ function setupMobileInteractions(canvas) {
     let tappedCardId = null;
     const FIXED_ROTATION = -30.0;
     
-    console.log(`Setting up mobile interactions: ${translateWrappers.length} cards with fixed ${FIXED_ROTATION}° rotation`);
+    console.log(`[MOBILE SETUP] Found ${translateWrappers.length} cards - applying FIXED ${FIXED_ROTATION}° rotation to ALL`);
     
-    // Apply fixed rotation to all cards
+    // Apply fixed rotation to all cards ONCE - no scroll listeners
     translateWrappers.forEach((translateWrapper, index) => {
         const rotateWrapper = translateWrapper.querySelector('.image-rotate-wrapper');
         const imageItem = translateWrapper.querySelector('.image-item');
         
-        if (!rotateWrapper || !imageItem) return;
+        if (!rotateWrapper || !imageItem) {
+            console.error(`[ERROR] Card ${index}: Missing wrapper or item`);
+            return;
+        }
         
         const offsetY = index * 8;
         
-        // Apply fixed transforms
+        // Apply fixed transforms - SET ONCE, NEVER CHANGE
         translateWrapper.style.transform = `translate3d(0, ${offsetY}px, 0)`;
         translateWrapper.style.webkitTransform = `translate3d(0, ${offsetY}px, 0)`;
         rotateWrapper.style.transform = `rotateX(${FIXED_ROTATION}deg)`;
         rotateWrapper.style.webkitTransform = `rotateX(${FIXED_ROTATION}deg)`;
         
-        // Handle tap interaction
+        // Store expected rotation value for monitoring
+        rotateWrapper.dataset.expectedRotation = FIXED_ROTATION;
+        
+        // Monitor if transform changes (to detect if something else is modifying it)
+        if (index === 0) {
+            const checkTransform = () => {
+                const currentTransform = rotateWrapper.style.transform;
+                if (!currentTransform.includes(`${FIXED_ROTATION}deg`) && !imageItem.classList.contains('tapped')) {
+                    console.warn(`[WARNING] Card 0 transform changed! Expected ${FIXED_ROTATION}°, got: ${currentTransform}`);
+                }
+            };
+            // Check periodically
+            setInterval(checkTransform, 1000);
+        }
+        
+        // Verify it was set
+        if (index < 3) {
+            console.log(`[CARD ${index}] Set rotation to ${FIXED_ROTATION}°`);
+        }
+        
+        // Handle tap interaction - ONLY changes tapped card to 0°, rest stay at FIXED_ROTATION
         imageItem.addEventListener('click', () => {
             // Toggle tapped state
             if (tappedCardId === imageItem.dataset.imagePath) {
+                // Untap: restore to fixed rotation
                 tappedCardId = null;
                 imageItem.classList.remove('tapped');
                 rotateWrapper.style.transform = `rotateX(${FIXED_ROTATION}deg)`;
                 rotateWrapper.style.webkitTransform = `rotateX(${FIXED_ROTATION}deg)`;
             } else {
-                // Remove tapped from all
+                // Tap: set all others to fixed rotation, this one to 0°
                 translateWrappers.forEach((tw) => {
                     const rw = tw.querySelector('.image-rotate-wrapper');
                     const ii = tw.querySelector('.image-item');
@@ -338,6 +362,10 @@ function setupMobileInteractions(canvas) {
             }
         });
     });
+    
+    // CRITICAL: Verify NO scroll listeners exist
+    console.log(`[MOBILE SETUP] Complete - NO scroll listeners should exist`);
+    console.log(`[VERIFY] Check browser console - if you see rotation changing on scroll, something else is modifying transforms`);
 }
 
 // Setup interactive 3D rotation based on cursor position
