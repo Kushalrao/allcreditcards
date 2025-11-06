@@ -371,8 +371,8 @@ function setupMobileInteractions(canvas) {
             
             // Handle tapped cards (rotate to 0°)
             if (imageItem.dataset.imagePath === tappedCardId || imageItem.classList.contains('tapped')) {
-                rotateWrapper.style.transform = `rotateX(0deg) translateZ(0px)`;
-                rotateWrapper.style.webkitTransform = `rotateX(0deg) translateZ(0px)`;
+                rotateWrapper.style.transform = `rotateX(0deg)`;
+                rotateWrapper.style.webkitTransform = `rotateX(0deg)`;
                 translateWrapper.style.transform = `translate3d(0, ${offsetY}px, 0)`;
                 translateWrapper.style.webkitTransform = `translate3d(0, ${offsetY}px, 0)`;
                 return;
@@ -425,25 +425,20 @@ function setupMobileInteractions(canvas) {
             }
             
             // Apply transforms
-            // Rotate first, then translateZ - this order matters for 3D effect
-            // Cards rotated more (closer to -39deg) should be pushed back more for depth
-            const normalizedRotation = Math.abs(dynamicRotation) / 39.0; // 0 to 1
-            const translateZ = normalizedRotation * -100; // Push rotated cards back up to -100px (increased for visibility)
-            
+            // Match SwiftUI approach: pure rotation without translateZ
+            // SwiftUI uses .rotation3DEffect() with just rotateX, no translateZ
             translateWrapper.style.transform = `translate3d(0, ${offsetY}px, 0)`;
             translateWrapper.style.webkitTransform = `translate3d(0, ${offsetY}px, 0)`;
-            // Rotate first, then translateZ - this creates proper 3D perspective effect
-            rotateWrapper.style.transform = `rotateX(${dynamicRotation}deg) translateZ(${translateZ}px)`;
-            rotateWrapper.style.webkitTransform = `rotateX(${dynamicRotation}deg) translateZ(${translateZ}px)`;
+            rotateWrapper.style.transform = `rotateX(${dynamicRotation}deg)`;
+            rotateWrapper.style.webkitTransform = `rotateX(${dynamicRotation}deg)`;
             
             // DEBUG: Verify transforms are actually applied (for first 3 visible cards)
             if (isCardVisible && index < 3) {
                 const appliedTransform = rotateWrapper.style.transform;
                 const computedTransform = window.getComputedStyle(rotateWrapper).transform;
-                const computedWebkitTransform = window.getComputedStyle(rotateWrapper).webkitTransform;
                 const isMatrix3d = computedTransform.includes('matrix3d');
                 
-                console.log(`[DEBUG Card ${index}] Rotation: ${dynamicRotation.toFixed(1)}deg, translateZ: ${translateZ.toFixed(1)}px`);
+                console.log(`[DEBUG Card ${index}] Rotation: ${dynamicRotation.toFixed(1)}deg`);
                 console.log(`[DEBUG Card ${index}] Applied: "${appliedTransform}"`);
                 console.log(`[DEBUG Card ${index}] Computed transform: "${computedTransform.substring(0, 80)}..."`);
                 console.log(`[DEBUG Card ${index}] Is 3D (matrix3d): ${isMatrix3d}`);
