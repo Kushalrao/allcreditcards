@@ -317,6 +317,7 @@ function setupMobileInteractions(canvas) {
         e.preventDefault();
         scrollY -= e.deltaY * 0.5;
         scrollY = Math.max(0, Math.min(scrollY, totalHeight - window.innerHeight));
+        console.log('WHEEL: scrollY updated to', scrollY.toFixed(1));
         updateScroll();
     };
     
@@ -342,6 +343,7 @@ function setupMobileInteractions(canvas) {
         
         scrollY += deltaY;
         scrollY = Math.max(0, Math.min(scrollY, totalHeight - window.innerHeight));
+        console.log('TOUCH MOVE: scrollY updated to', scrollY.toFixed(1), 'deltaY:', deltaY.toFixed(1));
         
         lastY = currentY;
         lastTime = currentTime;
