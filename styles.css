@@ -39,8 +39,8 @@ body {
 .canvas {
     position: relative;
     display: grid;
-    grid-template-columns: repeat(20, 218px);
-    grid-auto-rows: minmax(134px, auto);
+    grid-template-columns: repeat(20, 325px);
+    grid-auto-rows: minmax(200px, auto);
     column-gap: 43px;
     row-gap: 49px;
     padding: 50px;
@@ -52,6 +52,7 @@ body {
 .image-item {
     position: relative;
     width: 325px;
+    max-width: 100%;
     cursor: pointer;
     transition: box-shadow 0.3s ease;
     opacity: 0;
