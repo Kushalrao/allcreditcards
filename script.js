@@ -286,181 +286,57 @@ function setupMobileTapInteraction(imageItem) {
     });
 }
 
-// Setup mobile scroll-based dynamic rotation (matching Safari tabs exactly)
+// Setup mobile interactions - FIXED ROTATION ONLY
 function setupMobileInteractions(canvas) {
-    const canvasContainer = document.getElementById('canvasContainer');
-    const canvasWrapper = document.getElementById('canvasWrapper');
-    const imageItems = Array.from(canvas.querySelectorAll('.image-item'));
-    let tappedCardId = null;
-    let scrollY = 0;
-    let isDragging = false;
-    let startY = 0;
-    let velocity = 0;
-    let lastY = 0;
-    let lastTime = Date.now();
-    
-    console.log('Setting up mobile interactions, found', imageItems.length, 'cards');
-    
-    // Get all translate wrappers first
     const translateWrappers = Array.from(canvas.querySelectorAll('.image-translate-wrapper'));
+    let tappedCardId = null;
+    const FIXED_ROTATION = -30.0;
     
-    // Calculate total height needed for scrolling
-    // Card height (200px) + spacing (-39px) = 161px per card
-    const cardHeight = 200;
-    const cardSpacing = -39;
-    const actualCardHeight = cardHeight + cardSpacing; // 161px
-    const totalCards = translateWrappers.length;
-    const totalHeight = totalCards * actualCardHeight + 200; // Add padding
-    canvasWrapper.style.minHeight = `${totalHeight}px`;
+    console.log(`Setting up mobile interactions: ${translateWrappers.length} cards with fixed ${FIXED_ROTATION}° rotation`);
     
-    // Scroll event removed - using fixed rotation for now
-    
-    // Get all translate wrappers and their inner elements (already defined above)
-    const wrapperData = translateWrappers.map((translateWrapper, index) => {
+    // Apply fixed rotation to all cards
+    translateWrappers.forEach((translateWrapper, index) => {
         const rotateWrapper = translateWrapper.querySelector('.image-rotate-wrapper');
         const imageItem = translateWrapper.querySelector('.image-item');
         
-        // Verify each card has its own unique wrapper
-        if (!rotateWrapper) {
-            console.error(`[ERROR] Card ${index}: No rotateWrapper found!`);
-        }
-        if (!imageItem) {
-            console.error(`[ERROR] Card ${index}: No imageItem found!`);
-        }
+        if (!rotateWrapper || !imageItem) return;
         
-        return { translateWrapper, rotateWrapper, imageItem, index };
-    });
-    
-    console.log(`[SETUP] Found ${wrapperData.length} cards, ${wrapperData.filter(w => w.rotateWrapper).length} with rotateWrapper`);
-    
-    // Apply fixed rotation to all cards
-    const applyFixedRotation = () => {
-        const fixedRotation = -30.0; // Fixed rotation for all cards
+        const offsetY = index * 8;
         
-        wrapperData.forEach(({ translateWrapper, rotateWrapper, imageItem, index }) => {
-            if (!rotateWrapper || !imageItem) return;
-            
-            const offsetY = index * 8;
-            
-            // Handle tapped cards (rotate to 0°)
-            if (imageItem.dataset.imagePath === tappedCardId || imageItem.classList.contains('tapped')) {
-                rotateWrapper.style.transform = `rotateX(0deg)`;
-                rotateWrapper.style.webkitTransform = `rotateX(0deg)`;
-                translateWrapper.style.transform = `translate3d(0, ${offsetY}px, 0)`;
-                translateWrapper.style.webkitTransform = `translate3d(0, ${offsetY}px, 0)`;
-                return;
-            }
-            
-            // Apply fixed rotation to all non-tapped cards
-            rotateWrapper.style.transform = `rotateX(${fixedRotation}deg)`;
-            rotateWrapper.style.webkitTransform = `rotateX(${fixedRotation}deg)`;
-            translateWrapper.style.transform = `translate3d(0, ${offsetY}px, 0)`;
-            translateWrapper.style.webkitTransform = `translate3d(0, ${offsetY}px, 0)`;
-        });
+        // Apply fixed transforms
+        translateWrapper.style.transform = `translate3d(0, ${offsetY}px, 0)`;
+        translateWrapper.style.webkitTransform = `translate3d(0, ${offsetY}px, 0)`;
+        rotateWrapper.style.transform = `rotateX(${FIXED_ROTATION}deg)`;
+        rotateWrapper.style.webkitTransform = `rotateX(${FIXED_ROTATION}deg)`;
         
-        console.log(`[FIXED ROTATION] Applied ${fixedRotation}° to all ${wrapperData.length} cards`);
-    };
-    
-    // Initial apply
-    applyFixedRotation();
-    
-    // Track tapped card
-    wrapperData.forEach(({ imageItem }) => {
+        // Handle tap interaction
         imageItem.addEventListener('click', () => {
+            // Toggle tapped state
             if (tappedCardId === imageItem.dataset.imagePath) {
                 tappedCardId = null;
                 imageItem.classList.remove('tapped');
+                rotateWrapper.style.transform = `rotateX(${FIXED_ROTATION}deg)`;
+                rotateWrapper.style.webkitTransform = `rotateX(${FIXED_ROTATION}deg)`;
             } else {
-                wrapperData.forEach(({ imageItem: item }) => item.classList.remove('tapped'));
+                // Remove tapped from all
+                translateWrappers.forEach((tw) => {
+                    const rw = tw.querySelector('.image-rotate-wrapper');
+                    const ii = tw.querySelector('.image-item');
+                    ii.classList.remove('tapped');
+                    rw.style.transform = `rotateX(${FIXED_ROTATION}deg)`;
+                    rw.style.webkitTransform = `rotateX(${FIXED_ROTATION}deg)`;
+                });
+                
                 tappedCardId = imageItem.dataset.imagePath;
                 imageItem.classList.add('tapped');
+                rotateWrapper.style.transform = `rotateX(0deg)`;
+                rotateWrapper.style.webkitTransform = `rotateX(0deg)`;
             }
             
             if (navigator.vibrate) {
                 navigator.vibrate(10);
             }
-            
-            applyFixedRotation();
         });
-    });
-    
-    // COMMENTED OUT: Tap interaction - testing static 3D first
-    // Track tapped card
-    // imageItems.forEach((item) => {
-    //     item.addEventListener('click', () => {
-    //         // Toggle tapped state
-    //         if (tappedCardId === item.dataset.imagePath) {
-    //             tappedCardId = null;
-    //             item.classList.remove('tapped');
-    //         } else {
-    //             // Remove tapped from all
-    //             imageItems.forEach(i => i.classList.remove('tapped'));
-    //             tappedCardId = item.dataset.imagePath;
-    //             item.classList.add('tapped');
-    //         }
-    //         
-    //         // Haptic feedback
-    //         if (navigator.vibrate) {
-    //             navigator.vibrate(10);
-    //         }
-    //         
-    //         updateScroll();
-    //     });
-    // });
-}
-
-// Update card rotations based on scroll position (exact match to Safari tabs Swift code)
-function updateCardRotations(imageItems, scrollY, tappedCardId) {
-    const deviceHeight = window.innerHeight;
-    const cardHeight = 200; // Card height
-    const cardSpacing = -100; // Negative spacing (LazyVStack spacing: -100)
-    const screenTop = 200; // Account for top padding
-    
-    imageItems.forEach((item, index) => {
-        // Calculate offset Y (matching Swift: CGFloat(index) * 8)
-        const offsetY = index * 8;
-        
-        // Handle tapped cards (rotate to 0°)
-        if (item.dataset.imagePath === tappedCardId || item.classList.contains('tapped')) {
-            // Tapped cards: rotate to 0° (flat)
-            item.style.transform = `translate3d(0, ${offsetY}px, 0) rotateX(0deg)`;
-            item.style.webkitTransform = `translate3d(0, ${offsetY}px, 0) rotateX(0deg)`;
-            return;
-        }
-        
-        // Calculate card position considering scroll
-        // Base position of card in the stack
-        const baseCardPosition = index * (cardHeight + cardSpacing);
-        // Current position after scrolling (wrapper is translated by -scrollY)
-        const currentCardPosition = baseCardPosition - scrollY;
-        // Card center Y position relative to viewport
-        const cardCenterY = currentCardPosition + cardHeight / 2;
-        
-        // Calculate distance from top of screen
-        const distanceFromTop = cardCenterY - screenTop;
-        
-        // Normalize the distance to a 0-1 range for rotation interpolation
-        const maxDistance = deviceHeight * 0.6; // Maximum distance for full rotation
-        const normalizedDistance = Math.max(0, Math.min(1, distanceFromTop / maxDistance));
-        
-        // Interpolate between -10° (top) and -60° (bottom) - matching Swift exactly
-        const topRotation = -10.0;
-        const bottomRotation = -60.0;
-        const dynamicRotation = topRotation + normalizedDistance * (bottomRotation - topRotation);
-        
-        // Apply rotation with 3D transform
-        // Now that overflow is removed, simple rotateX should work
-        const transformValue = `translate3d(0, ${offsetY}px, 0) rotateX(${dynamicRotation}deg)`;
-        item.style.transform = transformValue;
-        item.style.webkitTransform = transformValue;
-        
-        // DEBUG: Log rotation values
-        if (index === 0) {
-            console.log(`Card 0 rotation: ${dynamicRotation}deg, distanceFromTop: ${distanceFromTop}, normalized: ${normalizedDistance}, scrollY: ${scrollY}`);
-        }
-        
-        // Image should automatically rotate with parent due to transform-style: preserve-3d
-        // No need to set transform on image - it inherits from parent
     });
 }
 
