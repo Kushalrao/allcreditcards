@@ -358,6 +358,19 @@ function setupMobileInteractions(canvas) {
         const topRotation = -10.0;      // Items at top of viewport
         const bottomRotation = -60.0;   // Items entering from bottom / rest of list
         
+        // OPTIMIZATION: Calculate approximate positions first to avoid getBoundingClientRect on all cards
+        const cardHeight = 200;
+        const cardSpacing = -39;
+        const actualCardHeight = cardHeight + cardSpacing; // 161px per card
+        const canvasTopPadding = 20;
+        
+        // Buffer zone: only check cards within 2 viewport heights of viewport
+        const bufferZone = viewportHeight * 2;
+        const checkRangeTop = viewportTop - bufferZone;
+        const checkRangeBottom = viewportBottom + bufferZone;
+        
+        // First pass: Batch read all positions for cards in range (read phase)
+        const cardsToUpdate = [];
         wrapperData.forEach(({ translateWrapper, rotateWrapper, imageItem, index }) => {
             if (!rotateWrapper || !imageItem) return;
             
@@ -372,7 +385,27 @@ function setupMobileInteractions(canvas) {
                 return;
             }
             
-            // Get actual viewport position using getBoundingClientRect
+            // Quick check: estimate if card might be in range
+            const estimatedCardTop = canvasTopPadding + (index * actualCardHeight) - scrollY;
+            const estimatedCardBottom = estimatedCardTop + cardHeight;
+            
+            // Skip cards that are definitely far outside the range
+            if (estimatedCardBottom < checkRangeTop || estimatedCardTop > checkRangeBottom) {
+                // Card is far away - set default rotation without getBoundingClientRect
+                rotateWrapper.style.transform = `rotateX(${bottomRotation}deg)`;
+                rotateWrapper.style.webkitTransform = `rotateX(${bottomRotation}deg)`;
+                translateWrapper.style.transform = `translate3d(0, ${offsetY}px, 0)`;
+                translateWrapper.style.webkitTransform = `translate3d(0, ${offsetY}px, 0)`;
+                return;
+            }
+            
+            // Card is in range - add to batch for getBoundingClientRect
+            cardsToUpdate.push({ translateWrapper, rotateWrapper, imageItem, index, offsetY });
+        });
+        
+        // Second pass: Read positions for cards in range (batch read)
+        cardsToUpdate.forEach(({ translateWrapper, rotateWrapper, imageItem, index, offsetY }) => {
+            // Get actual viewport position using getBoundingClientRect (only for cards in range)
             const rect = imageItem.getBoundingClientRect();
             const cardTop = rect.top;
             const cardBottom = rect.bottom;
@@ -387,30 +420,21 @@ function setupMobileInteractions(canvas) {
             
             if (isInViewport) {
                 // Card is visible in viewport - interpolate rotation based on position
-                // Items at top of viewport: topRotation (-10°)
-                // Items entering from bottom: bottomRotation (-60°)
                 const cardPositionInViewport = cardCenterY - viewportTop;
                 const normalizedPosition = Math.max(0, Math.min(1, cardPositionInViewport / viewportHeight));
                 
                 // Interpolate from topRotation to bottomRotation
                 dynamicRotation = topRotation + normalizedPosition * (bottomRotation - topRotation);
             } else {
-                // Card is outside viewport - use bottom rotation for all
-                // (items entering from bottom AND rest of list above viewport)
+                // Card is outside viewport - use bottom rotation
                 dynamicRotation = bottomRotation;
             }
             
-            // Apply transforms
-            // Match SwiftUI approach: pure rotation without translateZ
-            // SwiftUI uses .rotation3DEffect() with just rotateX, no translateZ
+            // Apply transforms (write phase)
             translateWrapper.style.transform = `translate3d(0, ${offsetY}px, 0)`;
             translateWrapper.style.webkitTransform = `translate3d(0, ${offsetY}px, 0)`;
-            
-            // Apply rotation to the rotateWrapper
-            if (rotateWrapper) {
-                rotateWrapper.style.transform = `rotateX(${dynamicRotation}deg)`;
-                rotateWrapper.style.webkitTransform = `rotateX(${dynamicRotation}deg)`;
-            }
+            rotateWrapper.style.transform = `rotateX(${dynamicRotation}deg)`;
+            rotateWrapper.style.webkitTransform = `rotateX(${dynamicRotation}deg)`;
         });
     };
     
