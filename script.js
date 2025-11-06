@@ -364,8 +364,8 @@ function setupMobileInteractions(canvas) {
         const actualCardHeight = cardHeight + cardSpacing; // 161px per card
         const canvasTopPadding = 20;
         
-        // Buffer zone: only check cards within 2 viewport heights of viewport
-        const bufferZone = viewportHeight * 2;
+        // Buffer zone: only check cards within 3 viewport heights of viewport (larger buffer for safety)
+        const bufferZone = viewportHeight * 3;
         const checkRangeTop = viewportTop - bufferZone;
         const checkRangeBottom = viewportBottom + bufferZone;
         
@@ -386,7 +386,9 @@ function setupMobileInteractions(canvas) {
             }
             
             // Quick check: estimate if card might be in range
-            const estimatedCardTop = canvasTopPadding + (index * actualCardHeight) - scrollY;
+            // Account for both natural flow spacing AND translateY offset
+            const translateYOffset = index * 8;
+            const estimatedCardTop = canvasTopPadding + (index * actualCardHeight) + translateYOffset - scrollY;
             const estimatedCardBottom = estimatedCardTop + cardHeight;
             
             // Skip cards that are definitely far outside the range
