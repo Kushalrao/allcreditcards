@@ -41,7 +41,7 @@ body {
     display: grid;
     grid-template-columns: repeat(20, 257px);
     grid-auto-rows: auto;
-    column-gap: 56px; /* 1.3x of 43px */
+    column-gap: 71px;
     row-gap: 49px;
     padding: 50px;
     width: fit-content;

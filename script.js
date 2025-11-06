@@ -19,7 +19,7 @@ const GRID_COLS = 20; // Number of columns
 const GRID_ROWS = 20; // Number of rows
 const IMAGE_WIDTH = 257; // Width of each image in pixels
 const IMAGE_HEIGHT = 158; // Height of each image in pixels
-const GAP = 56; // Horizontal gap between images (1.3x of 43px)
+const GAP = 71; // Horizontal gap between images
 
 // Load card data from data.txt
 async function loadCardData() {
