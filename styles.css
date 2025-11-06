@@ -29,11 +29,7 @@ body {
 }
 
 .canvas {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    position: relative;
     display: grid;
     grid-template-columns: repeat(20, 218px);
     grid-auto-rows: minmax(134px, auto);
@@ -109,7 +105,7 @@ body {
 
 /* Search bar */
 .search-bar-container {
-    position: sticky;
+    position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
