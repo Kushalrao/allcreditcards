@@ -148,8 +148,8 @@ function createGrid(canvas) {
     console.log('Image paths:', imagePaths);
     
     if (isMobile) {
-        // Mobile: Create vertical stack with 5 cards (repeating the 8 images)
-        const totalCards = 5;
+        // Mobile: Create vertical stack with 100 cards (repeating the 8 images)
+        const totalCards = 100;
         for (let i = 0; i < totalCards; i++) {
             // Cycle through images
             const imagePath = imagePaths[i % imagePaths.length];
