@@ -260,9 +260,9 @@ function setupMobileInteractions(canvas) {
         const offsetY = index * 8;
         // Set a default rotation to test 3D (e.g., -30deg)
         // This will be overridden by updateCardRotations
-        // CRITICAL: Force 3D context first with translateZ, then apply rotation
-        // This ensures browser creates a 3D rendering context
-        const testTransform = `translateZ(0) translate3d(0, ${offsetY}px, 0) rotateX(-30deg)`;
+        // CRITICAL: Use perspective() function in transform to force 3D context
+        // This works even when parent has overflow that flattens 3D
+        const testTransform = `perspective(1000px) translate3d(0, ${offsetY}px, 0) rotateX(-30deg)`;
         item.style.transform = testTransform;
         item.style.webkitTransform = testTransform;
         
@@ -362,9 +362,9 @@ function updateCardRotations(imageItems, scrollViewContentOffset, tappedCardId) 
         
         // Handle tapped cards (rotate to 0°)
         if (item.dataset.imagePath === tappedCardId || item.classList.contains('tapped')) {
-            // Tapped cards: rotate to 0° (flat) - still need translateZ(0) for 3D context
-            item.style.transform = `translateZ(0) translate3d(0, ${offsetY}px, 0) rotateX(0deg)`;
-            item.style.webkitTransform = `translateZ(0) translate3d(0, ${offsetY}px, 0) rotateX(0deg)`;
+            // Tapped cards: rotate to 0° (flat) - still need perspective() for 3D context
+            item.style.transform = `perspective(1000px) translate3d(0, ${offsetY}px, 0) rotateX(0deg)`;
+            item.style.webkitTransform = `perspective(1000px) translate3d(0, ${offsetY}px, 0) rotateX(0deg)`;
             return;
         }
         
@@ -385,9 +385,9 @@ function updateCardRotations(imageItems, scrollViewContentOffset, tappedCardId) 
         const dynamicRotation = topRotation + normalizedDistance * (bottomRotation - topRotation);
         
         // Apply rotation with 3D transform
-        // CRITICAL: Start with translateZ(0) to force 3D context, then apply rotation
-        // According to W3Schools: perspective must be on parent, then use rotateX() on child
-        const transformValue = `translateZ(0) translate3d(0, ${offsetY}px, 0) rotateX(${dynamicRotation}deg)`;
+        // CRITICAL: Use perspective() function in transform to force 3D context
+        // This works even when parent has overflow that flattens 3D
+        const transformValue = `perspective(1000px) translate3d(0, ${offsetY}px, 0) rotateX(${dynamicRotation}deg)`;
         item.style.transform = transformValue;
         item.style.webkitTransform = transformValue;
         
