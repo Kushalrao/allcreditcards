@@ -186,10 +186,11 @@ body {
         padding: 20px 16px;
         width: 100%;
         height: auto;
-        perspective: 1200px; /* Stronger perspective for visible 3D effect */
-        perspective-origin: center center;
-        transform-style: preserve-3d;
-        -webkit-perspective: 1200px;
+        /* Perspective must be on parent container for 3D transforms to work */
+        perspective: 1000px;
+        perspective-origin: 50% 50%;
+        -webkit-perspective: 1000px;
+        -webkit-perspective-origin: 50% 50%;
     }
     
     .image-item {
@@ -200,22 +201,31 @@ body {
         cursor: pointer;
         position: relative;
         margin-bottom: -100px; /* Negative spacing matching LazyVStack spacing: -100 */
+        /* Critical for 3D: transform-style must be preserve-3d */
         transform-style: preserve-3d;
-        transform-origin: center center; /* Ensure rotation happens around center */
+        -webkit-transform-style: preserve-3d;
+        transform-origin: center center;
         transition: box-shadow 0.3s ease, margin-top 0.4s ease-out, margin-bottom 0.4s ease-out;
         will-change: transform;
         backface-visibility: hidden;
         -webkit-backface-visibility: hidden;
-        /* Keep overflow hidden but ensure 3D works */
         overflow: hidden;
+        /* Default rotation for testing - remove after verifying 3D works */
+        /* transform: rotateX(-30deg); */
     }
     
-    /* Inner wrapper for image to ensure it rotates with parent */
+    /* Image inside card - must preserve 3D to rotate with parent */
     .image-item > img {
-        position: relative;
-        z-index: 0;
-        /* Ensure image rotates with parent container */
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
         transform-style: preserve-3d;
+        -webkit-transform-style: preserve-3d;
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
     }
     
     /* Remove transition on transform for dynamic updates - update immediately */

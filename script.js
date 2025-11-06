@@ -253,6 +253,14 @@ function setupMobileInteractions(canvas) {
     const imageItems = Array.from(canvas.querySelectorAll('.image-item'));
     let tappedCardId = null;
     
+    // First, set default rotation on all cards to verify 3D is working
+    imageItems.forEach((item, index) => {
+        const offsetY = index * 8;
+        // Set a default rotation to test 3D (e.g., -30deg)
+        // This will be overridden by updateCardRotations
+        item.style.transform = `translate3d(0, ${offsetY}px, 0) rotateX(-30deg)`;
+    });
+    
     // Track scroll offset (equivalent to GeometryReader in Swift)
     const updateScrollOffset = () => {
         // Get scroll position - this is the key: scrollTop gives us the scroll offset
@@ -316,12 +324,6 @@ function updateCardRotations(imageItems, scrollViewContentOffset, tappedCardId) 
         if (item.dataset.imagePath === tappedCardId || item.classList.contains('tapped')) {
             // Tapped cards: rotate to 0° (flat)
             item.style.transform = `translate3d(0, ${offsetY}px, 0) rotateX(0deg)`;
-            // Ensure image is properly set up for 3D rotation
-            const img = item.querySelector('img');
-            if (img) {
-                img.style.transform = 'translateZ(0)';
-                img.style.transformStyle = 'preserve-3d';
-            }
             return;
         }
         
@@ -342,18 +344,12 @@ function updateCardRotations(imageItems, scrollViewContentOffset, tappedCardId) 
         const dynamicRotation = topRotation + normalizedDistance * (bottomRotation - topRotation);
         
         // Apply rotation with 3D transform
-        // Use translate3d for hardware acceleration
-        // Perspective is on parent container (.canvas), so we just use rotateX
+        // According to W3Schools: perspective must be on parent, then use rotateX() on child
+        // Using translate3d() for hardware acceleration
         item.style.transform = `translate3d(0, ${offsetY}px, 0) rotateX(${dynamicRotation}deg)`;
         
-        // Ensure image is properly set up for 3D rotation
-        // Image should inherit parent's transform automatically with transform-style: preserve-3d
-        const img = item.querySelector('img');
-        if (img) {
-            // Ensure image has no conflicting transforms
-            img.style.transform = 'translateZ(0)';
-            img.style.transformStyle = 'preserve-3d';
-        }
+        // Image should automatically rotate with parent due to transform-style: preserve-3d
+        // No need to set transform on image - it inherits from parent
     });
 }
 
