@@ -167,6 +167,7 @@ body {
 }
 
 .card-name {
+    font-family: 'Syne', sans-serif;
     font-size: 13px;
     color: rgba(0, 0, 0, 0.79);
     margin-top: 9px;
