@@ -205,6 +205,10 @@ body {
         width: 100%;
         height: auto;
     }
+    
+    .card-info {
+        display: none;
+    }
 }
 
 @keyframes fadeIn {
