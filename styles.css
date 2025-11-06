@@ -34,6 +34,9 @@ body {
     scroll-padding: 0;
     scrollbar-width: none; /* Firefox - hide scrollbar */
     -ms-overflow-style: none; /* IE and Edge - hide scrollbar */
+    /* CRITICAL: Preserve 3D context even with overflow */
+    transform-style: preserve-3d;
+    -webkit-transform-style: preserve-3d;
 }
 
 .canvas {
@@ -182,6 +185,7 @@ body {
         perspective-origin: 50% 50%;
         -webkit-perspective: 1000px;
         -webkit-perspective-origin: 50% 50%;
+        /* CRITICAL: Preserve 3D context even with overflow */
         transform-style: preserve-3d;
         -webkit-transform-style: preserve-3d;
     }
@@ -216,6 +220,7 @@ body {
         /* CRITICAL FIX: overflow: hidden flattens 3D transforms! Use clip-path instead */
         /* overflow: hidden; */
         clip-path: inset(0 round 13px);
+        /* NO transform in CSS - let JavaScript handle it completely */
     }
     
     /* Image inside card - must preserve 3D to rotate with parent */

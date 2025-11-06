@@ -260,19 +260,39 @@ function setupMobileInteractions(canvas) {
         const offsetY = index * 8;
         // Set a default rotation to test 3D (e.g., -30deg)
         // This will be overridden by updateCardRotations
-        const testTransform = `translate3d(0, ${offsetY}px, 0) rotateX(-30deg)`;
+        // CRITICAL: Force 3D context first with translateZ, then apply rotation
+        // This ensures browser creates a 3D rendering context
+        const testTransform = `translateZ(0) translate3d(0, ${offsetY}px, 0) rotateX(-30deg)`;
         item.style.transform = testTransform;
         item.style.webkitTransform = testTransform;
         
-        // DEBUG: Log to verify transform is applied
-        console.log(`Card ${index}: Applied transform:`, testTransform);
-        console.log(`Card ${index}: Computed transform:`, window.getComputedStyle(item).transform);
+        // Force browser to recognize 3D transform
+        item.style.transformStyle = 'preserve-3d';
+        item.style.webkitTransformStyle = 'preserve-3d';
         
-        // Verify perspective is set
+        // Also ensure parent has preserve-3d
         const canvas = item.closest('.canvas');
         if (canvas) {
-            const perspective = window.getComputedStyle(canvas).perspective;
-            console.log(`Card ${index}: Parent perspective:`, perspective);
+            canvas.style.transformStyle = 'preserve-3d';
+            canvas.style.webkitTransformStyle = 'preserve-3d';
+        }
+        
+        // DEBUG: Log to verify transform is applied
+        console.log(`Card ${index}: Applied transform:`, testTransform);
+        const computedTransform = window.getComputedStyle(item).transform;
+        console.log(`Card ${index}: Computed transform:`, computedTransform);
+        
+        // Check if it's a 3D matrix (should have more than 6 values)
+        const is3D = computedTransform.includes('matrix3d') || 
+                     (computedTransform.includes('matrix') && computedTransform.split(',').length > 6);
+        console.log(`Card ${index}: Is 3D transform:`, is3D);
+        
+        // Verify perspective is set on container
+        const container = document.getElementById('canvasContainer');
+        if (container) {
+            const perspective = window.getComputedStyle(container).perspective;
+            const transformStyle = window.getComputedStyle(container).transformStyle;
+            console.log(`Card ${index}: Container perspective:`, perspective, 'transform-style:', transformStyle);
         }
     });
     
@@ -337,8 +357,9 @@ function updateCardRotations(imageItems, scrollViewContentOffset, tappedCardId) 
         
         // Handle tapped cards (rotate to 0°)
         if (item.dataset.imagePath === tappedCardId || item.classList.contains('tapped')) {
-            // Tapped cards: rotate to 0° (flat)
-            item.style.transform = `translate3d(0, ${offsetY}px, 0) rotateX(0deg)`;
+            // Tapped cards: rotate to 0° (flat) - still need translateZ(0) for 3D context
+            item.style.transform = `translateZ(0) translate3d(0, ${offsetY}px, 0) rotateX(0deg)`;
+            item.style.webkitTransform = `translateZ(0) translate3d(0, ${offsetY}px, 0) rotateX(0deg)`;
             return;
         }
         
@@ -359,9 +380,9 @@ function updateCardRotations(imageItems, scrollViewContentOffset, tappedCardId) 
         const dynamicRotation = topRotation + normalizedDistance * (bottomRotation - topRotation);
         
         // Apply rotation with 3D transform
+        // CRITICAL: Start with translateZ(0) to force 3D context, then apply rotation
         // According to W3Schools: perspective must be on parent, then use rotateX() on child
-        // Using translate3d() for hardware acceleration
-        const transformValue = `translate3d(0, ${offsetY}px, 0) rotateX(${dynamicRotation}deg)`;
+        const transformValue = `translateZ(0) translate3d(0, ${offsetY}px, 0) rotateX(${dynamicRotation}deg)`;
         item.style.transform = transformValue;
         item.style.webkitTransform = transformValue;
         
