@@ -200,6 +200,9 @@ function createGrid(canvas) {
         return;
     }
     
+    // Clear existing items
+    allImageItems = [];
+    
     if (isMobile) {
         // Mobile: Create vertical stack based on card data
         for (let i = 0; i < totalCards; i++) {
@@ -211,6 +214,7 @@ function createGrid(canvas) {
             const imageItem = createImageItem(imagePath, card, 0, i);
             imageItem.dataset.cardIndex = i;
             canvas.appendChild(imageItem);
+            allImageItems.push(imageItem);
         }
     } else {
         // Desktop: Create grid based on card data
@@ -224,12 +228,16 @@ function createGrid(canvas) {
                 // Create image item with card data
                 const imageItem = createImageItem(imagePath, card, row, col);
                 canvas.appendChild(imageItem);
+                allImageItems.push(imageItem);
                 cardIndex++;
             }
         }
     }
     
     console.log(`Created ${totalCards} card items`);
+    
+    // Create filters after cards are created
+    createFilters();
 }
 
 // Create an image item element with card data (same for mobile and desktop)
@@ -239,6 +247,16 @@ function createImageItem(imagePath, card, row, col) {
     imageItem.dataset.imagePath = imagePath;
     imageItem.dataset.row = row;
     imageItem.dataset.col = col;
+    
+    // Store card data for filtering
+    if (card) {
+        imageItem.dataset.network = card['Network'] || '';
+        imageItem.dataset.bank = card['Bank/Issuer'] || '';
+        // Determine if paid or free based on annual fee
+        const annualFee = card['Annual Fee (INR)'];
+        const feeValue = typeof annualFee === 'string' ? parseInt(annualFee.replace(/,/g, '')) : annualFee;
+        imageItem.dataset.feeType = (feeValue && feeValue > 0) ? 'Paid' : 'Free';
+    }
     
     // Create image container
     const imageContainer = document.createElement('div');
@@ -286,6 +304,136 @@ function createImageItem(imagePath, card, row, col) {
     }
     
     return imageItem;
+}
+
+// Filter functionality
+let activeFilter = null;
+let allImageItems = [];
+
+// Extract unique filter values from card data
+function extractFilterValues() {
+    const networks = new Set();
+    const banks = new Set();
+    const feeTypes = new Set(['Paid', 'Free']);
+    
+    cardData.forEach(card => {
+        if (card['Network']) networks.add(card['Network']);
+        if (card['Bank/Issuer']) banks.add(card['Bank/Issuer']);
+    });
+    
+    return {
+        networks: Array.from(networks).sort(),
+        banks: Array.from(banks).sort(),
+        feeTypes: Array.from(feeTypes)
+    };
+}
+
+// Create filter buttons
+function createFilters() {
+    const filtersScroll = document.getElementById('filtersScroll');
+    if (!filtersScroll) return;
+    
+    const filterValues = extractFilterValues();
+    
+    // Clear existing filters
+    filtersScroll.innerHTML = '';
+    
+    // Network filters
+    filterValues.networks.forEach(network => {
+        const filterTab = document.createElement('button');
+        filterTab.className = 'filter-tab';
+        filterTab.textContent = network;
+        filterTab.dataset.filterType = 'network';
+        filterTab.dataset.filterValue = network;
+        filterTab.addEventListener('click', () => handleFilterClick(filterTab, 'network', network));
+        filtersScroll.appendChild(filterTab);
+    });
+    
+    // Fee type filters
+    filterValues.feeTypes.forEach(feeType => {
+        const filterTab = document.createElement('button');
+        filterTab.className = 'filter-tab';
+        filterTab.textContent = feeType;
+        filterTab.dataset.filterType = 'feeType';
+        filterTab.dataset.filterValue = feeType;
+        filterTab.addEventListener('click', () => handleFilterClick(filterTab, 'feeType', feeType));
+        filtersScroll.appendChild(filterTab);
+    });
+    
+    // Bank filters
+    filterValues.banks.forEach(bank => {
+        const filterTab = document.createElement('button');
+        filterTab.className = 'filter-tab';
+        filterTab.textContent = bank;
+        filterTab.dataset.filterType = 'bank';
+        filterTab.dataset.filterValue = bank;
+        filterTab.addEventListener('click', () => handleFilterClick(filterTab, 'bank', bank));
+        filtersScroll.appendChild(filterTab);
+    });
+}
+
+// Handle filter click
+function handleFilterClick(filterTab, filterType, filterValue) {
+    // If clicking the same active filter, remove it
+    if (activeFilter && activeFilter.filterTab === filterTab) {
+        removeActiveFilter();
+        return;
+    }
+    
+    // Remove active state from all filters
+    document.querySelectorAll('.filter-tab').forEach(tab => {
+        tab.classList.remove('active');
+    });
+    
+    // Set new active filter
+    activeFilter = { filterTab, filterType, filterValue };
+    filterTab.classList.add('active');
+    
+    // Apply filter with fade transition
+    applyFilter(filterType, filterValue);
+}
+
+// Remove active filter
+function removeActiveFilter() {
+    if (!activeFilter) return;
+    
+    activeFilter.filterTab.classList.remove('active');
+    activeFilter = null;
+    
+    // Show all cards
+    applyFilter(null, null);
+}
+
+// Apply filter with fade transition
+function applyFilter(filterType, filterValue) {
+    // Step 1: Fade out all cards
+    allImageItems.forEach(item => {
+        item.classList.remove('fade-in');
+        item.classList.add('fade-out');
+    });
+    
+    // Step 2: After fade out, filter and fade in
+    setTimeout(() => {
+        allImageItems.forEach(item => {
+            let shouldShow = true;
+            
+            if (filterType && filterValue) {
+                const itemValue = item.dataset[filterType];
+                shouldShow = itemValue === filterValue;
+            }
+            
+            if (shouldShow) {
+                item.style.display = '';
+                item.classList.remove('fade-out');
+                // Force reflow to ensure transition
+                void item.offsetHeight;
+                item.classList.add('fade-in');
+            } else {
+                item.style.display = 'none';
+                item.classList.remove('fade-out', 'fade-in');
+            }
+        });
+    }, 300); // Wait for fade out to complete
 }
 
 // Initialize when DOM is ready
