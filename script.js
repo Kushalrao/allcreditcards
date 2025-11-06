@@ -394,12 +394,10 @@ function setupMobileInteractions(canvas) {
                 
                 // Interpolate from topRotation to bottomRotation
                 dynamicRotation = topRotation + normalizedPosition * (bottomRotation - topRotation);
-            } else if (isBelowViewport) {
-                // Card is below viewport (entering from bottom) - use bottom rotation
-                dynamicRotation = bottomRotation;
             } else {
-                // Card is above viewport - use top rotation
-                dynamicRotation = topRotation;
+                // Card is outside viewport - use bottom rotation for all
+                // (items entering from bottom AND rest of list above viewport)
+                dynamicRotation = bottomRotation;
             }
             
             // Apply transforms
