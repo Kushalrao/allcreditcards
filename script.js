@@ -318,7 +318,7 @@ function setupMobileInteractions(canvas) {
     let rafId = null;
     const handleScroll = () => {
         scrollY = canvasContainer.scrollTop;
-        console.log('SCROLL EVENT: scrollY updated to', scrollY.toFixed(1));
+        // Removed verbose logging for performance
         
         // Use requestAnimationFrame to ensure we read positions after browser renders
         if (rafId) cancelAnimationFrame(rafId);
@@ -363,18 +363,22 @@ function setupMobileInteractions(canvas) {
         // Track visible cards for logging
         const visibleCards = [];
         
-        // DEBUG: Check perspective on first call
-        if (scrollY === 0 || scrollY < 10) {
-            const canvasWrapper = document.getElementById('canvasWrapper');
-            if (canvasWrapper) {
-                const computedPerspective = window.getComputedStyle(canvasWrapper).perspective;
-                const computedTransformStyle = window.getComputedStyle(canvasWrapper).transformStyle;
-                console.log(`[DEBUG Perspective] canvas-wrapper perspective: "${computedPerspective}"`);
-                console.log(`[DEBUG Perspective] canvas-wrapper transform-style: "${computedTransformStyle}"`);
-            }
-        }
+        // Perspective debug logging removed for performance
+        // Uncomment below for debugging:
+        // if (scrollY === 0 || scrollY < 10) {
+        //     const canvasWrapper = document.getElementById('canvasWrapper');
+        //     if (canvasWrapper) {
+        //         const computedPerspective = window.getComputedStyle(canvasWrapper).perspective;
+        //         console.log(`[DEBUG Perspective] canvas-wrapper perspective: "${computedPerspective}"`);
+        //     }
+        // }
         
         // Calculate positions directly from scroll and card index (no getBoundingClientRect)
+        // OPTIMIZATION: Only update cards within viewport buffer (viewport + 2 viewport heights above/below)
+        const viewportBuffer = viewportHeight * 2; // Buffer zone for smooth transitions
+        const updateRangeTop = viewportTop - viewportBuffer;
+        const updateRangeBottom = viewportBottom + viewportBuffer;
+        
         wrapperData.forEach(({ translateWrapper, rotateWrapper, imageItem, index }) => {
             if (!rotateWrapper || !imageItem) return;
             
@@ -398,6 +402,16 @@ function setupMobileInteractions(canvas) {
             const currentCardTop = baseCardPosition - scrollY;
             const currentCardBottom = currentCardTop + cardHeight;
             const currentCardCenterY = currentCardTop + cardHeight / 2;
+            
+            // OPTIMIZATION: Skip cards that are far outside the update range
+            if (currentCardBottom < updateRangeTop || currentCardTop > updateRangeBottom) {
+                // Card is too far away - set default rotation and skip detailed calculation
+                rotateWrapper.style.transform = `rotateX(-60deg)`;
+                rotateWrapper.style.webkitTransform = `rotateX(-60deg)`;
+                translateWrapper.style.transform = `translate3d(0, ${offsetY}px, 0)`;
+                translateWrapper.style.webkitTransform = `translate3d(0, ${offsetY}px, 0)`;
+                return;
+            }
             
             // Check if card is visible in viewport
             const isCardVisible = currentCardBottom > viewportTop && currentCardTop < viewportBottom;
@@ -458,41 +472,23 @@ function setupMobileInteractions(canvas) {
                 console.error(`[ERROR Card ${index}] No rotateWrapper to apply transform to!`);
             }
             
-            // DEBUG: Log rotation for ALL cards to see if they're different
-            if (index < 10) { // Log first 10 cards
-                console.log(`[DEBUG Card ${index}] basePos=${baseCardPosition.toFixed(1)}, scrollY=${scrollY.toFixed(1)}, currentTop=${currentCardTop.toFixed(1)}, centerY=${currentCardCenterY.toFixed(1)}, normalized=${normalizedPosition?.toFixed(3) || 'N/A'}, rotation=${dynamicRotation.toFixed(1)}deg, visible=${isCardVisible}`);
-            }
-            
-            // DEBUG: Verify transforms are actually applied (for first 3 visible cards)
-            if (isCardVisible && index < 3) {
-                const appliedTransform = rotateWrapper.style.transform;
-                const computedTransform = window.getComputedStyle(rotateWrapper).transform;
-                const isMatrix3d = computedTransform.includes('matrix3d');
-                
-                console.log(`[DEBUG Card ${index}] Applied transform: "${appliedTransform}"`);
-                console.log(`[DEBUG Card ${index}] Computed transform: "${computedTransform.substring(0, 80)}..."`);
-                console.log(`[DEBUG Card ${index}] Is 3D (matrix3d): ${isMatrix3d}`);
-            }
+            // Reduced debug logging for performance - only log when needed for debugging
+            // Uncomment below for detailed debugging:
+            // if (index < 3 && isCardVisible) {
+            //     console.log(`[DEBUG Card ${index}] rotation=${dynamicRotation.toFixed(1)}deg, centerY=${currentCardCenterY.toFixed(1)}`);
+            // }
         });
         
-        // Log viewport information
-        console.log(`\n=== VIEWPORT INFO (scrollY: ${scrollY.toFixed(1)}px) ===`);
-        console.log(`Cards in viewport: ${visibleCards.length}`);
-        if (visibleCards.length > 0) {
-            console.log('Visible cards and their rotations:');
-            visibleCards.forEach(card => {
-                console.log(`  Card ${card.index}: rotation=${card.rotation.toFixed(1)}deg, centerY=${card.centerY.toFixed(1)}, normalized=${card.normalized.toFixed(3)}`);
-            });
-            
-            // Verify rotations are different
-            const rotations = visibleCards.map(c => c.rotation);
-            const uniqueRotations = new Set(rotations.map(r => r.toFixed(1)));
-            console.log(`\n[VERIFICATION] Total visible cards: ${visibleCards.length}, Unique rotation values: ${uniqueRotations.size}`);
-            if (uniqueRotations.size === 1 && visibleCards.length > 1) {
-                console.warn(`[WARNING] All visible cards have the same rotation: ${rotations[0].toFixed(1)}deg - THIS IS THE PROBLEM!`);
-            }
-        }
-        console.log('==========================================\n');
+        // Reduced viewport logging for performance - only log occasionally
+        // Uncomment below for detailed viewport debugging:
+        // console.log(`\n=== VIEWPORT INFO (scrollY: ${scrollY.toFixed(1)}px) ===`);
+        // console.log(`Cards in viewport: ${visibleCards.length}`);
+        // if (visibleCards.length > 0) {
+        //     const rotations = visibleCards.map(c => c.rotation);
+        //     const uniqueRotations = new Set(rotations.map(r => r.toFixed(1)));
+        //     console.log(`Unique rotation values: ${uniqueRotations.size}`);
+        // }
+        // console.log('==========================================\n');
     };
     
     const updateScroll = () => {
