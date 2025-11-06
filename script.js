@@ -348,36 +348,15 @@ function setupMobileInteractions(canvas) {
     
     console.log(`[SETUP] Found ${wrapperData.length} cards, ${wrapperData.filter(w => w.rotateWrapper).length} with rotateWrapper`);
     
-    // Update card rotations based on scroll position
+    // Update card rotations based on viewport position using getBoundingClientRect
     const updateCardRotations = (scrollY) => {
         const deviceHeight = window.innerHeight;
-        const cardHeight = 200;
-        const cardSpacing = -39;
-        const canvasTopPadding = 20; // Canvas padding from CSS
-        
-        // Viewport boundaries - viewport starts at top of screen (0)
         const viewportTop = 0;
         const viewportBottom = deviceHeight;
         const viewportHeight = viewportBottom - viewportTop;
         
         // Track visible cards for logging
         const visibleCards = [];
-        
-        // Perspective debug logging removed for performance
-        // Uncomment below for debugging:
-        // if (scrollY === 0 || scrollY < 10) {
-        //     const canvasWrapper = document.getElementById('canvasWrapper');
-        //     if (canvasWrapper) {
-        //         const computedPerspective = window.getComputedStyle(canvasWrapper).perspective;
-        //         console.log(`[DEBUG Perspective] canvas-wrapper perspective: "${computedPerspective}"`);
-        //     }
-        // }
-        
-        // Calculate positions directly from scroll and card index (no getBoundingClientRect)
-        // OPTIMIZATION: Only update cards within viewport buffer (viewport + 2 viewport heights above/below)
-        const viewportBuffer = viewportHeight * 2; // Buffer zone for smooth transitions
-        const updateRangeTop = viewportTop - viewportBuffer;
-        const updateRangeBottom = viewportBottom + viewportBuffer;
         
         wrapperData.forEach(({ translateWrapper, rotateWrapper, imageItem, index }) => {
             if (!rotateWrapper || !imageItem) return;
@@ -393,25 +372,11 @@ function setupMobileInteractions(canvas) {
                 return;
             }
             
-            // Calculate card position in document space
-            const actualCardHeight = cardHeight + cardSpacing; // 161px per card
-            const baseCardPosition = canvasTopPadding + (index * actualCardHeight);
-            
-            // Calculate current position in viewport (accounting for scroll)
-            // scrollY is how much we've scrolled, so card position relative to viewport top is:
-            const currentCardTop = baseCardPosition - scrollY;
-            const currentCardBottom = currentCardTop + cardHeight;
-            const currentCardCenterY = currentCardTop + cardHeight / 2;
-            
-            // OPTIMIZATION: Skip cards that are far outside the update range
-            if (currentCardBottom < updateRangeTop || currentCardTop > updateRangeBottom) {
-                // Card is too far away - set default rotation and skip detailed calculation
-                rotateWrapper.style.transform = `rotateX(-60deg)`;
-                rotateWrapper.style.webkitTransform = `rotateX(-60deg)`;
-                translateWrapper.style.transform = `translate3d(0, ${offsetY}px, 0)`;
-                translateWrapper.style.webkitTransform = `translate3d(0, ${offsetY}px, 0)`;
-                return;
-            }
+            // Get actual viewport position using getBoundingClientRect
+            const rect = imageItem.getBoundingClientRect();
+            const currentCardTop = rect.top;
+            const currentCardBottom = rect.bottom;
+            const currentCardCenterY = rect.top + rect.height / 2;
             
             // Check if card is visible in viewport
             const isCardVisible = currentCardBottom > viewportTop && currentCardTop < viewportBottom;
@@ -420,7 +385,7 @@ function setupMobileInteractions(canvas) {
             let normalizedPosition = null;
             
             if (isCardVisible) {
-                // Card is visible - calculate rotation based on viewport position
+                // Card is visible - calculate rotation based on actual viewport position
                 // Card center Y relative to viewport top
                 const cardPositionInViewport = currentCardCenterY - viewportTop;
                 
