@@ -1,0 +1,100 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background: #ffffff;
+    color: #000000;
+    overflow: hidden;
+    height: 100vh;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.canvas-container {
+    flex: 1;
+    overflow: auto;
+    position: relative;
+    background: #ffffff;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+}
+
+.canvas {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(20, 218px);
+    grid-auto-rows: minmax(134px, auto);
+    column-gap: 43px;
+    row-gap: 49px;
+    padding: 50px;
+    width: fit-content;
+    height: fit-content;
+}
+
+.image-item {
+    position: relative;
+    width: 218px;
+    height: 134px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #f5f5f5;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    opacity: 0;
+    animation: fadeIn 0.5s ease forwards;
+}
+
+.image-item.visible {
+    opacity: 1;
+}
+
+.image-item:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.image-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Scrollbar styling */
+.canvas-container::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+}
+
+.canvas-container::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+.canvas-container::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 6px;
+}
+
+.canvas-container::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.3);
+}
+
