@@ -40,7 +40,7 @@ body {
     position: relative;
     display: grid;
     grid-template-columns: repeat(20, 257px);
-    grid-auto-rows: minmax(158px, auto);
+    grid-auto-rows: auto;
     column-gap: 43px;
     row-gap: 49px;
     padding: 50px;
