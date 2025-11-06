@@ -200,15 +200,14 @@ body {
     }
     
     .canvas {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+        /* CRITICAL: display: flex can flatten 3D transforms in WebKit! */
+        /* Use block and center items differently */
+        display: block;
         padding: 20px 16px;
         width: 100%;
         height: auto;
         transform-style: preserve-3d;
         -webkit-transform-style: preserve-3d;
-        /* TESTING: Check if flex causes flattening - might need to use block instead */
     }
     
     .image-item {
@@ -218,13 +217,14 @@ body {
         border-radius: 13px;
         cursor: pointer;
         position: relative;
-        margin-bottom: -100px; /* Negative spacing matching LazyVStack spacing: -100 */
+        margin: 0 auto -100px auto; /* Center horizontally with auto margins, negative bottom spacing */
         /* Critical for 3D: transform-style must be preserve-3d */
         transform-style: preserve-3d;
         -webkit-transform-style: preserve-3d;
         transform-origin: center center;
         transition: box-shadow 0.3s ease, margin-top 0.4s ease-out, margin-bottom 0.4s ease-out;
-        will-change: transform;
+        /* CRITICAL: will-change: transform can sometimes cause flattening - remove it */
+        /* will-change: transform; */
         backface-visibility: visible; /* Changed to visible for debugging */
         -webkit-backface-visibility: visible;
         /* CRITICAL FIX: Both overflow: hidden AND clip-path flatten 3D in WebKit! */
