@@ -615,7 +615,9 @@ async function handleSearch(query) {
         
         if (!response.ok) {
             const error = await response.json();
-            throw new Error(error.error || `HTTP error! status: ${response.status}`);
+            throw new Error(error.error || `HTTP error! status: ${response.status}`, { 
+                cause: error.details 
+            });
         }
         
         const data = await response.json();
@@ -628,7 +630,8 @@ async function handleSearch(query) {
         }
         
         console.error('Search error:', error);
-        showError(error.message);
+        const details = error.cause || error.details || '';
+        showError(error.message, details);
     } finally {
         currentController = null;
     }
@@ -697,15 +700,21 @@ function displayRecommendations(data, query) {
 }
 
 // Show error message
-function showError(message) {
+function showError(message, details = '') {
     const content = document.getElementById('recommendationsContent');
     const title = document.getElementById('recommendationsTitle');
     
     title.textContent = 'Error';
+    
+    let detailsHtml = '';
+    if (details) {
+        detailsHtml = `<br><br><small style="color: #999;">Details: ${details}</small>`;
+    }
+    
     content.innerHTML = `
         <div class="error-message">
             <strong>Unable to get recommendations</strong><br><br>
-            ${message}<br><br>
+            ${message}${detailsHtml}<br><br>
             Please try again or refine your search query.
         </div>
     `;

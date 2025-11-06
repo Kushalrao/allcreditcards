@@ -67,9 +67,23 @@ Please recommend the best credit cards for this user.`
     });
 
     if (!response.ok) {
-      const error = await response.json();
+      const error = await response.json().catch(() => ({ message: 'Unknown error' }));
       console.error('OpenAI API error:', error);
-      return res.status(response.status).json({ error: 'Failed to get recommendations from OpenAI' });
+      
+      // Return more specific error message
+      let errorMessage = 'Failed to get recommendations from OpenAI';
+      if (response.status === 401) {
+        errorMessage = 'OpenAI API key is invalid or expired';
+      } else if (response.status === 429) {
+        errorMessage = 'OpenAI API rate limit exceeded or out of credits';
+      } else if (error.error?.message) {
+        errorMessage = `OpenAI error: ${error.error.message}`;
+      }
+      
+      return res.status(response.status).json({ 
+        error: errorMessage,
+        details: error.error?.message || 'Check Vercel logs for more details'
+      });
     }
 
     const data = await response.json();
