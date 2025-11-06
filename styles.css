@@ -188,8 +188,8 @@ body {
 /* Mobile specific image styling */
 @media (max-width: 768px) {
     .image-item {
-        width: 100%;
-        max-width: 100%;
+        width: 85vw;
+        max-width: 85vw;
         perspective: 1000px;
         transform-style: preserve-3d;
     }
@@ -308,7 +308,7 @@ body {
     }
     
     .image-item {
-        margin: 0 0 41px 0;
+        margin: 0 auto 41px auto;
     }
     
     .search-bar {
