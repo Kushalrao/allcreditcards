@@ -145,22 +145,76 @@ body {
 
 /* Mobile layout */
 @media (max-width: 768px) {
+    .canvas-container {
+        background: #F3F9E7;
+    }
+    
     .canvas {
-        grid-template-columns: repeat(20, 166px);
-        grid-auto-rows: minmax(102px, auto);
-        gap: 41px 33px; /* row-gap column-gap */
-        padding: 30px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: -100px; /* Negative spacing for stacking effect */
+        padding: 30px 16px;
+        min-height: 100vh;
     }
     
     .image-item {
-        width: 166px;
-        height: 102px;
-        transform-style: flat;
-        perspective: none;
+        width: 80vw;
+        max-width: 320px;
+        height: 200px;
+        transform-style: preserve-3d;
+        perspective: 1000px;
+        border-radius: 13px;
+        cursor: pointer;
+        transition: transform 0.3s ease-out, box-shadow 0.3s ease;
+        margin-bottom: -100px; /* Negative margin for stacking */
+        position: relative;
+        z-index: 1;
+    }
+    
+    .image-item.tapped {
+        transform: perspective(1000px) rotateX(0deg) !important;
+        margin-top: 100px;
+        margin-bottom: 125px;
+        z-index: 1000;
     }
     
     .image-item:hover {
         transform: scale(1.02);
+    }
+    
+    /* Card wrapper */
+    .card-wrapper {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: -100px;
+    }
+    
+    /* View More button */
+    .view-more-button {
+        display: none;
+        margin-top: 16px;
+        padding: 10px 24px;
+        background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        border-radius: 20px;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: transform 0.2s ease, opacity 0.3s ease;
+        opacity: 0;
+        transform: scale(0.8);
+        z-index: 1001;
+    }
+    
+    .view-more-button.show {
+        display: block;
+        opacity: 1;
+        transform: scale(1);
     }
     
     .search-bar {

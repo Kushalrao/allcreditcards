@@ -97,20 +97,52 @@ function setupSmoothScrolling(canvasContainer) {
 function createGrid(canvas) {
     let imageIndex = 0;
     const usedImages = new Set();
+    const isMobile = window.innerWidth <= 768;
     
     console.log('Total images available:', imagePaths.length);
     console.log('Image paths:', imagePaths);
     
-    for (let row = 0; row < GRID_ROWS; row++) {
-        for (let col = 0; col < GRID_COLS; col++) {
-            // Cycle through images
+    if (isMobile) {
+        // Mobile: Create vertical stack
+        for (let i = 0; i < imagePaths.length; i++) {
             const imagePath = imagePaths[imageIndex % imagePaths.length];
             usedImages.add(imagePath);
             imageIndex++;
             
+            // Create wrapper for card + button
+            const cardWrapper = document.createElement('div');
+            cardWrapper.className = 'card-wrapper';
+            cardWrapper.style.position = 'relative';
+            
             // Create image item
-            const imageItem = createImageItem(imagePath, row, col);
-            canvas.appendChild(imageItem);
+            const imageItem = createImageItem(imagePath, 0, i);
+            cardWrapper.appendChild(imageItem);
+            
+            // Create View More button
+            const viewMoreButton = document.createElement('button');
+            viewMoreButton.className = 'view-more-button';
+            viewMoreButton.textContent = 'View More';
+            viewMoreButton.dataset.cardIndex = i;
+            cardWrapper.appendChild(viewMoreButton);
+            
+            canvas.appendChild(cardWrapper);
+        }
+        
+        // Setup mobile interactions
+        setupMobileInteractions(canvas);
+    } else {
+        // Desktop: Create grid
+        for (let row = 0; row < GRID_ROWS; row++) {
+            for (let col = 0; col < GRID_COLS; col++) {
+                // Cycle through images
+                const imagePath = imagePaths[imageIndex % imagePaths.length];
+                usedImages.add(imagePath);
+                imageIndex++;
+                
+                // Create image item
+                const imageItem = createImageItem(imagePath, row, col);
+                canvas.appendChild(imageItem);
+            }
         }
     }
     
@@ -151,9 +183,110 @@ function createImageItem(imagePath, row, col) {
     // Add interactive 3D rotation on desktop only
     if (window.innerWidth > 768) {
         setup3DRotation(imageItem);
+    } else {
+        // Mobile: Setup tap interaction
+        setupMobileTapInteraction(imageItem);
     }
     
     return imageItem;
+}
+
+// Setup mobile tap interaction
+function setupMobileTapInteraction(imageItem) {
+    imageItem.addEventListener('click', (e) => {
+        e.stopPropagation();
+        
+        // Remove tapped class from all cards
+        document.querySelectorAll('.image-item').forEach(item => {
+            if (item !== imageItem) {
+                item.classList.remove('tapped');
+            }
+        });
+        
+        // Toggle tapped state
+        if (imageItem.classList.contains('tapped')) {
+            imageItem.classList.remove('tapped');
+            // Hide View More button
+            const button = imageItem.parentElement.querySelector('.view-more-button');
+            if (button) {
+                button.classList.remove('show');
+            }
+        } else {
+            imageItem.classList.add('tapped');
+            // Show View More button
+            const button = imageItem.parentElement.querySelector('.view-more-button');
+            if (button) {
+                button.classList.add('show');
+            }
+        }
+        
+        // Haptic feedback (if available)
+        if (navigator.vibrate) {
+            navigator.vibrate(10);
+        }
+    });
+}
+
+// Setup mobile scroll-based dynamic rotation
+function setupMobileInteractions(canvas) {
+    const canvasContainer = document.getElementById('canvasContainer');
+    const imageItems = canvas.querySelectorAll('.image-item');
+    let scrollOffset = 0;
+    let tappedCardId = null;
+    
+    // Track scroll position
+    canvasContainer.addEventListener('scroll', () => {
+        scrollOffset = canvasContainer.scrollTop;
+        updateCardRotations(imageItems, scrollOffset, tappedCardId);
+    }, { passive: true });
+    
+    // Initial rotation update
+    updateCardRotations(imageItems, scrollOffset, tappedCardId);
+    
+    // Update rotations when window resizes
+    window.addEventListener('resize', () => {
+        updateCardRotations(imageItems, scrollOffset, tappedCardId);
+    });
+    
+    // Track tapped card
+    imageItems.forEach((item, index) => {
+        item.addEventListener('click', () => {
+            tappedCardId = item.dataset.imagePath;
+            updateCardRotations(imageItems, scrollOffset, tappedCardId);
+        });
+    });
+}
+
+// Update card rotations based on scroll position
+function updateCardRotations(imageItems, scrollOffset, tappedCardId) {
+    const deviceHeight = window.innerHeight;
+    const screenTop = 200; // Account for top padding and safe area
+    
+    imageItems.forEach((item, index) => {
+        // Skip if card is tapped
+        if (item.dataset.imagePath === tappedCardId || item.classList.contains('tapped')) {
+            return;
+        }
+        
+        // Get actual card position relative to viewport
+        const rect = item.getBoundingClientRect();
+        const cardCenterY = rect.top + rect.height / 2;
+        
+        // Calculate distance from top of screen
+        const distanceFromTop = cardCenterY - screenTop;
+        
+        // Normalize distance (0-1 range)
+        const maxDistance = deviceHeight * 0.6;
+        const normalizedDistance = Math.max(0, Math.min(1, distanceFromTop / maxDistance));
+        
+        // Interpolate between -10° (top) and -60° (bottom)
+        const topRotation = -10;
+        const bottomRotation = -60;
+        const dynamicRotation = topRotation + normalizedDistance * (bottomRotation - topRotation);
+        
+        // Apply rotation with perspective
+        item.style.transform = `perspective(1000px) rotateX(${dynamicRotation}deg)`;
+    });
 }
 
 // Setup interactive 3D rotation based on cursor position
