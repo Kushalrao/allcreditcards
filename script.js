@@ -148,7 +148,44 @@ function createImageItem(imagePath, row, col) {
     
     imageItem.appendChild(img);
     
+    // Add interactive 3D rotation on desktop only
+    if (window.innerWidth > 768) {
+        setup3DRotation(imageItem);
+    }
+    
     return imageItem;
+}
+
+// Setup interactive 3D rotation based on cursor position
+function setup3DRotation(imageItem) {
+    const maxRotation = 13; // Maximum rotation in degrees
+    
+    imageItem.addEventListener('mousemove', (e) => {
+        const rect = imageItem.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        
+        // Calculate mouse position relative to card center
+        const mouseX = e.clientX - centerX;
+        const mouseY = e.clientY - centerY;
+        
+        // Calculate rotation angles (normalized to -1 to 1, then multiplied by maxRotation)
+        const rotateY = (mouseX / (rect.width / 2)) * maxRotation;
+        const rotateX = -(mouseY / (rect.height / 2)) * maxRotation;
+        
+        // Apply rotation with scale
+        imageItem.style.transform = `scale(1.02) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    });
+    
+    imageItem.addEventListener('mouseleave', () => {
+        // Reset to default state when mouse leaves
+        imageItem.style.transform = 'scale(1) rotateX(0deg) rotateY(0deg)';
+    });
+    
+    imageItem.addEventListener('mouseenter', () => {
+        // Slight scale on enter
+        imageItem.style.transform = 'scale(1.02) rotateX(0deg) rotateY(0deg)';
+    });
 }
 
 // Initialize when DOM is ready
