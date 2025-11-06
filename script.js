@@ -17,8 +17,8 @@ let cardData = [];
 // Grid configuration
 const GRID_COLS = 20; // Number of columns
 const GRID_ROWS = 20; // Number of rows
-const IMAGE_WIDTH = 325; // Width of each image container in pixels
-const IMAGE_HEIGHT = 200; // Height of each image container in pixels
+const IMAGE_WIDTH = 257; // Width of each image container in pixels (79% of 325px)
+const IMAGE_HEIGHT = 158; // Height of each image container in pixels (79% of 200px)
 const GAP = 43; // Gap between images (consistent horizontal and vertical)
 
 // Load card data from data.txt
