@@ -361,8 +361,6 @@ function setupMobileInteractions(canvas) {
     canvasContainer.addEventListener('touchmove', handleTouchMove, { passive: false });
     canvasContainer.addEventListener('touchend', handleTouchEnd, { passive: true });
     
-    // This function is now defined inside setupMobileInteractions
-    
     // Get all translate wrappers and their inner elements
     const translateWrappers = Array.from(canvas.querySelectorAll('.image-translate-wrapper'));
     const wrapperData = translateWrappers.map((translateWrapper, index) => {
