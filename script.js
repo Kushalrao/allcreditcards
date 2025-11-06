@@ -352,6 +352,17 @@ function setupMobileInteractions(canvas) {
         // Track visible cards for logging
         const visibleCards = [];
         
+        // DEBUG: Check perspective on first call
+        if (scrollY === 0 || scrollY < 10) {
+            const canvasWrapper = document.getElementById('canvasWrapper');
+            if (canvasWrapper) {
+                const computedPerspective = window.getComputedStyle(canvasWrapper).perspective;
+                const computedTransformStyle = window.getComputedStyle(canvasWrapper).transformStyle;
+                console.log(`[DEBUG Perspective] canvas-wrapper perspective: "${computedPerspective}"`);
+                console.log(`[DEBUG Perspective] canvas-wrapper transform-style: "${computedTransformStyle}"`);
+            }
+        }
+        
         // Calculate positions directly from scroll and card index (no getBoundingClientRect)
         wrapperData.forEach(({ translateWrapper, rotateWrapper, imageItem, index }) => {
             if (!rotateWrapper || !imageItem) return;
@@ -418,6 +429,20 @@ function setupMobileInteractions(canvas) {
             translateWrapper.style.webkitTransform = `translate3d(0, ${offsetY}px, 0)`;
             rotateWrapper.style.transform = `rotateX(${dynamicRotation}deg)`;
             rotateWrapper.style.webkitTransform = `rotateX(${dynamicRotation}deg)`;
+            
+            // DEBUG: Verify transforms are actually applied (for first 3 visible cards)
+            if (isCardVisible && index < 3) {
+                const appliedTransform = rotateWrapper.style.transform;
+                const computedTransform = window.getComputedStyle(rotateWrapper).transform;
+                const computedWebkitTransform = window.getComputedStyle(rotateWrapper).webkitTransform;
+                const isMatrix3d = computedTransform.includes('matrix3d');
+                
+                console.log(`[DEBUG Card ${index}] Applied: "${appliedTransform}"`);
+                console.log(`[DEBUG Card ${index}] Computed transform: "${computedTransform}"`);
+                console.log(`[DEBUG Card ${index}] Computed webkitTransform: "${computedWebkitTransform}"`);
+                console.log(`[DEBUG Card ${index}] Is 3D (matrix3d): ${isMatrix3d}`);
+                console.log(`[DEBUG Card ${index}] Element exists: ${!!rotateWrapper}, Parent: ${rotateWrapper.parentElement?.className}`);
+            }
         });
         
         // Log viewport information
