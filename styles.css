@@ -177,6 +177,13 @@ body {
         scroll-behavior: smooth;
         -webkit-overflow-scrolling: touch;
         overscroll-behavior-y: contain;
+        /* CRITICAL: Perspective must be on the scrolling container for 3D to work */
+        perspective: 1000px;
+        perspective-origin: 50% 50%;
+        -webkit-perspective: 1000px;
+        -webkit-perspective-origin: 50% 50%;
+        transform-style: preserve-3d;
+        -webkit-transform-style: preserve-3d;
     }
     
     .canvas {
@@ -186,11 +193,8 @@ body {
         padding: 20px 16px;
         width: 100%;
         height: auto;
-        /* Perspective must be on parent container for 3D transforms to work */
-        perspective: 1000px;
-        perspective-origin: 50% 50%;
-        -webkit-perspective: 1000px;
-        -webkit-perspective-origin: 50% 50%;
+        transform-style: preserve-3d;
+        -webkit-transform-style: preserve-3d;
     }
     
     .image-item {
@@ -207,11 +211,11 @@ body {
         transform-origin: center center;
         transition: box-shadow 0.3s ease, margin-top 0.4s ease-out, margin-bottom 0.4s ease-out;
         will-change: transform;
-        backface-visibility: hidden;
-        -webkit-backface-visibility: hidden;
-        overflow: hidden;
-        /* Default rotation for testing - remove after verifying 3D works */
-        /* transform: rotateX(-30deg); */
+        backface-visibility: visible; /* Changed to visible for debugging */
+        -webkit-backface-visibility: visible;
+        /* CRITICAL FIX: overflow: hidden flattens 3D transforms! Use clip-path instead */
+        /* overflow: hidden; */
+        clip-path: inset(0 round 13px);
     }
     
     /* Image inside card - must preserve 3D to rotate with parent */
@@ -224,8 +228,10 @@ body {
         object-fit: cover;
         transform-style: preserve-3d;
         -webkit-transform-style: preserve-3d;
-        backface-visibility: hidden;
-        -webkit-backface-visibility: hidden;
+        backface-visibility: visible;
+        -webkit-backface-visibility: visible;
+        border-radius: 13px;
+        /* Ensure image rotates with parent - no own transform */
     }
     
     /* Remove transition on transform for dynamic updates - update immediately */

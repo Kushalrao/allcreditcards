@@ -253,12 +253,27 @@ function setupMobileInteractions(canvas) {
     const imageItems = Array.from(canvas.querySelectorAll('.image-item'));
     let tappedCardId = null;
     
-    // First, set default rotation on all cards to verify 3D is working
+    console.log('Setting up mobile interactions, found', imageItems.length, 'cards');
+    
+    // DEBUG: First, set default rotation on all cards to verify 3D is working
     imageItems.forEach((item, index) => {
         const offsetY = index * 8;
         // Set a default rotation to test 3D (e.g., -30deg)
         // This will be overridden by updateCardRotations
-        item.style.transform = `translate3d(0, ${offsetY}px, 0) rotateX(-30deg)`;
+        const testTransform = `translate3d(0, ${offsetY}px, 0) rotateX(-30deg)`;
+        item.style.transform = testTransform;
+        item.style.webkitTransform = testTransform;
+        
+        // DEBUG: Log to verify transform is applied
+        console.log(`Card ${index}: Applied transform:`, testTransform);
+        console.log(`Card ${index}: Computed transform:`, window.getComputedStyle(item).transform);
+        
+        // Verify perspective is set
+        const canvas = item.closest('.canvas');
+        if (canvas) {
+            const perspective = window.getComputedStyle(canvas).perspective;
+            console.log(`Card ${index}: Parent perspective:`, perspective);
+        }
     });
     
     // Track scroll offset (equivalent to GeometryReader in Swift)
@@ -346,7 +361,14 @@ function updateCardRotations(imageItems, scrollViewContentOffset, tappedCardId) 
         // Apply rotation with 3D transform
         // According to W3Schools: perspective must be on parent, then use rotateX() on child
         // Using translate3d() for hardware acceleration
-        item.style.transform = `translate3d(0, ${offsetY}px, 0) rotateX(${dynamicRotation}deg)`;
+        const transformValue = `translate3d(0, ${offsetY}px, 0) rotateX(${dynamicRotation}deg)`;
+        item.style.transform = transformValue;
+        item.style.webkitTransform = transformValue;
+        
+        // DEBUG: Log rotation values
+        if (index === 0) {
+            console.log(`Card 0 rotation: ${dynamicRotation}deg, distanceFromTop: ${distanceFromTop}, normalized: ${normalizedDistance}`);
+        }
         
         // Image should automatically rotate with parent due to transform-style: preserve-3d
         // No need to set transform on image - it inherits from parent
