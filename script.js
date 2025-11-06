@@ -1,3 +1,4 @@
+// Version: 2025-01-15-v2 - Using getBoundingClientRect with requestAnimationFrame
 // Image paths from Assets folder
 const imagePaths = [
     'Assets/1.png',
@@ -314,10 +315,16 @@ function setupMobileInteractions(canvas) {
     
     // Use native scroll events instead of custom scrolling
     // Track scroll position from scrollTop
+    let rafId = null;
     const handleScroll = () => {
         scrollY = canvasContainer.scrollTop;
         console.log('SCROLL EVENT: scrollY updated to', scrollY.toFixed(1));
-        updateScroll();
+        
+        // Use requestAnimationFrame to ensure we read positions after browser renders
+        if (rafId) cancelAnimationFrame(rafId);
+        rafId = requestAnimationFrame(() => {
+            updateScroll();
+        });
     };
     
     // Add scroll event listener
@@ -335,8 +342,14 @@ function setupMobileInteractions(canvas) {
         const deviceHeight = window.innerHeight;
         const cardHeight = 200;
         const cardSpacing = -39;
-        const screenTop = 200;
+        const canvasTopPadding = 20; // Canvas padding from CSS
         
+        // Viewport boundaries - viewport starts at top of screen (0)
+        const viewportTop = 0;
+        const viewportBottom = deviceHeight;
+        const viewportHeight = viewportBottom - viewportTop;
+        
+        // Calculate positions directly from scroll and card index (no getBoundingClientRect)
         wrapperData.forEach(({ translateWrapper, rotateWrapper, imageItem, index }) => {
             if (!rotateWrapper || !imageItem) return;
             
@@ -351,23 +364,21 @@ function setupMobileInteractions(canvas) {
                 return;
             }
             
-            // Calculate card position based on scroll position
+            // Calculate card position in document space
             const actualCardHeight = cardHeight + cardSpacing; // 161px per card
-            const baseCardPosition = index * actualCardHeight;
-            const currentCardPosition = baseCardPosition - scrollY;
-            const currentCardTop = currentCardPosition;
-            const currentCardBottom = currentCardPosition + cardHeight;
-            const currentCardCenterY = currentCardPosition + cardHeight / 2;
+            const baseCardPosition = canvasTopPadding + (index * actualCardHeight);
             
-            // Viewport boundaries
-            const viewportTop = screenTop; // Top of visible area (200px from top)
-            const viewportBottom = deviceHeight; // Bottom of viewport
-            const viewportHeight = viewportBottom - viewportTop;
+            // Calculate current position in viewport (accounting for scroll)
+            // scrollY is how much we've scrolled, so card position relative to viewport top is:
+            const currentCardTop = baseCardPosition - scrollY;
+            const currentCardBottom = currentCardTop + cardHeight;
+            const currentCardCenterY = currentCardTop + cardHeight / 2;
             
             // Check if card is visible in viewport
             const isCardVisible = currentCardBottom > viewportTop && currentCardTop < viewportBottom;
             
             let dynamicRotation;
+            let normalizedPosition = null;
             
             if (isCardVisible) {
                 // Card is visible - calculate rotation based on viewport position
@@ -375,42 +386,28 @@ function setupMobileInteractions(canvas) {
                 const cardPositionInViewport = currentCardCenterY - viewportTop;
                 
                 // Normalize: 0 = at top of viewport, 1 = at bottom of viewport
-                // Clamp to ensure it's within viewport bounds
                 const clampedPosition = Math.max(0, Math.min(viewportHeight, cardPositionInViewport));
-                const normalizedPosition = clampedPosition / viewportHeight;
+                normalizedPosition = clampedPosition / viewportHeight;
                 
                 // Interpolate: -10° at top of viewport, -39° at bottom of viewport
                 const topRotation = -10.0;
                 const bottomRotation = -39.0;
                 dynamicRotation = topRotation + normalizedPosition * (bottomRotation - topRotation);
                 
-                // DEBUG: Log for visible cards
-                console.log(`Card ${index} [VISIBLE]:`, {
-                    scrollY: scrollY.toFixed(1),
-                    currentCardTop: currentCardTop.toFixed(1),
-                    currentCardBottom: currentCardBottom.toFixed(1),
-                    currentCardCenterY: currentCardCenterY.toFixed(1),
-                    viewportTop: viewportTop,
-                    viewportBottom: viewportBottom,
-                    viewportHeight: viewportHeight.toFixed(1),
-                    cardPositionInViewport: cardPositionInViewport.toFixed(1),
-                    clampedPosition: clampedPosition.toFixed(1),
-                    normalizedPosition: normalizedPosition.toFixed(3),
-                    dynamicRotation: dynamicRotation.toFixed(1) + 'deg',
-                    'APPLIED ROTATION': rotateWrapper.style.transform
-                });
+                // DEBUG: Log rotation for first 5 cards
+                if (index < 5) {
+                    console.log(`Card ${index}: rotation=${dynamicRotation.toFixed(1)}deg, centerY=${currentCardCenterY.toFixed(1)}, scrollY=${scrollY.toFixed(1)}, normalized=${normalizedPosition.toFixed(3)}, visible=${isCardVisible}`);
+                }
             } else {
-                // Card is outside viewport - use default rotation based on position
+                // Card is outside viewport
                 if (currentCardBottom <= viewportTop) {
-                    // Card is above viewport - use top rotation
-                    dynamicRotation = -10.0;
+                    dynamicRotation = -10.0; // Above viewport
                 } else {
-                    // Card is below viewport - use bottom rotation
-                    dynamicRotation = -39.0;
+                    dynamicRotation = -39.0; // Below viewport
                 }
             }
             
-            // Apply transforms to separate wrappers
+            // Apply transforms
             translateWrapper.style.transform = `translate3d(0, ${offsetY}px, 0)`;
             translateWrapper.style.webkitTransform = `translate3d(0, ${offsetY}px, 0)`;
             rotateWrapper.style.transform = `rotateX(${dynamicRotation}deg)`;
