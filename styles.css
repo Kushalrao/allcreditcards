@@ -25,10 +25,15 @@ body {
     background: #ffffff;
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
+    height: 100vh;
 }
 
 .canvas {
-    position: relative;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     display: grid;
     grid-template-columns: repeat(20, 218px);
     grid-auto-rows: minmax(134px, auto);
@@ -36,6 +41,7 @@ body {
     row-gap: 49px;
     padding: 50px;
     width: fit-content;
+    min-height: 100vh;
     height: fit-content;
     perspective: 1000px;
     transform-style: preserve-3d;
