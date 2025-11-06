@@ -455,11 +455,16 @@ function setupMobileInteractions(canvas) {
         
         // Log viewport cards (throttle to every 10th call to reduce noise)
         if (Math.random() < 0.1) {
-            console.log(`Viewport: 0 to ${viewportHeight.toFixed(0)}px`);
-            console.log(`Cards in viewport: ${inViewportCards.length}`);
+            console.log(`\n=== Viewport: 0 to ${viewportHeight.toFixed(0)}px, Cards in viewport: ${inViewportCards.length} ===`);
             if (inViewportCards.length > 0) {
-                console.log('First 3 visible cards:', inViewportCards.slice(0, 3));
-                console.log('Last 3 visible cards:', inViewportCards.slice(-3));
+                console.log('First 3 cards:');
+                inViewportCards.slice(0, 3).forEach(c => {
+                    console.log(`  Card ${c.index}: top=${c.cardTop}, center=${c.cardCenterY}, bottom=${c.cardBottom}, norm=${c.normalizedPosition}, rot=${c.rotation}°`);
+                });
+                console.log('Last 3 cards:');
+                inViewportCards.slice(-3).forEach(c => {
+                    console.log(`  Card ${c.index}: top=${c.cardTop}, center=${c.cardCenterY}, bottom=${c.cardBottom}, norm=${c.normalizedPosition}, rot=${c.rotation}°`);
+                });
             }
         }
     };
