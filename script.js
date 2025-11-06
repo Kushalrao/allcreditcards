@@ -548,3 +548,173 @@ if (document.readyState === 'loading') {
     initCanvas();
 }
 
+// ============================================
+// AI RECOMMENDATION SEARCH FUNCTIONALITY
+// ============================================
+
+let searchTimeout = null;
+let currentController = null; // For aborting pending requests
+
+// Initialize search bar
+function initSearchBar() {
+    const searchBar = document.getElementById('searchBar');
+    const overlay = document.getElementById('recommendationsOverlay');
+    const closeButton = document.getElementById('closeRecommendations');
+    
+    if (!searchBar) return;
+    
+    // Handle search input with debouncing
+    searchBar.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            const query = searchBar.value.trim();
+            if (query.length > 0) {
+                handleSearch(query);
+            }
+        }
+    });
+    
+    // Close modal handlers
+    closeButton.addEventListener('click', closeRecommendations);
+    overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) {
+            closeRecommendations();
+        }
+    });
+    
+    // ESC key to close
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && overlay.classList.contains('show')) {
+            closeRecommendations();
+        }
+    });
+}
+
+// Handle search query
+async function handleSearch(query) {
+    console.log(`Searching for: "${query}"`);
+    
+    // Abort any pending request
+    if (currentController) {
+        currentController.abort();
+    }
+    currentController = new AbortController();
+    
+    // Show modal with loading state
+    showRecommendationsModal();
+    showLoading();
+    
+    try {
+        const response = await fetch('/api/recommend', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ query }),
+            signal: currentController.signal,
+        });
+        
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.error || `HTTP error! status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        displayRecommendations(data, query);
+        
+    } catch (error) {
+        if (error.name === 'AbortError') {
+            console.log('Request was cancelled');
+            return;
+        }
+        
+        console.error('Search error:', error);
+        showError(error.message);
+    } finally {
+        currentController = null;
+    }
+}
+
+// Show recommendations modal
+function showRecommendationsModal() {
+    const overlay = document.getElementById('recommendationsOverlay');
+    overlay.classList.add('show');
+    document.body.style.overflow = 'hidden'; // Prevent background scrolling
+}
+
+// Close recommendations modal
+function closeRecommendations() {
+    const overlay = document.getElementById('recommendationsOverlay');
+    overlay.classList.remove('show');
+    document.body.style.overflow = ''; // Restore scrolling
+    
+    // Abort any pending request
+    if (currentController) {
+        currentController.abort();
+        currentController = null;
+    }
+}
+
+// Show loading state
+function showLoading() {
+    const content = document.getElementById('recommendationsContent');
+    const title = document.getElementById('recommendationsTitle');
+    
+    title.textContent = 'Finding the best cards for you...';
+    content.innerHTML = `
+        <div class="loading-spinner">
+            <div class="spinner"></div>
+            <p>Analyzing ${cardData.length} credit cards...</p>
+        </div>
+    `;
+}
+
+// Display recommendations
+function displayRecommendations(data, query) {
+    const content = document.getElementById('recommendationsContent');
+    const title = document.getElementById('recommendationsTitle');
+    
+    title.textContent = 'AI Recommendations';
+    
+    // Format the recommendation text (convert markdown-like formatting to HTML)
+    let formattedRecommendation = data.recommendation
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // Bold
+        .replace(/\n\n/g, '</p><p>') // Paragraphs
+        .replace(/\n/g, '<br>'); // Line breaks
+    
+    content.innerHTML = `
+        <div style="margin-bottom: 20px; padding: 16px; background: #f8f9fa; border-radius: 8px; border-left: 3px solid #000;">
+            <p style="margin: 0; font-size: 14px; color: #666;">
+                <strong>Your query:</strong> "${query}"
+            </p>
+            <p style="margin: 8px 0 0 0; font-size: 13px; color: #999;">
+                Analyzed ${data.totalCardsAnalyzed} cards
+            </p>
+        </div>
+        <div style="white-space: pre-wrap;">
+            <p>${formattedRecommendation}</p>
+        </div>
+    `;
+}
+
+// Show error message
+function showError(message) {
+    const content = document.getElementById('recommendationsContent');
+    const title = document.getElementById('recommendationsTitle');
+    
+    title.textContent = 'Error';
+    content.innerHTML = `
+        <div class="error-message">
+            <strong>Unable to get recommendations</strong><br><br>
+            ${message}<br><br>
+            Please try again or refine your search query.
+        </div>
+    `;
+}
+
+// Initialize search on load
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initSearchBar);
+} else {
+    initSearchBar();
+}
+

@@ -1,0 +1,12 @@
+{
+  "name": "allcreditcards",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Credit card comparison and recommendation website",
+  "scripts": {
+    "dev": "python3 server.py"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}
+
