@@ -197,7 +197,7 @@ body {
     .image-container {
         border-radius: 13px;
         width: 100%;
-        transform: rotateX(-13deg);
+        transform: rotateX(-30deg);
         transform-style: preserve-3d;
     }
     
