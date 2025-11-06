@@ -103,29 +103,15 @@ function createGrid(canvas) {
     console.log('Image paths:', imagePaths);
     
     if (isMobile) {
-        // Mobile: Create vertical stack
+        // Mobile: Create vertical stack with only the 8 images (no infinite canvas)
         for (let i = 0; i < imagePaths.length; i++) {
-            const imagePath = imagePaths[imageIndex % imagePaths.length];
+            const imagePath = imagePaths[i];
             usedImages.add(imagePath);
-            imageIndex++;
             
-            // Create wrapper for card + button
-            const cardWrapper = document.createElement('div');
-            cardWrapper.className = 'card-wrapper';
-            cardWrapper.style.position = 'relative';
-            
-            // Create image item
+            // Create image item directly (no wrapper needed)
             const imageItem = createImageItem(imagePath, 0, i);
-            cardWrapper.appendChild(imageItem);
-            
-            // Create View More button
-            const viewMoreButton = document.createElement('button');
-            viewMoreButton.className = 'view-more-button';
-            viewMoreButton.textContent = 'View More';
-            viewMoreButton.dataset.cardIndex = i;
-            cardWrapper.appendChild(viewMoreButton);
-            
-            canvas.appendChild(cardWrapper);
+            imageItem.dataset.cardIndex = i;
+            canvas.appendChild(imageItem);
         }
         
         // Setup mobile interactions
@@ -203,21 +189,11 @@ function setupMobileTapInteraction(imageItem) {
             }
         });
         
-        // Toggle tapped state
+        // Toggle tapped state (rotate to 0° or back to rotated)
         if (imageItem.classList.contains('tapped')) {
             imageItem.classList.remove('tapped');
-            // Hide View More button
-            const button = imageItem.parentElement.querySelector('.view-more-button');
-            if (button) {
-                button.classList.remove('show');
-            }
         } else {
             imageItem.classList.add('tapped');
-            // Show View More button
-            const button = imageItem.parentElement.querySelector('.view-more-button');
-            if (button) {
-                button.classList.add('show');
-            }
         }
         
         // Haptic feedback (if available)
@@ -230,61 +206,74 @@ function setupMobileTapInteraction(imageItem) {
 // Setup mobile scroll-based dynamic rotation
 function setupMobileInteractions(canvas) {
     const canvasContainer = document.getElementById('canvasContainer');
-    const imageItems = canvas.querySelectorAll('.image-item');
-    let scrollOffset = 0;
+    const imageItems = Array.from(canvas.querySelectorAll('.image-item'));
     let tappedCardId = null;
     
+    // Function to update rotations based on scroll
+    const updateRotations = () => {
+        // Get canvas position relative to container (equivalent to scrollViewContentOffset)
+        const canvasRect = canvas.getBoundingClientRect();
+        const containerRect = canvasContainer.getBoundingClientRect();
+        const scrollViewContentOffset = canvasRect.top - containerRect.top + canvasContainer.scrollTop;
+        
+        updateCardRotations(imageItems, scrollViewContentOffset, tappedCardId);
+    };
+    
     // Track scroll position
-    canvasContainer.addEventListener('scroll', () => {
-        scrollOffset = canvasContainer.scrollTop;
-        updateCardRotations(imageItems, scrollOffset, tappedCardId);
-    }, { passive: true });
+    canvasContainer.addEventListener('scroll', updateRotations, { passive: true });
     
     // Initial rotation update
-    updateCardRotations(imageItems, scrollOffset, tappedCardId);
+    updateRotations();
     
     // Update rotations when window resizes
-    window.addEventListener('resize', () => {
-        updateCardRotations(imageItems, scrollOffset, tappedCardId);
-    });
+    window.addEventListener('resize', updateRotations);
     
     // Track tapped card
-    imageItems.forEach((item, index) => {
+    imageItems.forEach((item) => {
         item.addEventListener('click', () => {
             tappedCardId = item.dataset.imagePath;
-            updateCardRotations(imageItems, scrollOffset, tappedCardId);
+            updateRotations();
         });
     });
 }
 
-// Update card rotations based on scroll position
-function updateCardRotations(imageItems, scrollOffset, tappedCardId) {
+// Update card rotations based on scroll position (matching Safari tabs implementation)
+function updateCardRotations(imageItems, scrollViewContentOffset, tappedCardId) {
     const deviceHeight = window.innerHeight;
-    const screenTop = 200; // Account for top padding and safe area
+    const cardHeight = 200; // Card height
+    const cardSpacing = -100; // Negative spacing
+    const screenTop = 200; // Account for top padding
     
     imageItems.forEach((item, index) => {
-        // Skip if card is tapped
+        // Skip if card is tapped (tapped cards stay at 0°)
         if (item.dataset.imagePath === tappedCardId || item.classList.contains('tapped')) {
             return;
         }
         
-        // Get actual card position relative to viewport
+        // Get actual card position using getBoundingClientRect (more reliable)
         const rect = item.getBoundingClientRect();
-        const cardCenterY = rect.top + rect.height / 2;
+        const cardTop = rect.top;
         
-        // Calculate distance from top of screen
-        const distanceFromTop = cardCenterY - screenTop;
+        // Calculate the card's base position in the stack (matching Swift code)
+        const baseCardPosition = index * (cardHeight + cardSpacing);
         
-        // Normalize distance (0-1 range)
-        const maxDistance = deviceHeight * 0.6;
+        // Calculate the card's current position considering scroll offset
+        // Use actual position from getBoundingClientRect for accuracy
+        const currentCardPosition = cardTop + (scrollViewContentOffset - (rect.top - window.scrollY));
+        
+        // Alternative: use actual card position directly
+        const distanceFromTop = cardTop - screenTop;
+        
+        // Normalize the distance to a 0-1 range for rotation interpolation
+        const maxDistance = deviceHeight * 0.6; // Maximum distance for full rotation
         const normalizedDistance = Math.max(0, Math.min(1, distanceFromTop / maxDistance));
         
-        // Interpolate between -10° (top) and -60° (bottom)
+        // Interpolate between -10° (top) and -60° (bottom) - matching Safari tabs
         const topRotation = -10;
         const bottomRotation = -60;
         const dynamicRotation = topRotation + normalizedDistance * (bottomRotation - topRotation);
         
-        // Apply rotation with perspective
+        // Apply rotation with perspective (matching Swift's rotation3DEffect)
         item.style.transform = `perspective(1000px) rotateX(${dynamicRotation}deg)`;
     });
 }
