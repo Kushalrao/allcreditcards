@@ -30,7 +30,7 @@ async function loadCardData() {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         
-        const text = await response.text().trim();
+        const text = (await response.text()).trim();
         
         // Check if file is empty
         if (!text || text.length === 0) {
