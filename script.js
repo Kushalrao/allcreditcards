@@ -354,9 +354,9 @@ function setupMobileInteractions(canvas) {
         const viewportTop = 0;
         const viewportBottom = viewportHeight;
         
-        // Rotation values
-        const topRotation = -10.0;      // Items at top of viewport
-        const bottomRotation = -60.0;   // Items entering from bottom / rest of list
+        // Rotation values (reduced for less distortion with many cards)
+        const topRotation = -5.0;       // Items at top of viewport (nearly flat)
+        const bottomRotation = -25.0;   // Items entering from bottom (subtle angle)
         
         // OPTIMIZATION: Calculate approximate positions first to avoid getBoundingClientRect on all cards
         const cardHeight = 200;
