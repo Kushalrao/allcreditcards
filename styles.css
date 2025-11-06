@@ -166,5 +166,9 @@ body {
     .search-bar {
         width: 93%;
     }
+    
+    .search-bar-container {
+        padding: 10px 20px;
+    }
 }
 
