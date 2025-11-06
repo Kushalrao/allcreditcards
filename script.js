@@ -1,4 +1,4 @@
-// Version: 2025-01-15-v2 - Using getBoundingClientRect with requestAnimationFrame
+// Version: 2025-01-15-v3 - Fixed rotation at -30deg baseline
 // Image paths from Assets folder
 const imagePaths = [
     'Assets/1.png',
@@ -313,22 +313,7 @@ function setupMobileInteractions(canvas) {
     const totalHeight = totalCards * actualCardHeight + 200; // Add padding
     canvasWrapper.style.minHeight = `${totalHeight}px`;
     
-    // Use native scroll events instead of custom scrolling
-    // Track scroll position from scrollTop
-    let rafId = null;
-    const handleScroll = () => {
-        scrollY = canvasContainer.scrollTop;
-        // Removed verbose logging for performance
-        
-        // Use requestAnimationFrame to ensure we read positions after browser renders
-        if (rafId) cancelAnimationFrame(rafId);
-        rafId = requestAnimationFrame(() => {
-            updateScroll();
-        });
-    };
-    
-    // Add scroll event listener
-    canvasContainer.addEventListener('scroll', handleScroll, { passive: true });
+    // Scroll event removed - using fixed rotation for now
     
     // Get all translate wrappers and their inner elements (already defined above)
     const wrapperData = translateWrappers.map((translateWrapper, index) => {
@@ -348,29 +333,10 @@ function setupMobileInteractions(canvas) {
     
     console.log(`[SETUP] Found ${wrapperData.length} cards, ${wrapperData.filter(w => w.rotateWrapper).length} with rotateWrapper`);
     
-    // Update card rotations based on scroll and viewport position
-    const updateCardRotations = (scrollY) => {
-        const viewportHeight = window.innerHeight;
-        const viewportTop = 0;
-        const viewportBottom = viewportHeight;
+    // Apply fixed rotation to all cards
+    const applyFixedRotation = () => {
+        const fixedRotation = -30.0; // Fixed rotation for all cards
         
-        // Rotation values (matching SwiftUI reference)
-        const topRotation = -10.0;      // Items at reference point (nearly flat)
-        const bottomRotation = -60.0;   // Items at max distance (angled away)
-        
-        // Card dimensions and spacing
-        const cardHeight = 200;
-        const cardSpacing = -39;
-        const actualCardHeight = cardHeight + cardSpacing; // 161px per card
-        const canvasTopPadding = 20;
-        
-        // Buffer zone: only check cards within 3 viewport heights of viewport (larger buffer for safety)
-        const bufferZone = viewportHeight * 3;
-        const checkRangeTop = viewportTop - bufferZone;
-        const checkRangeBottom = viewportBottom + bufferZone;
-        
-        // First pass: Batch read all positions for cards in range (read phase)
-        const cardsToUpdate = [];
         wrapperData.forEach(({ translateWrapper, rotateWrapper, imageItem, index }) => {
             if (!rotateWrapper || !imageItem) return;
             
@@ -385,111 +351,18 @@ function setupMobileInteractions(canvas) {
                 return;
             }
             
-            // Quick check: estimate if card might be in range
-            // Account for both natural flow spacing AND translateY offset
-            const translateYOffset = index * 8;
-            const estimatedCardTop = canvasTopPadding + (index * actualCardHeight) + translateYOffset - scrollY;
-            const estimatedCardBottom = estimatedCardTop + cardHeight;
-            
-            // Skip cards that are definitely far outside the range
-            if (estimatedCardBottom < checkRangeTop || estimatedCardTop > checkRangeBottom) {
-                // Card is far away - set default rotation without getBoundingClientRect
-                rotateWrapper.style.transform = `rotateX(${bottomRotation}deg)`;
-                rotateWrapper.style.webkitTransform = `rotateX(${bottomRotation}deg)`;
-                translateWrapper.style.transform = `translate3d(0, ${offsetY}px, 0)`;
-                translateWrapper.style.webkitTransform = `translate3d(0, ${offsetY}px, 0)`;
-                return;
-            }
-            
-            // Card is in range - add to batch for calculation
-            cardsToUpdate.push({ translateWrapper, rotateWrapper, imageItem, index, offsetY });
-        });
-        
-        // Second pass: Calculate rotations mathematically (NO getBoundingClientRect to avoid feedback loop)
-        const inViewportCards = [];
-        cardsToUpdate.forEach(({ translateWrapper, rotateWrapper, imageItem, index, offsetY }) => {
-            // CRITICAL: Calculate position mathematically, NOT using getBoundingClientRect!
-            // getBoundingRect on rotated elements returns inflated dimensions, creating feedback loop
-            
-            // Calculate card's actual position in the document flow
-            const translateYOffset = index * 8;
-            const cardTopInDocument = canvasTopPadding + (index * actualCardHeight) + translateYOffset;
-            const cardBottomInDocument = cardTopInDocument + cardHeight;
-            const cardCenterInDocument = cardTopInDocument + (cardHeight / 2);
-            
-            // Calculate position relative to viewport (accounting for scroll)
-            const cardTop = cardTopInDocument - scrollY;
-            const cardBottom = cardBottomInDocument - scrollY;
-            const cardCenterY = cardCenterInDocument - scrollY;
-            
-            // Determine card position relative to viewport
-            const isAboveViewport = cardBottom <= viewportTop;
-            const isBelowViewport = cardTop >= viewportBottom;
-            const isInViewport = !isAboveViewport && !isBelowViewport;
-            
-            let dynamicRotation;
-            let normalizedPosition = null;
-            
-            if (isInViewport) {
-                // Card is visible in viewport - MATCHING SwiftUI implementation
-                // Reference point: 200px from top of screen (accounting for top padding)
-                const screenTop = 200;
-                const distanceFromTop = cardCenterY - screenTop;
-                
-                // Normalize distance over 60% of viewport height (matching SwiftUI)
-                const maxDistance = viewportHeight * 0.6;
-                normalizedPosition = Math.max(0, Math.min(1, distanceFromTop / maxDistance));
-                
-                // Interpolate between -10° (at reference point) and -60° (at max distance)
-                dynamicRotation = topRotation + normalizedPosition * (bottomRotation - topRotation);
-                
-                // Track cards in viewport for debugging
-                inViewportCards.push({
-                    index,
-                    cardTop: cardTop.toFixed(1),
-                    cardBottom: cardBottom.toFixed(1),
-                    cardCenterY: cardCenterY.toFixed(1),
-                    distanceFromTop: distanceFromTop.toFixed(1),
-                    normalizedPosition: normalizedPosition.toFixed(3),
-                    rotation: dynamicRotation.toFixed(1)
-                });
-            } else {
-                // Card is outside viewport - use bottom rotation
-                dynamicRotation = bottomRotation;
-            }
-            
-            // Apply transforms (write phase)
+            // Apply fixed rotation to all non-tapped cards
+            rotateWrapper.style.transform = `rotateX(${fixedRotation}deg)`;
+            rotateWrapper.style.webkitTransform = `rotateX(${fixedRotation}deg)`;
             translateWrapper.style.transform = `translate3d(0, ${offsetY}px, 0)`;
             translateWrapper.style.webkitTransform = `translate3d(0, ${offsetY}px, 0)`;
-            rotateWrapper.style.transform = `rotateX(${dynamicRotation}deg)`;
-            rotateWrapper.style.webkitTransform = `rotateX(${dynamicRotation}deg)`;
         });
         
-        // Log viewport cards (throttle to every 10th call to reduce noise)
-        if (Math.random() < 0.1) {
-            console.log(`\n=== Viewport: 0 to ${viewportHeight.toFixed(0)}px, Ref: 200px, Max Distance: ${(viewportHeight * 0.6).toFixed(0)}px ===`);
-            console.log(`Cards in viewport: ${inViewportCards.length}`);
-            if (inViewportCards.length > 0) {
-                console.log('First 3 cards:');
-                inViewportCards.slice(0, 3).forEach(c => {
-                    console.log(`  Card ${c.index}: center=${c.cardCenterY}, distFromRef=${c.distanceFromTop}, norm=${c.normalizedPosition}, rot=${c.rotation}°`);
-                });
-                console.log('Last 3 cards:');
-                inViewportCards.slice(-3).forEach(c => {
-                    console.log(`  Card ${c.index}: center=${c.cardCenterY}, distFromRef=${c.distanceFromTop}, norm=${c.normalizedPosition}, rot=${c.rotation}°`);
-                });
-            }
-        }
+        console.log(`[FIXED ROTATION] Applied ${fixedRotation}° to all ${wrapperData.length} cards`);
     };
     
-    const updateScroll = () => {
-        // No need to transform wrapper - native scroll handles it
-        // Just update rotations based on scrollTop
-        updateCardRotations(scrollY);
-    };
-    
-    // Initial update
-    updateScroll();
+    // Initial apply
+    applyFixedRotation();
     
     // Track tapped card
     wrapperData.forEach(({ imageItem }) => {
@@ -507,13 +380,8 @@ function setupMobileInteractions(canvas) {
                 navigator.vibrate(10);
             }
             
-            updateScroll();
+            applyFixedRotation();
         });
-    });
-    
-    // Update on resize
-    window.addEventListener('resize', () => {
-        updateScroll();
     });
     
     // COMMENTED OUT: Tap interaction - testing static 3D first
