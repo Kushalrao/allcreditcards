@@ -85,8 +85,6 @@ body {
     transform-style: preserve-3d;
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
-    /* Ensure image respects parent's 3D transform */
-    transform: translateZ(0);
     border-radius: inherit;
 }
 
@@ -100,11 +98,8 @@ body {
         transform-style: preserve-3d;
         backface-visibility: hidden;
         -webkit-backface-visibility: hidden;
-        /* Ensure image respects parent's 3D transform */
-        transform: translateZ(0);
         border-radius: 13px;
-        /* Ensure image rotates with parent */
-        will-change: transform;
+        /* Image should inherit parent's transform, no own transform */
     }
 }
 

@@ -316,9 +316,10 @@ function updateCardRotations(imageItems, scrollViewContentOffset, tappedCardId) 
         if (item.dataset.imagePath === tappedCardId || item.classList.contains('tapped')) {
             // Tapped cards: rotate to 0° (flat)
             item.style.transform = `translate3d(0, ${offsetY}px, 0) rotateX(0deg)`;
+            // Remove any transform from image - it should inherit parent's transform
             const img = item.querySelector('img');
             if (img) {
-                img.style.transform = 'translateZ(0)';
+                img.style.transform = '';
             }
             return;
         }
@@ -340,15 +341,14 @@ function updateCardRotations(imageItems, scrollViewContentOffset, tappedCardId) 
         const dynamicRotation = topRotation + normalizedDistance * (bottomRotation - topRotation);
         
         // Apply rotation with 3D transform
-        // Use translateZ(0) to ensure 3D context is active
+        // Use translate3d for hardware acceleration
         // Perspective is on parent container (.canvas), so we just use rotateX
-        // Apply transform to both container and ensure 3D context
         item.style.transform = `translate3d(0, ${offsetY}px, 0) rotateX(${dynamicRotation}deg)`;
         
-        // Ensure image inside also respects 3D transform
+        // Remove any transform from image - it should inherit parent's transform
         const img = item.querySelector('img');
         if (img) {
-            img.style.transform = 'translateZ(0)';
+            img.style.transform = '';
         }
     });
 }
