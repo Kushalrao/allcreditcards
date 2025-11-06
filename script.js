@@ -17,8 +17,8 @@ let cardData = [];
 // Grid configuration
 const GRID_COLS = 20; // Number of columns
 const GRID_ROWS = 20; // Number of rows
-const IMAGE_WIDTH = 218; // Width of each image in pixels (67% of 325px)
-const IMAGE_HEIGHT = 134; // Height of each image in pixels (67% of 200px)
+const IMAGE_WIDTH = 325; // Width of each image container in pixels
+const IMAGE_HEIGHT = 200; // Height of each image container in pixels
 const GAP = 43; // Gap between images (consistent horizontal and vertical)
 
 // Load card data from data.txt
@@ -240,6 +240,10 @@ function createImageItem(imagePath, card, row, col) {
     imageItem.dataset.row = row;
     imageItem.dataset.col = col;
     
+    // Create image container
+    const imageContainer = document.createElement('div');
+    imageContainer.className = 'image-container';
+    
     // Create image
     const img = document.createElement('img');
     const pathParts = imagePath.split('/');
@@ -254,30 +258,31 @@ function createImageItem(imagePath, card, row, col) {
     
     img.onerror = (e) => {
         console.error('Failed to load image:', imagePath);
-        imageItem.style.background = '#e5e5e5';
-        imageItem.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #999;">Image not found</div>';
+        imageContainer.style.background = '#e5e5e5';
+        imageContainer.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #999;">Image not found</div>';
     };
     
-    imageItem.appendChild(img);
+    imageContainer.appendChild(img);
+    imageItem.appendChild(imageContainer);
     
-    // Add card information overlay if card data exists
+    // Add card information below image if card data exists
     if (card) {
-        const overlay = document.createElement('div');
-        overlay.className = 'card-info-overlay';
+        const cardInfo = document.createElement('div');
+        cardInfo.className = 'card-info';
         
         // Card Name - 13px, black 79% opacity, 9px margin-top
         const cardName = document.createElement('div');
         cardName.className = 'card-name';
         cardName.textContent = card['Card Name'] || '';
-        overlay.appendChild(cardName);
+        cardInfo.appendChild(cardName);
         
         // Network Name - 9px, all caps, 8% letter spacing, 60% opacity, 5px margin-top
         const networkName = document.createElement('div');
         networkName.className = 'card-network';
         networkName.textContent = (card['Network'] || '').toUpperCase();
-        overlay.appendChild(networkName);
+        cardInfo.appendChild(networkName);
         
-        imageItem.appendChild(overlay);
+        imageItem.appendChild(cardInfo);
     }
     
     return imageItem;
