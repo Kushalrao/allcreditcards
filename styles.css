@@ -207,24 +207,38 @@ body {
         -webkit-transform-style: preserve-3d;
     }
     
-    .image-item {
-        /* MINIMAL TEST: Strip everything except essentials */
+    /* NEW APPROACH: Separate wrappers for translation and rotation */
+    .image-translate-wrapper {
         width: 80vw;
         max-width: 320px;
-        height: 200px;
-        margin: 0 auto 20px auto;
-        background: red; /* Temporary - to see if card is rendering */
+        margin: 0 auto -100px auto;
         transform-style: preserve-3d;
         -webkit-transform-style: preserve-3d;
-        /* Remove ALL other properties that might flatten */
+        /* This wrapper handles translateY */
     }
     
-    /* Image inside card - also minimal */
+    .image-rotate-wrapper {
+        transform-style: preserve-3d;
+        -webkit-transform-style: preserve-3d;
+        /* This wrapper handles rotateX */
+    }
+    
+    .image-item {
+        width: 100%;
+        height: 200px;
+        border-radius: 13px;
+        cursor: pointer;
+        position: relative;
+        transform-style: preserve-3d;
+        -webkit-transform-style: preserve-3d;
+        overflow: hidden;
+    }
+    
     .image-item > img {
         width: 100%;
         height: 100%;
+        object-fit: cover;
         display: block;
-        /* Removed position: absolute and all transform-style */
     }
     
     /* Remove transition on transform for dynamic updates - update immediately */

@@ -181,44 +181,80 @@ function createGrid(canvas) {
 
 // Create an image item element
 function createImageItem(imagePath, row, col) {
-    const imageItem = document.createElement('div');
-    imageItem.className = 'image-item';
-    imageItem.dataset.imagePath = imagePath;
-    imageItem.dataset.row = row;
-    imageItem.dataset.col = col;
+    const isMobile = window.innerWidth <= 768;
     
-    const img = document.createElement('img');
-    // URL encode the path for HTTP server (spaces need to be %20)
-    // Split path into parts, encode each part separately, then join
-    const pathParts = imagePath.split('/');
-    const encodedPath = pathParts.map(part => encodeURIComponent(part)).join('/');
-    img.src = encodedPath;
-    img.alt = imagePath.split('/').pop();
-    img.loading = 'lazy';
-    
-    // Handle image load
-    img.onload = () => {
-        imageItem.classList.add('visible');
-    };
-    
-    // Handle image error - log for debugging
-    img.onerror = (e) => {
-        console.error('Failed to load image:', imagePath);
-        imageItem.style.background = '#e5e5e5';
-        imageItem.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #999;">Image not found</div>';
-    };
-    
-    imageItem.appendChild(img);
-    
-    // Add interactive 3D rotation on desktop only
-    if (window.innerWidth > 768) {
-        setup3DRotation(imageItem);
-    } else {
+    // For mobile: Use wrapper approach for 3D
+    if (isMobile) {
+        // Outer wrapper for translation
+        const translateWrapper = document.createElement('div');
+        translateWrapper.className = 'image-translate-wrapper';
+        
+        // Inner wrapper for rotation
+        const rotateWrapper = document.createElement('div');
+        rotateWrapper.className = 'image-rotate-wrapper';
+        
+        // The actual image item
+        const imageItem = document.createElement('div');
+        imageItem.className = 'image-item';
+        imageItem.dataset.imagePath = imagePath;
+        imageItem.dataset.row = row;
+        imageItem.dataset.col = col;
+        
+        const img = document.createElement('img');
+        const pathParts = imagePath.split('/');
+        const encodedPath = pathParts.map(part => encodeURIComponent(part)).join('/');
+        img.src = encodedPath;
+        img.alt = imagePath.split('/').pop();
+        img.loading = 'lazy';
+        
+        img.onload = () => {
+            imageItem.classList.add('visible');
+        };
+        
+        img.onerror = (e) => {
+            console.error('Failed to load image:', imagePath);
+            imageItem.style.background = '#e5e5e5';
+            imageItem.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #999;">Image not found</div>';
+        };
+        
+        imageItem.appendChild(img);
+        rotateWrapper.appendChild(imageItem);
+        translateWrapper.appendChild(rotateWrapper);
+        
         // Mobile: Setup tap interaction
         setupMobileTapInteraction(imageItem);
+        
+        return translateWrapper;
+    } else {
+        // Desktop: Original structure
+        const imageItem = document.createElement('div');
+        imageItem.className = 'image-item';
+        imageItem.dataset.imagePath = imagePath;
+        imageItem.dataset.row = row;
+        imageItem.dataset.col = col;
+        
+        const img = document.createElement('img');
+        const pathParts = imagePath.split('/');
+        const encodedPath = pathParts.map(part => encodeURIComponent(part)).join('/');
+        img.src = encodedPath;
+        img.alt = imagePath.split('/').pop();
+        img.loading = 'lazy';
+        
+        img.onload = () => {
+            imageItem.classList.add('visible');
+        };
+        
+        img.onerror = (e) => {
+            console.error('Failed to load image:', imagePath);
+            imageItem.style.background = '#e5e5e5';
+            imageItem.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #999;">Image not found</div>';
+        };
+        
+        imageItem.appendChild(img);
+        setup3DRotation(imageItem);
+        
+        return imageItem;
     }
-    
-    return imageItem;
 }
 
 // Setup mobile tap interaction
@@ -333,80 +369,44 @@ function setupMobileInteractions(canvas) {
         // updateCardRotations(imageItems, scrollY, tappedCardId);
     };
     
-    // Set static 3D rotation on all cards to verify 3D is working
-    // This is the first step - get basic 3D rotation working before adding dynamic scroll rotation
-    imageItems.forEach((item, index) => {
+    // NEW APPROACH: Use separate wrappers for translation and rotation
+    // Find all translate wrappers (they contain rotate wrappers which contain image-items)
+    const translateWrappers = Array.from(canvas.querySelectorAll('.image-translate-wrapper'));
+    
+    translateWrappers.forEach((translateWrapper, index) => {
         const offsetY = index * 8;
+        const rotateWrapper = translateWrapper.querySelector('.image-rotate-wrapper');
+        const imageItem = translateWrapper.querySelector('.image-item');
         
-        // FINAL TEST: Remove perspective() from transform, use only rotateX
-        // Let CSS perspective on parent handle it
-        const testTransform = `translate3d(0, ${offsetY}px, 0) rotateX(-30deg)`;
-        item.style.transform = testTransform;
-        item.style.webkitTransform = testTransform;
+        if (!rotateWrapper || !imageItem) return;
         
-        // Force browser to recognize 3D transform
-        item.style.transformStyle = 'preserve-3d';
-        item.style.webkitTransformStyle = 'preserve-3d';
+        // Apply translation to outer wrapper
+        translateWrapper.style.transform = `translate3d(0, ${offsetY}px, 0)`;
+        translateWrapper.style.webkitTransform = `translate3d(0, ${offsetY}px, 0)`;
         
-        // FORCE 3D rendering context on ALL parents with translateZ(0)
-        const canvasEl = item.closest('.canvas');
-        if (canvasEl) {
-            canvasEl.style.transformStyle = 'preserve-3d';
-            canvasEl.style.webkitTransformStyle = 'preserve-3d';
-            canvasEl.style.transform = 'translateZ(0)';
-            canvasEl.style.webkitTransform = 'translateZ(0)';
-        }
-        const wrapperEl = item.closest('.canvas-wrapper');
-        if (wrapperEl) {
-            wrapperEl.style.transformStyle = 'preserve-3d';
-            wrapperEl.style.webkitTransformStyle = 'preserve-3d';
-            wrapperEl.style.transform = 'translateZ(0)';
-            wrapperEl.style.webkitTransform = 'translateZ(0)';
-        }
-        const containerEl = item.closest('.canvas-container');
-        if (containerEl) {
-            containerEl.style.transformStyle = 'preserve-3d';
-            containerEl.style.webkitTransformStyle = 'preserve-3d';
-            containerEl.style.transform = 'translateZ(0)';
-            containerEl.style.webkitTransform = 'translateZ(0)';
-        }
+        // Apply rotation to inner wrapper
+        rotateWrapper.style.transform = `rotateX(-30deg)`;
+        rotateWrapper.style.webkitTransform = `rotateX(-30deg)`;
         
-        // DEBUG: Log to verify transform is applied
-        console.log(`Card ${index}: Applied transform:`, testTransform);
+        // DEBUG: Log to verify transforms are applied
+        console.log(`Card ${index}: Applied translate: translate3d(0, ${offsetY}px, 0)`);
+        console.log(`Card ${index}: Applied rotate: rotateX(-30deg)`);
         
-        // Wait a frame before checking computed styles
+        // Check computed transforms
         requestAnimationFrame(() => {
-            const computedTransform = window.getComputedStyle(item).transform;
-            console.log(`Card ${index}: Computed transform:`, computedTransform);
+            const translateTransform = window.getComputedStyle(translateWrapper).transform;
+            const rotateTransform = window.getComputedStyle(rotateWrapper).transform;
             
-            // Check if it's a 3D matrix
-            const is3D = computedTransform.includes('matrix3d') || 
-                         (computedTransform.includes('matrix') && computedTransform.split(',').length > 6);
-            console.log(`Card ${index}: Is 3D transform:`, is3D);
+            console.log(`Card ${index}: Computed translate transform:`, translateTransform);
+            console.log(`Card ${index}: Computed rotate transform:`, rotateTransform);
             
-            // Also log the computed transform-style
-            const computedTransformStyle = window.getComputedStyle(item).transformStyle;
-            console.log(`Card ${index}: Computed transform-style:`, computedTransformStyle);
+            const isTranslate3D = translateTransform.includes('matrix3d') || 
+                                 (translateTransform.includes('matrix') && translateTransform.split(',').length > 6);
+            const isRotate3D = rotateTransform.includes('matrix3d') || 
+                              (rotateTransform.includes('matrix') && rotateTransform.split(',').length > 6);
             
-            // CRITICAL DEBUG: Check ALL parent elements for flattening properties
-            let currentEl = item.parentElement;
-            let level = 0;
-            while (currentEl && level < 5) {
-                const styles = window.getComputedStyle(currentEl);
-                console.log(`Parent ${level} (${currentEl.className}):`, {
-                    transformStyle: styles.transformStyle,
-                    perspective: styles.perspective,
-                    overflow: styles.overflow,
-                    overflowX: styles.overflowX,
-                    overflowY: styles.overflowY,
-                    opacity: styles.opacity,
-                    filter: styles.filter,
-                    willChange: styles.willChange,
-                    transform: styles.transform
-                });
-                currentEl = currentEl.parentElement;
-                level++;
-            }
+            console.log(`Card ${index}: Translate is 3D:`, isTranslate3D);
+            console.log(`Card ${index}: Rotate is 3D:`, isRotate3D);
         });
     });
     
