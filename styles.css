@@ -187,9 +187,9 @@ body {
     .canvas-wrapper {
         /* CRITICAL: Perspective must be on a non-overflow parent for 3D to work */
         /* Smaller perspective = more dramatic 3D effect */
-        perspective: 600px;
+        perspective: 400px;
         perspective-origin: 50% 50%;
-        -webkit-perspective: 600px;
+        -webkit-perspective: 400px;
         -webkit-perspective-origin: 50% 50%;
         transform-style: preserve-3d;
         -webkit-transform-style: preserve-3d;

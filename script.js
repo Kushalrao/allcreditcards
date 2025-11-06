@@ -371,8 +371,8 @@ function setupMobileInteractions(canvas) {
             
             // Handle tapped cards (rotate to 0°)
             if (imageItem.dataset.imagePath === tappedCardId || imageItem.classList.contains('tapped')) {
-                rotateWrapper.style.transform = `translateZ(0px) rotateX(0deg)`;
-                rotateWrapper.style.webkitTransform = `translateZ(0px) rotateX(0deg)`;
+                rotateWrapper.style.transform = `rotateX(0deg) translateZ(0px)`;
+                rotateWrapper.style.webkitTransform = `rotateX(0deg) translateZ(0px)`;
                 translateWrapper.style.transform = `translate3d(0, ${offsetY}px, 0)`;
                 translateWrapper.style.webkitTransform = `translate3d(0, ${offsetY}px, 0)`;
                 return;
@@ -425,15 +425,16 @@ function setupMobileInteractions(canvas) {
             }
             
             // Apply transforms
-            // Add translateZ based on rotation to create depth and make rotation visible
-            // Cards rotated more (closer to -39deg) should be pushed back more
+            // Rotate first, then translateZ - this order matters for 3D effect
+            // Cards rotated more (closer to -39deg) should be pushed back more for depth
             const normalizedRotation = Math.abs(dynamicRotation) / 39.0; // 0 to 1
-            const translateZ = normalizedRotation * -50; // Push rotated cards back up to -50px
+            const translateZ = normalizedRotation * -100; // Push rotated cards back up to -100px (increased for visibility)
             
             translateWrapper.style.transform = `translate3d(0, ${offsetY}px, 0)`;
             translateWrapper.style.webkitTransform = `translate3d(0, ${offsetY}px, 0)`;
-            rotateWrapper.style.transform = `translateZ(${translateZ}px) rotateX(${dynamicRotation}deg)`;
-            rotateWrapper.style.webkitTransform = `translateZ(${translateZ}px) rotateX(${dynamicRotation}deg)`;
+            // Rotate first, then translateZ - this creates proper 3D perspective effect
+            rotateWrapper.style.transform = `rotateX(${dynamicRotation}deg) translateZ(${translateZ}px)`;
+            rotateWrapper.style.webkitTransform = `rotateX(${dynamicRotation}deg) translateZ(${translateZ}px)`;
             
             // DEBUG: Verify transforms are actually applied (for first 3 visible cards)
             if (isCardVisible && index < 3) {
