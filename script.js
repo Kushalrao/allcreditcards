@@ -417,25 +417,46 @@ function setupMobileInteractions(canvas) {
             // Determine rotation based on viewport position
             // Cards at top of viewport: -10°, cards entering from bottom: -39°
             let normalizedPosition;
+            let positionStatus;
             
             if (cardPositionInViewport < 0) {
                 // Card is above viewport (hasn't entered yet or exited top)
                 // Use top rotation for cards above
                 normalizedPosition = 0;
+                positionStatus = 'ABOVE_VIEWPORT';
             } else if (cardPositionInViewport > viewportHeight) {
                 // Card is below viewport (hasn't entered from bottom yet or exited bottom)
                 // Use bottom rotation for cards below
                 normalizedPosition = 1;
+                positionStatus = 'BELOW_VIEWPORT';
             } else {
                 // Card is visible in viewport - normalize based on viewport height
                 // 0 = at top of viewport, 1 = at bottom of viewport
                 normalizedPosition = cardPositionInViewport / viewportHeight;
+                positionStatus = 'IN_VIEWPORT';
             }
             
             // Interpolate rotation: -10° at top of viewport, -39° at bottom of viewport
             const topRotation = -10.0;
             const bottomRotation = -39.0;
             const dynamicRotation = topRotation + normalizedPosition * (bottomRotation - topRotation);
+            
+            // DEBUG: Log rotation calculation for first few cards
+            if (index < 5 || (cardPositionInViewport >= 0 && cardPositionInViewport <= viewportHeight)) {
+                console.log(`Card ${index}:`, {
+                    cardTop: cardTop.toFixed(1),
+                    cardBottom: cardBottom.toFixed(1),
+                    cardCenterY: cardCenterY.toFixed(1),
+                    viewportTop: viewportTop,
+                    viewportBottom: viewportBottom,
+                    viewportHeight: viewportHeight.toFixed(1),
+                    cardPositionInViewport: cardPositionInViewport.toFixed(1),
+                    positionStatus: positionStatus,
+                    normalizedPosition: normalizedPosition.toFixed(3),
+                    dynamicRotation: dynamicRotation.toFixed(1) + 'deg',
+                    isVisible: cardBottom > viewportTop && cardTop < viewportBottom
+                });
+            }
             
             // Apply transforms to separate wrappers
             translateWrapper.style.transform = `translate3d(0, ${offsetY}px, 0)`;
