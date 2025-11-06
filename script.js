@@ -260,11 +260,24 @@ function setupMobileInteractions(canvas) {
         const offsetY = index * 8;
         // Set a default rotation to test 3D (e.g., -30deg)
         // This will be overridden by updateCardRotations
-        // CRITICAL: Use perspective() function in transform to force 3D context
-        // This works even when parent has overflow that flattens 3D
-        const testTransform = `perspective(1000px) translate3d(0, ${offsetY}px, 0) rotateX(-30deg)`;
-        item.style.transform = testTransform;
-        item.style.webkitTransform = testTransform;
+        // CRITICAL FIX: Apply transform with matrix3d directly to force 3D
+        // Since overflow flattens transforms, we need to use a different approach
+        // Calculate the 3D matrix manually for rotateX(-30deg)
+        const angle = -30 * Math.PI / 180; // Convert to radians
+        const cos = Math.cos(angle);
+        const sin = Math.sin(angle);
+        
+        // 3D rotation matrix for rotateX(-30deg) + translateY
+        // matrix3d(a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p)
+        const matrix3d = `matrix3d(
+            1, 0, 0, 0,
+            0, ${cos}, ${sin}, 0,
+            0, ${-sin}, ${cos}, 0,
+            0, ${offsetY}, 0, 1
+        )`.replace(/\s+/g, ' ').trim();
+        
+        item.style.transform = matrix3d;
+        item.style.webkitTransform = matrix3d;
         
         // Force browser to recognize 3D transform
         item.style.transformStyle = 'preserve-3d';
@@ -283,7 +296,7 @@ function setupMobileInteractions(canvas) {
         }
         
         // DEBUG: Log to verify transform is applied
-        console.log(`Card ${index}: Applied transform:`, testTransform);
+        console.log(`Card ${index}: Applied matrix3d:`, matrix3d);
         const computedTransform = window.getComputedStyle(item).transform;
         console.log(`Card ${index}: Computed transform:`, computedTransform);
         
@@ -362,9 +375,10 @@ function updateCardRotations(imageItems, scrollViewContentOffset, tappedCardId) 
         
         // Handle tapped cards (rotate to 0°)
         if (item.dataset.imagePath === tappedCardId || item.classList.contains('tapped')) {
-            // Tapped cards: rotate to 0° (flat) - still need perspective() for 3D context
-            item.style.transform = `perspective(1000px) translate3d(0, ${offsetY}px, 0) rotateX(0deg)`;
-            item.style.webkitTransform = `perspective(1000px) translate3d(0, ${offsetY}px, 0) rotateX(0deg)`;
+            // Tapped cards: rotate to 0° (flat) using matrix3d
+            const matrix3d = `matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, ${offsetY}, 0, 1)`;
+            item.style.transform = matrix3d;
+            item.style.webkitTransform = matrix3d;
             return;
         }
         
@@ -384,12 +398,23 @@ function updateCardRotations(imageItems, scrollViewContentOffset, tappedCardId) 
         const bottomRotation = -60.0;
         const dynamicRotation = topRotation + normalizedDistance * (bottomRotation - topRotation);
         
-        // Apply rotation with 3D transform
-        // CRITICAL: Use perspective() function in transform to force 3D context
-        // This works even when parent has overflow that flattens 3D
-        const transformValue = `perspective(1000px) translate3d(0, ${offsetY}px, 0) rotateX(${dynamicRotation}deg)`;
-        item.style.transform = transformValue;
-        item.style.webkitTransform = transformValue;
+        // Apply rotation with 3D transform using matrix3d
+        // CRITICAL: Use matrix3d directly to force 3D rendering
+        // This bypasses browser optimizations that flatten transforms
+        const angle = dynamicRotation * Math.PI / 180; // Convert to radians
+        const cos = Math.cos(angle);
+        const sin = Math.sin(angle);
+        
+        // 3D rotation matrix for rotateX + translateY
+        const matrix3d = `matrix3d(
+            1, 0, 0, 0,
+            0, ${cos}, ${sin}, 0,
+            0, ${-sin}, ${cos}, 0,
+            0, ${offsetY}, 0, 1
+        )`.replace(/\s+/g, ' ').trim();
+        
+        item.style.transform = matrix3d;
+        item.style.webkitTransform = matrix3d;
         
         // DEBUG: Log rotation values
         if (index === 0) {

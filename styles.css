@@ -192,9 +192,7 @@ body {
         -webkit-perspective-origin: 50% 50%;
         transform-style: preserve-3d;
         -webkit-transform-style: preserve-3d;
-        /* Force 3D rendering context */
-        transform: translateZ(0);
-        -webkit-transform: translateZ(0);
+        /* NO transform here - let children handle their own transforms */
     }
     
     .canvas {
