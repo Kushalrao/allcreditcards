@@ -312,66 +312,16 @@ function setupMobileInteractions(canvas) {
     const totalHeight = totalCards * actualCardHeight + 200; // Add padding
     canvasWrapper.style.minHeight = `${totalHeight}px`;
     
-    // Handle touch/mouse scrolling without overflow
-    const handleWheel = (e) => {
-        e.preventDefault();
-        scrollY -= e.deltaY * 0.5;
-        scrollY = Math.max(0, Math.min(scrollY, totalHeight - window.innerHeight));
-        console.log('WHEEL: scrollY updated to', scrollY.toFixed(1));
+    // Use native scroll events instead of custom scrolling
+    // Track scroll position from scrollTop
+    const handleScroll = () => {
+        scrollY = canvasContainer.scrollTop;
+        console.log('SCROLL EVENT: scrollY updated to', scrollY.toFixed(1));
         updateScroll();
     };
     
-    const handleTouchStart = (e) => {
-        isDragging = true;
-        startY = e.touches[0].clientY;
-        lastY = startY;
-        lastTime = Date.now();
-        velocity = 0;
-    };
-    
-    const handleTouchMove = (e) => {
-        if (!isDragging) return;
-        e.preventDefault();
-        const currentY = e.touches[0].clientY;
-        const deltaY = lastY - currentY;
-        const currentTime = Date.now();
-        const deltaTime = currentTime - lastTime;
-        
-        if (deltaTime > 0) {
-            velocity = deltaY / deltaTime;
-        }
-        
-        scrollY += deltaY;
-        scrollY = Math.max(0, Math.min(scrollY, totalHeight - window.innerHeight));
-        console.log('TOUCH MOVE: scrollY updated to', scrollY.toFixed(1), 'deltaY:', deltaY.toFixed(1));
-        
-        lastY = currentY;
-        lastTime = currentTime;
-        updateScroll();
-    };
-    
-    const handleTouchEnd = () => {
-        isDragging = false;
-        // Apply momentum scrolling
-        if (Math.abs(velocity) > 0.1) {
-            const momentum = () => {
-                scrollY += velocity * 16;
-                velocity *= 0.95; // Friction
-                scrollY = Math.max(0, Math.min(scrollY, totalHeight - window.innerHeight));
-                updateScroll();
-                if (Math.abs(velocity) > 0.01) {
-                    requestAnimationFrame(momentum);
-                }
-            };
-            requestAnimationFrame(momentum);
-        }
-    };
-    
-    // Add event listeners for custom scrolling
-    canvasContainer.addEventListener('wheel', handleWheel, { passive: false });
-    canvasContainer.addEventListener('touchstart', handleTouchStart, { passive: false });
-    canvasContainer.addEventListener('touchmove', handleTouchMove, { passive: false });
-    canvasContainer.addEventListener('touchend', handleTouchEnd, { passive: true });
+    // Add scroll event listener
+    canvasContainer.addEventListener('scroll', handleScroll, { passive: true });
     
     // Get all translate wrappers and their inner elements (already defined above)
     const wrapperData = translateWrappers.map((translateWrapper, index) => {
@@ -469,9 +419,8 @@ function setupMobileInteractions(canvas) {
     };
     
     const updateScroll = () => {
-        // Transform the wrapper to simulate scrolling
-        canvasWrapper.style.transform = `translateY(-${scrollY}px)`;
-        // Update rotations immediately (no delay)
+        // No need to transform wrapper - native scroll handles it
+        // Just update rotations based on scrollTop
         updateCardRotations(scrollY);
     };
     

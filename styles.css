@@ -174,13 +174,13 @@ body {
 @media (max-width: 768px) {
     .canvas-container {
         background: #F3F9E7;
-        /* CRITICAL: Remove overflow to prevent 3D flattening */
-        /* We'll handle scrolling via transform on wrapper */
-        overflow: visible;
+        /* Enable native scrolling - we'll track scrollTop for rotation */
+        overflow-y: auto;
+        overflow-x: hidden;
         position: relative;
         height: 100vh;
-        /* Enable touch scrolling via JavaScript */
-        touch-action: pan-y;
+        -webkit-overflow-scrolling: touch;
+        scroll-behavior: smooth;
     }
     
     /* Wrapper inside container - this has perspective and preserves 3D */
@@ -192,8 +192,7 @@ body {
         -webkit-perspective-origin: 50% 50%;
         transform-style: preserve-3d;
         -webkit-transform-style: preserve-3d;
-        /* TEMPORARILY: No transform on wrapper to test if it's causing flattening */
-        /* will-change: transform; */
+        /* No transform needed - native scroll handles positioning */
     }
     
     .canvas {
