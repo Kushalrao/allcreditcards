@@ -371,8 +371,8 @@ function setupMobileInteractions(canvas) {
             
             // Handle tapped cards (rotate to 0°)
             if (imageItem.dataset.imagePath === tappedCardId || imageItem.classList.contains('tapped')) {
-                rotateWrapper.style.transform = `rotateX(0deg)`;
-                rotateWrapper.style.webkitTransform = `rotateX(0deg)`;
+                rotateWrapper.style.transform = `translateZ(0px) rotateX(0deg)`;
+                rotateWrapper.style.webkitTransform = `translateZ(0px) rotateX(0deg)`;
                 translateWrapper.style.transform = `translate3d(0, ${offsetY}px, 0)`;
                 translateWrapper.style.webkitTransform = `translate3d(0, ${offsetY}px, 0)`;
                 return;
@@ -425,10 +425,15 @@ function setupMobileInteractions(canvas) {
             }
             
             // Apply transforms
+            // Add translateZ based on rotation to create depth and make rotation visible
+            // Cards rotated more (closer to -39deg) should be pushed back more
+            const normalizedRotation = Math.abs(dynamicRotation) / 39.0; // 0 to 1
+            const translateZ = normalizedRotation * -50; // Push rotated cards back up to -50px
+            
             translateWrapper.style.transform = `translate3d(0, ${offsetY}px, 0)`;
             translateWrapper.style.webkitTransform = `translate3d(0, ${offsetY}px, 0)`;
-            rotateWrapper.style.transform = `rotateX(${dynamicRotation}deg)`;
-            rotateWrapper.style.webkitTransform = `rotateX(${dynamicRotation}deg)`;
+            rotateWrapper.style.transform = `translateZ(${translateZ}px) rotateX(${dynamicRotation}deg)`;
+            rotateWrapper.style.webkitTransform = `translateZ(${translateZ}px) rotateX(${dynamicRotation}deg)`;
             
             // DEBUG: Verify transforms are actually applied (for first 3 visible cards)
             if (isCardVisible && index < 3) {
@@ -437,11 +442,10 @@ function setupMobileInteractions(canvas) {
                 const computedWebkitTransform = window.getComputedStyle(rotateWrapper).webkitTransform;
                 const isMatrix3d = computedTransform.includes('matrix3d');
                 
+                console.log(`[DEBUG Card ${index}] Rotation: ${dynamicRotation.toFixed(1)}deg, translateZ: ${translateZ.toFixed(1)}px`);
                 console.log(`[DEBUG Card ${index}] Applied: "${appliedTransform}"`);
-                console.log(`[DEBUG Card ${index}] Computed transform: "${computedTransform}"`);
-                console.log(`[DEBUG Card ${index}] Computed webkitTransform: "${computedWebkitTransform}"`);
+                console.log(`[DEBUG Card ${index}] Computed transform: "${computedTransform.substring(0, 80)}..."`);
                 console.log(`[DEBUG Card ${index}] Is 3D (matrix3d): ${isMatrix3d}`);
-                console.log(`[DEBUG Card ${index}] Element exists: ${!!rotateWrapper}, Parent: ${rotateWrapper.parentElement?.className}`);
             }
         });
         
