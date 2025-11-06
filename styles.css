@@ -112,20 +112,23 @@ body {
     padding: 20px;
     z-index: 1000;
     pointer-events: none;
+    background: transparent;
 }
 
 .search-bar {
     width: 640px;
     padding: 16px 24px;
     background: #000000;
-    border: none;
-    border-radius: 12px;
+    border: 3px solid #ffffff;
+    border-radius: 100px;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     font-size: 16px;
     color: rgba(255, 255, 255, 0.8);
     outline: none;
     pointer-events: auto;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    -webkit-appearance: none;
+    appearance: none;
 }
 
 .search-bar::placeholder {
@@ -158,7 +161,7 @@ body {
     }
     
     .search-bar {
-        width: 85%;
+        width: 93%;
     }
 }
 
