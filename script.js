@@ -405,37 +405,32 @@ function setupMobileInteractions(canvas) {
             const cardBottom = cardRect.bottom;
             const cardCenterY = cardRect.top + cardRect.height / 2;
             
-            // Viewport boundaries
+            // Viewport boundaries (where cards are actually visible)
             const viewportTop = screenTop; // Top of visible area (200px from top)
             const viewportBottom = deviceHeight; // Bottom of viewport
             const viewportHeight = viewportBottom - viewportTop; // Actual visible height
             
-            // Check if card is visible in viewport
-            const isCardVisible = cardBottom > viewportTop && cardTop < viewportBottom;
+            // Calculate where card center is relative to viewport
+            // Negative = above viewport, 0 = at top, viewportHeight = at bottom, > viewportHeight = below
+            const cardPositionInViewport = cardCenterY - viewportTop;
             
-            if (!isCardVisible) {
-                // Card is outside viewport - don't rotate (or set to default)
-                // Cards above viewport: less rotation, cards below: more rotation
-                if (cardBottom <= viewportTop) {
-                    // Card is above viewport (exited top) - use top rotation
-                    rotateWrapper.style.transform = `rotateX(-10deg)`;
-                    rotateWrapper.style.webkitTransform = `rotateX(-10deg)`;
-                } else {
-                    // Card is below viewport (entering from bottom) - use bottom rotation
-                    rotateWrapper.style.transform = `rotateX(-39deg)`;
-                    rotateWrapper.style.webkitTransform = `rotateX(-39deg)`;
-                }
-                translateWrapper.style.transform = `translate3d(0, ${offsetY}px, 0)`;
-                translateWrapper.style.webkitTransform = `translate3d(0, ${offsetY}px, 0)`;
-                return;
+            // Determine rotation based on viewport position
+            // Cards at top of viewport: -10°, cards entering from bottom: -39°
+            let normalizedPosition;
+            
+            if (cardPositionInViewport < 0) {
+                // Card is above viewport (hasn't entered yet or exited top)
+                // Use top rotation for cards above
+                normalizedPosition = 0;
+            } else if (cardPositionInViewport > viewportHeight) {
+                // Card is below viewport (hasn't entered from bottom yet or exited bottom)
+                // Use bottom rotation for cards below
+                normalizedPosition = 1;
+            } else {
+                // Card is visible in viewport - normalize based on viewport height
+                // 0 = at top of viewport, 1 = at bottom of viewport
+                normalizedPosition = cardPositionInViewport / viewportHeight;
             }
-            
-            // Card is visible - calculate rotation based on viewport position
-            // Card center Y position relative to viewport top
-            const distanceFromViewportTop = cardCenterY - viewportTop;
-            
-            // Normalize: 0 = at top of viewport, 1 = at bottom of viewport
-            const normalizedPosition = Math.max(0, Math.min(1, distanceFromViewportTop / viewportHeight));
             
             // Interpolate rotation: -10° at top of viewport, -39° at bottom of viewport
             const topRotation = -10.0;
