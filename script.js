@@ -334,8 +334,19 @@ function setupMobileInteractions(canvas) {
     const wrapperData = translateWrappers.map((translateWrapper, index) => {
         const rotateWrapper = translateWrapper.querySelector('.image-rotate-wrapper');
         const imageItem = translateWrapper.querySelector('.image-item');
+        
+        // Verify each card has its own unique wrapper
+        if (!rotateWrapper) {
+            console.error(`[ERROR] Card ${index}: No rotateWrapper found!`);
+        }
+        if (!imageItem) {
+            console.error(`[ERROR] Card ${index}: No imageItem found!`);
+        }
+        
         return { translateWrapper, rotateWrapper, imageItem, index };
     });
+    
+    console.log(`[SETUP] Found ${wrapperData.length} cards, ${wrapperData.filter(w => w.rotateWrapper).length} with rotateWrapper`);
     
     // Update card rotations based on scroll position
     const updateCardRotations = (scrollY) => {
@@ -429,8 +440,28 @@ function setupMobileInteractions(canvas) {
             // SwiftUI uses .rotation3DEffect() with just rotateX, no translateZ
             translateWrapper.style.transform = `translate3d(0, ${offsetY}px, 0)`;
             translateWrapper.style.webkitTransform = `translate3d(0, ${offsetY}px, 0)`;
-            rotateWrapper.style.transform = `rotateX(${dynamicRotation}deg)`;
-            rotateWrapper.style.webkitTransform = `rotateX(${dynamicRotation}deg)`;
+            
+            // CRITICAL: Apply rotation to the rotateWrapper, NOT the translateWrapper
+            // Each card should have its own unique rotateWrapper
+            if (rotateWrapper) {
+                rotateWrapper.style.transform = `rotateX(${dynamicRotation}deg)`;
+                rotateWrapper.style.webkitTransform = `rotateX(${dynamicRotation}deg)`;
+                
+                // Verify the transform was actually set
+                if (index < 3) {
+                    const actualTransform = rotateWrapper.style.transform;
+                    if (actualTransform !== `rotateX(${dynamicRotation}deg)`) {
+                        console.warn(`[WARNING Card ${index}] Transform mismatch! Expected: rotateX(${dynamicRotation}deg), Got: ${actualTransform}`);
+                    }
+                }
+            } else {
+                console.error(`[ERROR Card ${index}] No rotateWrapper to apply transform to!`);
+            }
+            
+            // DEBUG: Log rotation for ALL cards to see if they're different
+            if (index < 10) { // Log first 10 cards
+                console.log(`[DEBUG Card ${index}] basePos=${baseCardPosition.toFixed(1)}, scrollY=${scrollY.toFixed(1)}, currentTop=${currentCardTop.toFixed(1)}, centerY=${currentCardCenterY.toFixed(1)}, normalized=${normalizedPosition?.toFixed(3) || 'N/A'}, rotation=${dynamicRotation.toFixed(1)}deg, visible=${isCardVisible}`);
+            }
             
             // DEBUG: Verify transforms are actually applied (for first 3 visible cards)
             if (isCardVisible && index < 3) {
@@ -438,8 +469,7 @@ function setupMobileInteractions(canvas) {
                 const computedTransform = window.getComputedStyle(rotateWrapper).transform;
                 const isMatrix3d = computedTransform.includes('matrix3d');
                 
-                console.log(`[DEBUG Card ${index}] Rotation: ${dynamicRotation.toFixed(1)}deg`);
-                console.log(`[DEBUG Card ${index}] Applied: "${appliedTransform}"`);
+                console.log(`[DEBUG Card ${index}] Applied transform: "${appliedTransform}"`);
                 console.log(`[DEBUG Card ${index}] Computed transform: "${computedTransform.substring(0, 80)}..."`);
                 console.log(`[DEBUG Card ${index}] Is 3D (matrix3d): ${isMatrix3d}`);
             }
@@ -453,6 +483,14 @@ function setupMobileInteractions(canvas) {
             visibleCards.forEach(card => {
                 console.log(`  Card ${card.index}: rotation=${card.rotation.toFixed(1)}deg, centerY=${card.centerY.toFixed(1)}, normalized=${card.normalized.toFixed(3)}`);
             });
+            
+            // Verify rotations are different
+            const rotations = visibleCards.map(c => c.rotation);
+            const uniqueRotations = new Set(rotations.map(r => r.toFixed(1)));
+            console.log(`\n[VERIFICATION] Total visible cards: ${visibleCards.length}, Unique rotation values: ${uniqueRotations.size}`);
+            if (uniqueRotations.size === 1 && visibleCards.length > 1) {
+                console.warn(`[WARNING] All visible cards have the same rotation: ${rotations[0].toFixed(1)}deg - THIS IS THE PROBLEM!`);
+            }
         }
         console.log('==========================================\n');
     };
