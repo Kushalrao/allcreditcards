@@ -170,21 +170,22 @@ function setup3DRotation(imageItem) {
         const mouseY = e.clientY - centerY;
         
         // Calculate rotation angles (normalized to -1 to 1, then multiplied by maxRotation)
-        const rotateY = (mouseX / (rect.width / 2)) * maxRotation;
-        const rotateX = -(mouseY / (rect.height / 2)) * maxRotation;
+        // Clamp values to ensure they don't exceed maxRotation
+        const rotateY = Math.max(-maxRotation, Math.min(maxRotation, (mouseX / (rect.width / 2)) * maxRotation));
+        const rotateX = Math.max(-maxRotation, Math.min(maxRotation, -(mouseY / (rect.height / 2)) * maxRotation));
         
-        // Apply rotation with scale
-        imageItem.style.transform = `scale(1.02) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        // Apply 3D rotation with scale - using translateZ for better 3D effect
+        imageItem.style.transform = `perspective(1000px) scale(1.02) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(10px)`;
     });
     
     imageItem.addEventListener('mouseleave', () => {
         // Reset to default state when mouse leaves
-        imageItem.style.transform = 'scale(1) rotateX(0deg) rotateY(0deg)';
+        imageItem.style.transform = 'perspective(1000px) scale(1) rotateX(0deg) rotateY(0deg) translateZ(0px)';
     });
     
     imageItem.addEventListener('mouseenter', () => {
         // Slight scale on enter
-        imageItem.style.transform = 'scale(1.02) rotateX(0deg) rotateY(0deg)';
+        imageItem.style.transform = 'perspective(1000px) scale(1.02) rotateX(0deg) rotateY(0deg) translateZ(0px)';
     });
 }
 
