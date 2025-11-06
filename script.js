@@ -338,9 +338,9 @@ function setupMobileInteractions(canvas) {
     imageItems.forEach((item, index) => {
         const offsetY = index * 8;
         
-        // TEST: Try different approaches to force 3D
-        // Approach 1: Use perspective() function in transform
-        const testTransform = `perspective(1000px) translate3d(0, ${offsetY}px, 0) rotateX(-30deg)`;
+        // FINAL TEST: Remove perspective() from transform, use only rotateX
+        // Let CSS perspective on parent handle it
+        const testTransform = `translate3d(0, ${offsetY}px, 0) rotateX(-30deg)`;
         item.style.transform = testTransform;
         item.style.webkitTransform = testTransform;
         
@@ -348,16 +348,27 @@ function setupMobileInteractions(canvas) {
         item.style.transformStyle = 'preserve-3d';
         item.style.webkitTransformStyle = 'preserve-3d';
         
-        // Also ensure parent elements have preserve-3d
+        // FORCE 3D rendering context on ALL parents with translateZ(0)
         const canvasEl = item.closest('.canvas');
         if (canvasEl) {
             canvasEl.style.transformStyle = 'preserve-3d';
             canvasEl.style.webkitTransformStyle = 'preserve-3d';
+            canvasEl.style.transform = 'translateZ(0)';
+            canvasEl.style.webkitTransform = 'translateZ(0)';
         }
         const wrapperEl = item.closest('.canvas-wrapper');
         if (wrapperEl) {
             wrapperEl.style.transformStyle = 'preserve-3d';
             wrapperEl.style.webkitTransformStyle = 'preserve-3d';
+            wrapperEl.style.transform = 'translateZ(0)';
+            wrapperEl.style.webkitTransform = 'translateZ(0)';
+        }
+        const containerEl = item.closest('.canvas-container');
+        if (containerEl) {
+            containerEl.style.transformStyle = 'preserve-3d';
+            containerEl.style.webkitTransformStyle = 'preserve-3d';
+            containerEl.style.transform = 'translateZ(0)';
+            containerEl.style.webkitTransform = 'translateZ(0)';
         }
         
         // DEBUG: Log to verify transform is applied
