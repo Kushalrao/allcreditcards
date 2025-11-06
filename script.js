@@ -267,11 +267,15 @@ function setupMobileInteractions(canvas) {
         rafId = requestAnimationFrame(updateScrollOffset);
     }, { passive: true });
     
-    // Initial update
-    updateScrollOffset();
+    // Initial update - ensure cards get initial rotation
+    requestAnimationFrame(() => {
+        updateScrollOffset();
+    });
     
     // Update on resize
-    window.addEventListener('resize', updateScrollOffset);
+    window.addEventListener('resize', () => {
+        requestAnimationFrame(updateScrollOffset);
+    });
     
     // Track tapped card
     imageItems.forEach((item) => {
