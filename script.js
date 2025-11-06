@@ -469,37 +469,12 @@ function setupMobileInteractions(canvas) {
     const updateScroll = () => {
         // Transform the wrapper to simulate scrolling
         canvasWrapper.style.transform = `translateY(-${scrollY}px)`;
-        // Use requestAnimationFrame to ensure smooth updates
-        requestAnimationFrame(() => {
-            updateCardRotations(scrollY);
-        });
+        // Update rotations immediately (no delay)
+        updateCardRotations(scrollY);
     };
     
     // Initial update
     updateScroll();
-    
-    // Also update on scroll events with throttling
-    let rafId = null;
-    const handleScrollUpdate = () => {
-        if (rafId) cancelAnimationFrame(rafId);
-        rafId = requestAnimationFrame(() => {
-            updateScroll();
-        });
-    };
-    
-    // Re-attach scroll handlers to call handleScrollUpdate
-    canvasContainer.removeEventListener('wheel', handleWheel);
-    canvasContainer.removeEventListener('touchmove', handleTouchMove);
-    
-    canvasContainer.addEventListener('wheel', (e) => {
-        handleWheel(e);
-        handleScrollUpdate();
-    }, { passive: false });
-    
-    canvasContainer.addEventListener('touchmove', (e) => {
-        handleTouchMove(e);
-        handleScrollUpdate();
-    }, { passive: false });
     
     // Track tapped card
     wrapperData.forEach(({ imageItem }) => {
