@@ -187,12 +187,18 @@ body {
 /* Mobile specific image styling */
 @media (max-width: 768px) {
     .image-item {
-        width: 80vw;
-        max-width: 320px;
+        width: 100%;
+        max-width: 100%;
     }
     
     .image-container {
         border-radius: 13px;
+        width: 100%;
+    }
+    
+    .image-item img {
+        width: 100%;
+        height: auto;
     }
 }
 
@@ -293,7 +299,7 @@ body {
     }
     
     .image-item {
-        margin: 0 auto 41px auto;
+        margin: 0 0 41px 0;
     }
     
     .search-bar {
