@@ -879,11 +879,11 @@ function setupHeaderCollapse() {
         
         // Only update if scroll difference is significant
         if (Math.abs(scrollDifference) > scrollThreshold) {
-            if (scrollDifference < 0) {
-                // Scrolling up (content moving down) - hide filters
+            if (scrollDifference > 0 && scrollTop > 50) {
+                // Scrolling down - hide filters
                 filtersContainer.classList.add('hidden');
-            } else if (scrollDifference > 0) {
-                // Scrolling down (content moving up) - show filters
+            } else if (scrollDifference < 0) {
+                // Scrolling up - show filters
                 filtersContainer.classList.remove('hidden');
             }
             
