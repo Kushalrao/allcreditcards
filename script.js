@@ -252,17 +252,10 @@ function updateCardRotations(imageItems, scrollViewContentOffset, tappedCardId) 
         
         // Get actual card position using getBoundingClientRect (more reliable)
         const rect = item.getBoundingClientRect();
-        const cardTop = rect.top;
+        const cardCenterY = rect.top + rect.height / 2;
         
-        // Calculate the card's base position in the stack (matching Swift code)
-        const baseCardPosition = index * (cardHeight + cardSpacing);
-        
-        // Calculate the card's current position considering scroll offset
-        // Use actual position from getBoundingClientRect for accuracy
-        const currentCardPosition = cardTop + (scrollViewContentOffset - (rect.top - window.scrollY));
-        
-        // Alternative: use actual card position directly
-        const distanceFromTop = cardTop - screenTop;
+        // Calculate distance from top of screen (matching Safari tabs logic)
+        const distanceFromTop = cardCenterY - screenTop;
         
         // Normalize the distance to a 0-1 range for rotation interpolation
         const maxDistance = deviceHeight * 0.6; // Maximum distance for full rotation
