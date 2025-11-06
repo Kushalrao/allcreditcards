@@ -26,6 +26,10 @@ body {
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
     height: 100vh;
+    scroll-snap-type: none;
+    overscroll-behavior: contain;
+    will-change: scroll-position;
+    scroll-padding: 0;
 }
 
 .canvas {
@@ -153,36 +157,44 @@ body {
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: -100px; /* Negative spacing for stacking effect */
-        padding: 30px 16px;
-        min-height: 100vh;
+        padding: 20px 16px;
+        width: 100%;
+        height: auto;
     }
     
     .image-item {
         width: 80vw;
         max-width: 320px;
         height: 200px;
-        transform-style: preserve-3d;
-        perspective: 1000px;
         border-radius: 13px;
         cursor: pointer;
-        transition: transform 0.3s ease-out, box-shadow 0.3s ease;
-        margin-bottom: -100px; /* Negative spacing for stacking */
         position: relative;
-        z-index: 1;
+        margin-bottom: -100px; /* Negative spacing matching LazyVStack spacing: -100 */
+        transform-style: preserve-3d;
+        transition: transform 0.3s ease-out, box-shadow 0.3s ease, margin-top 0.4s ease-out, margin-bottom 0.4s ease-out;
     }
     
-    /* Shadows for cards below the top one (matching Safari tabs) */
+    /* Shadows for cards below the top one (matching Safari tabs: index > 0) */
     .image-item:not(:first-child) {
         box-shadow: 0 -28px 104px rgba(0, 0, 0, 0.24);
     }
     
+    /* Offset Y will be applied via JavaScript to combine with rotation */
+    
+    /* Z-index matching Swift: Double(index) */
+    .image-item[data-card-index="0"] { z-index: 0; }
+    .image-item[data-card-index="1"] { z-index: 1; }
+    .image-item[data-card-index="2"] { z-index: 2; }
+    .image-item[data-card-index="3"] { z-index: 3; }
+    .image-item[data-card-index="4"] { z-index: 4; }
+    .image-item[data-card-index="5"] { z-index: 5; }
+    .image-item[data-card-index="6"] { z-index: 6; }
+    .image-item[data-card-index="7"] { z-index: 7; }
+    
     .image-item.tapped {
-        transform: perspective(1000px) rotateX(0deg) !important;
-        margin-top: 100px;
-        margin-bottom: 125px;
+        margin-top: 100px; /* getCardTopPadding: 100 */
+        margin-bottom: 125px; /* getCardBottomPadding: 125 */
         z-index: 1000;
-        box-shadow: 0 -28px 104px rgba(0, 0, 0, 0.24);
     }
     
     .image-item:hover {

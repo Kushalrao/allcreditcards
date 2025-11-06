@@ -21,42 +21,57 @@ const GAP = 43; // Gap between images (consistent horizontal and vertical)
 function initCanvas() {
     const canvas = document.getElementById('canvas');
     const canvasContainer = document.getElementById('canvasContainer');
+    const isMobile = window.innerWidth <= 768;
     
-    // Calculate total dimensions
-    const totalWidth = GRID_COLS * (IMAGE_WIDTH + GAP) + GAP;
-    const totalHeight = GRID_ROWS * (IMAGE_HEIGHT + GAP) + GAP;
-    
-    // Set canvas size
-    canvas.style.width = `${totalWidth}px`;
-    canvas.style.height = `${totalHeight}px`;
-    
-    // Start at center
-    const startX = (totalWidth - window.innerWidth) / 2;
-    const startY = (totalHeight - window.innerHeight) / 2;
-    
-    // Create grid of images
-    createGrid(canvas);
-    
-    // Setup smooth scrolling handlers
-    setupSmoothScrolling(canvasContainer);
-    
-    // Scroll to center after a short delay
-    setTimeout(() => {
-        canvasContainer.scrollTo({
-            left: startX,
-            top: startY,
-            behavior: 'auto'
-        });
-        // Initialize scroll position tracking after initial scroll
-        lastScrollPosition.x = canvasContainer.scrollLeft;
-        lastScrollPosition.y = canvasContainer.scrollTop;
-    }, 100);
+    if (isMobile) {
+        // Mobile: Don't set fixed dimensions, let it flow naturally
+        canvas.style.width = '100%';
+        canvas.style.height = 'auto';
+        
+        // Create vertical stack of 8 images
+        createGrid(canvas);
+        
+        // Setup mobile interactions
+        setupMobileInteractions(canvas);
+    } else {
+        // Desktop: Calculate total dimensions
+        const totalWidth = GRID_COLS * (IMAGE_WIDTH + GAP) + GAP;
+        const totalHeight = GRID_ROWS * (IMAGE_HEIGHT + GAP) + GAP;
+        
+        // Set canvas size
+        canvas.style.width = `${totalWidth}px`;
+        canvas.style.height = `${totalHeight}px`;
+        
+        // Start at center
+        const startX = (totalWidth - window.innerWidth) / 2;
+        const startY = (totalHeight - window.innerHeight) / 2;
+        
+        // Create grid of images
+        createGrid(canvas);
+        
+        // Setup smooth scrolling handlers
+        setupSmoothScrolling(canvasContainer);
+        
+        // Scroll to center after a short delay
+        setTimeout(() => {
+            canvasContainer.scrollTo({
+                left: startX,
+                top: startY,
+                behavior: 'auto'
+            });
+            // Initialize scroll position tracking after initial scroll
+            lastScrollPosition.x = canvasContainer.scrollLeft;
+            lastScrollPosition.y = canvasContainer.scrollTop;
+        }, 100);
+    }
 }
 
 // Enhanced smooth scroll with momentum for diagonal scrolling
 let scrollVelocity = { x: 0, y: 0 };
 let lastScrollTime = Date.now();
 let lastScrollPosition = { x: 0, y: 0 };
+let isScrolling = false;
+let scrollAnimationFrame = null;
 
 function setupSmoothScrolling(canvasContainer) {
     // Track scroll velocity for smooth diagonal scrolling
@@ -74,23 +89,78 @@ function setupSmoothScrolling(canvasContainer) {
             lastScrollPosition.x = currentX;
             lastScrollPosition.y = currentY;
             lastScrollTime = now;
+            isScrolling = true;
         }
     }, { passive: true });
 
-    // Enable smooth wheel scrolling for diagonal movement
+    // Enhanced smooth wheel scrolling with momentum and easing
+    let wheelTimeout;
     canvasContainer.addEventListener('wheel', (e) => {
         e.preventDefault();
         
         const deltaX = e.deltaX || 0;
         const deltaY = e.deltaY || 0;
         
-        // Smooth diagonal scrolling
-        canvasContainer.scrollBy({
-            left: deltaX,
-            top: deltaY,
-            behavior: 'smooth'
+        // Clear any existing timeout
+        clearTimeout(wheelTimeout);
+        
+        // Use requestAnimationFrame for smoother scrolling
+        if (scrollAnimationFrame) {
+            cancelAnimationFrame(scrollAnimationFrame);
+        }
+        
+        scrollAnimationFrame = requestAnimationFrame(() => {
+            // Apply momentum-based scrolling with easing
+            const momentumX = deltaX * 1.2; // Slight momentum multiplier
+            const momentumY = deltaY * 1.2;
+            
+            canvasContainer.scrollBy({
+                left: momentumX,
+                top: momentumY,
+                behavior: 'auto' // Use auto for better performance, we'll handle smoothness
+            });
+            
+            // Apply smooth momentum decay
+            applyMomentumScroll(canvasContainer, momentumX, momentumY);
         });
+        
+        // Reset scrolling flag after a delay
+        wheelTimeout = setTimeout(() => {
+            isScrolling = false;
+        }, 150);
     }, { passive: false });
+}
+
+// Apply momentum-based smooth scrolling with decay
+function applyMomentumScroll(container, initialX, initialY) {
+    let currentX = initialX;
+    let currentY = initialY;
+    const friction = 0.92; // Friction coefficient for smooth decay
+    const minVelocity = 0.1; // Minimum velocity threshold
+    
+    function animate() {
+        if (Math.abs(currentX) < minVelocity && Math.abs(currentY) < minVelocity) {
+            return; // Stop animation when velocity is too low
+        }
+        
+        container.scrollBy({
+            left: currentX,
+            top: currentY,
+            behavior: 'auto'
+        });
+        
+        // Apply friction
+        currentX *= friction;
+        currentY *= friction;
+        
+        // Continue animation if there's still momentum
+        if (Math.abs(currentX) >= minVelocity || Math.abs(currentY) >= minVelocity) {
+            requestAnimationFrame(animate);
+        }
+    }
+    
+    // Start animation
+    requestAnimationFrame(animate);
 }
 
 // Create grid of images
@@ -203,71 +273,96 @@ function setupMobileTapInteraction(imageItem) {
     });
 }
 
-// Setup mobile scroll-based dynamic rotation
+// Setup mobile scroll-based dynamic rotation (matching Safari tabs exactly)
 function setupMobileInteractions(canvas) {
     const canvasContainer = document.getElementById('canvasContainer');
     const imageItems = Array.from(canvas.querySelectorAll('.image-item'));
+    let scrollViewContentOffset = 0;
     let tappedCardId = null;
     
-    // Function to update rotations based on scroll
-    const updateRotations = () => {
-        // Get canvas position relative to container (equivalent to scrollViewContentOffset)
+    // Track scroll offset (equivalent to GeometryReader in Swift)
+    const updateScrollOffset = () => {
+        // Get the canvas's minY position in the scroll coordinate space
         const canvasRect = canvas.getBoundingClientRect();
         const containerRect = canvasContainer.getBoundingClientRect();
-        const scrollViewContentOffset = canvasRect.top - containerRect.top + canvasContainer.scrollTop;
-        
+        // Calculate scrollViewContentOffset (equivalent to geometry.frame(in: .named("scroll")).minY)
+        scrollViewContentOffset = canvasRect.top - containerRect.top + canvasContainer.scrollTop;
         updateCardRotations(imageItems, scrollViewContentOffset, tappedCardId);
     };
     
     // Track scroll position
-    canvasContainer.addEventListener('scroll', updateRotations, { passive: true });
+    canvasContainer.addEventListener('scroll', updateScrollOffset, { passive: true });
     
-    // Initial rotation update
-    updateRotations();
+    // Initial update
+    updateScrollOffset();
     
-    // Update rotations when window resizes
-    window.addEventListener('resize', updateRotations);
+    // Update on resize
+    window.addEventListener('resize', updateScrollOffset);
     
     // Track tapped card
     imageItems.forEach((item) => {
         item.addEventListener('click', () => {
-            tappedCardId = item.dataset.imagePath;
-            updateRotations();
+            // Toggle tapped state
+            if (tappedCardId === item.dataset.imagePath) {
+                tappedCardId = null;
+                item.classList.remove('tapped');
+            } else {
+                // Remove tapped from all
+                imageItems.forEach(i => i.classList.remove('tapped'));
+                tappedCardId = item.dataset.imagePath;
+                item.classList.add('tapped');
+            }
+            
+            // Haptic feedback
+            if (navigator.vibrate) {
+                navigator.vibrate(10);
+            }
+            
+            updateCardRotations(imageItems, scrollViewContentOffset, tappedCardId);
         });
     });
 }
 
-// Update card rotations based on scroll position (matching Safari tabs implementation)
+// Update card rotations based on scroll position (exact match to Safari tabs Swift code)
 function updateCardRotations(imageItems, scrollViewContentOffset, tappedCardId) {
     const deviceHeight = window.innerHeight;
-    const cardHeight = 200; // Card height
-    const cardSpacing = -100; // Negative spacing
-    const screenTop = 200; // Account for top padding
+    const cardHeight = 200; // Approximate card height
+    const cardSpacing = -100; // Current spacing (LazyVStack spacing: -100)
+    const screenTop = 200; // Account for top padding and bill display
     
     imageItems.forEach((item, index) => {
-        // Skip if card is tapped (tapped cards stay at 0°)
+        // Handle tapped cards (rotate to 0°)
         if (item.dataset.imagePath === tappedCardId || item.classList.contains('tapped')) {
+            const offsetY = index * 8;
+            item.style.transform = `translateY(${offsetY}px) perspective(500px) rotateX(0deg)`;
             return;
         }
         
-        // Get actual card position using getBoundingClientRect (more reliable)
-        const rect = item.getBoundingClientRect();
-        const cardCenterY = rect.top + rect.height / 2;
+        // Calculate the card's base position in the stack (matching Swift exactly)
+        const baseCardPosition = index * (cardHeight + cardSpacing);
         
-        // Calculate distance from top of screen (matching Safari tabs logic)
-        const distanceFromTop = cardCenterY - screenTop;
+        // Calculate the card's current position considering scroll offset
+        const currentCardPosition = baseCardPosition + scrollViewContentOffset;
+        
+        // Calculate rotation based on how far the card is from the top of the screen
+        // Cards closer to top (negative or small positive values) should be less rotated
+        const distanceFromTop = currentCardPosition - screenTop;
         
         // Normalize the distance to a 0-1 range for rotation interpolation
         const maxDistance = deviceHeight * 0.6; // Maximum distance for full rotation
         const normalizedDistance = Math.max(0, Math.min(1, distanceFromTop / maxDistance));
         
-        // Interpolate between -10° (top) and -60° (bottom) - matching Safari tabs
-        const topRotation = -10;
-        const bottomRotation = -60;
+        // Interpolate between -10° (top) and -60° (bottom) - matching Swift exactly
+        const topRotation = -10.0;
+        const bottomRotation = -60.0;
         const dynamicRotation = topRotation + normalizedDistance * (bottomRotation - topRotation);
         
-        // Apply rotation with perspective (matching Swift's rotation3DEffect)
-        item.style.transform = `perspective(1000px) rotateX(${dynamicRotation}deg)`;
+        // Calculate offset Y (matching Swift: CGFloat(index) * 8)
+        const offsetY = index * 8;
+        
+        // Apply rotation with perspective: 0.5 (matching Swift's rotation3DEffect perspective: 0.5)
+        // Note: CSS perspective is in pixels, Swift's 0.5 is a multiplier, so we use 500px
+        item.style.transform = `translateY(${offsetY}px) perspective(500px) rotateX(${dynamicRotation}deg)`;
     });
 }
 
