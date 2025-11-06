@@ -328,15 +328,15 @@ function setupMobileInteractions(canvas) {
     const updateScroll = () => {
         // Transform the wrapper to simulate scrolling
         canvasWrapper.style.transform = `translateY(-${scrollY}px)`;
-        updateCardRotations(imageItems, scrollY, tappedCardId);
+        // COMMENTED OUT: Dynamic rotation on scroll - testing static 3D first
+        // updateCardRotations(imageItems, scrollY, tappedCardId);
     };
     
-    // DEBUG: First, set default rotation on all cards to verify 3D is working
+    // Set static 3D rotation on all cards to verify 3D is working
+    // This is the first step - get basic 3D rotation working before adding dynamic scroll rotation
     imageItems.forEach((item, index) => {
         const offsetY = index * 8;
-        // Set a default rotation to test 3D (e.g., -30deg)
-        // This will be overridden by updateCardRotations
-        // Use simple rotateX now that overflow is removed
+        // Set a static -30deg rotation to test 3D
         const testTransform = `translate3d(0, ${offsetY}px, 0) rotateX(-30deg)`;
         item.style.transform = testTransform;
         item.style.webkitTransform = testTransform;
@@ -354,9 +354,13 @@ function setupMobileInteractions(canvas) {
         const is3D = computedTransform.includes('matrix3d') || 
                      (computedTransform.includes('matrix') && computedTransform.split(',').length > 6);
         console.log(`Card ${index}: Is 3D transform:`, is3D);
+        
+        // Also log the computed transform-style
+        const computedTransformStyle = window.getComputedStyle(item).transformStyle;
+        console.log(`Card ${index}: Computed transform-style:`, computedTransformStyle);
     });
     
-    // Initial update
+    // Initial update - just set wrapper position, no rotation update
     updateScroll();
     
     // Update on resize
@@ -364,28 +368,29 @@ function setupMobileInteractions(canvas) {
         updateScroll();
     });
     
+    // COMMENTED OUT: Tap interaction - testing static 3D first
     // Track tapped card
-    imageItems.forEach((item) => {
-        item.addEventListener('click', () => {
-            // Toggle tapped state
-            if (tappedCardId === item.dataset.imagePath) {
-                tappedCardId = null;
-                item.classList.remove('tapped');
-            } else {
-                // Remove tapped from all
-                imageItems.forEach(i => i.classList.remove('tapped'));
-                tappedCardId = item.dataset.imagePath;
-                item.classList.add('tapped');
-            }
-            
-            // Haptic feedback
-            if (navigator.vibrate) {
-                navigator.vibrate(10);
-            }
-            
-            updateScroll();
-        });
-    });
+    // imageItems.forEach((item) => {
+    //     item.addEventListener('click', () => {
+    //         // Toggle tapped state
+    //         if (tappedCardId === item.dataset.imagePath) {
+    //             tappedCardId = null;
+    //             item.classList.remove('tapped');
+    //         } else {
+    //             // Remove tapped from all
+    //             imageItems.forEach(i => i.classList.remove('tapped'));
+    //             tappedCardId = item.dataset.imagePath;
+    //             item.classList.add('tapped');
+    //         }
+    //         
+    //         // Haptic feedback
+    //         if (navigator.vibrate) {
+    //             navigator.vibrate(10);
+    //         }
+    //         
+    //         updateScroll();
+    //     });
+    // });
 }
 
 // Update card rotations based on scroll position (exact match to Safari tabs Swift code)
