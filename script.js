@@ -369,9 +369,6 @@ function setupMobileInteractions(canvas) {
         return { translateWrapper, rotateWrapper, imageItem, index };
     });
     
-    // Track tapped card
-    let tappedCardId = null;
-    
     // Update card rotations based on scroll position
     const updateCardRotations = (scrollY) => {
         const deviceHeight = window.innerHeight;
