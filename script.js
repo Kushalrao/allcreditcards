@@ -224,8 +224,7 @@ function createImageItem(imagePath, row, col) {
         rotateWrapper.appendChild(imageItem);
         translateWrapper.appendChild(rotateWrapper);
         
-        // Mobile: Setup tap interaction
-        setupMobileTapInteraction(imageItem);
+        // Mobile: NO tap interaction here - handled in setupMobileInteractions()
         
         return translateWrapper;
     } else {
@@ -260,39 +259,20 @@ function createImageItem(imagePath, row, col) {
     }
 }
 
-// Setup mobile tap interaction
-function setupMobileTapInteraction(imageItem) {
-    imageItem.addEventListener('click', (e) => {
-        e.stopPropagation();
-        
-        // Remove tapped class from all cards
-        document.querySelectorAll('.image-item').forEach(item => {
-            if (item !== imageItem) {
-                item.classList.remove('tapped');
-            }
-        });
-        
-        // Toggle tapped state (rotate to 0° or back to rotated)
-        if (imageItem.classList.contains('tapped')) {
-            imageItem.classList.remove('tapped');
-        } else {
-            imageItem.classList.add('tapped');
-        }
-        
-        // Haptic feedback (if available)
-        if (navigator.vibrate) {
-            navigator.vibrate(10);
-        }
-    });
-}
-
 // Setup mobile interactions - FIXED ROTATION ONLY
 function setupMobileInteractions(canvas) {
+    // CRITICAL: Only run on mobile
+    if (window.innerWidth > 768) {
+        console.warn('[MOBILE SETUP] Called on desktop - skipping');
+        return;
+    }
+    
     const translateWrappers = Array.from(canvas.querySelectorAll('.image-translate-wrapper'));
     let tappedCardId = null;
     const FIXED_ROTATION = -30.0;
     
     console.log(`[MOBILE SETUP] Found ${translateWrappers.length} cards - applying FIXED ${FIXED_ROTATION}° rotation to ALL`);
+    console.log(`[MOBILE SETUP] NO scroll listeners will be added`);
     
     // Apply fixed rotation to all cards ONCE - no scroll listeners
     translateWrappers.forEach((translateWrapper, index) => {
@@ -306,6 +286,12 @@ function setupMobileInteractions(canvas) {
         
         const offsetY = index * 8;
         
+        // CRITICAL: Remove any existing transforms first
+        rotateWrapper.style.removeProperty('transform');
+        rotateWrapper.style.removeProperty('-webkit-transform');
+        translateWrapper.style.removeProperty('transform');
+        translateWrapper.style.removeProperty('-webkit-transform');
+        
         // Apply fixed transforms - SET ONCE, NEVER CHANGE
         translateWrapper.style.transform = `translate3d(0, ${offsetY}px, 0)`;
         translateWrapper.style.webkitTransform = `translate3d(0, ${offsetY}px, 0)`;
@@ -314,13 +300,18 @@ function setupMobileInteractions(canvas) {
         
         // Store expected rotation value for monitoring
         rotateWrapper.dataset.expectedRotation = FIXED_ROTATION;
+        rotateWrapper.dataset.isFixed = 'true';
         
         // Monitor if transform changes (to detect if something else is modifying it)
         if (index === 0) {
             const checkTransform = () => {
                 const currentTransform = rotateWrapper.style.transform;
+                const computedTransform = window.getComputedStyle(rotateWrapper).transform;
                 if (!currentTransform.includes(`${FIXED_ROTATION}deg`) && !imageItem.classList.contains('tapped')) {
-                    console.warn(`[WARNING] Card 0 transform changed! Expected ${FIXED_ROTATION}°, got: ${currentTransform}`);
+                    console.warn(`[WARNING] Card 0 transform changed!`);
+                    console.warn(`  Inline style: ${currentTransform}`);
+                    console.warn(`  Computed style: ${computedTransform}`);
+                    console.warn(`  Expected: rotateX(${FIXED_ROTATION}deg)`);
                 }
             };
             // Check periodically
@@ -329,7 +320,8 @@ function setupMobileInteractions(canvas) {
         
         // Verify it was set
         if (index < 3) {
-            console.log(`[CARD ${index}] Set rotation to ${FIXED_ROTATION}°`);
+            const computed = window.getComputedStyle(rotateWrapper).transform;
+            console.log(`[CARD ${index}] Set rotation to ${FIXED_ROTATION}°, computed: ${computed}`);
         }
         
         // Handle tap interaction - ONLY changes tapped card to 0°, rest stay at FIXED_ROTATION
