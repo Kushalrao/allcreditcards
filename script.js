@@ -251,21 +251,21 @@ function setupMobileTapInteraction(imageItem) {
 function setupMobileInteractions(canvas) {
     const canvasContainer = document.getElementById('canvasContainer');
     const imageItems = Array.from(canvas.querySelectorAll('.image-item'));
-    let scrollViewContentOffset = 0;
     let tappedCardId = null;
     
     // Track scroll offset (equivalent to GeometryReader in Swift)
     const updateScrollOffset = () => {
-        // Get the canvas's minY position in the scroll coordinate space
-        const canvasRect = canvas.getBoundingClientRect();
-        const containerRect = canvasContainer.getBoundingClientRect();
-        // Calculate scrollViewContentOffset (equivalent to geometry.frame(in: .named("scroll")).minY)
-        scrollViewContentOffset = canvasRect.top - containerRect.top + canvasContainer.scrollTop;
+        // Get scroll position - this is the key: scrollTop gives us the scroll offset
+        const scrollViewContentOffset = canvasContainer.scrollTop;
         updateCardRotations(imageItems, scrollViewContentOffset, tappedCardId);
     };
     
-    // Track scroll position
-    canvasContainer.addEventListener('scroll', updateScrollOffset, { passive: true });
+    // Track scroll position with requestAnimationFrame for smooth updates
+    let rafId = null;
+    canvasContainer.addEventListener('scroll', () => {
+        if (rafId) cancelAnimationFrame(rafId);
+        rafId = requestAnimationFrame(updateScrollOffset);
+    }, { passive: true });
     
     // Initial update
     updateScrollOffset();
@@ -292,7 +292,7 @@ function setupMobileInteractions(canvas) {
                 navigator.vibrate(10);
             }
             
-            updateCardRotations(imageItems, scrollViewContentOffset, tappedCardId);
+            updateScrollOffset();
         });
     });
 }
@@ -300,9 +300,9 @@ function setupMobileInteractions(canvas) {
 // Update card rotations based on scroll position (exact match to Safari tabs Swift code)
 function updateCardRotations(imageItems, scrollViewContentOffset, tappedCardId) {
     const deviceHeight = window.innerHeight;
-    const cardHeight = 200; // Approximate card height
-    const cardSpacing = -100; // Current spacing (LazyVStack spacing: -100)
-    const screenTop = 200; // Account for top padding and bill display
+    const cardHeight = 200; // Card height
+    const cardSpacing = -100; // Negative spacing (LazyVStack spacing: -100)
+    const screenTop = 200; // Account for top padding
     
     imageItems.forEach((item, index) => {
         // Calculate offset Y (matching Swift: CGFloat(index) * 8)
@@ -315,15 +315,12 @@ function updateCardRotations(imageItems, scrollViewContentOffset, tappedCardId) 
             return;
         }
         
-        // Calculate the card's base position in the stack (matching Swift exactly)
-        const baseCardPosition = index * (cardHeight + cardSpacing);
+        // Get actual card position relative to viewport
+        const rect = item.getBoundingClientRect();
+        const cardCenterY = rect.top + rect.height / 2;
         
-        // Calculate the card's current position considering scroll offset
-        const currentCardPosition = baseCardPosition + scrollViewContentOffset;
-        
-        // Calculate rotation based on how far the card is from the top of the screen
-        // Cards closer to top (negative or small positive values) should be less rotated
-        const distanceFromTop = currentCardPosition - screenTop;
+        // Calculate distance from top of screen
+        const distanceFromTop = cardCenterY - screenTop;
         
         // Normalize the distance to a 0-1 range for rotation interpolation
         const maxDistance = deviceHeight * 0.6; // Maximum distance for full rotation
@@ -334,9 +331,10 @@ function updateCardRotations(imageItems, scrollViewContentOffset, tappedCardId) 
         const bottomRotation = -60.0;
         const dynamicRotation = topRotation + normalizedDistance * (bottomRotation - topRotation);
         
-        // Apply rotation (perspective is on parent container, not in transform)
-        // Matching Swift's rotation3DEffect with axis: (x: 1, y: 0, z: 0)
-        item.style.transform = `translateY(${offsetY}px) rotateX(${dynamicRotation}deg)`;
+        // Apply rotation with 3D transform
+        // Use translateZ(0) to ensure 3D context is active
+        // Perspective is on parent container (.canvas), so we just use rotateX
+        item.style.transform = `translate3d(0, ${offsetY}px, 0) rotateX(${dynamicRotation}deg)`;
     });
 }
 

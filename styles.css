@@ -158,9 +158,10 @@ body {
         padding: 20px 16px;
         width: 100%;
         height: auto;
-        perspective: 1000px; /* Perspective on parent (matching Swift's rotation3DEffect) */
+        perspective: 1200px; /* Stronger perspective for visible 3D effect */
         perspective-origin: center center;
         transform-style: preserve-3d;
+        -webkit-perspective: 1200px;
     }
     
     .image-item {
@@ -173,10 +174,19 @@ body {
         margin-bottom: -100px; /* Negative spacing matching LazyVStack spacing: -100 */
         transform-style: preserve-3d;
         transform-origin: center center; /* Ensure rotation happens around center */
-        transition: transform 0.3s ease-out, box-shadow 0.3s ease, margin-top 0.4s ease-out, margin-bottom 0.4s ease-out;
+        transition: box-shadow 0.3s ease, margin-top 0.4s ease-out, margin-bottom 0.4s ease-out;
         will-change: transform;
         backface-visibility: hidden;
         -webkit-backface-visibility: hidden;
+    }
+    
+    /* Remove transition on transform for dynamic updates - update immediately */
+    .image-item:not(.tapped) {
+        transition: box-shadow 0.3s ease, margin-top 0.4s ease-out, margin-bottom 0.4s ease-out;
+    }
+    
+    .image-item.tapped {
+        transition: transform 0.4s ease-out, box-shadow 0.3s ease, margin-top 0.4s ease-out, margin-bottom 0.4s ease-out;
     }
     
     /* Shadows for cards below the top one (matching Safari tabs: index > 0) */
