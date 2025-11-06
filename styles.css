@@ -82,10 +82,15 @@ body {
     height: 100%;
     object-fit: cover;
     display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
     transform-style: preserve-3d;
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
     border-radius: inherit;
+    /* Ensure image rotates with parent container */
+    will-change: transform;
 }
 
 /* Mobile specific image styling */
@@ -95,11 +100,15 @@ body {
         height: 100%;
         object-fit: cover;
         display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
         transform-style: preserve-3d;
         backface-visibility: hidden;
         -webkit-backface-visibility: hidden;
         border-radius: 13px;
         /* Image should inherit parent's transform, no own transform */
+        will-change: transform;
     }
 }
 
