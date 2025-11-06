@@ -421,20 +421,16 @@ function setupMobileInteractions(canvas) {
             let dynamicRotation;
             
             if (isInViewport) {
-                // Card is visible in viewport - use U-shaped curve for rotation
-                // Top and bottom cards: more rotation (stretched)
-                // Middle cards: less rotation (normal)
+                // Card is visible in viewport - linear interpolation
+                // Top of viewport (0): -10° (face-on, what you're looking at)
+                // Bottom of viewport (1): -60° (angled away, entering from below)
                 const cardPositionInViewport = cardCenterY - viewportTop;
                 const normalizedPosition = Math.max(0, Math.min(1, cardPositionInViewport / viewportHeight));
                 
-                // U-shaped curve: distance from center (0.5)
-                // 0 (top) or 1 (bottom) = max rotation, 0.5 (center) = min rotation
-                const distanceFromCenter = Math.abs(normalizedPosition - 0.5) * 2; // 0 to 1
-                
-                // Interpolate: center (0) = topRotation (-10°), edges (1) = bottomRotation (-60°)
-                dynamicRotation = topRotation + distanceFromCenter * (bottomRotation - topRotation);
+                // Simple linear interpolation from top to bottom
+                dynamicRotation = topRotation + normalizedPosition * (bottomRotation - topRotation);
             } else {
-                // Card is outside viewport - use bottom rotation (stretched)
+                // Card is outside viewport - use bottom rotation
                 dynamicRotation = bottomRotation;
             }
             
