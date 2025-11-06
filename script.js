@@ -348,15 +348,15 @@ function setupMobileInteractions(canvas) {
     
     console.log(`[SETUP] Found ${wrapperData.length} cards, ${wrapperData.filter(w => w.rotateWrapper).length} with rotateWrapper`);
     
-    // Update card rotations based on viewport position using getBoundingClientRect
+    // Update card rotations based on scroll and viewport position
     const updateCardRotations = (scrollY) => {
-        const deviceHeight = window.innerHeight;
+        const viewportHeight = window.innerHeight;
         const viewportTop = 0;
-        const viewportBottom = deviceHeight;
-        const viewportHeight = viewportBottom - viewportTop;
+        const viewportBottom = viewportHeight;
         
-        // Track visible cards for logging
-        const visibleCards = [];
+        // Rotation values
+        const topRotation = -10.0;      // Items at top of viewport
+        const bottomRotation = -60.0;   // Items entering from bottom / rest of list
         
         wrapperData.forEach(({ translateWrapper, rotateWrapper, imageItem, index }) => {
             if (!rotateWrapper || !imageItem) return;
@@ -374,44 +374,32 @@ function setupMobileInteractions(canvas) {
             
             // Get actual viewport position using getBoundingClientRect
             const rect = imageItem.getBoundingClientRect();
-            const currentCardTop = rect.top;
-            const currentCardBottom = rect.bottom;
-            const currentCardCenterY = rect.top + rect.height / 2;
+            const cardTop = rect.top;
+            const cardBottom = rect.bottom;
+            const cardCenterY = rect.top + rect.height / 2;
             
-            // Check if card is visible in viewport
-            const isCardVisible = currentCardBottom > viewportTop && currentCardTop < viewportBottom;
+            // Determine card position relative to viewport
+            const isAboveViewport = cardBottom <= viewportTop;
+            const isBelowViewport = cardTop >= viewportBottom;
+            const isInViewport = !isAboveViewport && !isBelowViewport;
             
             let dynamicRotation;
-            let normalizedPosition = null;
             
-            if (isCardVisible) {
-                // Card is visible - calculate rotation based on actual viewport position
-                // Card center Y relative to viewport top
-                const cardPositionInViewport = currentCardCenterY - viewportTop;
+            if (isInViewport) {
+                // Card is visible in viewport - interpolate rotation based on position
+                // Items at top of viewport: topRotation (-10°)
+                // Items entering from bottom: bottomRotation (-60°)
+                const cardPositionInViewport = cardCenterY - viewportTop;
+                const normalizedPosition = Math.max(0, Math.min(1, cardPositionInViewport / viewportHeight));
                 
-                // Normalize: 0 = at top of viewport, 1 = at bottom of viewport
-                const clampedPosition = Math.max(0, Math.min(viewportHeight, cardPositionInViewport));
-                normalizedPosition = clampedPosition / viewportHeight;
-                
-                // Interpolate: -10° at top of viewport, -60° at bottom of viewport (matching SwiftUI exactly)
-                const topRotation = -10.0;
-                const bottomRotation = -60.0;
+                // Interpolate from topRotation to bottomRotation
                 dynamicRotation = topRotation + normalizedPosition * (bottomRotation - topRotation);
-                
-                // Track visible card for logging
-                visibleCards.push({
-                    index: index,
-                    rotation: dynamicRotation,
-                    centerY: currentCardCenterY,
-                    normalized: normalizedPosition
-                });
+            } else if (isBelowViewport) {
+                // Card is below viewport (entering from bottom) - use bottom rotation
+                dynamicRotation = bottomRotation;
             } else {
-                // Card is outside viewport
-                if (currentCardBottom <= viewportTop) {
-                    dynamicRotation = -10.0; // Above viewport
-                } else {
-                    dynamicRotation = -60.0; // Below viewport (matching SwiftUI)
-                }
+                // Card is above viewport - use top rotation
+                dynamicRotation = topRotation;
             }
             
             // Apply transforms
@@ -420,40 +408,12 @@ function setupMobileInteractions(canvas) {
             translateWrapper.style.transform = `translate3d(0, ${offsetY}px, 0)`;
             translateWrapper.style.webkitTransform = `translate3d(0, ${offsetY}px, 0)`;
             
-            // CRITICAL: Apply rotation to the rotateWrapper, NOT the translateWrapper
-            // Each card should have its own unique rotateWrapper
+            // Apply rotation to the rotateWrapper
             if (rotateWrapper) {
                 rotateWrapper.style.transform = `rotateX(${dynamicRotation}deg)`;
                 rotateWrapper.style.webkitTransform = `rotateX(${dynamicRotation}deg)`;
-                
-                // Verify the transform was actually set
-                if (index < 3) {
-                    const actualTransform = rotateWrapper.style.transform;
-                    if (actualTransform !== `rotateX(${dynamicRotation}deg)`) {
-                        console.warn(`[WARNING Card ${index}] Transform mismatch! Expected: rotateX(${dynamicRotation}deg), Got: ${actualTransform}`);
-                    }
-                }
-            } else {
-                console.error(`[ERROR Card ${index}] No rotateWrapper to apply transform to!`);
             }
-            
-            // Reduced debug logging for performance - only log when needed for debugging
-            // Uncomment below for detailed debugging:
-            // if (index < 3 && isCardVisible) {
-            //     console.log(`[DEBUG Card ${index}] rotation=${dynamicRotation.toFixed(1)}deg, centerY=${currentCardCenterY.toFixed(1)}`);
-            // }
         });
-        
-        // Reduced viewport logging for performance - only log occasionally
-        // Uncomment below for detailed viewport debugging:
-        // console.log(`\n=== VIEWPORT INFO (scrollY: ${scrollY.toFixed(1)}px) ===`);
-        // console.log(`Cards in viewport: ${visibleCards.length}`);
-        // if (visibleCards.length > 0) {
-        //     const rotations = visibleCards.map(c => c.rotation);
-        //     const uniqueRotations = new Set(rotations.map(r => r.toFixed(1)));
-        //     console.log(`Unique rotation values: ${uniqueRotations.size}`);
-        // }
-        // console.log('==========================================\n');
     };
     
     const updateScroll = () => {

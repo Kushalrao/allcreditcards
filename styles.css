@@ -17,8 +17,7 @@ body {
 .container {
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
-    height: auto;
+    height: 100vh;
 }
 
 .canvas-container {
@@ -175,12 +174,12 @@ body {
 @media (max-width: 768px) {
     .canvas-container {
         background: #F3F9E7;
+        /* 100vh container for viewport tracking */
+        height: 100vh;
         /* Enable native scrolling - we'll track scrollTop for rotation */
         overflow-y: auto;
         overflow-x: hidden;
         position: relative;
-        min-height: 100vh;
-        height: auto;
         -webkit-overflow-scrolling: touch;
         scroll-behavior: smooth;
     }
@@ -196,9 +195,6 @@ body {
         -webkit-perspective-origin: 50% 50%;
         transform-style: preserve-3d;
         -webkit-transform-style: preserve-3d;
-        /* Match canvas height */
-        height: 100%;
-        min-height: 100vh;
     }
     
     .canvas {
@@ -207,7 +203,6 @@ body {
         display: block;
         padding: 20px 16px;
         width: 100%;
-        min-height: 100vh;
         height: auto;
         transform-style: preserve-3d;
         -webkit-transform-style: preserve-3d;
