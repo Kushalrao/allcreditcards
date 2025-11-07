@@ -114,7 +114,7 @@ body {
     background: #ffffff;
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
-    height: 100vh;
+    height: 125vh;
     scroll-snap-type: none;
     overscroll-behavior: contain;
     will-change: scroll-position;
@@ -314,7 +314,7 @@ body {
     
     .canvas-container {
         background: #ffffff;
-        height: 100vh;
+        height: 125vh;
         overflow-y: auto;
         overflow-x: hidden;
         position: relative;
