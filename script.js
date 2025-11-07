@@ -981,8 +981,8 @@ function setupMobileDynamicRotation() {
                 // Calculate normalized position (0 = top, 1 = bottom)
                 const normalizedPosition = Math.max(0, Math.min(1, cardCenter / viewportHeight));
                 
-                // Interpolate rotation: top (0deg) to bottom (-90deg)
-                const rotation = -90 * normalizedPosition;
+                // Interpolate rotation: top (+14deg) to bottom (-90deg)
+                const rotation = 14 - (104 * normalizedPosition);
                 
                 // Apply rotation
                 imageContainer.style.transform = `rotateX(${rotation}deg)`;
