@@ -4,9 +4,20 @@ let cardData = [];
 
 // Available credit card images in Assets folder
 const availableCardImages = [
+    'Axis Bank Ace Credit Card.png',
+    'Axis Bank Airtel Credit Card.png',
     'Axis Bank Atlas Credit Card.png',
+    'Axis Bank Buzz Credit Card.png',
+    'Axis Bank Flipkart Credit Card.png',
+    'Axis Bank Horizon Credit Card.png',
+    'Axis Bank IndianOil Credit Card.png',
     'Axis Bank Magnus Credit Card.png',
+    'Axis Bank Miles & More Credit Card.png',
+    'Axis Bank My Zone Credit Card.png',
+    'Axis Bank Neo Credit Card.png',
     'Axis Bank Reserve Credit Card.png',
+    'Axis Bank Vistara Infinite.png',
+    'Axis Bank Vistara Signature.png',
     'HDFC Corporate Platinum Credit Card.png',
     'HDFC Diners Club Black.png',
     'HDFC Diners Club Premium.png',
