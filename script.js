@@ -23,12 +23,16 @@ const availableCardImages = [
     'HDFC Swiggy Credit Card.png',
     'HDFC Tata Neu Infinity Credit Card.png',
     'HDFC Tata Neu Plus Credit Card.png',
+    'SBI Air India Platinum Credit Card.png',
+    'SBI Air India Signature Credit Card.png',
     'SBI BPCL Octane Credit Card.png',
     'SBI Card ELITE.png',
     'SBI Card PRIME.png',
     'SBI Cashback Credit Card.png',
     'SBI Club Vistara Credit Card.png',
     'SBI Club Vistara Prime Credit Card.png',
+    'SBI Etihad Guest Credit Card.png',
+    'SBI IRCTC Premier Credit Card.png',
     'SBI SimplyCLICK Credit Card.png',
     'SBI SimplySAVE Credit Card.png'
 ];
