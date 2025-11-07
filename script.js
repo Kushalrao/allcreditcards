@@ -1,18 +1,66 @@
-// Version: 2025-01-15-v5 - Load card data from data.txt and display card names/networks
-// Image paths from Assets folder (will cycle through for cards)
-const imagePaths = [
-    'Assets/1.png',
-    'Assets/2.png',
-    'Assets/3.png',
-    'Assets/4.png',
-    'Assets/5.png',
-    'Assets/6.png',
-    'Assets/7.png',
-    'Assets/8.png'
-];
-
+// Version: 2025-01-15-v6 - Match card names with actual credit card images
 // Card data will be loaded from data.txt
 let cardData = [];
+
+// Available credit card images in Assets folder
+const availableCardImages = [
+    'HDFC Corporate Platinum Credit Card.png',
+    'HDFC Diners Club Black.png',
+    'HDFC Diners Club Premium.png',
+    'HDFC EasyShop Platinum Credit Card.png',
+    'HDFC Freedom Credit Card.png',
+    'HDFC Freedom RuPay Credit Card.png',
+    'HDFC IndiGo Credit Card.png',
+    'HDFC Infinia Credit Card.png',
+    'HDFC ISIC Student Forex Plus.png',
+    'HDFC Marriott Bonvoy Credit Card.png',
+    'HDFC Millennia Credit Card.png',
+    'HDFC MoneyBack Plus Credit Card.png',
+    'HDFC Pixel Play Credit Card.png',
+    'HDFC Regalia Credit Card.png',
+    'HDFC Regalia Gold Credit Card.png',
+    'HDFC Solitaire Credit Card.png',
+    'HDFC Swiggy Credit Card.png',
+    'HDFC Tata Neu Infinity Credit Card.png',
+    'HDFC Tata Neu Plus Credit Card.png',
+    'SBI BPCL Octane Credit Card.png',
+    'SBI Card ELITE.png',
+    'SBI Card PRIME.png',
+    'SBI Cashback Credit Card.png',
+    'SBI Club Vistara Credit Card.png',
+    'SBI Club Vistara Prime Credit Card.png',
+    'SBI SimplyCLICK Credit Card.png',
+    'SBI SimplySAVE Credit Card.png'
+];
+
+// Function to get image path for a card by matching name
+function getImagePathForCard(cardName) {
+    if (!cardName) return null;
+    
+    // Try exact match first
+    const exactMatch = availableCardImages.find(img => 
+        img.replace('.png', '') === cardName
+    );
+    
+    if (exactMatch) {
+        return `Assets/${exactMatch}`;
+    }
+    
+    // Try fuzzy match (case-insensitive, ignore extra spaces)
+    const normalizedCardName = cardName.toLowerCase().trim().replace(/\s+/g, ' ');
+    const fuzzyMatch = availableCardImages.find(img => {
+        const normalizedImgName = img.replace('.png', '').toLowerCase().trim().replace(/\s+/g, ' ');
+        return normalizedImgName === normalizedCardName;
+    });
+    
+    if (fuzzyMatch) {
+        return `Assets/${fuzzyMatch}`;
+    }
+    
+    // No match found
+    console.warn(`No image found for card: "${cardName}"`);
+    return null;
+}
 
 // Grid configuration
 const GRID_COLS = 20; // Number of columns
@@ -256,8 +304,8 @@ function createGrid(canvas) {
         // Mobile: Create vertical stack based on card data
         for (let i = 0; i < totalCards; i++) {
             const card = cardData[i];
-            // Cycle through available images
-            const imagePath = imagePaths[i % imagePaths.length];
+            // Get matched image for this card
+            const imagePath = getImagePathForCard(card['Card Name']);
             
             // Create image item with card data
             const imageItem = createImageItem(imagePath, card, 0, i);
@@ -272,8 +320,8 @@ function createGrid(canvas) {
         for (let row = 0; row < totalRows && cardIndex < totalCards; row++) {
             for (let col = 0; col < GRID_COLS && cardIndex < totalCards; col++) {
                 const card = cardData[cardIndex];
-                // Cycle through available images
-                const imagePath = imagePaths[cardIndex % imagePaths.length];
+                // Get matched image for this card
+                const imagePath = getImagePathForCard(card['Card Name']);
                 
                 // Create image item with card data
                 const imageItem = createImageItem(imagePath, card, row, col);
@@ -312,25 +360,39 @@ function createImageItem(imagePath, card, row, col) {
     const imageContainer = document.createElement('div');
     imageContainer.className = 'image-container';
     
-    // Create image
-    const img = document.createElement('img');
-    const pathParts = imagePath.split('/');
-    const encodedPath = pathParts.map(part => encodeURIComponent(part)).join('/');
-    img.src = encodedPath;
-    img.alt = card ? card['Card Name'] : imagePath.split('/').pop();
-    img.loading = 'lazy';
-    
-    img.onload = () => {
+    // Check if we have an image path
+    if (imagePath) {
+        // Create image
+        const img = document.createElement('img');
+        const pathParts = imagePath.split('/');
+        const encodedPath = pathParts.map(part => encodeURIComponent(part)).join('/');
+        img.src = encodedPath;
+        img.alt = card ? card['Card Name'] : imagePath.split('/').pop();
+        img.loading = 'lazy';
+        
+        img.onload = () => {
+            imageItem.classList.add('visible');
+        };
+        
+        img.onerror = (e) => {
+            console.error('Failed to load image:', imagePath);
+            imageContainer.style.background = '#e5e5e5';
+            imageContainer.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #999; font-size: 12px;">Image not found</div>';
+        };
+        
+        imageContainer.appendChild(img);
+    } else {
+        // No image path - show placeholder
+        imageContainer.style.background = '#f5f5f5';
+        imageContainer.style.border = '1px solid #e0e0e0';
+        imageContainer.style.display = 'flex';
+        imageContainer.style.alignItems = 'center';
+        imageContainer.style.justifyContent = 'center';
+        imageContainer.innerHTML = '<div style="color: #999; font-size: 12px; text-align: center; padding: 10px;">No image available</div>';
+        // Mark as visible immediately for placeholder
         imageItem.classList.add('visible');
-    };
+    }
     
-    img.onerror = (e) => {
-        console.error('Failed to load image:', imagePath);
-        imageContainer.style.background = '#e5e5e5';
-        imageContainer.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #999;">Image not found</div>';
-    };
-    
-    imageContainer.appendChild(img);
     imageItem.appendChild(imageContainer);
     
     // Add card information below image if card data exists
