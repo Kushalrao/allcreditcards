@@ -35,7 +35,11 @@ const availableCardImages = [
 
 // Function to get image path for a card by matching name
 function getImagePathForCard(cardName) {
-    if (!cardName) return null;
+    if (!cardName) {
+        // Return random image if no card name
+        const randomIndex = Math.floor(Math.random() * availableCardImages.length);
+        return `Assets/${availableCardImages[randomIndex]}`;
+    }
     
     // Try exact match first
     const exactMatch = availableCardImages.find(img => 
@@ -57,9 +61,9 @@ function getImagePathForCard(cardName) {
         return `Assets/${fuzzyMatch}`;
     }
     
-    // No match found
-    console.warn(`No image found for card: "${cardName}"`);
-    return null;
+    // No match found - return random image instead of null
+    const randomIndex = Math.floor(Math.random() * availableCardImages.length);
+    return `Assets/${availableCardImages[randomIndex]}`;
 }
 
 // Grid configuration
@@ -377,39 +381,25 @@ function createImageItem(imagePath, card, row, col) {
     const imageContainer = document.createElement('div');
     imageContainer.className = 'image-container';
     
-    // Check if we have an image path
-    if (imagePath) {
-        // Create image
-        const img = document.createElement('img');
-        const pathParts = imagePath.split('/');
-        const encodedPath = pathParts.map(part => encodeURIComponent(part)).join('/');
-        img.src = encodedPath;
-        img.alt = card ? card['Card Name'] : imagePath.split('/').pop();
-        img.loading = 'lazy';
-        
-        img.onload = () => {
-            imageItem.classList.add('visible');
-        };
-        
-        img.onerror = (e) => {
-            console.error('Failed to load image:', imagePath);
-            imageContainer.style.background = '#e5e5e5';
-            imageContainer.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #999; font-size: 12px;">Image not found</div>';
-        };
-        
-        imageContainer.appendChild(img);
-    } else {
-        // No image path - show placeholder
-        imageContainer.style.background = '#f5f5f5';
-        imageContainer.style.border = '1px solid #e0e0e0';
-        imageContainer.style.display = 'flex';
-        imageContainer.style.alignItems = 'center';
-        imageContainer.style.justifyContent = 'center';
-        imageContainer.innerHTML = '<div style="color: #999; font-size: 12px; text-align: center; padding: 10px;">No image available</div>';
-        // Mark as visible immediately for placeholder
-        imageItem.classList.add('visible');
-    }
+    // Create image (imagePath is always defined now)
+    const img = document.createElement('img');
+    const pathParts = imagePath.split('/');
+    const encodedPath = pathParts.map(part => encodeURIComponent(part)).join('/');
+    img.src = encodedPath;
+    img.alt = card ? card['Card Name'] : imagePath.split('/').pop();
+    img.loading = 'lazy';
     
+    img.onload = () => {
+        imageItem.classList.add('visible');
+    };
+    
+    img.onerror = (e) => {
+        console.error('Failed to load image:', imagePath);
+        imageContainer.style.background = '#e5e5e5';
+        imageContainer.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #999; font-size: 12px;">Image not found</div>';
+    };
+    
+    imageContainer.appendChild(img);
     imageItem.appendChild(imageContainer);
     
     // Add card information below image if card data exists
