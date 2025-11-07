@@ -140,9 +140,9 @@ body {
     position: relative;
     width: fit-content;
     cursor: pointer;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.4s ease-out;
     opacity: 0;
-    animation: fadeIn 0.5s ease forwards;
+    /* Ripple animation will handle opacity on desktop */
 }
 
 .image-item.fade-out {
@@ -207,6 +207,7 @@ body {
         max-width: 85vw;
         perspective: 1000px;
         transform-style: preserve-3d;
+        opacity: 1; /* Mobile cards visible immediately */
     }
     
     .image-container {

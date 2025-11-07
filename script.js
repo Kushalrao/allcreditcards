@@ -118,8 +118,52 @@ async function initCanvas() {
             // Initialize scroll position tracking after initial scroll
             lastScrollPosition.x = canvasContainer.scrollLeft;
             lastScrollPosition.y = canvasContainer.scrollTop;
+            
+            // Start ripple animation from center after scrolling to center
+            setTimeout(() => {
+                startRippleAnimation();
+            }, 50);
         }, 100);
     }
+}
+
+// Ripple animation from center (desktop only)
+function startRippleAnimation() {
+    const isMobile = window.innerWidth <= 768;
+    if (isMobile) return; // Only for desktop
+    
+    // Calculate center position of the grid
+    const centerRow = Math.floor(Math.ceil(cardData.length / GRID_COLS) / 2);
+    const centerCol = Math.floor(GRID_COLS / 2);
+    
+    console.log(`Starting ripple from center: row ${centerRow}, col ${centerCol}`);
+    
+    // Get all image items and calculate their distance from center
+    const imageItems = document.querySelectorAll('.image-item');
+    const itemsWithDistance = [];
+    
+    imageItems.forEach((item) => {
+        const row = parseInt(item.dataset.row);
+        const col = parseInt(item.dataset.col);
+        
+        // Calculate Euclidean distance from center
+        const distance = Math.sqrt(
+            Math.pow(row - centerRow, 2) + Math.pow(col - centerCol, 2)
+        );
+        
+        itemsWithDistance.push({ item, distance });
+    });
+    
+    // Animate each card based on distance from center
+    itemsWithDistance.forEach(({ item, distance }) => {
+        // Delay increases with distance from center
+        // Each "ring" of distance gets 30ms delay
+        const delay = distance * 30;
+        
+        setTimeout(() => {
+            item.style.opacity = '1';
+        }, delay);
+    });
 }
 
 // Enhanced smooth scroll with momentum for diagonal scrolling
