@@ -300,12 +300,21 @@ function createGrid(canvas) {
     // Clear existing items
     allImageItems = [];
     
+    // Track matched images for debugging
+    let matchedCount = 0;
+    
     if (isMobile) {
         // Mobile: Create vertical stack based on card data
         for (let i = 0; i < totalCards; i++) {
             const card = cardData[i];
             // Get matched image for this card
             const imagePath = getImagePathForCard(card['Card Name']);
+            if (imagePath) matchedCount++;
+            
+            // Debug first 5 matches
+            if (i < 5) {
+                console.log(`Card ${i}: "${card['Card Name']}" -> ${imagePath || 'NO MATCH'}`);
+            }
             
             // Create image item with card data
             const imageItem = createImageItem(imagePath, card, 0, i);
@@ -322,6 +331,12 @@ function createGrid(canvas) {
                 const card = cardData[cardIndex];
                 // Get matched image for this card
                 const imagePath = getImagePathForCard(card['Card Name']);
+                if (imagePath) matchedCount++;
+                
+                // Debug first 5 matches
+                if (cardIndex < 5) {
+                    console.log(`Card ${cardIndex}: "${card['Card Name']}" -> ${imagePath || 'NO MATCH'}`);
+                }
                 
                 // Create image item with card data
                 const imageItem = createImageItem(imagePath, card, row, col);
@@ -331,6 +346,8 @@ function createGrid(canvas) {
             }
         }
     }
+    
+    console.log(`Matched ${matchedCount} out of ${totalCards} cards with images`);
     
     console.log(`Created ${totalCards} card items`);
     
