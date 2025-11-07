@@ -25,16 +25,29 @@ const availableCardImages = [
     'HDFC Tata Neu Plus Credit Card.png',
     'SBI Air India Platinum Credit Card.png',
     'SBI Air India Signature Credit Card.png',
+    'SBI Apollo Credit Card.png',
+    'SBI Aurum Credit Card.png',
     'SBI BPCL Octane Credit Card.png',
     'SBI Card ELITE.png',
     'SBI Card PRIME.png',
+    'SBI Card Unnati.png',
     'SBI Cashback Credit Card.png',
     'SBI Club Vistara Credit Card.png',
     'SBI Club Vistara Prime Credit Card.png',
     'SBI Etihad Guest Credit Card.png',
+    'SBI IRCTC Platinum Credit Card.png',
     'SBI IRCTC Premier Credit Card.png',
+    'SBI Lifestyle Home Centre PRIME.png',
+    'SBI Max Credit Card PRIME.png',
+    'SBI Ola Money Credit Card.png',
+    'SBI PhonePe SELECT BLACK.png',
+    'SBI Pulse Credit Card.png',
+    'SBI Reliance Card PRIME.png',
     'SBI SimplyCLICK Credit Card.png',
-    'SBI SimplySAVE Credit Card.png'
+    'SBI SimplySAVE Credit Card.png',
+    'SBI Tata Neu Plus Credit Card.png',
+    'SBI Titan Credit Card.png',
+    'SBI Yatra Credit Card.png'
 ];
 
 // Function to get image path for a card by matching name
