@@ -4,6 +4,9 @@ let cardData = [];
 
 // Available credit card images in Assets folder
 const availableCardImages = [
+    'Axis Bank Atlas Credit Card.png',
+    'Axis Bank Magnus Credit Card.png',
+    'Axis Bank Reserve Credit Card.png',
     'HDFC Corporate Platinum Credit Card.png',
     'HDFC Diners Club Black.png',
     'HDFC Diners Club Premium.png',
@@ -30,6 +33,7 @@ const availableCardImages = [
     'ICICI Emeralde Private Metal.png',
     'ICICI Expressions Credit Card.png',
     'ICICI Ferrari World Credit Card.png',
+    'ICICI Gold Credit Card.png',
     'ICICI HPCL Credit Card.png',
     'ICICI Instant Platinum Credit Card.png',
     'ICICI Manchester United Credit Card.png',
