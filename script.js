@@ -65,8 +65,13 @@ const availableCardImages = [
     'IDFC FIRST Vistara Credit Card.png',
     'IDFC FIRST Wealth Credit Card.png',
     'IndusInd Bank Crest Credit Card.png',
+    'IndusInd Bank Duo Credit Card.png',
+    'IndusInd Bank Eazydiner Credit Card.png',
     'IndusInd Bank Legend Credit Card.png',
+    'IndusInd Bank Nexxt Credit Card.png',
     'IndusInd Bank Pioneer Heritage Metal.png',
+    'IndusInd Bank Platinum Aura Edge.png',
+    'IndusInd Bank Platinum Credit Card.png',
     'IndusInd Bank Signature Credit Card.png',
     'Kotak 811 #DreamDifferent.png',
     'Kotak Delight Platinum.png',
@@ -110,7 +115,23 @@ const availableCardImages = [
     'SBI SimplySAVE Credit Card.png',
     'SBI Tata Neu Plus Credit Card.png',
     'SBI Titan Credit Card.png',
-    'SBI Yatra Credit Card.png'
+    'SBI Yatra Credit Card.png',
+    'RBL Bank Platinum Maxima.png',
+    'RBL Bank ShopRite Credit Card.png',
+    'RBL Bank World Safari.png',
+    'Standard Chartered DigiSmart.png',
+    'Standard Chartered Manhattan Platinum Credit Card.png',
+    'Standard Chartered Platinum Rewards.png',
+    'Standard Chartered Priority Visa Infinite.png',
+    'Standard Chartered Super Value Titanium.png',
+    'Standard Chartered Ultimate Credit Card.png',
+    'YES Bank First Exclusive Credit Card.png',
+    'YES Bank First Preferred Credit Card.png',
+    'YES Bank Kiwi Credit Card.png',
+    'YES Bank Marquee Credit Card-1.png',
+    'YES Bank Marquee Credit Card.png',
+    'YES Bank Paisabazaar PaisaSave.png',
+    'YES Bank Prosperity Edge Credit Card.png'
 ];
 
 // Function to get image path for a card by matching name
