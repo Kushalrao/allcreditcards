@@ -40,7 +40,7 @@ body {
 }
 
 .site-logo {
-    height: 36px;
+    height: 53px;
     width: auto;
     display: block;
     transition: height 0.3s ease;
@@ -51,7 +51,7 @@ body {
 }
 
 .site-title.collapsed .site-logo {
-    height: 28px;
+    height: 41px;
 }
 
 /* Filters Container */
@@ -308,11 +308,11 @@ body {
     }
 
     .site-logo {
-        height: 30px;
+        height: 53px;
     }
 
     .site-title.collapsed .site-logo {
-        height: 24px;
+        height: 41px;
     }
     
     .filters-container {
