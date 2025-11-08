@@ -1,6 +1,7 @@
-// Version: 2025-01-15-v6 - Match card names with actual credit card images
+// Version: 2025-01-15-v7 - Only render cards with exact image matches
 // Card data will be loaded from data.txt
-let cardData = [];
+let cardData = []; // All cards from data.txt
+let renderedCards = []; // Only cards with exact image matches (displayed in grid)
 
 // Available credit card images in Assets folder
 const availableCardImages = [
@@ -186,13 +187,30 @@ const availableCardImages = [
     'YES Bank Prosperity Edge Credit Card.png'
 ];
 
+// Function to check if a card has an exact image match
+function hasImageMatch(cardName) {
+    if (!cardName) return false;
+    
+    // Try exact match first
+    const exactMatch = availableCardImages.find(img => 
+        img.replace('.png', '') === cardName
+    );
+    
+    if (exactMatch) return true;
+    
+    // Try fuzzy match (case-insensitive, ignore extra spaces)
+    const normalizedCardName = cardName.toLowerCase().trim().replace(/\s+/g, ' ');
+    const fuzzyMatch = availableCardImages.find(img => {
+        const normalizedImgName = img.replace('.png', '').toLowerCase().trim().replace(/\s+/g, ' ');
+        return normalizedImgName === normalizedCardName;
+    });
+    
+    return !!fuzzyMatch;
+}
+
 // Function to get image path for a card by matching name
 function getImagePathForCard(cardName) {
-    if (!cardName) {
-        // Return random image if no card name
-        const randomIndex = Math.floor(Math.random() * availableCardImages.length);
-        return `Assets/${availableCardImages[randomIndex]}`;
-    }
+    if (!cardName) return null;
     
     // Try exact match first
     const exactMatch = availableCardImages.find(img => 
@@ -214,9 +232,8 @@ function getImagePathForCard(cardName) {
         return `Assets/${fuzzyMatch}`;
     }
     
-    // No match found - return random image instead of null
-    const randomIndex = Math.floor(Math.random() * availableCardImages.length);
-    return `Assets/${availableCardImages[randomIndex]}`;
+    // No match found - return null (card won't be rendered)
+    return null;
 }
 
 // Grid configuration
@@ -226,7 +243,7 @@ const IMAGE_WIDTH = 257; // Width of each image in pixels
 const IMAGE_HEIGHT = 158; // Height of each image in pixels
 const GAP = 71; // Horizontal gap between images
 
-// Load card data from data.txt
+// Load card data from data.txt and filter to only cards with images
 async function loadCardData() {
     try {
         const response = await fetch('data.txt');
@@ -251,7 +268,13 @@ async function loadCardData() {
         }
         
         console.log(`Loaded ${cardData.length} credit cards from data.txt`);
-        return cardData;
+        
+        // Filter to only cards with exact image matches
+        renderedCards = cardData.filter(card => hasImageMatch(card['Card Name']));
+        
+        console.log(`Filtered to ${renderedCards.length} cards with images (${cardData.length - renderedCards.length} cards without images excluded)`);
+        
+        return renderedCards;
     } catch (error) {
         console.error('Error loading card data:', error);
         throw error; // Re-throw to let caller handle
@@ -264,11 +287,11 @@ async function initCanvas() {
         // Load card data first
         await loadCardData();
         
-        // If no data loaded, show error
-        if (cardData.length === 0) {
-            console.error('No card data loaded. Check data.txt file.');
+        // If no cards with images, show error
+        if (renderedCards.length === 0) {
+            console.error('No cards with images found.');
             const canvas = document.getElementById('canvas');
-            canvas.innerHTML = '<div style="padding: 50px; text-align: center; color: #999;">No card data found. Please check data.txt file.</div>';
+            canvas.innerHTML = '<div style="padding: 50px; text-align: center; color: #999;">No cards with images found. Please add credit card images to Assets folder.</div>';
             return;
         }
     } catch (error) {
@@ -287,11 +310,11 @@ async function initCanvas() {
         canvas.style.width = '100%';
         canvas.style.height = 'auto';
         
-        // Create vertical stack based on card data
+        // Create vertical stack based on rendered cards
         createGrid(canvas);
     } else {
-        // Desktop: Calculate total dimensions based on actual card count
-        const totalCards = cardData.length;
+        // Desktop: Calculate total dimensions based on rendered cards count
+        const totalCards = renderedCards.length;
         const totalRows = Math.ceil(totalCards / GRID_COLS);
         // Card height includes: image (158px) + card name (~20px) + network (~14px) = ~192px
         const CARD_TOTAL_HEIGHT = 192;
@@ -445,32 +468,28 @@ function setupSmoothScrolling(canvasContainer) {
 // Create grid of images based on card data
 function createGrid(canvas) {
     const isMobile = window.innerWidth <= 768;
-    const totalCards = cardData.length || 0;
+    const totalCards = renderedCards.length || 0;
     
-    console.log(`Creating grid with ${totalCards} cards from data.txt`);
+    console.log(`Creating grid with ${totalCards} cards with images`);
     
     if (totalCards === 0) {
-        console.warn('No card data loaded, using fallback');
+        console.warn('No cards with images to render');
         return;
     }
     
     // Clear existing items
     allImageItems = [];
     
-    // Track matched images for debugging
-    let matchedCount = 0;
-    
     if (isMobile) {
-        // Mobile: Create vertical stack based on card data
+        // Mobile: Create vertical stack based on rendered cards
         for (let i = 0; i < totalCards; i++) {
-            const card = cardData[i];
-            // Get matched image for this card
+            const card = renderedCards[i];
+            // Get matched image for this card (guaranteed to exist)
             const imagePath = getImagePathForCard(card['Card Name']);
-            if (imagePath) matchedCount++;
             
             // Debug first 5 matches
             if (i < 5) {
-                console.log(`Card ${i}: "${card['Card Name']}" -> ${imagePath || 'NO MATCH'}`);
+                console.log(`Card ${i}: "${card['Card Name']}" -> ${imagePath}`);
             }
             
             // Create image item with card data
@@ -480,19 +499,18 @@ function createGrid(canvas) {
             allImageItems.push(imageItem);
         }
     } else {
-        // Desktop: Create grid based on card data
+        // Desktop: Create grid based on rendered cards
         const totalRows = Math.ceil(totalCards / GRID_COLS);
         let cardIndex = 0;
         for (let row = 0; row < totalRows && cardIndex < totalCards; row++) {
             for (let col = 0; col < GRID_COLS && cardIndex < totalCards; col++) {
-                const card = cardData[cardIndex];
-                // Get matched image for this card
+                const card = renderedCards[cardIndex];
+                // Get matched image for this card (guaranteed to exist)
                 const imagePath = getImagePathForCard(card['Card Name']);
-                if (imagePath) matchedCount++;
                 
                 // Debug first 5 matches
                 if (cardIndex < 5) {
-                    console.log(`Card ${cardIndex}: "${card['Card Name']}" -> ${imagePath || 'NO MATCH'}`);
+                    console.log(`Card ${cardIndex}: "${card['Card Name']}" -> ${imagePath}`);
                 }
                 
                 // Create image item with card data
@@ -504,9 +522,7 @@ function createGrid(canvas) {
         }
     }
     
-    console.log(`Matched ${matchedCount} out of ${totalCards} cards with images`);
-    
-    console.log(`Created ${totalCards} card items`);
+    console.log(`Created ${totalCards} card items (all with images)`);
     
     // Create filters after cards are created
     createFilters();
@@ -588,7 +604,8 @@ function extractFilterValues() {
     const banks = new Set();
     const feeTypes = new Set(['Paid', 'Free']);
     
-    cardData.forEach(card => {
+    // Only extract values from cards that are actually rendered
+    renderedCards.forEach(card => {
         if (card['Network']) networks.add(card['Network']);
         if (card['Bank/Issuer']) banks.add(card['Bank/Issuer']);
     });
@@ -981,7 +998,7 @@ async function handleSearch(query) {
     // Show loading state in search bar
     const searchBar = document.getElementById('searchBar');
     const originalPlaceholder = searchBar.placeholder;
-    searchBar.placeholder = 'Analyzing 500 cards...';
+    searchBar.placeholder = `Analyzing ${renderedCards.length} cards...`;
     searchBar.disabled = true;
     
     try {
@@ -990,7 +1007,10 @@ async function handleSearch(query) {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ query }),
+            body: JSON.stringify({ 
+                query,
+                cardData: renderedCards  // Send only rendered cards (those with images)
+            }),
             signal: currentController.signal,
         });
         

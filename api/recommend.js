@@ -1,8 +1,6 @@
 // Vercel serverless function to get credit card recommendations
 // This hides the OpenAI API key from the client
-
-import { readFileSync } from 'fs';
-import { join } from 'path';
+// Receives only the rendered cards (those with images) from the client
 
 export default async function handler(req, res) {
   // Only allow POST requests
@@ -11,10 +9,14 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { query } = req.body;
+    const { query, cardData } = req.body;
 
     if (!query || query.trim().length === 0) {
       return res.status(400).json({ error: 'Query is required' });
+    }
+
+    if (!cardData || !Array.isArray(cardData) || cardData.length === 0) {
+      return res.status(400).json({ error: 'Card data is required' });
     }
 
     // Check for API key
@@ -22,11 +24,6 @@ export default async function handler(req, res) {
     if (!apiKey) {
       return res.status(500).json({ error: 'OpenAI API key not configured' });
     }
-
-    // Read card data from data.txt
-    const dataPath = join(process.cwd(), 'data.txt');
-    const cardDataText = readFileSync(dataPath, 'utf-8');
-    const cardData = JSON.parse(cardDataText);
 
     console.log(`Processing query: "${query}" for ${cardData.length} cards`);
 
