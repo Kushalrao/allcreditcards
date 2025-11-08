@@ -1032,7 +1032,7 @@
     "Key Benefits": "Value rewards"
   },
   {
-    "Card Name": "Standard Chartered Manhattan Credit Card",
+    "Card Name": "Standard Chartered Manhattan Platinum Credit Card",
     "Bank/Issuer": "Standard Chartered",
     "Card Type": "Premium",
     "Annual Fee (INR)": "3,000",
