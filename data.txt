@@ -1192,6 +1192,14 @@
     "Key Benefits": "5% cashback"
   },
   {
+    "Card Name": "American Express Platinum Reserve",
+    "Bank/Issuer": "Amex",
+    "Card Type": "Premium",
+    "Annual Fee (INR)": "10,000",
+    "Network": "American Express",
+    "Key Benefits": "Premium benefits"
+  },
+  {
     "Card Name": "Bank of Baroda Premier Credit Card",
     "Bank/Issuer": "Bank of Baroda",
     "Card Type": "Premium",
@@ -1464,7 +1472,15 @@
     "Key Benefits": "Digital banking"
   },
   {
-    "Card Name": "Jupiter Credit Card",
+    "Card Name": "Jupiter Edge CSB Bank Rupay Credit Card",
+    "Bank/Issuer": "Jupiter",
+    "Card Type": "Digital",
+    "Annual Fee (INR)": "Free",
+    "Network": "Visa",
+    "Key Benefits": "Digital credit"
+  },
+  {
+    "Card Name": "Jupiter Edge+ CSB Bank Rupay Credit Card",
     "Bank/Issuer": "Jupiter",
     "Card Type": "Digital",
     "Annual Fee (INR)": "Free",
@@ -1960,7 +1976,7 @@
     "Key Benefits": "Netflix subscription benefits"
   },
   {
-    "Card Name": "Amazon Prime ICICI Credit Card",
+    "Card Name": "Amazon Pay ICICI Credit Card",
     "Bank/Issuer": "ICICI Bank",
     "Card Type": "Co-branded",
     "Annual Fee (INR)": "Free",
