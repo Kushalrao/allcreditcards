@@ -22,25 +22,36 @@ body {
 
 /* Site Title */
 .site-title {
-    font-family: 'Syne', sans-serif;
-    font-size: 17px;
-    font-weight: 600;
-    letter-spacing: 5px;
-    text-transform: uppercase;
-    color: #000000;
     margin: 0;
     padding: 20px 24px 16px 24px;
     background: #ffffff;
-    text-align: center;
     position: sticky;
     top: 0;
     z-index: 101;
-    transition: padding 0.3s ease, font-size 0.3s ease;
+    transition: padding 0.3s ease;
+    display: flex;
+    justify-content: center;
+}
+
+.logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.site-logo {
+    height: 36px;
+    width: auto;
+    display: block;
+    transition: height 0.3s ease;
 }
 
 .site-title.collapsed {
-    font-size: 12px;
     padding: 12px 24px 8px 24px;
+}
+
+.site-title.collapsed .site-logo {
+    height: 28px;
 }
 
 /* Filters Container */
@@ -289,13 +300,19 @@ body {
 @media (max-width: 768px) {
     .site-title {
         padding: 16px 16px 12px 16px;
-        font-size: 17px;
         top: 0;
     }
     
     .site-title.collapsed {
-        font-size: 12px;
         padding: 10px 16px 8px 16px;
+    }
+
+    .site-logo {
+        height: 30px;
+    }
+
+    .site-title.collapsed .site-logo {
+        height: 24px;
     }
     
     .filters-container {
