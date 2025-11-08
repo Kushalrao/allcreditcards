@@ -23,7 +23,7 @@ body {
 /* Site Title */
 .site-title {
     margin: 0;
-    padding: 20px 24px 16px 24px;
+    padding: 0;
     background: #ffffff;
     position: sticky;
     top: 0;
@@ -44,10 +44,6 @@ body {
     width: auto;
     display: block;
     transition: height 0.3s ease;
-}
-
-.site-title.collapsed {
-    padding: 12px 24px 8px 24px;
 }
 
 .site-title.collapsed .site-logo {
@@ -299,12 +295,12 @@ body {
 /* Mobile layout */
 @media (max-width: 768px) {
     .site-title {
-        padding: 16px 16px 12px 16px;
+        padding: 0;
         top: 0;
     }
     
     .site-title.collapsed {
-        padding: 10px 16px 8px 16px;
+        padding: 0;
     }
 
     .site-logo {
