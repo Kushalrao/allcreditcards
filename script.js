@@ -244,6 +244,97 @@ const GAP = 71; // Horizontal gap between images
 // Grid size will be calculated dynamically to always be square
 let GRID_SIZE = 20; // Will be updated based on card count (rows = cols)
 
+// Card shuffle loading animation (desktop only)
+function startShuffleAnimation() {
+    return new Promise((resolve) => {
+        const isMobile = window.innerWidth <= 768;
+        if (isMobile) {
+            // Skip animation on mobile
+            resolve();
+            return;
+        }
+        
+        const overlay = document.getElementById('shuffleAnimationOverlay');
+        const container = document.getElementById('shuffleContainer');
+        
+        // Pick 10 random images
+        const shuffledImages = [...availableCardImages].sort(() => Math.random() - 0.5).slice(0, 10);
+        const cards = [];
+        
+        // Create 10 card elements
+        shuffledImages.forEach((imageName, index) => {
+            const card = document.createElement('div');
+            card.className = 'shuffle-card';
+            
+            const img = document.createElement('img');
+            img.src = `Assets/${encodeURIComponent(imageName)}`;
+            img.alt = imageName;
+            
+            card.appendChild(img);
+            container.appendChild(card);
+            cards.push(card);
+            
+            // Set initial position and z-index (stacked with 3px offset)
+            card.style.transform = `translateY(${index * 3}px)`;
+            card.style.zIndex = index;
+        });
+        
+        let animationCount = 0;
+        const totalDuration = 4000; // 4 seconds
+        const intervalTime = 400; // 0.4 seconds
+        const maxAnimations = Math.floor(totalDuration / intervalTime);
+        
+        // Animation loop
+        const animationInterval = setInterval(() => {
+            animationCount++;
+            
+            if (animationCount >= maxAnimations) {
+                clearInterval(animationInterval);
+                
+                // Hide overlay after 4 seconds
+                setTimeout(() => {
+                    overlay.classList.add('hidden');
+                    setTimeout(() => {
+                        overlay.style.display = 'none';
+                        resolve();
+                    }, 500); // Wait for fade out
+                }, 0);
+                return;
+            }
+            
+            // Get the back card (lowest z-index)
+            let backCard = cards[0];
+            let minZIndex = parseInt(backCard.style.zIndex);
+            
+            cards.forEach(card => {
+                const zIndex = parseInt(card.style.zIndex);
+                if (zIndex < minZIndex) {
+                    minZIndex = zIndex;
+                    backCard = card;
+                }
+            });
+            
+            // Lift the back card up by (height + 13px)
+            const liftDistance = -(158 + 13); // negative to go up
+            backCard.style.transform = `translateY(${liftDistance}px)`;
+            
+            // After the lift animation completes, move it to the front
+            setTimeout(() => {
+                // Find the current max z-index
+                let maxZIndex = Math.max(...cards.map(c => parseInt(c.style.zIndex)));
+                
+                // Move to front (highest z-index + 1)
+                backCard.style.zIndex = maxZIndex + 1;
+                
+                // Calculate new position (should be at top of stack with 3px offset)
+                const newPosition = maxZIndex * 3;
+                backCard.style.transform = `translateY(${newPosition}px)`;
+            }, 200); // Half of the transition time for smooth effect
+            
+        }, intervalTime);
+    });
+}
+
 // Load card data from data.txt and filter to only cards with images
 async function loadCardData() {
     try {
@@ -295,6 +386,10 @@ async function initCanvas() {
             canvas.innerHTML = '<div style="padding: 50px; text-align: center; color: #999;">No cards with images found. Please add credit card images to Assets folder.</div>';
             return;
         }
+        
+        // Start shuffle animation (desktop only, 4 seconds)
+        await startShuffleAnimation();
+        
     } catch (error) {
         console.error('Failed to initialize:', error);
         const canvas = document.getElementById('canvas');
