@@ -320,6 +320,9 @@ async function initCanvas() {
         GRID_SIZE = Math.ceil(Math.sqrt(totalCards));
         console.log(`Creating ${GRID_SIZE}×${GRID_SIZE} square grid for ${totalCards} cards`);
         
+        // Set grid template columns dynamically
+        canvas.style.gridTemplateColumns = `repeat(${GRID_SIZE}, ${IMAGE_WIDTH}px)`;
+        
         // Card height includes: image (158px) + card name (~20px) + network (~14px) = ~192px
         const CARD_TOTAL_HEIGHT = 192;
         const totalWidth = GRID_SIZE * (IMAGE_WIDTH + GAP) + GAP;
@@ -769,6 +772,9 @@ function filterGridByAI(recommendedCardNames, query) {
             
             console.log(`Creating ${filteredGridSize}×${filteredGridSize} square grid for ${totalCards} filtered cards`);
             
+            // Set grid template columns dynamically
+            canvas.style.gridTemplateColumns = `repeat(${filteredGridSize}, ${IMAGE_WIDTH}px)`;
+            
             canvas.style.width = `${totalWidth}px`;
             canvas.style.minHeight = `${totalHeight}px`;
             canvas.style.height = 'auto';
@@ -903,6 +909,9 @@ function applyFilter(filterType, filterValue) {
             const totalHeight = filteredGridSize * (CARD_TOTAL_HEIGHT + GAP) + GAP;
             
             console.log(`Creating ${filteredGridSize}×${filteredGridSize} square grid for ${totalFilteredCards} AI-filtered cards`);
+            
+            // Set grid template columns dynamically
+            canvas.style.gridTemplateColumns = `repeat(${filteredGridSize}, ${IMAGE_WIDTH}px)`;
             
             // Set canvas size - use min-height to allow grid to grow with content
             canvas.style.width = `${totalWidth}px`;

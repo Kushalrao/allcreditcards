@@ -133,7 +133,7 @@ body {
 .canvas {
     position: relative;
     display: grid;
-    grid-template-columns: repeat(20, 257px);
+    /* grid-template-columns will be set dynamically in JS based on GRID_SIZE */
     grid-auto-rows: auto;
     column-gap: 71px;
     row-gap: 49px;
