@@ -354,10 +354,13 @@ async function initCanvas() {
             lastScrollPosition.x = canvasContainer.scrollLeft;
             lastScrollPosition.y = canvasContainer.scrollTop;
             
-            // Start ripple animation from center after scrolling to center
-            setTimeout(() => {
-                startRippleAnimation();
-            }, 50);
+            // Start ripple animation AFTER scrolling to center is complete
+            // This ensures cards are at opacity 0 until user is centered
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    startRippleAnimation();
+                });
+            });
         }, 100);
     }
 }
@@ -565,7 +568,12 @@ function createImageItem(imagePath, card, row, col) {
     img.loading = 'lazy';
     
     img.onload = () => {
-        imageItem.classList.add('visible');
+        // On mobile, make visible immediately
+        // On desktop, keep opacity 0 until ripple animation
+        const isMobile = window.innerWidth <= 768;
+        if (isMobile) {
+            imageItem.classList.add('visible');
+        }
     };
     
     img.onerror = (e) => {
