@@ -230,6 +230,8 @@ body {
     z-index: 10001;
     opacity: 1;
     transition: opacity 0.5s ease-out;
+    perspective: 1500px;
+    transform-style: preserve-3d;
 }
 
 .shuffle-animation-overlay.hidden {
@@ -250,11 +252,12 @@ body {
     width: 257px;
     height: 158px;
     border-radius: 12px;
-    overflow: hidden;
+    overflow: visible;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease-in-out, z-index 0s;
     transform-style: preserve-3d;
     backface-visibility: visible;
+    transform-origin: center center;
 }
 
 .shuffle-card img {
@@ -262,6 +265,7 @@ body {
     height: 100%;
     object-fit: cover;
     display: block;
+    border-radius: 12px;
 }
 
 /* Mobile specific image styling */
