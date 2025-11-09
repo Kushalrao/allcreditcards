@@ -237,11 +237,12 @@ function getImagePathForCard(cardName) {
 }
 
 // Grid configuration
-const GRID_COLS = 20; // Number of columns
-const GRID_ROWS = 20; // Number of rows
 const IMAGE_WIDTH = 257; // Width of each image in pixels
 const IMAGE_HEIGHT = 158; // Height of each image in pixels
 const GAP = 71; // Horizontal gap between images
+
+// Grid size will be calculated dynamically to always be square
+let GRID_SIZE = 20; // Will be updated based on card count (rows = cols)
 
 // Load card data from data.txt and filter to only cards with images
 async function loadCardData() {
@@ -313,13 +314,16 @@ async function initCanvas() {
         // Create vertical stack based on rendered cards
         createGrid(canvas);
     } else {
-        // Desktop: Calculate total dimensions based on rendered cards count
+        // Desktop: Calculate square grid size based on rendered cards count
         const totalCards = renderedCards.length;
-        const totalRows = Math.ceil(totalCards / GRID_COLS);
+        // Calculate grid size to be square (rows = cols)
+        GRID_SIZE = Math.ceil(Math.sqrt(totalCards));
+        console.log(`Creating ${GRID_SIZE}×${GRID_SIZE} square grid for ${totalCards} cards`);
+        
         // Card height includes: image (158px) + card name (~20px) + network (~14px) = ~192px
         const CARD_TOTAL_HEIGHT = 192;
-        const totalWidth = GRID_COLS * (IMAGE_WIDTH + GAP) + GAP;
-        const totalHeight = totalRows * (CARD_TOTAL_HEIGHT + GAP) + GAP;
+        const totalWidth = GRID_SIZE * (IMAGE_WIDTH + GAP) + GAP;
+        const totalHeight = GRID_SIZE * (CARD_TOTAL_HEIGHT + GAP) + GAP;
         
         // Set canvas size - use min-height to allow grid to grow with content
         canvas.style.width = `${totalWidth}px`;
@@ -360,9 +364,9 @@ function startRippleAnimation() {
     const isMobile = window.innerWidth <= 768;
     if (isMobile) return; // Only for desktop
     
-    // Calculate center position of the grid
-    const centerRow = Math.floor(Math.ceil(cardData.length / GRID_COLS) / 2);
-    const centerCol = Math.floor(GRID_COLS / 2);
+    // Calculate center position of the square grid
+    const centerRow = Math.floor(GRID_SIZE / 2);
+    const centerCol = Math.floor(GRID_SIZE / 2);
     
     console.log(`Starting ripple from center: row ${centerRow}, col ${centerCol}`);
     
@@ -499,11 +503,10 @@ function createGrid(canvas) {
             allImageItems.push(imageItem);
         }
     } else {
-        // Desktop: Create grid based on rendered cards
-        const totalRows = Math.ceil(totalCards / GRID_COLS);
+        // Desktop: Create square grid based on rendered cards
         let cardIndex = 0;
-        for (let row = 0; row < totalRows && cardIndex < totalCards; row++) {
-            for (let col = 0; col < GRID_COLS && cardIndex < totalCards; col++) {
+        for (let row = 0; row < GRID_SIZE && cardIndex < totalCards; row++) {
+            for (let col = 0; col < GRID_SIZE && cardIndex < totalCards; col++) {
                 const card = renderedCards[cardIndex];
                 // Get matched image for this card (guaranteed to exist)
                 const imagePath = getImagePathForCard(card['Card Name']);
@@ -758,19 +761,21 @@ function filterGridByAI(recommendedCardNames, query) {
             }
         } else {
             const totalCards = filteredData.length;
-            const cardsPerRow = GRID_COLS;
-            const totalRows = Math.ceil(totalCards / cardsPerRow);
+            // Calculate square grid for filtered data
+            const filteredGridSize = Math.ceil(Math.sqrt(totalCards));
             const CARD_TOTAL_HEIGHT = 192;
-            const totalWidth = GRID_COLS * (IMAGE_WIDTH + GAP) + GAP;
-            const totalHeight = totalRows * (CARD_TOTAL_HEIGHT + GAP) + GAP;
+            const totalWidth = filteredGridSize * (IMAGE_WIDTH + GAP) + GAP;
+            const totalHeight = filteredGridSize * (CARD_TOTAL_HEIGHT + GAP) + GAP;
+            
+            console.log(`Creating ${filteredGridSize}×${filteredGridSize} square grid for ${totalCards} filtered cards`);
             
             canvas.style.width = `${totalWidth}px`;
             canvas.style.minHeight = `${totalHeight}px`;
             canvas.style.height = 'auto';
             
             let cardIndex = 0;
-            for (let row = 0; row < totalRows && cardIndex < filteredData.length; row++) {
-                for (let col = 0; col < GRID_COLS && cardIndex < filteredData.length; col++) {
+            for (let row = 0; row < filteredGridSize && cardIndex < filteredData.length; row++) {
+                for (let col = 0; col < filteredGridSize && cardIndex < filteredData.length; col++) {
                     const card = filteredData[cardIndex];
                     const imagePath = imagePaths[cardIndex % imagePaths.length];
                     const imageItem = createImageItem(imagePath, card, row, col);
@@ -887,26 +892,27 @@ function applyFilter(filterType, filterValue) {
                 canvasContainer.scrollTo({ top: 0, behavior: 'smooth' });
             }
         } else {
-            // Desktop: Calculate grid dimensions based on filtered data
+            // Desktop: Calculate square grid dimensions based on filtered data
             const totalFilteredCards = filteredData.length;
-            const cardsPerRow = GRID_COLS;
-            const totalRows = Math.ceil(totalFilteredCards / cardsPerRow);
+            const filteredGridSize = Math.ceil(Math.sqrt(totalFilteredCards));
             
             // Calculate actual dimensions needed
             // Card height includes: image (158px) + card name (~20px) + network (~14px) = ~192px
             const CARD_TOTAL_HEIGHT = 192;
-            const totalWidth = GRID_COLS * (IMAGE_WIDTH + GAP) + GAP;
-            const totalHeight = totalRows * (CARD_TOTAL_HEIGHT + GAP) + GAP;
+            const totalWidth = filteredGridSize * (IMAGE_WIDTH + GAP) + GAP;
+            const totalHeight = filteredGridSize * (CARD_TOTAL_HEIGHT + GAP) + GAP;
+            
+            console.log(`Creating ${filteredGridSize}×${filteredGridSize} square grid for ${totalFilteredCards} AI-filtered cards`);
             
             // Set canvas size - use min-height to allow grid to grow with content
             canvas.style.width = `${totalWidth}px`;
             canvas.style.minHeight = `${totalHeight}px`;
             canvas.style.height = 'auto';
             
-            // Desktop: Create grid based on filtered data
+            // Desktop: Create square grid based on filtered data
             let cardIndex = 0;
-            for (let row = 0; row < totalRows && cardIndex < filteredData.length; row++) {
-                for (let col = 0; col < GRID_COLS && cardIndex < filteredData.length; col++) {
+            for (let row = 0; row < filteredGridSize && cardIndex < filteredData.length; row++) {
+                for (let col = 0; col < filteredGridSize && cardIndex < filteredData.length; col++) {
                     const card = filteredData[cardIndex];
                     const imagePath = imagePaths[cardIndex % imagePaths.length];
                     const imageItem = createImageItem(imagePath, card, row, col);
