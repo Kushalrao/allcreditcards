@@ -275,7 +275,7 @@ function startShuffleAnimation() {
             cards.push(card);
             
             // Set initial position and z-index (stacked with 3px offset)
-            card.style.transform = `translateY(${index * 3}px) rotateY(0deg)`;
+            card.style.transform = `translateY(${index * 3}px) rotateX(0deg)`;
             card.style.zIndex = index;
         });
         
@@ -314,9 +314,9 @@ function startShuffleAnimation() {
                 }
             });
             
-            // Lift the back card up by (height + 13px) and flip it in 3D
+            // Lift the back card up by (height + 13px) and rotate to -90deg on X-axis
             const liftDistance = -(158 + 13); // negative to go up
-            backCard.style.transform = `translateY(${liftDistance}px) rotateY(180deg)`;
+            backCard.style.transform = `translateY(${liftDistance}px) rotateX(-90deg)`;
             
             // After the lift animation completes, move it to the front
             setTimeout(() => {
@@ -327,19 +327,9 @@ function startShuffleAnimation() {
                 backCard.style.zIndex = maxZIndex + 1;
                 
                 // Calculate new position (should be at top of stack with 3px offset)
-                // Complete the flip (360deg) to show front face again
+                // Rotate back to 0deg (increase by 90deg from -90deg) while coming down
                 const newPosition = maxZIndex * 3;
-                backCard.style.transform = `translateY(${newPosition}px) rotateY(360deg)`;
-                
-                // Reset rotation to 0 after animation to avoid accumulation
-                setTimeout(() => {
-                    backCard.style.transition = 'none';
-                    backCard.style.transform = `translateY(${newPosition}px) rotateY(0deg)`;
-                    // Re-enable transition after a frame
-                    requestAnimationFrame(() => {
-                        backCard.style.transition = 'transform 0.3s ease-in-out, z-index 0s';
-                    });
-                }, 300);
+                backCard.style.transform = `translateY(${newPosition}px) rotateX(0deg)`;
             }, 150); // Half of the transition time for smooth effect
             
         }, intervalTime);
