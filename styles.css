@@ -216,64 +216,8 @@ body {
     max-width: 257px;
 }
 
-/* Card shuffle loading animation (desktop only) */
-.shuffle-animation-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: #ffffff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 10001;
-    opacity: 1;
-    transition: opacity 0.5s ease-out;
-    perspective: 1500px;
-    transform-style: preserve-3d;
-}
-
-.shuffle-animation-overlay.hidden {
-    opacity: 0;
-    pointer-events: none;
-}
-
-.shuffle-container {
-    position: relative;
-    width: 257px;
-    height: 158px;
-    perspective: 1000px;
-    transform-style: preserve-3d;
-}
-
-.shuffle-card {
-    position: absolute;
-    width: 257px;
-    height: 158px;
-    border-radius: 12px;
-    overflow: visible;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease-in-out, z-index 0s;
-    transform-style: preserve-3d;
-    backface-visibility: visible;
-    transform-origin: center center;
-}
-
-.shuffle-card img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    border-radius: 12px;
-}
-
 /* Mobile specific image styling */
 @media (max-width: 768px) {
-    .shuffle-animation-overlay {
-        display: none !important;
-    }
-    
     .image-item {
         width: 85vw;
         max-width: 85vw;
