@@ -280,8 +280,8 @@ function startShuffleAnimation() {
         });
         
         let animationCount = 0;
-        const totalDuration = 4000; // 4 seconds
-        const intervalTime = 400; // 0.4 seconds
+        const totalDuration = 3000; // 3 seconds
+        const intervalTime = 300; // 0.3 seconds
         const maxAnimations = Math.floor(totalDuration / intervalTime);
         
         // Animation loop
@@ -329,7 +329,7 @@ function startShuffleAnimation() {
                 // Calculate new position (should be at top of stack with 3px offset)
                 const newPosition = maxZIndex * 3;
                 backCard.style.transform = `translateY(${newPosition}px)`;
-            }, 200); // Half of the transition time for smooth effect
+            }, 150); // Half of the transition time for smooth effect
             
         }, intervalTime);
     });
