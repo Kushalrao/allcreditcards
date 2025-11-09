@@ -281,7 +281,7 @@ function startShuffleAnimation() {
         
         let animationCount = 0;
         const totalDuration = 3000; // 3 seconds
-        const intervalTime = 300; // 0.3 seconds
+        const intervalTime = 250; // Start next card at 0.25s (0.05s before previous finishes)
         const maxAnimations = Math.floor(totalDuration / intervalTime);
         
         // Animation loop
