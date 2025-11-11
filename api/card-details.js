@@ -1,31 +1,3 @@
-import { promises as fs } from 'fs';
-import path from 'path';
-
-const CACHE_FILENAME = 'cardDetailsCache.json';
-const CACHE_PATH = path.join(process.cwd(), CACHE_FILENAME);
-
-async function loadCache() {
-  try {
-    const raw = await fs.readFile(CACHE_PATH, 'utf-8');
-    if (!raw) return {};
-    return JSON.parse(raw);
-  } catch (error) {
-    if (error.code === 'ENOENT') {
-      return {};
-    }
-    console.error('[card-details] Failed to read cache:', error);
-    return {};
-  }
-}
-
-async function writeCache(cache) {
-  try {
-    await fs.writeFile(CACHE_PATH, JSON.stringify(cache, null, 2), 'utf-8');
-  } catch (error) {
-    console.error('[card-details] Failed to write cache:', error);
-  }
-}
-
 function getCardKey(card) {
   if (!card) return null;
   const key = card['Card Name'] || card.card_name || card.name || '';
@@ -50,11 +22,30 @@ export default async function handler(req, res) {
     }
 
     const cardKey = getCardKey(card);
-    const cache = await loadCache();
+    if (!process.env.KV_REST_API_URL || !process.env.KV_REST_API_TOKEN) {
+      console.warn('[card-details] KV credentials missing, skipping cache.');
+    }
 
-    if (cardKey && cache[cardKey]?.payload) {
-      console.log(`[card-details] Cache hit for "${cardKey}"`);
-      return res.status(200).json(cache[cardKey].payload);
+    if (cardKey && process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN) {
+      try {
+        const cacheResponse = await fetch(`${process.env.KV_REST_API_URL}/get/${encodeURIComponent(cardKey)}`, {
+          headers: {
+            'Authorization': `Bearer ${process.env.KV_REST_API_TOKEN}`
+          }
+        });
+
+        if (cacheResponse.ok) {
+          const cached = await cacheResponse.json();
+          if (cached?.result?.payload) {
+          console.log(`[card-details] Cache hit for "${cardKey}"`);
+            return res.status(200).json(cached.result.payload);
+          }
+        } else {
+          console.warn(`[card-details] KV get failed (${cacheResponse.status})`);
+        }
+      } catch (cacheError) {
+        console.error('[card-details] Failed to read from KV:', cacheError);
+      }
     }
 
     const trimmedCard = JSON.stringify(card, null, 2);
@@ -229,12 +220,28 @@ Respond with JSON only. Do not wrap in markdown, explanations, or additional tex
         })
       );
 
-      if (cardKey) {
-        cache[cardKey] = {
-          payload: parsed,
-          cachedAt: new Date().toISOString()
-        };
-        await writeCache(cache);
+      if (cardKey && process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN) {
+        try {
+          const setBody = {
+            payload: parsed,
+            cachedAt: new Date().toISOString()
+          };
+
+          const setResponse = await fetch(`${process.env.KV_REST_API_URL}/set/${encodeURIComponent(cardKey)}`, {
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${process.env.KV_REST_API_TOKEN}`,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(setBody)
+          });
+
+          if (!setResponse.ok) {
+            console.warn(`[card-details] KV set failed (${setResponse.status})`);
+          }
+        } catch (cacheWriteError) {
+          console.error('[card-details] Failed to write to KV:', cacheWriteError);
+        }
       }
 
       return res.status(200).json(parsed);
