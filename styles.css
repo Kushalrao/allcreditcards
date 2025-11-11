@@ -526,6 +526,7 @@ body.detail-open {
     pointer-events: none;
     background: transparent !important;
     backdrop-filter: none;
+    display: none;
 }
 
 .search-bar {
