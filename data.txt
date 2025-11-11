@@ -2080,8 +2080,16 @@
     "Key Benefits": "Meesho rewards"
   },
   {
-    "Card Name": "PayTM Credit Card",
-    "Bank/Issuer": "Various",
+    "Card Name": "PayTM HDFC Credit Card",
+    "Bank/Issuer": "HDFC",
+    "Card Type": "Digital Wallet",
+    "Annual Fee (INR)": "Free",
+    "Network": "Visa",
+    "Key Benefits": "PayTM benefits"
+  },
+  {
+    "Card Name": "PayTM SBI Credit Card",
+    "Bank/Issuer": "HDFC",
     "Card Type": "Digital Wallet",
     "Annual Fee (INR)": "Free",
     "Network": "Visa",

@@ -187,6 +187,20 @@ const availableCardImages = [
     'YES Bank Prosperity Edge Credit Card.png'
 ];
 
+// Mobile card detail view state
+let detailOverlay = null;
+let detailCard = null;
+let detailImage = null;
+let detailContent = null;
+let detailCloseButton = null;
+let cardDetailInitialized = false;
+let activeCardDetail = null;
+let cardDetailAbortController = null;
+
+function isMobileViewport() {
+    return window.innerWidth <= 768;
+}
+
 // Function to check if a card has an exact image match
 function hasImageMatch(cardName) {
     if (!cardName) return false;
@@ -603,6 +617,12 @@ function createImageItem(imagePath, card, row, col) {
         cardInfo.appendChild(networkName);
         
         imageItem.appendChild(cardInfo);
+    }
+    
+    if (card && isMobileViewport()) {
+        imageItem.addEventListener('click', () => {
+            showCardDetail(card, imageItem);
+        });
     }
     
     return imageItem;
@@ -1082,6 +1102,682 @@ if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initSearchBar);
 } else {
     initSearchBar();
+}
+
+// ============================================
+// MOBILE CARD DETAIL VIEW
+// ============================================
+
+function initializeCardDetailView() {
+    if (cardDetailInitialized) return;
+    
+    detailOverlay = document.getElementById('cardDetailOverlay');
+    detailCard = document.getElementById('cardDetailCard');
+    detailImage = document.getElementById('cardDetailImage');
+    detailContent = document.getElementById('cardDetailContent');
+    detailCloseButton = document.getElementById('cardDetailClose');
+    
+    if (!detailOverlay || !detailCard || !detailContent) {
+        return;
+    }
+    
+    cardDetailInitialized = true;
+    
+    if (detailCloseButton) {
+        detailCloseButton.addEventListener('click', hideCardDetail);
+    }
+    
+    detailOverlay.addEventListener('click', (event) => {
+        if (event.target === detailOverlay) {
+            hideCardDetail();
+        }
+    });
+    
+    detailCard.addEventListener('transitionend', (event) => {
+        if (event.propertyName !== 'transform') return;
+        if (!activeCardDetail && detailOverlay) {
+            detailOverlay.classList.remove('active');
+            detailCard.style.width = '';
+            detailCard.style.height = '';
+            detailCard.style.transform = '';
+            detailCard.style.borderRadius = '';
+            detailCard.classList.remove('active');
+            detailContent.innerHTML = '';
+            document.body.classList.remove('detail-open');
+            if (detailImage) {
+                detailImage.removeAttribute('src');
+            }
+        }
+    });
+}
+
+function showCardDetail(card, imageItem) {
+    if (!isMobileViewport()) return;
+    initializeCardDetailView();
+    
+    if (!detailOverlay || !detailCard || !detailContent || !detailImage) return;
+    if (activeCardDetail) return; // Prevent multiple openings
+    
+    const imageContainer = imageItem.querySelector('.image-container');
+    if (imageContainer) {
+        imageContainer.style.transform = 'rotateX(0deg)';
+    }
+    
+    const rect = imageItem.getBoundingClientRect();
+    const scrollY = window.scrollY || document.documentElement.scrollTop;
+    const startX = rect.left;
+    const startY = rect.top + scrollY;
+    
+    detailOverlay.classList.add('active');
+    document.body.classList.add('detail-open');
+    
+    detailCard.style.width = `${rect.width}px`;
+    detailCard.style.height = `${rect.height}px`;
+    detailCard.style.transform = `translate(${startX}px, ${startY}px)`;
+    const initialRadius = window.getComputedStyle(imageItem).borderRadius || '12px';
+    detailCard.style.borderRadius = initialRadius;
+    
+    detailImage.alt = card['Card Name'] || 'Selected card';
+    const imagePath = getImagePathForCard(card['Card Name']);
+    if (imagePath) {
+        const pathParts = imagePath.split('/');
+        detailImage.src = pathParts.map(part => encodeURIComponent(part)).join('/');
+    } else {
+        detailImage.removeAttribute('src');
+    }
+    
+    detailContent.innerHTML = renderCardDetailSkeleton();
+    
+    imageItem.classList.add('card-hidden');
+    
+    activeCardDetail = {
+        card,
+        imageItem
+    };
+    
+    requestAnimationFrame(() => {
+        detailCard.style.transform = 'translate(0px, 0px)';
+        detailCard.style.width = '100vw';
+        detailCard.style.height = '100vh';
+        detailCard.style.borderRadius = '0px';
+        detailCard.classList.add('active');
+    });
+    
+    requestCardDetails(card);
+}
+
+function hideCardDetail() {
+    if (!activeCardDetail || !detailCard || !detailOverlay) return;
+    
+    if (cardDetailAbortController) {
+        cardDetailAbortController.abort();
+        cardDetailAbortController = null;
+    }
+    
+    const { imageItem } = activeCardDetail;
+    if (imageItem) {
+        const rect = imageItem.getBoundingClientRect();
+        const scrollY = window.scrollY || document.documentElement.scrollTop;
+        detailCard.classList.remove('active');
+        detailCard.style.transform = `translate(${rect.left}px, ${rect.top + scrollY}px)`;
+        detailCard.style.width = `${rect.width}px`;
+        detailCard.style.height = `${rect.height}px`;
+        const radius = window.getComputedStyle(imageItem).borderRadius || '12px';
+        detailCard.style.borderRadius = radius;
+        
+        setTimeout(() => {
+            imageItem.classList.remove('card-hidden');
+            activeCardDetail = null;
+        }, 260);
+    } else {
+        detailCard.classList.remove('active');
+        detailOverlay.classList.remove('active');
+        detailContent.innerHTML = '';
+        document.body.classList.remove('detail-open');
+        activeCardDetail = null;
+    }
+}
+
+function requestCardDetails(card) {
+    if (!card) return;
+    
+    if (cardDetailAbortController) {
+        cardDetailAbortController.abort();
+    }
+    cardDetailAbortController = new AbortController();
+    
+    fetchCardDetails(card, cardDetailAbortController.signal)
+        .then((data) => {
+            if (!activeCardDetail) return;
+            cardDetailAbortController = null;
+            renderCardDetailContent(data);
+        })
+        .catch((error) => {
+            if (error.name === 'AbortError') return;
+            cardDetailAbortController = null;
+            renderCardDetailError(error);
+        });
+}
+
+function fetchCardDetails(card, signal) {
+    return fetch('/api/card-details', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ card }),
+        signal
+    }).then(async (response) => {
+        if (!response.ok) {
+            let errorDetails = '';
+            try {
+                const err = await response.json();
+                errorDetails = err.error || response.statusText;
+            } catch (parseError) {
+                errorDetails = response.statusText;
+            }
+            throw new Error(errorDetails || 'Failed to fetch card details');
+        }
+        
+        const text = await response.text();
+        try {
+            return JSON.parse(text);
+        } catch (parseError) {
+            console.error('Failed to parse AI response:', text);
+            throw new Error('Unable to parse AI response');
+        }
+    });
+}
+
+function renderCardDetailSkeleton() {
+    return `
+        <div class="card-detail-skeleton">
+            <div class="card-detail-skeleton-block medium"></div>
+            <div class="card-detail-skeleton-block short"></div>
+            <div class="card-detail-skeleton-block full"></div>
+            <div class="card-detail-skeleton-block medium"></div>
+            <div class="card-detail-skeleton-block full"></div>
+            <div class="card-detail-skeleton-block medium"></div>
+        </div>
+    `;
+}
+
+function renderCardDetailError(error) {
+    if (!detailContent) return;
+    const message = typeof error === 'string' ? error : (error.message || 'Unable to load card details');
+    detailContent.innerHTML = `
+        <div class="card-detail-error">
+            <p>${message}</p>
+            <button type="button" class="card-detail-retry" id="cardDetailRetryButton">Retry</button>
+        </div>
+    `;
+    
+    const retryButton = document.getElementById('cardDetailRetryButton');
+    if (retryButton && activeCardDetail) {
+        retryButton.addEventListener('click', () => {
+            detailContent.innerHTML = renderCardDetailSkeleton();
+            requestCardDetails(activeCardDetail.card);
+        }, { once: true });
+    }
+}
+
+function renderCardDetailContent(data) {
+    if (!detailContent) return;
+    
+    if (!data || typeof data !== 'object') {
+        detailContent.innerHTML = `
+            <div class="card-detail-error">
+                <p>We couldn't find detailed information for this card.</p>
+            </div>
+        `;
+        return;
+    }
+    
+    const sections = [];
+    
+    const overviewSection = renderOverviewSection(data);
+    if (overviewSection) sections.push(overviewSection);
+    
+    const summarySection = renderSummarySection(data.summary);
+    if (summarySection) sections.push(summarySection);
+    
+    const feesSection = renderFeesSection(data.fees_charges);
+    if (feesSection) sections.push(feesSection);
+    
+    const rewardsSection = renderRewardsSection(data.reward_structure);
+    if (rewardsSection) sections.push(rewardsSection);
+    
+    const welcomeSection = renderWelcomeSection(data.welcome_and_milestone_benefits);
+    if (welcomeSection) sections.push(welcomeSection);
+    
+    const travelSection = renderTravelSection(data.travel_and_lounge);
+    if (travelSection) sections.push(travelSection);
+    
+    const insuranceSection = renderInsuranceSection(data.insurance_and_protection);
+    if (insuranceSection) sections.push(insuranceSection);
+    
+    const lifestyleSection = renderLifestyleSection(data.lifestyle_and_partner_offers);
+    if (lifestyleSection) sections.push(lifestyleSection);
+    
+    const addOnSection = renderAddOnSection(data.add_on_features);
+    if (addOnSection) sections.push(addOnSection);
+    
+    const promoSection = renderPromotionSection(data.promotions_and_limited_offers);
+    if (promoSection) sections.push(promoSection);
+    
+    if (sections.length === 0) {
+        detailContent.innerHTML = `
+            <div class="card-detail-error">
+                <p>Detailed information for this card is not available right now.</p>
+            </div>
+        `;
+        return;
+    }
+    
+    detailContent.innerHTML = sections.join('<div class="card-detail-list-divider"></div>');
+}
+
+function renderOverviewSection(data) {
+    const entries = [
+        { label: 'Card Name', value: data.card_name },
+        { label: 'Issuer', value: data.issuer },
+        { label: 'Network', value: data.network },
+        { label: 'Variant', value: data.variant }
+    ].filter(entry => entry.value);
+    
+    if (!entries.length) return '';
+    
+    return `
+        <section class="card-detail-section">
+            <h3>Overview</h3>
+            <div class="card-detail-key-value">
+                ${entries.map(entry => `
+                    <div class="card-detail-key">${entry.label}</div>
+                    <div class="card-detail-value">${entry.value}</div>
+                `).join('')}
+            </div>
+        </section>
+    `;
+}
+
+function renderSummarySection(summary) {
+    if (!summary) return '';
+    const { positioning, ideal_user_profiles } = summary;
+    const badges = Array.isArray(ideal_user_profiles) ? ideal_user_profiles.filter(Boolean) : [];
+    
+    if (!positioning && !badges.length) return '';
+    
+    return `
+        <section class="card-detail-section">
+            <h3>Summary</h3>
+            ${positioning ? `<p>${positioning}</p>` : ''}
+            ${badges.length ? `
+                <div class="card-detail-badge-list">
+                    ${badges.map(profile => `<span class="card-detail-badge">${profile}</span>`).join('')}
+                </div>
+            ` : ''}
+        </section>
+    `;
+}
+
+function renderFeesSection(fees) {
+    if (!fees) return '';
+    
+    const feeEntries = [
+        { label: 'Joining Fee', value: fees.joining_fee },
+        { label: 'Annual Fee', value: fees.annual_fee },
+        { label: 'Renewal Waiver', value: fees.renewal_waiver_condition },
+        { label: 'Add-on Card Fee', value: fees.add_on_card_fee },
+        { label: 'Finance Charges (APR)', value: fees.finance_charges_apr },
+        { label: 'Cash Advance Fee', value: fees.cash_advance_fee },
+        { label: 'Forex Markup', value: fees.forex_markup_fee },
+        { label: 'Overlimit Fee', value: fees.overlimit_fee },
+        { label: 'EMI Processing Fee', value: fees.emi_processing_fee },
+        { label: 'Fuel Surcharge', value: fees.fuel_surcharge }
+    ].filter(entry => entry.value);
+    
+    const otherCharges = Array.isArray(fees.other_charges) ? fees.other_charges.filter(Boolean) : [];
+    const lateFees = Array.isArray(fees.late_payment_fee) ? fees.late_payment_fee.filter(fee => fee.slab && fee.fee) : [];
+    
+    if (!feeEntries.length && !otherCharges.length && !lateFees.length) return '';
+    
+    return `
+        <section class="card-detail-section">
+            <h3>Fees & Charges</h3>
+            ${feeEntries.length ? `
+                <div class="card-detail-key-value">
+                    ${feeEntries.map(entry => `
+                        <div class="card-detail-key">${entry.label}</div>
+                        <div class="card-detail-value">${entry.value}</div>
+                    `).join('')}
+                </div>
+            ` : ''}
+            ${lateFees.length ? `
+                <div>
+                    <span class="card-detail-key">Late Payment Fee</span>
+                    <ul>
+                        ${lateFees.map(item => `<li><strong>${item.slab}:</strong> ${item.fee}</li>`).join('')}
+                    </ul>
+                </div>
+            ` : ''}
+            ${otherCharges.length ? `
+                <div>
+                    <span class="card-detail-key">Other Charges</span>
+                    <ul>
+                        ${otherCharges.map(item => `<li>${item}</li>`).join('')}
+                    </ul>
+                </div>
+            ` : ''}
+        </section>
+    `;
+}
+
+function renderRewardsSection(rewards) {
+    if (!rewards) return '';
+    
+    const entries = [];
+    if (rewards.reward_currency) {
+        entries.push({ label: 'Reward Currency', value: rewards.reward_currency });
+    }
+    if (rewards.base_earn_rate) {
+        entries.push({ label: 'Base Earn Rate', value: rewards.base_earn_rate });
+    }
+    
+    const multipliers = Array.isArray(rewards.category_multipliers) ? rewards.category_multipliers.filter(item => item.category && item.earn_rate) : [];
+    const redemption = rewards.reward_redemption || {};
+    
+    if (!entries.length && !multipliers.length && !Object.values(redemption).some(Boolean)) return '';
+    
+    return `
+        <section class="card-detail-section">
+            <h3>Reward Structure</h3>
+            ${entries.length ? `
+                <div class="card-detail-key-value">
+                    ${entries.map(entry => `
+                        <div class="card-detail-key">${entry.label}</div>
+                        <div class="card-detail-value">${entry.value}</div>
+                    `).join('')}
+                </div>
+            ` : ''}
+            ${multipliers.length ? `
+                <div>
+                    <span class="card-detail-key">Category Multipliers</span>
+                    <ul>
+                        ${multipliers.map(item => `
+                            <li>
+                                <strong>${item.category}:</strong> ${item.earn_rate}
+                                ${item.monthly_cap ? ` • Cap: ${item.monthly_cap}` : ''}
+                                ${item.exclusions ? ` • Exclusions: ${item.exclusions}` : ''}
+                            </li>
+                        `).join('')}
+                    </ul>
+                </div>
+            ` : ''}
+            ${(redemption.catalog_value || redemption.air_miles_transfer || redemption.statement_credit || redemption.expiry_policy) ? `
+                <div>
+                    <span class="card-detail-key">Redemption</span>
+                    <ul>
+                        ${redemption.catalog_value ? `<li>Catalog: ${redemption.catalog_value}</li>` : ''}
+                        ${redemption.air_miles_transfer ? `<li>Air Miles: ${redemption.air_miles_transfer}</li>` : ''}
+                        ${redemption.statement_credit ? `<li>Statement Credit: ${redemption.statement_credit}</li>` : ''}
+                        ${redemption.expiry_policy ? `<li>Expiry: ${redemption.expiry_policy}</li>` : ''}
+                    </ul>
+                </div>
+            ` : ''}
+        </section>
+    `;
+}
+
+function renderWelcomeSection(benefits) {
+    if (!benefits) return '';
+    
+    const welcome = benefits.welcome_benefit || {};
+    const milestones = Array.isArray(benefits.milestone_benefits) ? benefits.milestone_benefits.filter(item => item.spend_threshold && item.reward) : [];
+    const renewal = benefits.renewal_benefit;
+    const spendWaiver = benefits.spend_based_fee_waiver;
+    
+    if (!welcome.description && !milestones.length && !renewal && !spendWaiver) return '';
+    
+    return `
+        <section class="card-detail-section">
+            <h3>Welcome & Milestone</h3>
+            ${welcome.description ? `
+                <div>
+                    <span class="card-detail-key">Welcome</span>
+                    <div class="card-detail-value">
+                        <div>${welcome.description}</div>
+                        ${welcome.fulfilment_timeline ? `<div><strong>Fulfilment:</strong> ${welcome.fulfilment_timeline}</div>` : ''}
+                        ${welcome.eligibility_condition ? `<div><strong>Condition:</strong> ${welcome.eligibility_condition}</div>` : ''}
+                    </div>
+                </div>
+            ` : ''}
+            ${renewal ? `
+                <div>
+                    <span class="card-detail-key">Renewal Benefit</span>
+                    <div class="card-detail-value">${renewal}</div>
+                </div>
+            ` : ''}
+            ${spendWaiver ? `
+                <div>
+                    <span class="card-detail-key">Spend-based Waiver</span>
+                    <div class="card-detail-value">${spendWaiver}</div>
+                </div>
+            ` : ''}
+            ${milestones.length ? `
+                <div>
+                    <span class="card-detail-key">Milestones</span>
+                    <ul>
+                        ${milestones.map(item => `
+                            <li>
+                                <strong>${item.spend_threshold}:</strong> ${item.reward}
+                                ${item.notes ? ` • ${item.notes}` : ''}
+                            </li>
+                        `).join('')}
+                    </ul>
+                </div>
+            ` : ''}
+        </section>
+    `;
+}
+
+function renderTravelSection(travel) {
+    if (!travel) return '';
+    
+    const domestic = travel.domestic_lounge_access || {};
+    const international = travel.international_lounge_access || {};
+    const extras = Array.isArray(travel.additional_travel_benefits) ? travel.additional_travel_benefits.filter(Boolean) : [];
+    
+    if (
+        !domestic.visits_per_year &&
+        !international.free_visits &&
+        !extras.length
+    ) {
+        return '';
+    }
+    
+    return `
+        <section class="card-detail-section">
+            <h3>Travel & Lounge</h3>
+            ${(domestic.visits_per_year || domestic.program) ? `
+                <div>
+                    <span class="card-detail-key">Domestic Lounge</span>
+                    <div class="card-detail-value">
+                        ${domestic.visits_per_year ? `<div>Visits: ${domestic.visits_per_year}</div>` : ''}
+                        ${domestic.program ? `<div>Program: ${domestic.program}</div>` : ''}
+                        ${domestic.guest_policy ? `<div>Guests: ${domestic.guest_policy}</div>` : ''}
+                    </div>
+                </div>
+            ` : ''}
+            ${(international.free_visits || international.program) ? `
+                <div>
+                    <span class="card-detail-key">International Lounge</span>
+                    <div class="card-detail-value">
+                        ${international.free_visits ? `<div>Visits: ${international.free_visits}</div>` : ''}
+                        ${international.program ? `<div>Program: ${international.program}</div>` : ''}
+                        ${international.guest_policy ? `<div>Guests: ${international.guest_policy}</div>` : ''}
+                    </div>
+                </div>
+            ` : ''}
+            ${extras.length ? `
+                <div>
+                    <span class="card-detail-key">Additional Travel</span>
+                    <ul>
+                        ${extras.map(item => `<li>${item}</li>`).join('')}
+                    </ul>
+                </div>
+            ` : ''}
+        </section>
+    `;
+}
+
+function renderInsuranceSection(insurance) {
+    if (!insurance) return '';
+    
+    const travelInsurance = Array.isArray(insurance.travel_insurance) ? insurance.travel_insurance.filter(item => item.cover_type && item.coverage_amount) : [];
+    const purchaseProtection = insurance.purchase_protection;
+    const lostCardLiability = insurance.lost_card_liability;
+    const fuelWaiver = insurance.fuel_surcharge_waiver;
+    
+    if (!travelInsurance.length && !purchaseProtection && !lostCardLiability && !fuelWaiver) return '';
+    
+    return `
+        <section class="card-detail-section">
+            <h3>Insurance & Protection</h3>
+            ${travelInsurance.length ? `
+                <div>
+                    <span class="card-detail-key">Travel Insurance</span>
+                    <ul>
+                        ${travelInsurance.map(item => `
+                            <li>
+                                <strong>${item.cover_type}:</strong> ${item.coverage_amount}
+                                ${item.conditions ? ` • ${item.conditions}` : ''}
+                            </li>
+                        `).join('')}
+                    </ul>
+                </div>
+            ` : ''}
+            ${purchaseProtection ? `
+                <div>
+                    <span class="card-detail-key">Purchase Protection</span>
+                    <div class="card-detail-value">${purchaseProtection}</div>
+                </div>
+            ` : ''}
+            ${lostCardLiability ? `
+                <div>
+                    <span class="card-detail-key">Lost Card Liability</span>
+                    <div class="card-detail-value">${lostCardLiability}</div>
+                </div>
+            ` : ''}
+            ${fuelWaiver ? `
+                <div>
+                    <span class="card-detail-key">Fuel Surcharge Waiver</span>
+                    <div class="card-detail-value">${fuelWaiver}</div>
+                </div>
+            ` : ''}
+        </section>
+    `;
+}
+
+function renderLifestyleSection(lifestyle) {
+    if (!lifestyle) return '';
+    
+    const dining = Array.isArray(lifestyle.dining_programs) ? lifestyle.dining_programs.filter(Boolean) : [];
+    const entertainment = Array.isArray(lifestyle.entertainment) ? lifestyle.entertainment.filter(Boolean) : [];
+    const shopping = Array.isArray(lifestyle.shopping_partners) ? lifestyle.shopping_partners.filter(Boolean) : [];
+    const fuelPartners = Array.isArray(lifestyle.fuel_partnerships) ? lifestyle.fuel_partnerships.filter(Boolean) : [];
+    const otherOffers = Array.isArray(lifestyle.other_weekly_monthly_offers) ? lifestyle.other_weekly_monthly_offers.filter(Boolean) : [];
+    
+    if (!dining.length && !entertainment.length && !shopping.length && !fuelPartners.length && !otherOffers.length) return '';
+    
+    return `
+        <section class="card-detail-section">
+            <h3>Lifestyle & Partners</h3>
+            ${dining.length ? `
+                <div>
+                    <span class="card-detail-key">Dining</span>
+                    <ul>${dining.map(item => `<li>${item}</li>`).join('')}</ul>
+                </div>
+            ` : ''}
+            ${entertainment.length ? `
+                <div>
+                    <span class="card-detail-key">Entertainment</span>
+                    <ul>${entertainment.map(item => `<li>${item}</li>`).join('')}</ul>
+                </div>
+            ` : ''}
+            ${shopping.length ? `
+                <div>
+                    <span class="card-detail-key">Shopping</span>
+                    <ul>${shopping.map(item => `<li>${item}</li>`).join('')}</ul>
+                </div>
+            ` : ''}
+            ${fuelPartners.length ? `
+                <div>
+                    <span class="card-detail-key">Fuel Partners</span>
+                    <ul>${fuelPartners.map(item => `<li>${item}</li>`).join('')}</ul>
+                </div>
+            ` : ''}
+            ${otherOffers.length ? `
+                <div>
+                    <span class="card-detail-key">Other Offers</span>
+                    <ul>${otherOffers.map(item => `<li>${item}</li>`).join('')}</ul>
+                </div>
+            ` : ''}
+        </section>
+    `;
+}
+
+function renderAddOnSection(addOns) {
+    if (!addOns) return '';
+    
+    const entries = [
+        { label: 'Contactless', value: addOns.contactless },
+        { label: 'Add-on Cards', value: addOns.add_on_cards },
+        { label: 'App Features', value: Array.isArray(addOns.mobile_app_features) ? addOns.mobile_app_features.filter(Boolean).join(', ') : addOns.mobile_app_features },
+        { label: 'Forex Markets', value: Array.isArray(addOns.forex_markets) ? addOns.forex_markets.filter(Boolean).join(', ') : addOns.forex_markets }
+    ].filter(entry => entry.value);
+    
+    if (!entries.length) return '';
+    
+    return `
+        <section class="card-detail-section">
+            <h3>Add-on Features</h3>
+            <div class="card-detail-key-value">
+                ${entries.map(entry => `
+                    <div class="card-detail-key">${entry.label}</div>
+                    <div class="card-detail-value">${entry.value}</div>
+                `).join('')}
+            </div>
+        </section>
+    `;
+}
+
+function renderPromotionSection(promotions) {
+    if (!Array.isArray(promotions) || promotions.length === 0) return '';
+    
+    const items = promotions
+        .filter(item => item.offer_name || item.offer_details)
+        .map(item => `
+            <li>
+                ${item.offer_name ? `<strong>${item.offer_name}</strong>` : ''}
+                ${item.valid_till ? ` • Valid till ${item.valid_till}` : ''}
+                ${item.offer_details ? `<div>${item.offer_details}</div>` : ''}
+            </li>
+        `).join('');
+    
+    if (!items) return '';
+    
+    return `
+        <section class="card-detail-section">
+            <h3>Promotions</h3>
+            <ul>${items}</ul>
+        </section>
+    `;
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeCardDetailView);
+} else {
+    initializeCardDetailView();
 }
 
 // ============================================
