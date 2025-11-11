@@ -343,10 +343,11 @@ body.detail-open {
 }
 
 .card-detail-section h3 {
-    font-size: 18px;
+    font-size: 21px;
     font-weight: 600;
     margin: 0;
     color: #ffffff;
+    font-family: 'Syne', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 .card-detail-section p,
