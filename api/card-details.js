@@ -1,3 +1,37 @@
+import { promises as fs } from 'fs';
+import path from 'path';
+
+const CACHE_FILENAME = 'cardDetailsCache.json';
+const CACHE_PATH = path.join(process.cwd(), CACHE_FILENAME);
+
+async function loadCache() {
+  try {
+    const raw = await fs.readFile(CACHE_PATH, 'utf-8');
+    if (!raw) return {};
+    return JSON.parse(raw);
+  } catch (error) {
+    if (error.code === 'ENOENT') {
+      return {};
+    }
+    console.error('[card-details] Failed to read cache:', error);
+    return {};
+  }
+}
+
+async function writeCache(cache) {
+  try {
+    await fs.writeFile(CACHE_PATH, JSON.stringify(cache, null, 2), 'utf-8');
+  } catch (error) {
+    console.error('[card-details] Failed to write cache:', error);
+  }
+}
+
+function getCardKey(card) {
+  if (!card) return null;
+  const key = card['Card Name'] || card.card_name || card.name || '';
+  return key ? key.trim() : null;
+}
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
@@ -13,6 +47,14 @@ export default async function handler(req, res) {
     const apiKey = process.env.OPENAI_API_KEY;
     if (!apiKey) {
       return res.status(500).json({ error: 'OpenAI API key not configured' });
+    }
+
+    const cardKey = getCardKey(card);
+    const cache = await loadCache();
+
+    if (cardKey && cache[cardKey]?.payload) {
+      console.log(`[card-details] Cache hit for "${cardKey}"`);
+      return res.status(200).json(cache[cardKey].payload);
     }
 
     const trimmedCard = JSON.stringify(card, null, 2);
@@ -186,6 +228,14 @@ Respond with JSON only. Do not wrap in markdown, explanations, or additional tex
           payload: parsed
         })
       );
+
+      if (cardKey) {
+        cache[cardKey] = {
+          payload: parsed,
+          cachedAt: new Date().toISOString()
+        };
+        await writeCache(cache);
+      }
 
       return res.status(200).json(parsed);
     } catch (parseError) {
