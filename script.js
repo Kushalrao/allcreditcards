@@ -771,7 +771,11 @@ function filterGridByAI(recommendedCardNames, query) {
             
             for (let i = 0; i < filteredData.length; i++) {
                 const card = filteredData[i];
-                const imagePath = imagePaths[i % imagePaths.length];
+                const imagePath = getImagePathForCard(card['Card Name']);
+                if (!imagePath) {
+                    console.warn(`No image found for filtered card "${card['Card Name']}", skipping.`);
+                    continue;
+                }
                 const imageItem = createImageItem(imagePath, card, 0, i);
                 imageItem.dataset.cardIndex = i;
                 imageItem.classList.remove('visible');
@@ -811,7 +815,12 @@ function filterGridByAI(recommendedCardNames, query) {
             for (let row = 0; row < filteredGridSize && cardIndex < filteredData.length; row++) {
                 for (let col = 0; col < filteredGridSize && cardIndex < filteredData.length; col++) {
                     const card = filteredData[cardIndex];
-                    const imagePath = imagePaths[cardIndex % imagePaths.length];
+                    const imagePath = getImagePathForCard(card['Card Name']);
+                    if (!imagePath) {
+                        console.warn(`No image found for filtered card "${card['Card Name']}", skipping.`);
+                        cardIndex++;
+                        continue;
+                    }
                     const imageItem = createImageItem(imagePath, card, row, col);
                     imageItem.classList.remove('visible');
                     imageItem.style.opacity = '0';
@@ -904,7 +913,11 @@ function applyFilter(filterType, filterValue) {
             // Mobile: Create vertical stack based on filtered data
             for (let i = 0; i < filteredData.length; i++) {
                 const card = filteredData[i];
-                const imagePath = imagePaths[i % imagePaths.length];
+                const imagePath = getImagePathForCard(card['Card Name']);
+                if (!imagePath) {
+                    console.warn(`No image found for filtered card "${card['Card Name']}", skipping.`);
+                    continue;
+                }
                 const imageItem = createImageItem(imagePath, card, 0, i);
                 imageItem.dataset.cardIndex = i;
                 // Remove initial fadeIn animation, start with opacity 0
@@ -951,7 +964,12 @@ function applyFilter(filterType, filterValue) {
             for (let row = 0; row < filteredGridSize && cardIndex < filteredData.length; row++) {
                 for (let col = 0; col < filteredGridSize && cardIndex < filteredData.length; col++) {
                     const card = filteredData[cardIndex];
-                    const imagePath = imagePaths[cardIndex % imagePaths.length];
+                    const imagePath = getImagePathForCard(card['Card Name']);
+                    if (!imagePath) {
+                        console.warn(`No image found for filtered card "${card['Card Name']}", skipping.`);
+                        cardIndex++;
+                        continue;
+                    }
                     const imageItem = createImageItem(imagePath, card, row, col);
                     // Remove initial fadeIn animation, start with opacity 0
                     imageItem.classList.remove('visible');
