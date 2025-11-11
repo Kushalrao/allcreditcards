@@ -178,6 +178,15 @@ Respond with JSON only. Do not wrap in markdown, explanations, or additional tex
 
     try {
       const parsed = JSON.parse(content);
+
+      console.log(
+        '[card-details] OpenAI response',
+        JSON.stringify({
+          cardName: parsed.card_name || card?.['Card Name'] || card?.name || 'Unknown card',
+          payload: parsed
+        })
+      );
+
       return res.status(200).json(parsed);
     } catch (parseError) {
       console.error('Failed to parse OpenAI JSON:', content);
