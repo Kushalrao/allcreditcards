@@ -1333,39 +1333,251 @@ function renderCardDetailContent(data) {
         return;
     }
     
-    const sections = [];
+    const entries = [];
     
-    const overviewSection = renderOverviewSection(data);
-    if (overviewSection) sections.push(overviewSection);
+    const addEntry = (label, value, options = {}) => {
+        if (!label) return;
+        if (value === null || value === undefined) return;
+        
+        let content = value;
+        if (typeof content === 'string') {
+            content = content.trim();
+        }
+        
+        if ((typeof content === 'string' && content.length === 0) ||
+            (Array.isArray(content) && content.length === 0)) {
+            return;
+        }
+        
+        const sanitizedLabel = escapeHtml(label);
+        const useHtml = options.allowHtml === true;
+        const sanitizedValue = useHtml ? content : escapeHtml(String(content));
+        
+        entries.push({ label: sanitizedLabel, value: sanitizedValue });
+    };
     
-    const summarySection = renderSummarySection(data.summary);
-    if (summarySection) sections.push(summarySection);
+    const summary = data.summary || {};
+    const summaryTags = Array.isArray(summary.ideal_user_profiles)
+        ? summary.ideal_user_profiles.filter(Boolean).map(tag => `<span class="card-detail-badge">${escapeHtml(tag)}</span>`)
+        : [];
+    const summaryParts = [];
+    if (summary.positioning) {
+        summaryParts.push(`<div>${escapeHtml(summary.positioning)}</div>`);
+    }
+    if (summaryTags.length) {
+        summaryParts.push(`<div class="card-detail-badge-list">${summaryTags.join('')}</div>`);
+    }
+    if (summaryParts.length) {
+        addEntry('Summary', summaryParts.join(''), { allowHtml: true });
+    }
     
-    const feesSection = renderFeesSection(data.fees_charges);
-    if (feesSection) sections.push(feesSection);
+    addEntry('Issuer', data.issuer);
+    addEntry('Network', data.network);
+    addEntry('Variant', data.variant);
     
-    const rewardsSection = renderRewardsSection(data.reward_structure);
-    if (rewardsSection) sections.push(rewardsSection);
+    const fees = data.fees_charges || {};
+    addEntry('Joining Fee', fees.joining_fee);
+    addEntry('Annual Fee', fees.annual_fee);
+    addEntry('Renewal Waiver', fees.renewal_waiver_condition);
+    addEntry('Add-on Card Fee', fees.add_on_card_fee);
+    addEntry('Finance Charges (APR)', fees.finance_charges_apr);
+    addEntry('Cash Advance Fee', fees.cash_advance_fee);
+    addEntry('Forex Markup', fees.forex_markup_fee);
+    addEntry('Overlimit Fee', fees.overlimit_fee);
+    addEntry('EMI Processing Fee', fees.emi_processing_fee);
+    addEntry('Fuel Surcharge', fees.fuel_surcharge);
     
-    const welcomeSection = renderWelcomeSection(data.welcome_and_milestone_benefits);
-    if (welcomeSection) sections.push(welcomeSection);
+    const lateFees = Array.isArray(fees.late_payment_fee)
+        ? fees.late_payment_fee.filter(item => item && item.slab && item.fee)
+        : [];
+    if (lateFees.length) {
+        const html = `
+            <ul>
+                ${lateFees.map(item => `
+                    <li><strong>${escapeHtml(item.slab)}:</strong> ${escapeHtml(item.fee)}</li>
+                `).join('')}
+            </ul>
+        `;
+        addEntry('Late Payment Fee', html, { allowHtml: true });
+    }
     
-    const travelSection = renderTravelSection(data.travel_and_lounge);
-    if (travelSection) sections.push(travelSection);
+    const otherCharges = Array.isArray(fees.other_charges) ? fees.other_charges.filter(Boolean) : [];
+    if (otherCharges.length) {
+        addEntry('Other Charges', formatBulletList(otherCharges), { allowHtml: true });
+    }
     
-    const insuranceSection = renderInsuranceSection(data.insurance_and_protection);
-    if (insuranceSection) sections.push(insuranceSection);
+    const rewards = data.reward_structure || {};
+    addEntry('Reward Currency', rewards.reward_currency);
+    addEntry('Base Earn Rate', rewards.base_earn_rate);
     
-    const lifestyleSection = renderLifestyleSection(data.lifestyle_and_partner_offers);
-    if (lifestyleSection) sections.push(lifestyleSection);
+    const multipliers = Array.isArray(rewards.category_multipliers)
+        ? rewards.category_multipliers.filter(item => item && item.category && item.earn_rate)
+        : [];
+    if (multipliers.length) {
+        const html = `
+            <ul>
+                ${multipliers.map(item => {
+                    const parts = [
+                        `<strong>${escapeHtml(item.category)}:</strong> ${escapeHtml(item.earn_rate)}`
+                    ];
+                    if (item.monthly_cap) {
+                        parts.push(`Cap: ${escapeHtml(item.monthly_cap)}`);
+                    }
+                    if (item.exclusions) {
+                        parts.push(`Exclusions: ${escapeHtml(item.exclusions)}`);
+                    }
+                    return `<li>${parts.join(' • ')}</li>`;
+                }).join('')}
+            </ul>
+        `;
+        addEntry('Category Multipliers', html, { allowHtml: true });
+    }
     
-    const addOnSection = renderAddOnSection(data.add_on_features);
-    if (addOnSection) sections.push(addOnSection);
+    const redemption = rewards.reward_redemption || {};
+    const redemptionItems = [
+        redemption.catalog_value ? `Catalog: ${escapeHtml(redemption.catalog_value)}` : null,
+        redemption.air_miles_transfer ? `Air Miles: ${escapeHtml(redemption.air_miles_transfer)}` : null,
+        redemption.statement_credit ? `Statement Credit: ${escapeHtml(redemption.statement_credit)}` : null,
+        redemption.expiry_policy ? `Expiry: ${escapeHtml(redemption.expiry_policy)}` : null
+    ].filter(Boolean);
+    if (redemptionItems.length) {
+        addEntry('Reward Redemption', formatBulletList(redemptionItems), { allowHtml: true });
+    }
     
-    const promoSection = renderPromotionSection(data.promotions_and_limited_offers);
-    if (promoSection) sections.push(promoSection);
+    const welcomeData = data.welcome_and_milestone_benefits || {};
+    const welcome = welcomeData.welcome_benefit || {};
+    if (welcome.description || welcome.fulfilment_timeline || welcome.eligibility_condition) {
+        const parts = [];
+        if (welcome.description) {
+            parts.push(`<div>${escapeHtml(welcome.description)}</div>`);
+        }
+        if (welcome.fulfilment_timeline) {
+            parts.push(`<div><strong>Fulfilment:</strong> ${escapeHtml(welcome.fulfilment_timeline)}</div>`);
+        }
+        if (welcome.eligibility_condition) {
+            parts.push(`<div><strong>Condition:</strong> ${escapeHtml(welcome.eligibility_condition)}</div>`);
+        }
+        addEntry('Welcome Benefit', parts.join(''), { allowHtml: true });
+    }
+    if (welcomeData.renewal_benefit) {
+        addEntry('Renewal Benefit', welcomeData.renewal_benefit);
+    }
+    if (welcomeData.spend_based_fee_waiver) {
+        addEntry('Spend-based Waiver', welcomeData.spend_based_fee_waiver);
+    }
+    const milestones = Array.isArray(welcomeData.milestone_benefits)
+        ? welcomeData.milestone_benefits.filter(item => item && item.spend_threshold && item.reward)
+        : [];
+    if (milestones.length) {
+        const html = `
+            <ul>
+                ${milestones.map(item => {
+                    const parts = [`<strong>${escapeHtml(item.spend_threshold)}:</strong> ${escapeHtml(item.reward)}`];
+                    if (item.notes) {
+                        parts.push(escapeHtml(item.notes));
+                    }
+                    return `<li>${parts.join(' • ')}</li>`;
+                }).join('')}
+            </ul>
+        `;
+        addEntry('Milestone Benefits', html, { allowHtml: true });
+    }
     
-    if (sections.length === 0) {
+    const travel = data.travel_and_lounge || {};
+    const domestic = travel.domestic_lounge_access || {};
+    const international = travel.international_lounge_access || {};
+    
+    const domesticParts = [];
+    if (domestic.visits_per_year) domesticParts.push(`Visits: ${escapeHtml(domestic.visits_per_year)}`);
+    if (domestic.program) domesticParts.push(`Program: ${escapeHtml(domestic.program)}`);
+    if (domestic.guest_policy) domesticParts.push(`Guests: ${escapeHtml(domestic.guest_policy)}`);
+    if (domesticParts.length) {
+        addEntry('Domestic Lounge Access', domesticParts.join(' • '), { allowHtml: true });
+    }
+    
+    const internationalParts = [];
+    if (international.free_visits) internationalParts.push(`Visits: ${escapeHtml(international.free_visits)}`);
+    if (international.program) internationalParts.push(`Program: ${escapeHtml(international.program)}`);
+    if (international.guest_policy) internationalParts.push(`Guests: ${escapeHtml(international.guest_policy)}`);
+    if (internationalParts.length) {
+        addEntry('International Lounge Access', internationalParts.join(' • '), { allowHtml: true });
+    }
+    
+    const travelExtras = Array.isArray(travel.additional_travel_benefits)
+        ? travel.additional_travel_benefits.filter(Boolean)
+        : [];
+    if (travelExtras.length) {
+        addEntry('Travel Benefits', formatBulletList(travelExtras), { allowHtml: true });
+    }
+    
+    const insurance = data.insurance_and_protection || {};
+    const travelInsurance = Array.isArray(insurance.travel_insurance)
+        ? insurance.travel_insurance.filter(item => item && item.cover_type && item.coverage_amount)
+        : [];
+    if (travelInsurance.length) {
+        const html = `
+            <ul>
+                ${travelInsurance.map(item => {
+                    const parts = [`<strong>${escapeHtml(item.cover_type)}:</strong> ${escapeHtml(item.coverage_amount)}`];
+                    if (item.conditions) {
+                        parts.push(escapeHtml(item.conditions));
+                    }
+                    return `<li>${parts.join(' • ')}</li>`;
+                }).join('')}
+            </ul>
+        `;
+        addEntry('Travel Insurance', html, { allowHtml: true });
+    }
+    addEntry('Purchase Protection', insurance.purchase_protection);
+    addEntry('Lost Card Liability', insurance.lost_card_liability);
+    addEntry('Fuel Surcharge Waiver', insurance.fuel_surcharge_waiver);
+    
+    const lifestyle = data.lifestyle_and_partner_offers || {};
+    const addLifestyleEntry = (label, values) => {
+        if (!Array.isArray(values)) return;
+        const filtered = values.filter(Boolean);
+        if (!filtered.length) return;
+        addEntry(label, formatBulletList(filtered), { allowHtml: true });
+    };
+    addLifestyleEntry('Dining Programs', lifestyle.dining_programs);
+    addLifestyleEntry('Entertainment', lifestyle.entertainment);
+    addLifestyleEntry('Shopping Partners', lifestyle.shopping_partners);
+    addLifestyleEntry('Fuel Partnerships', lifestyle.fuel_partnerships);
+    addLifestyleEntry('Other Offers', lifestyle.other_weekly_monthly_offers);
+    
+    const addOns = data.add_on_features || {};
+    addEntry('Contactless', addOns.contactless);
+    addEntry('Add-on Cards', addOns.add_on_cards);
+    if (Array.isArray(addOns.mobile_app_features)) {
+        addEntry('App Features', formatBulletList(addOns.mobile_app_features.filter(Boolean)), { allowHtml: true });
+    } else {
+        addEntry('App Features', addOns.mobile_app_features);
+    }
+    if (Array.isArray(addOns.forex_markets)) {
+        addEntry('Forex Markets', formatBulletList(addOns.forex_markets.filter(Boolean)), { allowHtml: true });
+    } else {
+        addEntry('Forex Markets', addOns.forex_markets);
+    }
+    
+    const promotions = Array.isArray(data.promotions_and_limited_offers)
+        ? data.promotions_and_limited_offers.filter(item => item && (item.offer_name || item.offer_details))
+        : [];
+    if (promotions.length) {
+        const html = `
+            <ul>
+                ${promotions.map(item => {
+                    const parts = [];
+                    if (item.offer_name) parts.push(`<strong>${escapeHtml(item.offer_name)}</strong>`);
+                    if (item.valid_till) parts.push(`Valid till ${escapeHtml(item.valid_till)}`);
+                    if (item.offer_details) parts.push(`<div>${escapeHtml(item.offer_details)}</div>`);
+                    return `<li>${parts.join(' • ')}</li>`;
+                }).join('')}
+            </ul>
+        `;
+        addEntry('Promotions', html, { allowHtml: true });
+    }
+    
+    if (entries.length === 0) {
         detailContent.innerHTML = `
             <div class="card-detail-error">
                 <p>Detailed information for this card is not available right now.</p>
@@ -1374,404 +1586,40 @@ function renderCardDetailContent(data) {
         return;
     }
     
-    detailContent.innerHTML = sections.join('<div class="card-detail-list-divider"></div>');
-}
-
-function renderOverviewSection(data) {
-    const entries = [
-        { label: 'Card Name', value: data.card_name },
-        { label: 'Issuer', value: data.issuer },
-        { label: 'Network', value: data.network },
-        { label: 'Variant', value: data.variant }
-    ].filter(entry => entry.value);
+    const rowsHtml = entries.map(entry => `
+        <div class="card-detail-key">${entry.label}</div>
+        <div class="card-detail-value">${entry.value}</div>
+    `).join('');
     
-    if (!entries.length) return '';
+    const cardTitle = escapeHtml(data.card_name || detailImage?.alt || 'Card Details');
     
-    return `
-        <section class="card-detail-section">
-            <h3>Overview</h3>
+    detailContent.innerHTML = `
+        <section class="card-detail-section card-detail-section-single">
+            <h3>${cardTitle}</h3>
             <div class="card-detail-key-value">
-                ${entries.map(entry => `
-                    <div class="card-detail-key">${entry.label}</div>
-                    <div class="card-detail-value">${entry.value}</div>
-                `).join('')}
+                ${rowsHtml}
             </div>
         </section>
     `;
 }
 
-function renderSummarySection(summary) {
-    if (!summary) return '';
-    const { positioning, ideal_user_profiles } = summary;
-    const badges = Array.isArray(ideal_user_profiles) ? ideal_user_profiles.filter(Boolean) : [];
-    
-    if (!positioning && !badges.length) return '';
-    
-    return `
-        <section class="card-detail-section">
-            <h3>Summary</h3>
-            ${positioning ? `<p>${positioning}</p>` : ''}
-            ${badges.length ? `
-                <div class="card-detail-badge-list">
-                    ${badges.map(profile => `<span class="card-detail-badge">${profile}</span>`).join('')}
-                </div>
-            ` : ''}
-        </section>
-    `;
+function escapeHtml(value) {
+    return String(value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
 }
 
-function renderFeesSection(fees) {
-    if (!fees) return '';
-    
-    const feeEntries = [
-        { label: 'Joining Fee', value: fees.joining_fee },
-        { label: 'Annual Fee', value: fees.annual_fee },
-        { label: 'Renewal Waiver', value: fees.renewal_waiver_condition },
-        { label: 'Add-on Card Fee', value: fees.add_on_card_fee },
-        { label: 'Finance Charges (APR)', value: fees.finance_charges_apr },
-        { label: 'Cash Advance Fee', value: fees.cash_advance_fee },
-        { label: 'Forex Markup', value: fees.forex_markup_fee },
-        { label: 'Overlimit Fee', value: fees.overlimit_fee },
-        { label: 'EMI Processing Fee', value: fees.emi_processing_fee },
-        { label: 'Fuel Surcharge', value: fees.fuel_surcharge }
-    ].filter(entry => entry.value);
-    
-    const otherCharges = Array.isArray(fees.other_charges) ? fees.other_charges.filter(Boolean) : [];
-    const lateFees = Array.isArray(fees.late_payment_fee) ? fees.late_payment_fee.filter(fee => fee.slab && fee.fee) : [];
-    
-    if (!feeEntries.length && !otherCharges.length && !lateFees.length) return '';
-    
-    return `
-        <section class="card-detail-section">
-            <h3>Fees & Charges</h3>
-            ${feeEntries.length ? `
-                <div class="card-detail-key-value">
-                    ${feeEntries.map(entry => `
-                        <div class="card-detail-key">${entry.label}</div>
-                        <div class="card-detail-value">${entry.value}</div>
-                    `).join('')}
-                </div>
-            ` : ''}
-            ${lateFees.length ? `
-                <div>
-                    <span class="card-detail-key">Late Payment Fee</span>
-                    <ul>
-                        ${lateFees.map(item => `<li><strong>${item.slab}:</strong> ${item.fee}</li>`).join('')}
-                    </ul>
-                </div>
-            ` : ''}
-            ${otherCharges.length ? `
-                <div>
-                    <span class="card-detail-key">Other Charges</span>
-                    <ul>
-                        ${otherCharges.map(item => `<li>${item}</li>`).join('')}
-                    </ul>
-                </div>
-            ` : ''}
-        </section>
-    `;
-}
-
-function renderRewardsSection(rewards) {
-    if (!rewards) return '';
-    
-    const entries = [];
-    if (rewards.reward_currency) {
-        entries.push({ label: 'Reward Currency', value: rewards.reward_currency });
-    }
-    if (rewards.base_earn_rate) {
-        entries.push({ label: 'Base Earn Rate', value: rewards.base_earn_rate });
-    }
-    
-    const multipliers = Array.isArray(rewards.category_multipliers) ? rewards.category_multipliers.filter(item => item.category && item.earn_rate) : [];
-    const redemption = rewards.reward_redemption || {};
-    
-    if (!entries.length && !multipliers.length && !Object.values(redemption).some(Boolean)) return '';
-    
-    return `
-        <section class="card-detail-section">
-            <h3>Reward Structure</h3>
-            ${entries.length ? `
-                <div class="card-detail-key-value">
-                    ${entries.map(entry => `
-                        <div class="card-detail-key">${entry.label}</div>
-                        <div class="card-detail-value">${entry.value}</div>
-                    `).join('')}
-                </div>
-            ` : ''}
-            ${multipliers.length ? `
-                <div>
-                    <span class="card-detail-key">Category Multipliers</span>
-                    <ul>
-                        ${multipliers.map(item => `
-                            <li>
-                                <strong>${item.category}:</strong> ${item.earn_rate}
-                                ${item.monthly_cap ? ` • Cap: ${item.monthly_cap}` : ''}
-                                ${item.exclusions ? ` • Exclusions: ${item.exclusions}` : ''}
-                            </li>
-                        `).join('')}
-                    </ul>
-                </div>
-            ` : ''}
-            ${(redemption.catalog_value || redemption.air_miles_transfer || redemption.statement_credit || redemption.expiry_policy) ? `
-                <div>
-                    <span class="card-detail-key">Redemption</span>
-                    <ul>
-                        ${redemption.catalog_value ? `<li>Catalog: ${redemption.catalog_value}</li>` : ''}
-                        ${redemption.air_miles_transfer ? `<li>Air Miles: ${redemption.air_miles_transfer}</li>` : ''}
-                        ${redemption.statement_credit ? `<li>Statement Credit: ${redemption.statement_credit}</li>` : ''}
-                        ${redemption.expiry_policy ? `<li>Expiry: ${redemption.expiry_policy}</li>` : ''}
-                    </ul>
-                </div>
-            ` : ''}
-        </section>
-    `;
-}
-
-function renderWelcomeSection(benefits) {
-    if (!benefits) return '';
-    
-    const welcome = benefits.welcome_benefit || {};
-    const milestones = Array.isArray(benefits.milestone_benefits) ? benefits.milestone_benefits.filter(item => item.spend_threshold && item.reward) : [];
-    const renewal = benefits.renewal_benefit;
-    const spendWaiver = benefits.spend_based_fee_waiver;
-    
-    if (!welcome.description && !milestones.length && !renewal && !spendWaiver) return '';
-    
-    return `
-        <section class="card-detail-section">
-            <h3>Welcome & Milestone</h3>
-            ${welcome.description ? `
-                <div>
-                    <span class="card-detail-key">Welcome</span>
-                    <div class="card-detail-value">
-                        <div>${welcome.description}</div>
-                        ${welcome.fulfilment_timeline ? `<div><strong>Fulfilment:</strong> ${welcome.fulfilment_timeline}</div>` : ''}
-                        ${welcome.eligibility_condition ? `<div><strong>Condition:</strong> ${welcome.eligibility_condition}</div>` : ''}
-                    </div>
-                </div>
-            ` : ''}
-            ${renewal ? `
-                <div>
-                    <span class="card-detail-key">Renewal Benefit</span>
-                    <div class="card-detail-value">${renewal}</div>
-                </div>
-            ` : ''}
-            ${spendWaiver ? `
-                <div>
-                    <span class="card-detail-key">Spend-based Waiver</span>
-                    <div class="card-detail-value">${spendWaiver}</div>
-                </div>
-            ` : ''}
-            ${milestones.length ? `
-                <div>
-                    <span class="card-detail-key">Milestones</span>
-                    <ul>
-                        ${milestones.map(item => `
-                            <li>
-                                <strong>${item.spend_threshold}:</strong> ${item.reward}
-                                ${item.notes ? ` • ${item.notes}` : ''}
-                            </li>
-                        `).join('')}
-                    </ul>
-                </div>
-            ` : ''}
-        </section>
-    `;
-}
-
-function renderTravelSection(travel) {
-    if (!travel) return '';
-    
-    const domestic = travel.domestic_lounge_access || {};
-    const international = travel.international_lounge_access || {};
-    const extras = Array.isArray(travel.additional_travel_benefits) ? travel.additional_travel_benefits.filter(Boolean) : [];
-    
-    if (
-        !domestic.visits_per_year &&
-        !international.free_visits &&
-        !extras.length
-    ) {
-        return '';
-    }
-    
-    return `
-        <section class="card-detail-section">
-            <h3>Travel & Lounge</h3>
-            ${(domestic.visits_per_year || domestic.program) ? `
-                <div>
-                    <span class="card-detail-key">Domestic Lounge</span>
-                    <div class="card-detail-value">
-                        ${domestic.visits_per_year ? `<div>Visits: ${domestic.visits_per_year}</div>` : ''}
-                        ${domestic.program ? `<div>Program: ${domestic.program}</div>` : ''}
-                        ${domestic.guest_policy ? `<div>Guests: ${domestic.guest_policy}</div>` : ''}
-                    </div>
-                </div>
-            ` : ''}
-            ${(international.free_visits || international.program) ? `
-                <div>
-                    <span class="card-detail-key">International Lounge</span>
-                    <div class="card-detail-value">
-                        ${international.free_visits ? `<div>Visits: ${international.free_visits}</div>` : ''}
-                        ${international.program ? `<div>Program: ${international.program}</div>` : ''}
-                        ${international.guest_policy ? `<div>Guests: ${international.guest_policy}</div>` : ''}
-                    </div>
-                </div>
-            ` : ''}
-            ${extras.length ? `
-                <div>
-                    <span class="card-detail-key">Additional Travel</span>
-                    <ul>
-                        ${extras.map(item => `<li>${item}</li>`).join('')}
-                    </ul>
-                </div>
-            ` : ''}
-        </section>
-    `;
-}
-
-function renderInsuranceSection(insurance) {
-    if (!insurance) return '';
-    
-    const travelInsurance = Array.isArray(insurance.travel_insurance) ? insurance.travel_insurance.filter(item => item.cover_type && item.coverage_amount) : [];
-    const purchaseProtection = insurance.purchase_protection;
-    const lostCardLiability = insurance.lost_card_liability;
-    const fuelWaiver = insurance.fuel_surcharge_waiver;
-    
-    if (!travelInsurance.length && !purchaseProtection && !lostCardLiability && !fuelWaiver) return '';
-    
-    return `
-        <section class="card-detail-section">
-            <h3>Insurance & Protection</h3>
-            ${travelInsurance.length ? `
-                <div>
-                    <span class="card-detail-key">Travel Insurance</span>
-                    <ul>
-                        ${travelInsurance.map(item => `
-                            <li>
-                                <strong>${item.cover_type}:</strong> ${item.coverage_amount}
-                                ${item.conditions ? ` • ${item.conditions}` : ''}
-                            </li>
-                        `).join('')}
-                    </ul>
-                </div>
-            ` : ''}
-            ${purchaseProtection ? `
-                <div>
-                    <span class="card-detail-key">Purchase Protection</span>
-                    <div class="card-detail-value">${purchaseProtection}</div>
-                </div>
-            ` : ''}
-            ${lostCardLiability ? `
-                <div>
-                    <span class="card-detail-key">Lost Card Liability</span>
-                    <div class="card-detail-value">${lostCardLiability}</div>
-                </div>
-            ` : ''}
-            ${fuelWaiver ? `
-                <div>
-                    <span class="card-detail-key">Fuel Surcharge Waiver</span>
-                    <div class="card-detail-value">${fuelWaiver}</div>
-                </div>
-            ` : ''}
-        </section>
-    `;
-}
-
-function renderLifestyleSection(lifestyle) {
-    if (!lifestyle) return '';
-    
-    const dining = Array.isArray(lifestyle.dining_programs) ? lifestyle.dining_programs.filter(Boolean) : [];
-    const entertainment = Array.isArray(lifestyle.entertainment) ? lifestyle.entertainment.filter(Boolean) : [];
-    const shopping = Array.isArray(lifestyle.shopping_partners) ? lifestyle.shopping_partners.filter(Boolean) : [];
-    const fuelPartners = Array.isArray(lifestyle.fuel_partnerships) ? lifestyle.fuel_partnerships.filter(Boolean) : [];
-    const otherOffers = Array.isArray(lifestyle.other_weekly_monthly_offers) ? lifestyle.other_weekly_monthly_offers.filter(Boolean) : [];
-    
-    if (!dining.length && !entertainment.length && !shopping.length && !fuelPartners.length && !otherOffers.length) return '';
-    
-    return `
-        <section class="card-detail-section">
-            <h3>Lifestyle & Partners</h3>
-            ${dining.length ? `
-                <div>
-                    <span class="card-detail-key">Dining</span>
-                    <ul>${dining.map(item => `<li>${item}</li>`).join('')}</ul>
-                </div>
-            ` : ''}
-            ${entertainment.length ? `
-                <div>
-                    <span class="card-detail-key">Entertainment</span>
-                    <ul>${entertainment.map(item => `<li>${item}</li>`).join('')}</ul>
-                </div>
-            ` : ''}
-            ${shopping.length ? `
-                <div>
-                    <span class="card-detail-key">Shopping</span>
-                    <ul>${shopping.map(item => `<li>${item}</li>`).join('')}</ul>
-                </div>
-            ` : ''}
-            ${fuelPartners.length ? `
-                <div>
-                    <span class="card-detail-key">Fuel Partners</span>
-                    <ul>${fuelPartners.map(item => `<li>${item}</li>`).join('')}</ul>
-                </div>
-            ` : ''}
-            ${otherOffers.length ? `
-                <div>
-                    <span class="card-detail-key">Other Offers</span>
-                    <ul>${otherOffers.map(item => `<li>${item}</li>`).join('')}</ul>
-                </div>
-            ` : ''}
-        </section>
-    `;
-}
-
-function renderAddOnSection(addOns) {
-    if (!addOns) return '';
-    
-    const entries = [
-        { label: 'Contactless', value: addOns.contactless },
-        { label: 'Add-on Cards', value: addOns.add_on_cards },
-        { label: 'App Features', value: Array.isArray(addOns.mobile_app_features) ? addOns.mobile_app_features.filter(Boolean).join(', ') : addOns.mobile_app_features },
-        { label: 'Forex Markets', value: Array.isArray(addOns.forex_markets) ? addOns.forex_markets.filter(Boolean).join(', ') : addOns.forex_markets }
-    ].filter(entry => entry.value);
-    
-    if (!entries.length) return '';
-    
-    return `
-        <section class="card-detail-section">
-            <h3>Add-on Features</h3>
-            <div class="card-detail-key-value">
-                ${entries.map(entry => `
-                    <div class="card-detail-key">${entry.label}</div>
-                    <div class="card-detail-value">${entry.value}</div>
-                `).join('')}
-            </div>
-        </section>
-    `;
-}
-
-function renderPromotionSection(promotions) {
-    if (!Array.isArray(promotions) || promotions.length === 0) return '';
-    
-    const items = promotions
-        .filter(item => item.offer_name || item.offer_details)
-        .map(item => `
-            <li>
-                ${item.offer_name ? `<strong>${item.offer_name}</strong>` : ''}
-                ${item.valid_till ? ` • Valid till ${item.valid_till}` : ''}
-                ${item.offer_details ? `<div>${item.offer_details}</div>` : ''}
-            </li>
-        `).join('');
-    
-    if (!items) return '';
-    
-    return `
-        <section class="card-detail-section">
-            <h3>Promotions</h3>
-            <ul>${items}</ul>
-        </section>
-    `;
+function formatBulletList(items) {
+    if (!Array.isArray(items) || items.length === 0) return '';
+    const bullets = items
+        .filter(Boolean)
+        .map(item => `<li>${escapeHtml(item)}</li>`)
+        .join('');
+    if (!bullets) return '';
+    return `<ul>${bullets}</ul>`;
 }
 
 if (document.readyState === 'loading') {

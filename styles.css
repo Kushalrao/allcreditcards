@@ -275,7 +275,7 @@ body.detail-open {
     flex: 1;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
-    padding-bottom: 40px;
+    padding-bottom: 120px;
 }
 
 .card-detail-image-wrapper {
@@ -301,26 +301,29 @@ body.detail-open {
 }
 
 .card-detail-close {
-    position: absolute;
-    top: 16px;
-    right: 16px;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
+    position: fixed;
+    right: 20px;
+    bottom: 24px;
+    width: 52px;
+    height: 52px;
+    border-radius: 999px;
     border: none;
-    background: rgba(0, 0, 0, 0.08);
-    color: #000;
-    font-size: 24px;
+    background: rgba(0, 0, 0, 0.9);
+    color: #ffffff;
+    font-size: 26px;
     line-height: 1;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: background 0.2s ease;
+    transition: transform 0.2s ease, background 0.2s ease;
+    box-shadow: 0 14px 32px rgba(0, 0, 0, 0.28);
+    z-index: 10002;
 }
 
 .card-detail-close:active {
-    background: rgba(0, 0, 0, 0.16);
+    transform: scale(0.94);
+    background: rgba(0, 0, 0, 1);
 }
 
 .card-detail-section {
