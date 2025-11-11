@@ -228,7 +228,7 @@ body.detail-open {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(255, 255, 255, 1);
+    background: #000000;
     z-index: 10001;
 }
 
@@ -247,8 +247,8 @@ body.detail-open {
     left: 0;
     width: 0;
     height: 0;
-    background: #ffffff;
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18);
+    background: #000000;
+    box-shadow: none;
     border-radius: 12px;
     overflow: hidden;
     transform: translate(0, 0);
@@ -284,7 +284,7 @@ body.detail-open {
     max-width: 360px;
     border-radius: 16px;
     overflow: hidden;
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.18);
+    box-shadow: 0 30px 50px rgba(0, 0, 0, 0.65);
 }
 
 .card-detail-image-wrapper img {
@@ -298,6 +298,7 @@ body.detail-open {
     display: flex;
     flex-direction: column;
     gap: 24px;
+    color: #ffffff;
 }
 
 .card-detail-card {
@@ -323,8 +324,8 @@ body.detail-open {
     height: 52px;
     border-radius: 999px;
     border: none;
-    background: rgba(0, 0, 0, 0.9);
-    color: #ffffff;
+    background: rgba(255, 255, 255, 0.92);
+    color: #000000;
     font-size: 26px;
     line-height: 1;
     display: flex;
@@ -347,7 +348,7 @@ body.detail-open {
 
 .card-detail-close:active {
     transform: translateY(0) scale(0.96);
-    background: rgba(0, 0, 0, 1);
+    background: rgba(255, 255, 255, 1);
 }
 
 .card-detail-section {
@@ -360,7 +361,7 @@ body.detail-open {
     font-size: 18px;
     font-weight: 600;
     margin: 0;
-    color: #111;
+    color: #ffffff;
 }
 
 .card-detail-section p,
@@ -368,7 +369,7 @@ body.detail-open {
 .card-detail-section span {
     font-size: 14px;
     line-height: 1.6;
-    color: #333;
+    color: rgba(255, 255, 255, 0.86);
 }
 
 .card-detail-section ul {
@@ -386,13 +387,13 @@ body.detail-open {
     font-size: 12px;
     font-weight: 600;
     text-transform: uppercase;
-    color: #777;
+    color: rgba(255, 255, 255, 0.48);
     letter-spacing: 0.05em;
 }
 
 .card-detail-value {
     font-size: 14px;
-    color: #222;
+    color: #ffffff;
 }
 
 .card-detail-badge-list {
@@ -403,16 +404,16 @@ body.detail-open {
 
 .card-detail-badge {
     padding: 6px 12px;
-    background: rgba(0, 0, 0, 0.06);
+    background: rgba(255, 255, 255, 0.16);
     border-radius: 999px;
     font-size: 12px;
     font-weight: 500;
-    color: #333;
+    color: #ffffff;
 }
 
 .card-detail-list-divider {
     height: 1px;
-    background: rgba(0, 0, 0, 0.08);
+    background: rgba(255, 255, 255, 0.12);
     width: 100%;
 }
 
@@ -425,7 +426,7 @@ body.detail-open {
 .card-detail-skeleton-block {
     height: 18px;
     border-radius: 8px;
-    background: linear-gradient(90deg, rgba(0,0,0,0.06) 0%, rgba(0,0,0,0.12) 50%, rgba(0,0,0,0.06) 100%);
+    background: linear-gradient(90deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.24) 50%, rgba(255,255,255,0.12) 100%);
     background-size: 200% 100%;
     animation: detail-skeleton-pulse 1.2s ease-in-out infinite;
 }
@@ -461,14 +462,14 @@ body.detail-open {
     gap: 16px;
     padding: 12px 0;
     font-size: 14px;
-    color: #111;
+    color: rgba(255, 255, 255, 0.86);
 }
 
 .card-detail-retry {
     align-self: flex-start;
     padding: 10px 18px;
-    background: #111;
-    color: #fff;
+    background: #ffffff;
+    color: #000000;
     border: none;
     border-radius: 999px;
     font-size: 13px;
