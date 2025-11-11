@@ -275,7 +275,7 @@ body.detail-open {
     flex: 1;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
-    padding-bottom: 120px;
+    padding-bottom: 160px;
 }
 
 .card-detail-image-wrapper {
@@ -318,7 +318,7 @@ body.detail-open {
 .card-detail-close {
     position: fixed;
     right: 20px;
-    bottom: 24px;
+    bottom: calc(24px + env(safe-area-inset-bottom, 0px));
     width: 52px;
     height: 52px;
     border-radius: 999px;
