@@ -1394,7 +1394,7 @@ function renderCardDetailContent(data) {
         const html = `
             <ul>
                 ${lateFees.map(item => `
-                    <li><strong>${escapeHtml(item.slab)}:</strong> ${escapeHtml(item.fee)}</li>
+                    <li>${escapeHtml(item.slab)}: ${escapeHtml(item.fee)}</li>
                 `).join('')}
             </ul>
         `;
@@ -1418,7 +1418,7 @@ function renderCardDetailContent(data) {
             <ul>
                 ${multipliers.map(item => {
                     const parts = [
-                        `<strong>${escapeHtml(item.category)}:</strong> ${escapeHtml(item.earn_rate)}`
+                        `${escapeHtml(item.category)}: ${escapeHtml(item.earn_rate)}`
                     ];
                     if (item.monthly_cap) {
                         parts.push(`Cap: ${escapeHtml(item.monthly_cap)}`);
@@ -1452,10 +1452,10 @@ function renderCardDetailContent(data) {
             parts.push(`<div>${escapeHtml(welcome.description)}</div>`);
         }
         if (welcome.fulfilment_timeline) {
-            parts.push(`<div><strong>Fulfilment:</strong> ${escapeHtml(welcome.fulfilment_timeline)}</div>`);
+            parts.push(`<div>Fulfilment: ${escapeHtml(welcome.fulfilment_timeline)}</div>`);
         }
         if (welcome.eligibility_condition) {
-            parts.push(`<div><strong>Condition:</strong> ${escapeHtml(welcome.eligibility_condition)}</div>`);
+            parts.push(`<div>Condition: ${escapeHtml(welcome.eligibility_condition)}</div>`);
         }
         addEntry('Welcome Benefit', parts.join(''), { allowHtml: true });
     }
@@ -1472,7 +1472,7 @@ function renderCardDetailContent(data) {
         const html = `
             <ul>
                 ${milestones.map(item => {
-                    const parts = [`<strong>${escapeHtml(item.spend_threshold)}:</strong> ${escapeHtml(item.reward)}`];
+                    const parts = [`${escapeHtml(item.spend_threshold)}: ${escapeHtml(item.reward)}`];
                     if (item.notes) {
                         parts.push(escapeHtml(item.notes));
                     }
@@ -1518,7 +1518,7 @@ function renderCardDetailContent(data) {
         const html = `
             <ul>
                 ${travelInsurance.map(item => {
-                    const parts = [`<strong>${escapeHtml(item.cover_type)}:</strong> ${escapeHtml(item.coverage_amount)}`];
+                    const parts = [`${escapeHtml(item.cover_type)}: ${escapeHtml(item.coverage_amount)}`];
                     if (item.conditions) {
                         parts.push(escapeHtml(item.conditions));
                     }
@@ -1567,7 +1567,7 @@ function renderCardDetailContent(data) {
             <ul>
                 ${promotions.map(item => {
                     const parts = [];
-                    if (item.offer_name) parts.push(`<strong>${escapeHtml(item.offer_name)}</strong>`);
+                    if (item.offer_name) parts.push(`${escapeHtml(item.offer_name)}`);
                     if (item.valid_till) parts.push(`Valid till ${escapeHtml(item.valid_till)}`);
                     if (item.offer_details) parts.push(`<div>${escapeHtml(item.offer_details)}</div>`);
                     return `<li>${parts.join(' • ')}</li>`;
