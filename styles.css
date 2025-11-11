@@ -300,8 +300,23 @@ body.detail-open {
     gap: 24px;
 }
 
-.card-detail-close {
+.card-detail-card {
     position: fixed;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    background: #ffffff;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18);
+    border-radius: 12px;
+    overflow: hidden;
+    transform: translate(0, 0);
+    transition: transform 0.3s ease, width 0.3s ease, height 0.3s ease, border-radius 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+.card-detail-close {
+    position: absolute;
     right: 20px;
     bottom: 24px;
     width: 52px;
