@@ -187,6 +187,36 @@ const availableCardImages = [
     'YES Bank Prosperity Edge Credit Card.png'
 ];
 
+// Filter logo assets mapping
+const filterLogoFileMap = {
+    'au bank': 'au bank.png',
+    'axis bank': 'axis bank.png',
+    'american express': 'american express.png',
+    'bank of baroda': 'bank of baroda.png',
+    'dbs bank': 'dbs bank.png',
+    'dhanlaxmi bank': 'dhanlaxmi bank.png',
+    'federal bank': 'federal bank.png',
+    'hdfc bank': 'hdfc bank.png',
+    'mastercard': 'mastercard.png',
+    'rupay': 'rupay.png',
+    'visa': 'visa.png',
+    'diners club': 'dinners club.png'
+};
+
+// Additional aliases for logo lookup
+const filterLogoAliases = {
+    'au small finance bank': 'au bank',
+    'american express banking corp.': 'american express',
+    'american express banking corp': 'american express',
+    'american express bank': 'american express',
+    'american express company': 'american express',
+    'dbs bank india limited': 'dbs bank',
+    'dbs bank india': 'dbs bank',
+    'master card': 'mastercard',
+    'diners club international': 'diners club',
+    'diners club': 'diners club'
+};
+
 // Mobile card detail view state
 let detailOverlay = null;
 let detailCard = null;
@@ -663,36 +693,89 @@ function createFilters() {
     
     // Network filters
     filterValues.networks.forEach(network => {
-        const filterTab = document.createElement('button');
-        filterTab.className = 'filter-tab';
-        filterTab.textContent = network;
-        filterTab.dataset.filterType = 'network';
-        filterTab.dataset.filterValue = network;
-        filterTab.addEventListener('click', () => handleFilterClick(filterTab, 'network', network));
+        const filterTab = createFilterTabElement(network, 'network', network);
         filtersScroll.appendChild(filterTab);
     });
     
     // Fee type filters
     filterValues.feeTypes.forEach(feeType => {
-        const filterTab = document.createElement('button');
-        filterTab.className = 'filter-tab';
-        filterTab.textContent = feeType;
-        filterTab.dataset.filterType = 'feeType';
-        filterTab.dataset.filterValue = feeType;
-        filterTab.addEventListener('click', () => handleFilterClick(filterTab, 'feeType', feeType));
+        const filterTab = createFilterTabElement(feeType, 'feeType', feeType);
         filtersScroll.appendChild(filterTab);
     });
     
     // Bank filters
     filterValues.banks.forEach(bank => {
-        const filterTab = document.createElement('button');
-        filterTab.className = 'filter-tab';
-        filterTab.textContent = bank;
-        filterTab.dataset.filterType = 'bank';
-        filterTab.dataset.filterValue = bank;
-        filterTab.addEventListener('click', () => handleFilterClick(filterTab, 'bank', bank));
+        const filterTab = createFilterTabElement(bank, 'bank', bank);
         filtersScroll.appendChild(filterTab);
     });
+}
+
+function normalizeFilterName(name) {
+    return name
+        .toLowerCase()
+        .replace(/[\u2019']/g, "'")
+        .replace(/[.]/g, '')
+        .replace(/-/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+}
+
+function getFilterLogoPath(filterName) {
+    if (!filterName) return null;
+    const normalized = normalizeFilterName(filterName);
+    if (filterLogoFileMap[normalized]) {
+        return `filter-logo-assets/${filterLogoFileMap[normalized]}`;
+    }
+    
+    if (filterLogoAliases[normalized]) {
+        const mappedKey = filterLogoAliases[normalized];
+        if (filterLogoFileMap[mappedKey]) {
+            return `filter-logo-assets/${filterLogoFileMap[mappedKey]}`;
+        }
+    }
+    
+    const fallbackMatch = Object.entries(filterLogoFileMap).find(([key]) => {
+        return normalized === key || normalized.includes(key) || key.includes(normalized);
+    });
+    
+    if (fallbackMatch) {
+        return `filter-logo-assets/${fallbackMatch[1]}`;
+    }
+    
+    return null;
+}
+
+function createFilterTabElement(label, filterType, filterValue) {
+    const filterTab = document.createElement('button');
+    filterTab.className = 'filter-tab';
+    filterTab.dataset.filterType = filterType;
+    filterTab.dataset.filterValue = filterValue;
+    
+    const logoPath = getFilterLogoPath(label);
+    if (logoPath) {
+        const logoContainer = document.createElement('span');
+        logoContainer.className = 'filter-logo-container';
+        
+        const logoImg = document.createElement('img');
+        logoImg.className = 'filter-logo';
+        const logoParts = logoPath.split('/');
+        logoImg.src = logoParts.map(part => encodeURIComponent(part)).join('/');
+        logoImg.alt = '';
+        logoImg.decoding = 'async';
+        logoImg.loading = 'lazy';
+        
+        logoContainer.appendChild(logoImg);
+        filterTab.appendChild(logoContainer);
+    }
+    
+    const labelSpan = document.createElement('span');
+    labelSpan.className = 'filter-label';
+    labelSpan.textContent = label;
+    filterTab.appendChild(labelSpan);
+    
+    filterTab.addEventListener('click', () => handleFilterClick(filterTab, filterType, filterValue));
+    
+    return filterTab;
 }
 
 // Handle filter click
