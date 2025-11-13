@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HDFC Times Titanium Credit Card - FirstCredit Club</title>
+    <meta name="description" content="Detailed information about HDFC Times Titanium Credit Card credit card including fees, benefits, rewards, and more.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Syne:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body class="card-detail-page">
+    <div class="card-detail-header">
+        <button class="card-detail-back" onclick="window.location.href='../index.html'" aria-label="Go back">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </button>
+    </div>
+    
+    <div class="card-detail-page-content">
+        <div class="card-detail-scroll">
+            <div class="card-detail-image-wrapper">
+                <img id="cardDetailImage" src="" alt="HDFC Times Titanium Credit Card" onerror="this.style.display='none'">
+            </div>
+            <div class="card-detail-content" id="cardDetailContent">
+                <div class="card-detail-skeleton">
+                    <div class="card-detail-skeleton-block short"></div>
+                    <div class="card-detail-skeleton-block medium"></div>
+                    <div class="card-detail-skeleton-block full"></div>
+                    <div class="card-detail-skeleton-block medium"></div>
+                    <div class="card-detail-skeleton-block full"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Card data for API call
+        const cardData = {"Card Name":"HDFC Times Titanium Credit Card","Bank/Issuer":"HDFC Bank","Card Type":"Lifestyle","Annual Fee (INR)":"1,499","Network":"Visa","Key Benefits":"Times titanium"};
+        
+        // Fetch card details from API
+        async function loadCardDetails() {
+            try {
+                const response = await fetch('../api/card-details', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ card: cardData })
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Failed to fetch card details');
+                }
+                
+                const data = await response.json();
+                renderCardDetails(data);
+            } catch (error) {
+                console.error('Error loading card details:', error);
+                renderError(error);
+            }
+        }
+        
+        function renderCardDetails(data) {
+            const content = document.getElementById('cardDetailContent');
+            if (!content || !data || typeof data !== 'object') {
+                renderError(new Error('Invalid data'));
+                return;
+            }
+            
+            const entries = [];
+            
+            function addEntry(label, value, options = {}) {
+                if (!label) return;
+                if (value === null || value === undefined) return;
+                
+                let content = value;
+                if (typeof content === 'string') {
+                    content = content.trim();
+                }
+                
+                if ((typeof content === 'string' && content.length === 0) ||
+                    (Array.isArray(content) && content.length === 0)) {
+                    return;
+                }
+                
+                const sanitizedLabel = escapeHtml(label);
+                const useHtml = options.allowHtml === true;
+                const sanitizedValue = useHtml ? content : escapeHtml(String(content));
+                
+                entries.push({ label: sanitizedLabel, value: sanitizedValue });
+            }
+            
+            function escapeHtml(value) {
+                return String(value)
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;')
+                    .replace(/'/g, '&#39;');
+            }
+            
+            function formatBulletList(items) {
+                if (!Array.isArray(items) || items.length === 0) return '';
+                const bullets = items
+                    .filter(Boolean)
+                    .map(item => '<li>' + escapeHtml(item) + '</li>')
+                    .join('');
+                if (!bullets) return '';
+                return '<ul>' + bullets + '</ul>';
+            }
+            
+            // Process data (same logic as renderCardDetailContent in script.js)
+            const summary = data.summary || {};
+            const summaryTags = Array.isArray(summary.ideal_user_profiles)
+                ? summary.ideal_user_profiles.filter(Boolean).map(tag => '<span class="card-detail-badge">' + escapeHtml(tag) + '</span>')
+                : [];
+            const summaryParts = [];
+            if (summary.positioning) {
+                summaryParts.push('<div>' + escapeHtml(summary.positioning) + '</div>');
+            }
+            if (summaryTags.length) {
+                summaryParts.push('<div class="card-detail-badge-list">' + summaryTags.join('') + '</div>');
+            }
+            if (summaryParts.length) {
+                addEntry('Summary', summaryParts.join(''), { allowHtml: true });
+            }
+            
+            addEntry('Issuer', data.issuer);
+            addEntry('Network', data.network);
+            addEntry('Variant', data.variant);
+            
+            const fees = data.fees_charges || {};
+            addEntry('Joining Fee', fees.joining_fee);
+            addEntry('Annual Fee', fees.annual_fee);
+            addEntry('Renewal Waiver', fees.renewal_waiver_condition);
+            addEntry('Add-on Card Fee', fees.add_on_card_fee);
+            addEntry('Finance Charges (APR)', fees.finance_charges_apr);
+            addEntry('Cash Advance Fee', fees.cash_advance_fee);
+            addEntry('Forex Markup', fees.forex_markup_fee);
+            addEntry('Overlimit Fee', fees.overlimit_fee);
+            addEntry('EMI Processing Fee', fees.emi_processing_fee);
+            addEntry('Fuel Surcharge', fees.fuel_surcharge);
+            
+            const lateFees = Array.isArray(fees.late_payment_fee)
+                ? fees.late_payment_fee.filter(item => item && item.slab && item.fee)
+                : [];
+            if (lateFees.length) {
+                const html = '<ul>' + lateFees.map(item => '<li>' + escapeHtml(item.slab) + ': ' + escapeHtml(item.fee) + '</li>').join('') + '</ul>';
+                addEntry('Late Payment Fee', html, { allowHtml: true });
+            }
+            
+            const otherCharges = Array.isArray(fees.other_charges) ? fees.other_charges.filter(Boolean) : [];
+            if (otherCharges.length) {
+                addEntry('Other Charges', formatBulletList(otherCharges), { allowHtml: true });
+            }
+            
+            const rewards = data.reward_structure || {};
+            addEntry('Reward Currency', rewards.reward_currency);
+            addEntry('Base Earn Rate', rewards.base_earn_rate);
+            
+            const multipliers = Array.isArray(rewards.category_multipliers)
+                ? rewards.category_multipliers.filter(item => item && item.category && item.earn_rate)
+                : [];
+            if (multipliers.length) {
+                const html = '<ul>' + multipliers.map(item => {
+                    const parts = [escapeHtml(item.category) + ': ' + escapeHtml(item.earn_rate)];
+                    if (item.monthly_cap) parts.push('Cap: ' + escapeHtml(item.monthly_cap));
+                    if (item.exclusions) parts.push('Exclusions: ' + escapeHtml(item.exclusions));
+                    return '<li>' + parts.join(' • ') + '</li>';
+                }).join('') + '</ul>';
+                addEntry('Category Multipliers', html, { allowHtml: true });
+            }
+            
+            const redemption = rewards.reward_redemption || {};
+            const redemptionItems = [
+                redemption.catalog_value ? 'Catalog: ' + escapeHtml(redemption.catalog_value) : null,
+                redemption.air_miles_transfer ? 'Air Miles: ' + escapeHtml(redemption.air_miles_transfer) : null,
+                redemption.statement_credit ? 'Statement Credit: ' + escapeHtml(redemption.statement_credit) : null,
+                redemption.expiry_policy ? 'Expiry: ' + escapeHtml(redemption.expiry_policy) : null
+            ].filter(Boolean);
+            if (redemptionItems.length) {
+                addEntry('Reward Redemption', formatBulletList(redemptionItems), { allowHtml: true });
+            }
+            
+            const welcomeData = data.welcome_and_milestone_benefits || {};
+            const welcome = welcomeData.welcome_benefit || {};
+            if (welcome.description || welcome.fulfilment_timeline || welcome.eligibility_condition) {
+                const parts = [];
+                if (welcome.description) parts.push('<div>' + escapeHtml(welcome.description) + '</div>');
+                if (welcome.fulfilment_timeline) parts.push('<div>Fulfilment: ' + escapeHtml(welcome.fulfilment_timeline) + '</div>');
+                if (welcome.eligibility_condition) parts.push('<div>Condition: ' + escapeHtml(welcome.eligibility_condition) + '</div>');
+                addEntry('Welcome Benefit', parts.join(''), { allowHtml: true });
+            }
+            if (welcomeData.renewal_benefit) {
+                addEntry('Renewal Benefit', welcomeData.renewal_benefit);
+            }
+            if (welcomeData.spend_based_fee_waiver) {
+                addEntry('Spend-based Waiver', welcomeData.spend_based_fee_waiver);
+            }
+            const milestones = Array.isArray(welcomeData.milestone_benefits)
+                ? welcomeData.milestone_benefits.filter(item => item && item.spend_threshold && item.reward)
+                : [];
+            if (milestones.length) {
+                const html = '<ul>' + milestones.map(item => {
+                    const parts = [escapeHtml(item.spend_threshold) + ': ' + escapeHtml(item.reward)];
+                    if (item.notes) parts.push(escapeHtml(item.notes));
+                    return '<li>' + parts.join(' • ') + '</li>';
+                }).join('') + '</ul>';
+                addEntry('Milestone Benefits', html, { allowHtml: true });
+            }
+            
+            const travel = data.travel_and_lounge || {};
+            const domestic = travel.domestic_lounge_access || {};
+            const international = travel.international_lounge_access || {};
+            
+            const domesticParts = [];
+            if (domestic.visits_per_year) domesticParts.push('Visits: ' + escapeHtml(domestic.visits_per_year));
+            if (domestic.program) domesticParts.push('Program: ' + escapeHtml(domestic.program));
+            if (domestic.guest_policy) domesticParts.push('Guests: ' + escapeHtml(domestic.guest_policy));
+            if (domesticParts.length) {
+                addEntry('Domestic Lounge Access', domesticParts.join(' • '), { allowHtml: true });
+            }
+            
+            const internationalParts = [];
+            if (international.free_visits) internationalParts.push('Visits: ' + escapeHtml(international.free_visits));
+            if (international.program) internationalParts.push('Program: ' + escapeHtml(international.program));
+            if (international.guest_policy) internationalParts.push('Guests: ' + escapeHtml(international.guest_policy));
+            if (internationalParts.length) {
+                addEntry('International Lounge Access', internationalParts.join(' • '), { allowHtml: true });
+            }
+            
+            const travelExtras = Array.isArray(travel.additional_travel_benefits)
+                ? travel.additional_travel_benefits.filter(Boolean)
+                : [];
+            if (travelExtras.length) {
+                addEntry('Travel Benefits', formatBulletList(travelExtras), { allowHtml: true });
+            }
+            
+            const insurance = data.insurance_and_protection || {};
+            const travelInsurance = Array.isArray(insurance.travel_insurance)
+                ? insurance.travel_insurance.filter(item => item && item.cover_type && item.coverage_amount)
+                : [];
+            if (travelInsurance.length) {
+                const html = '<ul>' + travelInsurance.map(item => {
+                    const parts = [escapeHtml(item.cover_type) + ': ' + escapeHtml(item.coverage_amount)];
+                    if (item.conditions) parts.push(escapeHtml(item.conditions));
+                    return '<li>' + parts.join(' • ') + '</li>';
+                }).join('') + '</ul>';
+                addEntry('Travel Insurance', html, { allowHtml: true });
+            }
+            addEntry('Purchase Protection', insurance.purchase_protection);
+            addEntry('Lost Card Liability', insurance.lost_card_liability);
+            addEntry('Fuel Surcharge Waiver', insurance.fuel_surcharge_waiver);
+            
+            const lifestyle = data.lifestyle_and_partner_offers || {};
+            const addLifestyleEntry = (label, values) => {
+                if (!Array.isArray(values)) return;
+                const filtered = values.filter(Boolean);
+                if (!filtered.length) return;
+                addEntry(label, formatBulletList(filtered), { allowHtml: true });
+            };
+            addLifestyleEntry('Dining Programs', lifestyle.dining_programs);
+            addLifestyleEntry('Entertainment', lifestyle.entertainment);
+            addLifestyleEntry('Shopping Partners', lifestyle.shopping_partners);
+            addLifestyleEntry('Fuel Partnerships', lifestyle.fuel_partnerships);
+            addLifestyleEntry('Other Offers', lifestyle.other_weekly_monthly_offers);
+            
+            const addOns = data.add_on_features || {};
+            addEntry('Contactless', addOns.contactless);
+            addEntry('Add-on Cards', addOns.add_on_cards);
+            if (Array.isArray(addOns.mobile_app_features)) {
+                addEntry('App Features', formatBulletList(addOns.mobile_app_features.filter(Boolean)), { allowHtml: true });
+            } else {
+                addEntry('App Features', addOns.mobile_app_features);
+            }
+            if (Array.isArray(addOns.forex_markets)) {
+                addEntry('Forex Markets', formatBulletList(addOns.forex_markets.filter(Boolean)), { allowHtml: true });
+            } else {
+                addEntry('Forex Markets', addOns.forex_markets);
+            }
+            
+            const promotions = Array.isArray(data.promotions_and_limited_offers)
+                ? data.promotions_and_limited_offers.filter(item => item && (item.offer_name || item.offer_details))
+                : [];
+            if (promotions.length) {
+                const html = '<ul>' + promotions.map(item => {
+                    const parts = [];
+                    if (item.offer_name) parts.push(escapeHtml(item.offer_name));
+                    if (item.valid_till) parts.push('Valid till ' + escapeHtml(item.valid_till));
+                    if (item.offer_details) parts.push('<div>' + escapeHtml(item.offer_details) + '</div>');
+                    return '<li>' + parts.join(' • ') + '</li>';
+                }).join('') + '</ul>';
+                addEntry('Promotions', html, { allowHtml: true });
+            }
+            
+            if (entries.length === 0) {
+                content.innerHTML = '<div class="card-detail-error"><p>Detailed information for this card is not available right now.</p></div>';
+                return;
+            }
+            
+            const rowsHtml = entries.map(entry => 
+                '<div class="card-detail-key">' + entry.label + '</div>' +
+                '<div class="card-detail-value">' + entry.value + '</div>'
+            ).join('');
+            
+            const cardTitle = escapeHtml(data.card_name || cardData['Card Name'] || 'Card Details');
+            
+            content.innerHTML = '<section class="card-detail-section card-detail-section-single"><h3>' + cardTitle + '</h3><div class="card-detail-key-value">' + rowsHtml + '</div></section>';
+        }
+        
+        function renderError(error) {
+            const content = document.getElementById('cardDetailContent');
+            if (content) {
+                content.innerHTML = '<div class="card-detail-error"><p>We couldn\'t find detailed information for this card.</p><button class="card-detail-retry" onclick="loadCardDetails()">Retry</button></div>';
+            }
+        }
+        
+        // Load details on page load
+        loadCardDetails();
+    </script>
+</body>
+</html>
