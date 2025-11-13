@@ -76,7 +76,7 @@ body.detail-open {
 
 .filters-scroll {
     display: flex;
-    gap: 8px;
+    gap: 12px;
     overflow-x: auto;
     overflow-y: hidden;
     padding: 0 24px;
@@ -608,7 +608,7 @@ body.detail-open {
     
     .filters-scroll {
         padding: 0 16px;
-        gap: 6px;
+        gap: 12px;
     }
     
     .filter-tab {
