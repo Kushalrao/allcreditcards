@@ -32,6 +32,12 @@
         <div class="search-bar-container">
             <input type="text" class="search-bar" placeholder="Find your card" id="searchBar">
         </div>
+
+        <div class="color-gradient-container" id="colorGradientContainer" aria-hidden="true">
+            <div class="color-gradient-bar" id="colorGradientBar">
+                <div class="color-gradient-indicator" id="colorGradientIndicator"></div>
+            </div>
+        </div>
         
         <!-- Recommendations Modal -->
         <div class="recommendations-overlay" id="recommendationsOverlay">
@@ -45,19 +51,6 @@
                 </div>
             </div>
         </div>
-    </div>
-    
-    <!-- Mobile Card Detail Overlay -->
-    <div class="card-detail-overlay" id="cardDetailOverlay">
-        <div class="card-detail-card" id="cardDetailCard">
-            <div class="card-detail-scroll">
-                <div class="card-detail-image-wrapper">
-                    <img id="cardDetailImage" alt="">
-                </div>
-                <div class="card-detail-content" id="cardDetailContent"></div>
-            </div>
-        </div>
-        <button class="card-detail-close" id="cardDetailClose" aria-label="Close card details">↓</button>
     </div>
     
     <script src="script.js"></script>

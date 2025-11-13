@@ -297,6 +297,24 @@ function normalizeCardKey(value) {
         .replace(/\s+/g, ' ');
 }
 
+// Function to create URL-friendly slug from card name
+function createCardSlug(cardName) {
+    return cardName
+        .toLowerCase()
+        .trim()
+        .replace(/[^a-z0-9\s-]/g, '') // Remove special characters
+        .replace(/\s+/g, '-') // Replace spaces with hyphens
+        .replace(/-+/g, '-') // Replace multiple hyphens with single
+        .replace(/^-|-$/g, ''); // Remove leading/trailing hyphens
+}
+
+// Navigate to card detail page
+function navigateToCardPage(card) {
+    if (!card || !card['Card Name']) return;
+    const slug = createCardSlug(card['Card Name']);
+    window.location.href = `cards/${slug}.html`;
+}
+
 function getImageFileNameForCard(cardName) {
     if (!cardName) return null;
     
@@ -748,7 +766,7 @@ function createImageItem(imagePath, card, row, col) {
     
     if (card && isMobileViewport()) {
         imageItem.addEventListener('click', () => {
-            showCardDetail(card, imageItem);
+            navigateToCardPage(card);
         });
     }
     
@@ -758,6 +776,12 @@ function createImageItem(imagePath, card, row, col) {
 // Filter functionality
 let activeFilter = null;
 let allImageItems = [];
+
+let colorGradientContainer = null;
+let colorGradientBar = null;
+let colorGradientIndicator = null;
+let colorGradientFamilies = [];
+let colorGradientActiveIndex = null;
 
 // Extract unique filter values from card data
 function extractFilterValues() {
@@ -836,6 +860,8 @@ function createFilters() {
             filtersScroll.appendChild(filterTab);
         });
     }
+    
+    renderColorGradient(filterValues.colors);
     
     // Network filters
     filterValues.networks.forEach(network => {
@@ -940,6 +966,145 @@ function createFilterTabElement(label, filterType, filterValue, options = {}) {
     return filterTab;
 }
 
+function renderColorGradient(colors = []) {
+    colorGradientFamilies = Array.isArray(colors) ? colors : [];
+    
+    if (!colorGradientContainer || !colorGradientBar) {
+        initializeColorGradientBar();
+        if (!colorGradientContainer || !colorGradientBar) {
+            return;
+        }
+    }
+    
+    if (!colorGradientFamilies.length) {
+        colorGradientBar.style.background = '';
+        colorGradientContainer.classList.remove('visible', 'has-selection');
+        colorGradientContainer.setAttribute('aria-hidden', 'true');
+        clearGradientSelectionIndicator();
+        return;
+    }
+    
+    const gradientStops = colorGradientFamilies.map((color, index) => {
+        const hex = color.sampleHex || '#000000';
+        if (colorGradientFamilies.length === 1) {
+            return `${hex} 0%, ${hex} 100%`;
+        }
+        const percent = (index / (colorGradientFamilies.length - 1)) * 100;
+        return `${hex} ${percent}%`;
+    }).join(', ');
+    
+    colorGradientBar.style.background = `linear-gradient(90deg, ${gradientStops})`;
+    colorGradientContainer.classList.add('visible');
+    colorGradientContainer.setAttribute('aria-hidden', 'false');
+    
+    if (activeFilter && activeFilter.filterType === 'color') {
+        const colorIndex = colorGradientFamilies.findIndex(item => item.family === activeFilter.filterValue);
+        if (colorIndex >= 0) {
+            highlightGradientSelection(colorIndex);
+            return;
+        }
+    }
+    
+    if (colorGradientActiveIndex !== null && colorGradientActiveIndex < colorGradientFamilies.length) {
+        highlightGradientSelection(colorGradientActiveIndex);
+    } else {
+        clearGradientSelectionIndicator();
+    }
+}
+
+function initializeColorGradientBar() {
+    colorGradientContainer = document.getElementById('colorGradientContainer');
+    colorGradientBar = document.getElementById('colorGradientBar');
+    colorGradientIndicator = document.getElementById('colorGradientIndicator');
+    
+    if (!colorGradientContainer || !colorGradientBar || !colorGradientIndicator) {
+        return;
+    }
+    
+    const handleSelectionFromClientX = (clientX) => {
+        if (!colorGradientFamilies.length) return;
+        const rect = colorGradientBar.getBoundingClientRect();
+        if (rect.width === 0) return;
+        const relativeX = (clientX - rect.left) / rect.width;
+        const clamped = Math.max(0, Math.min(0.999999, relativeX));
+        const index = Math.floor(clamped * colorGradientFamilies.length);
+        selectColorGradientIndex(index, true);
+    };
+    
+    colorGradientBar.addEventListener('click', (event) => {
+        handleSelectionFromClientX(event.clientX);
+    });
+    
+    colorGradientBar.addEventListener('touchstart', (event) => {
+        if (event.touches && event.touches.length > 0) {
+            handleSelectionFromClientX(event.touches[0].clientX);
+        }
+    }, { passive: true });
+    
+    colorGradientBar.addEventListener('touchmove', (event) => {
+        if (event.touches && event.touches.length > 0) {
+            handleSelectionFromClientX(event.touches[0].clientX);
+        }
+    }, { passive: true });
+}
+
+function highlightGradientSelection(index) {
+    if (!colorGradientIndicator || !colorGradientContainer || !colorGradientFamilies.length) return;
+    
+    const clampedIndex = Math.max(0, Math.min(colorGradientFamilies.length - 1, index));
+    colorGradientActiveIndex = clampedIndex;
+    
+    const percent = ((clampedIndex + 0.5) / colorGradientFamilies.length) * 100;
+    colorGradientIndicator.style.left = `${percent}%`;
+    
+    const sampleHex = colorGradientFamilies[clampedIndex]?.sampleHex || '#FFFFFF';
+    colorGradientIndicator.style.background = sampleHex;
+    
+    colorGradientContainer.classList.add('has-selection');
+}
+
+function clearGradientSelectionIndicator() {
+    colorGradientActiveIndex = null;
+    if (colorGradientIndicator) {
+        colorGradientIndicator.style.left = '50%';
+        colorGradientIndicator.style.background = '#FFFFFF';
+    }
+    if (colorGradientContainer) {
+        colorGradientContainer.classList.remove('has-selection');
+    }
+}
+
+function selectColorGradientIndex(index, triggeredByUser = false) {
+    if (!colorGradientFamilies.length) return;
+    
+    const clampedIndex = Math.max(0, Math.min(colorGradientFamilies.length - 1, index));
+    const selectedColor = colorGradientFamilies[clampedIndex];
+    if (!selectedColor) return;
+    
+    if (triggeredByUser &&
+        activeFilter &&
+        activeFilter.filterType === 'color' &&
+        activeFilter.filterValue === selectedColor.family &&
+        activeFilter.source === 'gradient') {
+        removeActiveFilter();
+        return;
+    }
+    
+    document.querySelectorAll('.filter-tab').forEach(tab => {
+        tab.classList.remove('active');
+    });
+    
+    activeFilter = {
+        filterTab: null,
+        filterType: 'color',
+        filterValue: selectedColor.family,
+        source: 'gradient'
+    };
+    
+    highlightGradientSelection(clampedIndex);
+    applyFilter('color', selectedColor.family);
+}
+
 // Handle filter click
 function handleFilterClick(filterTab, filterType, filterValue) {
     // If clicking the same active filter, remove it
@@ -953,8 +1118,17 @@ function handleFilterClick(filterTab, filterType, filterValue) {
         tab.classList.remove('active');
     });
     
+    if (filterType === 'color') {
+        const colorIndex = colorGradientFamilies.findIndex(item => item.family === filterValue);
+        if (colorIndex >= 0) {
+            highlightGradientSelection(colorIndex);
+        }
+    } else {
+        clearGradientSelectionIndicator();
+    }
+    
     // Set new active filter
-    activeFilter = { filterTab, filterType, filterValue };
+    activeFilter = { filterTab, filterType, filterValue, source: 'tab' };
     filterTab.classList.add('active');
     
     // Apply filter with fade transition
@@ -965,7 +1139,12 @@ function handleFilterClick(filterTab, filterType, filterValue) {
 function removeActiveFilter() {
     if (!activeFilter) return;
     
-    activeFilter.filterTab.classList.remove('active');
+    if (activeFilter.filterTab) {
+        activeFilter.filterTab.classList.remove('active');
+    }
+    if (activeFilter.filterType === 'color') {
+        clearGradientSelectionIndicator();
+    }
     activeFilter = null;
     
     // Show all cards
@@ -995,6 +1174,7 @@ function filterGridByAI(recommendedCardNames, query) {
     document.querySelectorAll('.filter-tab').forEach(tab => {
         tab.classList.remove('active');
     });
+    clearGradientSelectionIndicator();
     
     // Fade out existing cards
     allImageItems.forEach(item => {
@@ -2034,6 +2214,12 @@ if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', setupHeaderCollapse);
 } else {
     setupHeaderCollapse();
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeColorGradientBar);
+} else {
+    initializeColorGradientBar();
 }
 
 
