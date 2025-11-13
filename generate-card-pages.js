@@ -89,7 +89,7 @@ function generateCardPageHTML(card, slug) {
         // Fetch card details from API
         async function loadCardDetails() {
             try {
-                const response = await fetch('../api/card-details', {
+                const response = await fetch('/api/card-details', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
