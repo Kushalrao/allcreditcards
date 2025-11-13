@@ -1,0 +1,2009 @@
+{
+  "generatedAt": "2025-11-13T19:03:00.471Z",
+  "assetsDir": "Assets",
+  "totalCards": 181,
+  "colorFamilies": {
+    "Black": 42,
+    "Gray": 39,
+    "Blue": 20,
+    "Red": 18,
+    "Cyan": 15,
+    "Pink": 10,
+    "Orange": 9,
+    "Indigo": 8,
+    "Yellow": 6,
+    "Brown": 5,
+    "Purple": 3,
+    "Teal": 3,
+    "Green": 1,
+    "White": 1,
+    "Lime": 1
+  },
+  "cards": {
+    "Amazon Pay ICICI Credit Card.png": {
+      "dominantHex": "#989898",
+      "colorFamily": "Gray",
+      "palette": [
+        "#B8B8B8",
+        "#777777",
+        "#171717",
+        "#A8A8A8",
+        "#E7E7E7"
+      ]
+    },
+    "American Express Gold Card.png": {
+      "dominantHex": "#C8B569",
+      "colorFamily": "Yellow",
+      "palette": [
+        "#B9A758",
+        "#AB9947",
+        "#D9C475",
+        "#C2AE64",
+        "#B6A34B"
+      ]
+    },
+    "American Express Membership Rewards.png": {
+      "dominantHex": "#C7B677",
+      "colorFamily": "Yellow",
+      "palette": [
+        "#D6CA98",
+        "#DDD3A6",
+        "#E4DCB5",
+        "#C9BB85",
+        "#B9A76A"
+      ]
+    },
+    "American Express Platinum Card.png": {
+      "dominantHex": "#D6D6D9",
+      "colorFamily": "Gray",
+      "palette": [
+        "#B5B6B9",
+        "#E5E6E8",
+        "#C6C7CA",
+        "#ADAEB1",
+        "#CDCDD1"
+      ]
+    },
+    "American Express Platinum Reserve.png": {
+      "dominantHex": "#3B3B3B",
+      "colorFamily": "Gray",
+      "palette": [
+        "#474647",
+        "#787777",
+        "#696768",
+        "#585657",
+        "#878687"
+      ]
+    },
+    "American Express Platinum Travel.png": {
+      "dominantHex": "#AAB4B9",
+      "colorFamily": "Gray",
+      "palette": [
+        "#BBC3C8",
+        "#CCD3D6",
+        "#D3D9DC",
+        "#E4E9EB",
+        "#99A5A9"
+      ]
+    },
+    "American Express SmartEarn.png": {
+      "dominantHex": "#2C4488",
+      "colorFamily": "Blue",
+      "palette": [
+        "#37579A",
+        "#3D64A6",
+        "#283C83",
+        "#4878B6",
+        "#3B5DA3"
+      ]
+    },
+    "AU Bank Altura Credit Card-1.png": {
+      "dominantHex": "#034A95",
+      "colorFamily": "Blue",
+      "palette": [
+        "#06468B",
+        "#0A1B55",
+        "#0B2459",
+        "#083979",
+        "#073C83"
+      ]
+    },
+    "AU Bank Altura Credit Card.png": {
+      "dominantHex": "#390A5A",
+      "colorFamily": "Indigo",
+      "palette": [
+        "#56136A",
+        "#460E62",
+        "#E95724",
+        "#781777",
+        "#4D1166"
+      ]
+    },
+    "AU Bank LIT Credit Card.png": {
+      "dominantHex": "#BAB6D8",
+      "colorFamily": "Blue",
+      "palette": [
+        "#E7E8E8",
+        "#F2F2F3",
+        "#D7D8D8",
+        "#B7B8B8",
+        "#C7C7C8"
+      ]
+    },
+    "AU Bank Xcite Credit Card.png": {
+      "dominantHex": "#195788",
+      "colorFamily": "Cyan",
+      "palette": [
+        "#081619",
+        "#1A5B93",
+        "#174978",
+        "#256698",
+        "#185678"
+      ]
+    },
+    "AU Bank Zenith Credit Card.png": {
+      "dominantHex": "#469947",
+      "colorFamily": "Green",
+      "palette": [
+        "#176936",
+        "#095827",
+        "#368839",
+        "#399746",
+        "#277838"
+      ]
+    },
+    "Axis Bank Ace Credit Card.png": {
+      "dominantHex": "#150A14",
+      "colorFamily": "Black",
+      "palette": [
+        "#0F080F",
+        "#280C25",
+        "#350C2B",
+        "#681645",
+        "#471339"
+      ]
+    },
+    "Axis Bank Airtel Credit Card.png": {
+      "dominantHex": "#381A27",
+      "colorFamily": "Pink",
+      "palette": [
+        "#69223A",
+        "#26121C",
+        "#582236",
+        "#451C2C",
+        "#1A0C14"
+      ]
+    },
+    "Axis Bank Atlas Credit Card.png": {
+      "dominantHex": "#171717",
+      "colorFamily": "Black",
+      "palette": [
+        "#282727",
+        "#373737",
+        "#474747",
+        "#575757",
+        "#686867"
+      ]
+    },
+    "Axis Bank Buzz Credit Card.png": {
+      "dominantHex": "#2B1E43",
+      "colorFamily": "Indigo",
+      "palette": [
+        "#2A213D",
+        "#291D3B",
+        "#2A2142",
+        "#08021B",
+        "#0C0424"
+      ]
+    },
+    "Axis Bank Flipkart Credit Card.png": {
+      "dominantHex": "#882559",
+      "colorFamily": "Pink",
+      "palette": [
+        "#276AA4",
+        "#771B4B",
+        "#130307",
+        "#681B43",
+        "#26659B"
+      ]
+    },
+    "Axis Bank Horizon Credit Card.png": {
+      "dominantHex": "#28031A",
+      "colorFamily": "Black",
+      "palette": [
+        "#1A0213",
+        "#390222",
+        "#34011E",
+        "#16030C",
+        "#460227"
+      ]
+    },
+    "Axis Bank IndianOil Credit Card.png": {
+      "dominantHex": "#171515",
+      "colorFamily": "Black",
+      "palette": [
+        "#110D0E",
+        "#272526",
+        "#371628",
+        "#482539",
+        "#25161D"
+      ]
+    },
+    "Axis Bank Insta Easy Credit Card.png": {
+      "dominantHex": "#381A27",
+      "colorFamily": "Pink",
+      "palette": [
+        "#69223A",
+        "#26121C",
+        "#582236",
+        "#451C2C",
+        "#1A0C14"
+      ]
+    },
+    "Axis Bank Magnus Credit Card.png": {
+      "dominantHex": "#A63B68",
+      "colorFamily": "Pink",
+      "palette": [
+        "#892C54",
+        "#96325D",
+        "#591734",
+        "#9C3662",
+        "#280815"
+      ]
+    },
+    "Axis Bank Miles & More Credit Card.png": {
+      "dominantHex": "#83888A",
+      "colorFamily": "Gray",
+      "palette": [
+        "#6B7478",
+        "#7C8285",
+        "#5A646A",
+        "#737A7D",
+        "#777D81"
+      ]
+    },
+    "Axis Bank My Zone Credit Card (Student).png": {
+      "dominantHex": "#280214",
+      "colorFamily": "Black",
+      "palette": [
+        "#360219",
+        "#570329",
+        "#17010A",
+        "#490323",
+        "#373737"
+      ]
+    },
+    "Axis Bank My Zone Credit Card.png": {
+      "dominantHex": "#290214",
+      "colorFamily": "Black",
+      "palette": [
+        "#37021A",
+        "#58042A",
+        "#18000B",
+        "#490323",
+        "#363636"
+      ]
+    },
+    "Axis Bank Neo Credit Card.png": {
+      "dominantHex": "#38021A",
+      "colorFamily": "Pink",
+      "palette": [
+        "#280413",
+        "#17050B",
+        "#470223",
+        "#686868",
+        "#181717"
+      ]
+    },
+    "Axis Bank Reserve Credit Card.png": {
+      "dominantHex": "#151515",
+      "colorFamily": "Black",
+      "palette": [
+        "#686868",
+        "#280E17",
+        "#272727",
+        "#585858",
+        "#767676"
+      ]
+    },
+    "Axis Bank Select Credit Card.png": {
+      "dominantHex": "#872848",
+      "colorFamily": "Pink",
+      "palette": [
+        "#A63459",
+        "#9B3257",
+        "#962D54",
+        "#77243C",
+        "#661D34"
+      ]
+    },
+    "Axis Bank Vistara Infinite.png": {
+      "dominantHex": "#850127",
+      "colorFamily": "Pink",
+      "palette": [
+        "#160503",
+        "#E7BA66",
+        "#790022",
+        "#690118",
+        "#270101"
+      ]
+    },
+    "Axis Bank Vistara Signature.png": {
+      "dominantHex": "#7A0023",
+      "colorFamily": "Pink",
+      "palette": [
+        "#850127",
+        "#1B1818",
+        "#690018",
+        "#160404",
+        "#B5A39C"
+      ]
+    },
+    "Bank of Baroda Premier Credit Card.png": {
+      "dominantHex": "#690D0C",
+      "colorFamily": "Red",
+      "palette": [
+        "#871619",
+        "#771315",
+        "#580B0B",
+        "#480808",
+        "#6C1113"
+      ]
+    },
+    "Bank of Baroda Prime Credit Card-1.png": {
+      "dominantHex": "#1E439A",
+      "colorFamily": "Blue",
+      "palette": [
+        "#05A9E5",
+        "#0898D7",
+        "#04B4EC",
+        "#1758A7",
+        "#1674BB"
+      ]
+    },
+    "Bank of Baroda Prime Credit Card.png": {
+      "dominantHex": "#DAA439",
+      "colorFamily": "Orange",
+      "palette": [
+        "#A97629",
+        "#FCC55A",
+        "#EAB448",
+        "#CA9636",
+        "#986627"
+      ]
+    },
+    "Bank of Baroda Secured Credit Card.png": {
+      "dominantHex": "#DAA439",
+      "colorFamily": "Orange",
+      "palette": [
+        "#A9762A",
+        "#FBC55A",
+        "#EBB347",
+        "#D39D36",
+        "#996728"
+      ]
+    },
+    "Bank of Baroda Select Credit Card.png": {
+      "dominantHex": "#282837",
+      "colorFamily": "Blue",
+      "palette": [
+        "#1B1A27",
+        "#373648",
+        "#DDB725",
+        "#464558",
+        "#22212D"
+      ]
+    },
+    "BPCL SBI Card Octane Prime.png": {
+      "dominantHex": "#281A12",
+      "colorFamily": "Brown",
+      "palette": [
+        "#1A120E",
+        "#382418",
+        "#130D0B",
+        "#442C1C",
+        "#56361E"
+      ]
+    },
+    "DBS Vantage Credit Card.png": {
+      "dominantHex": "#13171A",
+      "colorFamily": "Black",
+      "palette": [
+        "#0A0E12",
+        "#0E1215",
+        "#24272A",
+        "#1D2224",
+        "#191E21"
+      ]
+    },
+    "Dhanlaxmi Bank Credit Card.png": {
+      "dominantHex": "#291924",
+      "colorFamily": "Purple",
+      "palette": [
+        "#1A1318",
+        "#160D14",
+        "#3A2634",
+        "#22141E",
+        "#541245"
+      ]
+    },
+    "Federal Bank Celesta Credit Card.png": {
+      "dominantHex": "#211F20",
+      "colorFamily": "Gray",
+      "palette": [
+        "#262626",
+        "#1C1B1B",
+        "#363636",
+        "#211E1E",
+        "#464646"
+      ]
+    },
+    "Federal Bank Imperio Credit Card.png": {
+      "dominantHex": "#11100E",
+      "colorFamily": "Black",
+      "palette": [
+        "#3A3734",
+        "#4A4745",
+        "#2A2825",
+        "#5B5856",
+        "#181714"
+      ]
+    },
+    "Federal Bank Scapia Credit Card.png": {
+      "dominantHex": "#FD4823",
+      "colorFamily": "Red",
+      "palette": [
+        "#111315",
+        "#DD3F1E",
+        "#EBF5F2",
+        "#3A4D53",
+        "#DD401D"
+      ]
+    },
+    "Federal Bank Signet Credit Card.png": {
+      "dominantHex": "#34383A",
+      "colorFamily": "Gray",
+      "palette": [
+        "#055295",
+        "#24282B",
+        "#2D3235",
+        "#16181A",
+        "#54585B"
+      ]
+    },
+    "HDFC Corporate Platinum Credit Card.png": {
+      "dominantHex": "#96989B",
+      "colorFamily": "Gray",
+      "palette": [
+        "#848689",
+        "#767779",
+        "#67686A",
+        "#7D7E81",
+        "#595A5C"
+      ]
+    },
+    "HDFC Diners Club Black.png": {
+      "dominantHex": "#110F16",
+      "colorFamily": "Black",
+      "palette": [
+        "#25252A",
+        "#16141A",
+        "#0E0C13",
+        "#1D1C22",
+        "#363637"
+      ]
+    },
+    "HDFC Diners Club Premium.png": {
+      "dominantHex": "#391723",
+      "colorFamily": "Pink",
+      "palette": [
+        "#4A2A33",
+        "#76575A",
+        "#64474B",
+        "#54353C",
+        "#886569"
+      ]
+    },
+    "HDFC EasyShop Platinum Credit Card.png": {
+      "dominantHex": "#141919",
+      "colorFamily": "Black",
+      "palette": [
+        "#242A2A",
+        "#0D1212",
+        "#1C2323",
+        "#343A3A",
+        "#2C3332"
+      ]
+    },
+    "HDFC Freedom Credit Card.png": {
+      "dominantHex": "#005DA9",
+      "colorFamily": "Cyan",
+      "palette": [
+        "#0061AC",
+        "#E20914",
+        "#DD181B",
+        "#DA2421",
+        "#014588"
+      ]
+    },
+    "HDFC Freedom RuPay Credit Card.png": {
+      "dominantHex": "#0166AD",
+      "colorFamily": "Cyan",
+      "palette": [
+        "#0268B1",
+        "#EB1E25",
+        "#0259A6",
+        "#C5DAE8",
+        "#00489A"
+      ]
+    },
+    "HDFC IndiGo Credit Card.png": {
+      "dominantHex": "#2E4597",
+      "colorFamily": "Blue",
+      "palette": [
+        "#314595",
+        "#2A3C89",
+        "#35468A",
+        "#C52534",
+        "#2C428B"
+      ]
+    },
+    "HDFC Infinia Credit Card.png": {
+      "dominantHex": "#0C2847",
+      "colorFamily": "Blue",
+      "palette": [
+        "#15335B",
+        "#163965",
+        "#134375",
+        "#0E1317",
+        "#111418"
+      ]
+    },
+    "HDFC ISIC Student Forex Plus.png": {
+      "dominantHex": "#003C93",
+      "colorFamily": "Blue",
+      "palette": [
+        "#98DAD8",
+        "#A6DDDC",
+        "#C8E9E8",
+        "#B7E4E3",
+        "#67CCCA"
+      ]
+    },
+    "HDFC Marriott Bonvoy Credit Card.png": {
+      "dominantHex": "#231F20",
+      "colorFamily": "Gray",
+      "palette": [
+        "#1A181E",
+        "#262221",
+        "#796532",
+        "#65552D",
+        "#584A2A"
+      ]
+    },
+    "HDFC Millennia Credit Card.png": {
+      "dominantHex": "#174578",
+      "colorFamily": "Blue",
+      "palette": [
+        "#163B68",
+        "#19345A",
+        "#184B86",
+        "#0D2C55",
+        "#0C264D"
+      ]
+    },
+    "HDFC MoneyBack Plus Credit Card.png": {
+      "dominantHex": "#05A8E3",
+      "colorFamily": "Cyan",
+      "palette": [
+        "#014487",
+        "#E30612",
+        "#37B8E5",
+        "#14ADE4",
+        "#A9E2F6"
+      ]
+    },
+    "HDFC MoneyBack+ RuPay Credit Card.png": {
+      "dominantHex": "#00A9E2",
+      "colorFamily": "Cyan",
+      "palette": [
+        "#014587",
+        "#E20613",
+        "#02A3DE",
+        "#E7010D",
+        "#05B1E9"
+      ]
+    },
+    "HDFC Pixel Play Credit Card.png": {
+      "dominantHex": "#00B7F1",
+      "colorFamily": "Cyan",
+      "palette": [
+        "#A7E6FA",
+        "#88DDF8",
+        "#98E2F9",
+        "#B8EBFB",
+        "#18BDF2"
+      ]
+    },
+    "HDFC Regalia Credit Card.png": {
+      "dominantHex": "#191401",
+      "colorFamily": "Black",
+      "palette": [
+        "#2A2408",
+        "#221C06",
+        "#332C0C",
+        "#3A3415",
+        "#887846"
+      ]
+    },
+    "HDFC Regalia Gold Credit Card.png": {
+      "dominantHex": "#281A10",
+      "colorFamily": "Brown",
+      "palette": [
+        "#966C1B",
+        "#A57A26",
+        "#1A0D07",
+        "#24160E",
+        "#B78B33"
+      ]
+    },
+    "HDFC Solitaire Credit Card.png": {
+      "dominantHex": "#670458",
+      "colorFamily": "Purple",
+      "palette": [
+        "#57044A",
+        "#770967",
+        "#881677",
+        "#9A2488",
+        "#971C84"
+      ]
+    },
+    "HDFC Swiggy Credit Card.png": {
+      "dominantHex": "#ED7717",
+      "colorFamily": "Orange",
+      "palette": [
+        "#033A8E",
+        "#EC6B18",
+        "#EB6924",
+        "#F39709",
+        "#F1890A"
+      ]
+    },
+    "HDFC Tata Neu Infinity Credit Card.png": {
+      "dominantHex": "#241537",
+      "colorFamily": "Indigo",
+      "palette": [
+        "#573084",
+        "#562E84",
+        "#442768",
+        "#4C2B75",
+        "#522D7D"
+      ]
+    },
+    "HDFC Tata Neu Plus Credit Card.png": {
+      "dominantHex": "#662687",
+      "colorFamily": "Indigo",
+      "palette": [
+        "#6685FD",
+        "#5797FD",
+        "#7475FD",
+        "#8A58EA",
+        "#49A8FD"
+      ]
+    },
+    "HSBC Premier Credit Card.png": {
+      "dominantHex": "#262628",
+      "colorFamily": "Gray",
+      "palette": [
+        "#1C1C1E",
+        "#343436",
+        "#1E1E21",
+        "#454649",
+        "#2E2E31"
+      ]
+    },
+    "HSBC Premier World Elite Mastercard.png": {
+      "dominantHex": "#272729",
+      "colorFamily": "Gray",
+      "palette": [
+        "#1A1A1C",
+        "#353537",
+        "#1E1E20",
+        "#464648",
+        "#2E2E30"
+      ]
+    },
+    "HSBC Smart Value Titanium.png": {
+      "dominantHex": "#979596",
+      "colorFamily": "Gray",
+      "palette": [
+        "#B5B4B5",
+        "#CAC9C9",
+        "#878789",
+        "#D5D4D5",
+        "#A8A7A8"
+      ]
+    },
+    "HSBC Travel One Credit Card.png": {
+      "dominantHex": "#232124",
+      "colorFamily": "Gray",
+      "palette": [
+        "#141112",
+        "#676769",
+        "#969797",
+        "#130F10",
+        "#898A8B"
+      ]
+    },
+    "HSBC Visa Platinum Credit Card-1.png": {
+      "dominantHex": "#D3414C",
+      "colorFamily": "Red",
+      "palette": [
+        "#676B95",
+        "#0472B5",
+        "#876887",
+        "#79678B",
+        "#586C9B"
+      ]
+    },
+    "HSBC Visa Platinum Credit Card.png": {
+      "dominantHex": "#858589",
+      "colorFamily": "Gray",
+      "palette": [
+        "#96959A",
+        "#A5A5A9",
+        "#B6B6BA",
+        "#77767B",
+        "#9E9DA2"
+      ]
+    },
+    "ICICI Amazon Pay Credit Card.png": {
+      "dominantHex": "#171717",
+      "colorFamily": "Black",
+      "palette": [
+        "#272727",
+        "#353535",
+        "#0F0F0F",
+        "#C6C7C8",
+        "#D7D7D8"
+      ]
+    },
+    "ICICI Coral Credit Card.png": {
+      "dominantHex": "#180600",
+      "colorFamily": "Black",
+      "palette": [
+        "#881A08",
+        "#260A00",
+        "#781807",
+        "#941B09",
+        "#681606"
+      ]
+    },
+    "ICICI Diamant Credit Card.png": {
+      "dominantHex": "#161616",
+      "colorFamily": "Black",
+      "palette": [
+        "#E5E7E8",
+        "#383738",
+        "#797778",
+        "#888788",
+        "#484748"
+      ]
+    },
+    "ICICI Emeralde Credit Card.png": {
+      "dominantHex": "#095846",
+      "colorFamily": "Teal",
+      "palette": [
+        "#0B2619",
+        "#083628",
+        "#094838",
+        "#03866A",
+        "#11372A"
+      ]
+    },
+    "ICICI Emeralde Private Metal.png": {
+      "dominantHex": "#12120D",
+      "colorFamily": "Black",
+      "palette": [
+        "#171A13",
+        "#1A3729",
+        "#174837",
+        "#1A251C",
+        "#0D5A47"
+      ]
+    },
+    "ICICI Expressions Credit Card.png": {
+      "dominantHex": "#C7E9FC",
+      "colorFamily": "Cyan",
+      "palette": [
+        "#BAE5FD",
+        "#F4E5C5",
+        "#D5ECFA",
+        "#A8DBF9",
+        "#D8F1FC"
+      ]
+    },
+    "ICICI Ferrari World Credit Card.png": {
+      "dominantHex": "#AB1818",
+      "colorFamily": "Red",
+      "palette": [
+        "#B92624",
+        "#B21C1C",
+        "#B5221D",
+        "#D82528",
+        "#C5332C"
+      ]
+    },
+    "ICICI Gold Credit Card.png": {
+      "dominantHex": "#B1892E",
+      "colorFamily": "Yellow",
+      "palette": [
+        "#684616",
+        "#AC862C",
+        "#78561C",
+        "#A37D2A",
+        "#896523"
+      ]
+    },
+    "ICICI HPCL Coral Credit Card.png": {
+      "dominantHex": "#B33A28",
+      "colorFamily": "Red",
+      "palette": [
+        "#AA3425",
+        "#A52C23",
+        "#9A2621",
+        "#881A1C",
+        "#B94538"
+      ]
+    },
+    "ICICI HPCL Credit Card.png": {
+      "dominantHex": "#0178A7",
+      "colorFamily": "Cyan",
+      "palette": [
+        "#844A58",
+        "#455A78",
+        "#0188B8",
+        "#3858A4",
+        "#2A5585"
+      ]
+    },
+    "ICICI Instant Platinum Credit Card.png": {
+      "dominantHex": "#171717",
+      "colorFamily": "Black",
+      "palette": [
+        "#373737",
+        "#282828",
+        "#464646",
+        "#FB0304",
+        "#FD9A07"
+      ]
+    },
+    "ICICI Manchester United Credit Card.png": {
+      "dominantHex": "#DA1A22",
+      "colorFamily": "Red",
+      "palette": [
+        "#C7161D",
+        "#D6171E",
+        "#B91419",
+        "#CA1A22",
+        "#880405"
+      ]
+    },
+    "ICICI MMT Credit Card.png": {
+      "dominantHex": "#292927",
+      "colorFamily": "Gray",
+      "palette": [
+        "#191716",
+        "#393735",
+        "#494846",
+        "#5A5856",
+        "#A8A8A7"
+      ]
+    },
+    "ICICI Rubyx Credit Card.png": {
+      "dominantHex": "#14110B",
+      "colorFamily": "Black",
+      "palette": [
+        "#880A0C",
+        "#B8151A",
+        "#970A0C",
+        "#280C09",
+        "#790B0B"
+      ]
+    },
+    "ICICI Sapphiro Credit Card.png": {
+      "dominantHex": "#174798",
+      "colorFamily": "Blue",
+      "palette": [
+        "#35458B",
+        "#1A3887",
+        "#343979",
+        "#364B97",
+        "#284797"
+      ]
+    },
+    "ICICI Student Travel Credit Card.png": {
+      "dominantHex": "#E86736",
+      "colorFamily": "Orange",
+      "palette": [
+        "#883733",
+        "#D94932",
+        "#E25A35",
+        "#793533",
+        "#DD5433"
+      ]
+    },
+    "ICICI Unifare Credit Card.png": {
+      "dominantHex": "#171715",
+      "colorFamily": "Black",
+      "palette": [
+        "#292825",
+        "#4A4945",
+        "#140A07",
+        "#5A5954",
+        "#393835"
+      ]
+    },
+    "IDFC FIRST Ashva Credit Card.png": {
+      "dominantHex": "#56181C",
+      "colorFamily": "Red",
+      "palette": [
+        "#76242A",
+        "#5A1921",
+        "#641C23",
+        "#4E161B",
+        "#E8E9E7"
+      ]
+    },
+    "IDFC FIRST Classic Credit Card.png": {
+      "dominantHex": "#0156A5",
+      "colorFamily": "Cyan",
+      "palette": [
+        "#024687",
+        "#025599",
+        "#014D9A",
+        "#0178C5",
+        "#0269B5"
+      ]
+    },
+    "IDFC FIRST Club Vistara.png": {
+      "dominantHex": "#EB212A",
+      "colorFamily": "Red",
+      "palette": [
+        "#181316",
+        "#291B24",
+        "#F99E1E",
+        "#F99D21",
+        "#656464"
+      ]
+    },
+    "IDFC FIRST Mayura Credit Card.png": {
+      "dominantHex": "#1B1134",
+      "colorFamily": "Indigo",
+      "palette": [
+        "#1B0E33",
+        "#150B2B",
+        "#17112C",
+        "#241738",
+        "#0B0326"
+      ]
+    },
+    "IDFC FIRST Millenia Credit Card.png": {
+      "dominantHex": "#9C1B28",
+      "colorFamily": "Red",
+      "palette": [
+        "#A52538",
+        "#A31B2A",
+        "#19233B",
+        "#263955",
+        "#192746"
+      ]
+    },
+    "IDFC FIRST Power Credit Card.png": {
+      "dominantHex": "#161618",
+      "colorFamily": "Black",
+      "palette": [
+        "#262628",
+        "#373638",
+        "#464648",
+        "#D6D7D9",
+        "#B6B7B9"
+      ]
+    },
+    "IDFC FIRST Select Credit Card.png": {
+      "dominantHex": "#AB2D4D",
+      "colorFamily": "Pink",
+      "palette": [
+        "#991B28",
+        "#883259",
+        "#682D53",
+        "#742E53",
+        "#A72D52"
+      ]
+    },
+    "IDFC FIRST Vistara Credit Card.png": {
+      "dominantHex": "#EB212A",
+      "colorFamily": "Red",
+      "palette": [
+        "#181316",
+        "#291B24",
+        "#F99E1E",
+        "#F99D21",
+        "#656464"
+      ]
+    },
+    "IDFC FIRST Wealth Credit Card.png": {
+      "dominantHex": "#040628",
+      "colorFamily": "Black",
+      "palette": [
+        "#030A34",
+        "#011655",
+        "#03021B",
+        "#03123A",
+        "#021849"
+      ]
+    },
+    "IDFC FIRST WOW Credit Card.png": {
+      "dominantHex": "#6C1014",
+      "colorFamily": "Red",
+      "palette": [
+        "#979799",
+        "#B7B8B9",
+        "#C6C7C8",
+        "#A6A7A9",
+        "#88898D"
+      ]
+    },
+    "IndusInd Bank Crest Credit Card.png": {
+      "dominantHex": "#272727",
+      "colorFamily": "Gray",
+      "palette": [
+        "#191818",
+        "#363637",
+        "#454547",
+        "#201E1F",
+        "#666769"
+      ]
+    },
+    "IndusInd Bank Duo Credit Card.png": {
+      "dominantHex": "#B72526",
+      "colorFamily": "Red",
+      "palette": [
+        "#19181D",
+        "#1C1B22",
+        "#841D1D",
+        "#8A2223",
+        "#232226"
+      ]
+    },
+    "IndusInd Bank Eazydiner Credit Card.png": {
+      "dominantHex": "#3A3A39",
+      "colorFamily": "Gray",
+      "palette": [
+        "#161616",
+        "#292A28",
+        "#0F0F0F",
+        "#484846",
+        "#787976"
+      ]
+    },
+    "IndusInd Bank Legend Credit Card.png": {
+      "dominantHex": "#262223",
+      "colorFamily": "Gray",
+      "palette": [
+        "#1A1617",
+        "#110D0C",
+        "#3A3535",
+        "#4A4645",
+        "#211D1E"
+      ]
+    },
+    "IndusInd Bank Nexxt Credit Card.png": {
+      "dominantHex": "#3994C8",
+      "colorFamily": "Cyan",
+      "palette": [
+        "#143159",
+        "#2A86BA",
+        "#5CB7E4",
+        "#4AA4D5",
+        "#54ABDB"
+      ]
+    },
+    "IndusInd Bank Pioneer Heritage Metal.png": {
+      "dominantHex": "#D8DCDB",
+      "colorFamily": "Gray",
+      "palette": [
+        "#E5E7E5",
+        "#EAC965",
+        "#CACAC8",
+        "#E3BB54",
+        "#F6D874"
+      ]
+    },
+    "IndusInd Bank Platinum Aura Edge.png": {
+      "dominantHex": "#080817",
+      "colorFamily": "Black",
+      "palette": [
+        "#161537",
+        "#0B0A26",
+        "#151529",
+        "#2A2657",
+        "#1B1845"
+      ]
+    },
+    "IndusInd Bank Platinum Credit Card.png": {
+      "dominantHex": "#252929",
+      "colorFamily": "Gray",
+      "palette": [
+        "#35393A",
+        "#44484A",
+        "#2E3132",
+        "#3D4143",
+        "#1E2123"
+      ]
+    },
+    "IndusInd Bank Signature Credit Card.png": {
+      "dominantHex": "#353437",
+      "colorFamily": "Gray",
+      "palette": [
+        "#2A2A2B",
+        "#2E2E31",
+        "#464647",
+        "#C7C7C8",
+        "#D6D6D7"
+      ]
+    },
+    "Jupiter Edge CSB Bank Rupay Credit Card.png": {
+      "dominantHex": "#EF6F61",
+      "colorFamily": "Red",
+      "palette": [
+        "#2C2E2F",
+        "#F18379",
+        "#ED7467",
+        "#393433",
+        "#584643"
+      ]
+    },
+    "Jupiter Edge+ CSB Bank Rupay Credit Card.png": {
+      "dominantHex": "#D63A46",
+      "colorFamily": "Red",
+      "palette": [
+        "#D22B39",
+        "#D8434D",
+        "#471833",
+        "#DA4952",
+        "#571838"
+      ]
+    },
+    "Kotak 811 #DreamDifferent.png": {
+      "dominantHex": "#231C22",
+      "colorFamily": "Gray",
+      "palette": [
+        "#282226",
+        "#F4F2EB",
+        "#F2EDE5",
+        "#1C171D",
+        "#8899A8"
+      ]
+    },
+    "Kotak Delight Platinum.png": {
+      "dominantHex": "#35363A",
+      "colorFamily": "Gray",
+      "palette": [
+        "#45464A",
+        "#64666B",
+        "#54565A",
+        "#73767B",
+        "#3B3D41"
+      ]
+    },
+    "Kotak Essentia Platinum.png": {
+      "dominantHex": "#46484A",
+      "colorFamily": "Gray",
+      "palette": [
+        "#36383A",
+        "#26282A",
+        "#555758",
+        "#4C4E50",
+        "#2E3132"
+      ]
+    },
+    "Kotak IndiGo Ka-ching Credit Card.png": {
+      "dominantHex": "#D72E44",
+      "colorFamily": "Red",
+      "palette": [
+        "#E72D4B",
+        "#EC2D53",
+        "#C62D3E",
+        "#B82D3B",
+        "#CB2E41"
+      ]
+    },
+    "Kotak League Platinum Credit Card.png": {
+      "dominantHex": "#131B19",
+      "colorFamily": "Black",
+      "palette": [
+        "#0C1613",
+        "#444C45",
+        "#4B534A",
+        "#343C37",
+        "#232C28"
+      ]
+    },
+    "Kotak Mahindra Aqua Gold.png": {
+      "dominantHex": "#AA8937",
+      "colorFamily": "Yellow",
+      "palette": [
+        "#B49339",
+        "#B38C37",
+        "#AC9239",
+        "#E3A92C",
+        "#E9B72A"
+      ]
+    },
+    "Kotak Mahindra Zen Signature.png": {
+      "dominantHex": "#2A1A11",
+      "colorFamily": "Brown",
+      "palette": [
+        "#482714",
+        "#150B09",
+        "#25160E",
+        "#341E12",
+        "#673414"
+      ]
+    },
+    "Kotak Privy League Signature.png": {
+      "dominantHex": "#180708",
+      "colorFamily": "Black",
+      "palette": [
+        "#260C0C",
+        "#361212",
+        "#2B1414",
+        "#290E11",
+        "#570D0B"
+      ]
+    },
+    "Kotak PVR Gold Credit Card.png": {
+      "dominantHex": "#271214",
+      "colorFamily": "Red",
+      "palette": [
+        "#47191A",
+        "#371717",
+        "#191314",
+        "#782429",
+        "#58181A"
+      ]
+    },
+    "Kotak Royale Signature Credit Card.png": {
+      "dominantHex": "#191716",
+      "colorFamily": "Black",
+      "palette": [
+        "#292725",
+        "#23211D",
+        "#211E1C",
+        "#393734",
+        "#14110E"
+      ]
+    },
+    "Kotak Silk Inspire Credit Card.png": {
+      "dominantHex": "#446A8B",
+      "colorFamily": "Cyan",
+      "palette": [
+        "#4B7394",
+        "#3C6485",
+        "#547A9B",
+        "#355B7C",
+        "#F5EBC6"
+      ]
+    },
+    "Kotak Solaris Platinum.png": {
+      "dominantHex": "#260A0B",
+      "colorFamily": "Black",
+      "palette": [
+        "#68090B",
+        "#750A0C",
+        "#871518",
+        "#471213",
+        "#590B0D"
+      ]
+    },
+    "Kotak Urbane Gold Credit Card.png": {
+      "dominantHex": "#E7C977",
+      "colorFamily": "Yellow",
+      "palette": [
+        "#E5C568",
+        "#DDBA58",
+        "#E2BC57",
+        "#EBD389",
+        "#E5C35A"
+      ]
+    },
+    "Kotak White Credit Card.png": {
+      "dominantHex": "#F3F4F3",
+      "colorFamily": "White",
+      "palette": [
+        "#EAEEED",
+        "#EEF1F0",
+        "#ECF0EF",
+        "#C7C9C9",
+        "#D6D7D7"
+      ]
+    },
+    "logo.png": {
+      "dominantHex": "#121212",
+      "colorFamily": "Black",
+      "palette": []
+    },
+    "Marriott Bonvoy American Express.png": {
+      "dominantHex": "#646A78",
+      "colorFamily": "Gray",
+      "palette": [
+        "#747B88",
+        "#343947",
+        "#272A36",
+        "#555B69",
+        "#5E6472"
+      ]
+    },
+    "Myntra Kotak Credit Card.png": {
+      "dominantHex": "#F7A867",
+      "colorFamily": "Orange",
+      "palette": [
+        "#F9B669",
+        "#F6A677",
+        "#FBD9A9",
+        "#FCE6B4",
+        "#F17769"
+      ]
+    },
+    "Niyo Global Card.png": {
+      "dominantHex": "#3587BB",
+      "colorFamily": "Cyan",
+      "palette": [
+        "#E9CAB8",
+        "#3895C8",
+        "#377EB2",
+        "#D4B6A7",
+        "#368CC2"
+      ]
+    },
+    "OneCard Credit Card.png": {
+      "dominantHex": "#181818",
+      "colorFamily": "Black",
+      "palette": [
+        "#282828",
+        "#D6D6D6",
+        "#383838",
+        "#C8C8C8",
+        "#E7E7E7"
+      ]
+    },
+    "PayTM HDFC Credit Card.png": {
+      "dominantHex": "#FFC687",
+      "colorFamily": "Orange",
+      "palette": [
+        "#FFEAD6",
+        "#FDD577",
+        "#FFBB92",
+        "#FED887",
+        "#F3E44C"
+      ]
+    },
+    "PayTM SBI Credit Card.png": {
+      "dominantHex": "#292827",
+      "colorFamily": "Gray",
+      "palette": [
+        "#181816",
+        "#363534",
+        "#32312E",
+        "#0F0E0D",
+        "#22211E"
+      ]
+    },
+    "PVR Inox Kotak Credit Card.png": {
+      "dominantHex": "#99752B",
+      "colorFamily": "Yellow",
+      "palette": [
+        "#896628",
+        "#D4AA46",
+        "#BB9434",
+        "#382A13",
+        "#AA842C"
+      ]
+    },
+    "RBL Bank Bajaj Finserv Credit Card.png": {
+      "dominantHex": "#181818",
+      "colorFamily": "Black",
+      "palette": [
+        "#484848",
+        "#373737",
+        "#272727",
+        "#575757",
+        "#676767"
+      ]
+    },
+    "RBL Bank IndianOil XTRA.png": {
+      "dominantHex": "#C72828",
+      "colorFamily": "Red",
+      "palette": [
+        "#B72A37",
+        "#D72A1A",
+        "#A72B46",
+        "#982A49",
+        "#083689"
+      ]
+    },
+    "RBL Bank Platinum Maxima.png": {
+      "dominantHex": "#382718",
+      "colorFamily": "Brown",
+      "palette": [
+        "#463424",
+        "#412E21",
+        "#533C27",
+        "#5A432A",
+        "#3E2D21"
+      ]
+    },
+    "RBL Bank Popcorn Credit Card.png": {
+      "dominantHex": "#0BA4A2",
+      "colorFamily": "Teal",
+      "palette": [
+        "#0AA39D",
+        "#06B4B3",
+        "#06B4AC",
+        "#181716",
+        "#14A5A4"
+      ]
+    },
+    "RBL Bank ShopRite Credit Card.png": {
+      "dominantHex": "#161719",
+      "colorFamily": "Black",
+      "palette": [
+        "#262829",
+        "#1E2124",
+        "#1B1E21",
+        "#333537",
+        "#2E3133"
+      ]
+    },
+    "RBL Bank World Safari.png": {
+      "dominantHex": "#181818",
+      "colorFamily": "Black",
+      "palette": [
+        "#262627",
+        "#373638",
+        "#787878",
+        "#686868",
+        "#474747"
+      ]
+    },
+    "SBI Air India Platinum Credit Card.png": {
+      "dominantHex": "#480000",
+      "colorFamily": "Red",
+      "palette": [
+        "#570401",
+        "#3A0000",
+        "#660B04",
+        "#77170C",
+        "#872915"
+      ]
+    },
+    "SBI Air India Signature Credit Card.png": {
+      "dominantHex": "#0C2757",
+      "colorFamily": "Blue",
+      "palette": [
+        "#0C1848",
+        "#0D3468",
+        "#0D86C5",
+        "#0C0C3C",
+        "#0D78B8"
+      ]
+    },
+    "SBI Apollo Credit Card.png": {
+      "dominantHex": "#241F21",
+      "colorFamily": "Gray",
+      "palette": [
+        "#242122",
+        "#F25923",
+        "#241E1D",
+        "#3A3635",
+        "#D9A562"
+      ]
+    },
+    "SBI Aurum Credit Card.png": {
+      "dominantHex": "#131518",
+      "colorFamily": "Black",
+      "palette": [
+        "#25262A",
+        "#1C1D21",
+        "#0C0E12",
+        "#35373A",
+        "#0F1014"
+      ]
+    },
+    "SBI BPCL Octane Credit Card.png": {
+      "dominantHex": "#181613",
+      "colorFamily": "Black",
+      "palette": [
+        "#2A2725",
+        "#26221C",
+        "#221E19",
+        "#312D2B",
+        "#13110E"
+      ]
+    },
+    "SBI Card ELITE.png": {
+      "dominantHex": "#483A36",
+      "colorFamily": "Brown",
+      "palette": [
+        "#584945",
+        "#382A27",
+        "#140A0A",
+        "#78635B",
+        "#68534C"
+      ]
+    },
+    "SBI Card PRIME.png": {
+      "dominantHex": "#161716",
+      "colorFamily": "Black",
+      "palette": [
+        "#0D1415",
+        "#0C0D11",
+        "#0D0D0E",
+        "#261A19",
+        "#272826"
+      ]
+    },
+    "SBI Card Unnati.png": {
+      "dominantHex": "#F39618",
+      "colorFamily": "Orange",
+      "palette": [
+        "#F18912",
+        "#F6A529",
+        "#F5AA36",
+        "#F7B548",
+        "#47AB36"
+      ]
+    },
+    "SBI Cashback Credit Card.png": {
+      "dominantHex": "#523091",
+      "colorFamily": "Indigo",
+      "palette": [
+        "#FEDD01",
+        "#522F91",
+        "#532C8E",
+        "#49268B",
+        "#54328E"
+      ]
+    },
+    "SBI Club Vistara Credit Card.png": {
+      "dominantHex": "#652A5A",
+      "colorFamily": "Purple",
+      "palette": [
+        "#652B61",
+        "#75395A",
+        "#5C2455",
+        "#6C3358",
+        "#773A63"
+      ]
+    },
+    "SBI Club Vistara Prime Credit Card.png": {
+      "dominantHex": "#0A376A",
+      "colorFamily": "Blue",
+      "palette": [
+        "#294569",
+        "#173964",
+        "#364869",
+        "#062B59",
+        "#16365C"
+      ]
+    },
+    "SBI Doctor's Credit Card.png": {
+      "dominantHex": "#282828",
+      "colorFamily": "Gray",
+      "palette": [
+        "#171717",
+        "#363636",
+        "#454546",
+        "#575758",
+        "#0F0F0F"
+      ]
+    },
+    "SBI Etihad Guest Credit Card.png": {
+      "dominantHex": "#1A0A24",
+      "colorFamily": "Black",
+      "palette": [
+        "#13071A",
+        "#0D0414",
+        "#2A1734",
+        "#24122D",
+        "#210E2A"
+      ]
+    },
+    "SBI Flipkart Card.png": {
+      "dominantHex": "#1A2465",
+      "colorFamily": "Blue",
+      "palette": [
+        "#1FB3E8",
+        "#FFE702",
+        "#21B3E7",
+        "#17235D",
+        "#141D59"
+      ]
+    },
+    "SBI IRCTC Platinum Credit Card.png": {
+      "dominantHex": "#E8E7E8",
+      "colorFamily": "Gray",
+      "palette": [
+        "#B7B7B8",
+        "#C7C7C8",
+        "#D7D7D8",
+        "#A7A7A9",
+        "#979799"
+      ]
+    },
+    "SBI IRCTC Premier Credit Card.png": {
+      "dominantHex": "#090327",
+      "colorFamily": "Black",
+      "palette": [
+        "#040318",
+        "#1C1648",
+        "#140B35",
+        "#261C54",
+        "#382566"
+      ]
+    },
+    "SBI Lifestyle Home Centre PRIME.png": {
+      "dominantHex": "#282423",
+      "colorFamily": "Gray",
+      "palette": [
+        "#231E1E",
+        "#393534",
+        "#241F21",
+        "#322D2C",
+        "#24211E"
+      ]
+    },
+    "SBI Max Credit Card PRIME.png": {
+      "dominantHex": "#161716",
+      "colorFamily": "Black",
+      "palette": [
+        "#0D1416",
+        "#261819",
+        "#0B0D11",
+        "#0C0D0E",
+        "#151B25"
+      ]
+    },
+    "SBI Ola Money Credit Card.png": {
+      "dominantHex": "#141414",
+      "colorFamily": "Black",
+      "palette": [
+        "#292929",
+        "#484848",
+        "#979798",
+        "#878789",
+        "#B7B7B9"
+      ]
+    },
+    "SBI PhonePe PURPLE.png": {
+      "dominantHex": "#121B27",
+      "colorFamily": "Blue",
+      "palette": [
+        "#603392",
+        "#2A2248",
+        "#352658",
+        "#1C1E35",
+        "#593288"
+      ]
+    },
+    "SBI PhonePe SELECT BLACK.png": {
+      "dominantHex": "#101A25",
+      "colorFamily": "Blue",
+      "palette": [
+        "#0E1A25",
+        "#2B353C",
+        "#0B151E",
+        "#181B34",
+        "#3C2859"
+      ]
+    },
+    "SBI Platinum Corporate Credit Card.png": {
+      "dominantHex": "#7B7A7A",
+      "colorFamily": "Gray",
+      "palette": [
+        "#888787",
+        "#474746",
+        "#393838",
+        "#161616",
+        "#D9D9D9"
+      ]
+    },
+    "SBI Pulse Credit Card.png": {
+      "dominantHex": "#685576",
+      "colorFamily": "Indigo",
+      "palette": [
+        "#775578",
+        "#595576",
+        "#875579",
+        "#474869",
+        "#97557A"
+      ]
+    },
+    "SBI Reliance Card PRIME.png": {
+      "dominantHex": "#C5C7C9",
+      "colorFamily": "Gray",
+      "palette": [
+        "#D6D8DA",
+        "#B6B8BA",
+        "#A6A7AA",
+        "#96979A",
+        "#85878A"
+      ]
+    },
+    "SBI SimplyCLICK Credit Card.png": {
+      "dominantHex": "#041A06",
+      "colorFamily": "Black",
+      "palette": [
+        "#04240C",
+        "#053819",
+        "#074824",
+        "#062B12",
+        "#06562B"
+      ]
+    },
+    "SBI SimplySAVE Credit Card.png": {
+      "dominantHex": "#010127",
+      "colorFamily": "Black",
+      "palette": [
+        "#010347",
+        "#010137",
+        "#022767",
+        "#033977",
+        "#020655"
+      ]
+    },
+    "SBI SimplySAVE RuPay Credit Card.png": {
+      "dominantHex": "#165BA7",
+      "colorFamily": "Blue",
+      "palette": [
+        "#0D549D",
+        "#14579C",
+        "#0E58A1",
+        "#084D97",
+        "#1761A9"
+      ]
+    },
+    "SBI Tata Neu Plus Credit Card.png": {
+      "dominantHex": "#0188D5",
+      "colorFamily": "Cyan",
+      "palette": [
+        "#0279C8",
+        "#02ABF5",
+        "#760696",
+        "#04A6EB",
+        "#6646A9"
+      ]
+    },
+    "SBI Titan Credit Card.png": {
+      "dominantHex": "#2A2723",
+      "colorFamily": "Gray",
+      "palette": [
+        "#1B1A15",
+        "#24221E",
+        "#211E19",
+        "#3A3733",
+        "#999796"
+      ]
+    },
+    "SBI Unnati Secured Credit Card.png": {
+      "dominantHex": "#F39618",
+      "colorFamily": "Orange",
+      "palette": [
+        "#F18913",
+        "#F6A529",
+        "#F5AA36",
+        "#F7B548",
+        "#47AB36"
+      ]
+    },
+    "SBI Yatra Credit Card.png": {
+      "dominantHex": "#E7E8E9",
+      "colorFamily": "Gray",
+      "palette": [
+        "#B5B7BA",
+        "#C5C7CA",
+        "#95979B",
+        "#D5D7DA",
+        "#A5A7AB"
+      ]
+    },
+    "Slice Credit Card.png": {
+      "dominantHex": "#471D8C",
+      "colorFamily": "Indigo",
+      "palette": [
+        "#4A1E91",
+        "#4C2393",
+        "#522796",
+        "#49238B",
+        "#3C1685"
+      ]
+    },
+    "Standard Chartered DigiSmart.png": {
+      "dominantHex": "#A7D7E7",
+      "colorFamily": "Cyan",
+      "palette": [
+        "#65BAE5",
+        "#E8E9E9",
+        "#B6B8B8",
+        "#A7A8A8",
+        "#5BB5E2"
+      ]
+    },
+    "Standard Chartered Emirates Skywards-1.png": {
+      "dominantHex": "#5A5857",
+      "colorFamily": "Gray",
+      "palette": [
+        "#454646",
+        "#3A3A3A",
+        "#54524E",
+        "#191817",
+        "#645A5A"
+      ]
+    },
+    "Standard Chartered Emirates Skywards.png": {
+      "dominantHex": "#160B0A",
+      "colorFamily": "Black",
+      "palette": [
+        "#2B2424",
+        "#393636",
+        "#241B1B",
+        "#322D2C",
+        "#1D1313"
+      ]
+    },
+    "Standard Chartered Manhattan Platinum Credit Card.png": {
+      "dominantHex": "#471B0A",
+      "colorFamily": "Orange",
+      "palette": [
+        "#652B17",
+        "#592614",
+        "#763926",
+        "#56230D",
+        "#C79689"
+      ]
+    },
+    "Standard Chartered Platinum Rewards.png": {
+      "dominantHex": "#58585B",
+      "colorFamily": "Gray",
+      "palette": [
+        "#191818",
+        "#252324",
+        "#221D1E",
+        "#241E21",
+        "#484848"
+      ]
+    },
+    "Standard Chartered Priority Visa Infinite.png": {
+      "dominantHex": "#173549",
+      "colorFamily": "Cyan",
+      "palette": [
+        "#165677",
+        "#174967",
+        "#173B55",
+        "#152A3A",
+        "#166388"
+      ]
+    },
+    "Standard Chartered Super Value Titanium.png": {
+      "dominantHex": "#96ABCA",
+      "colorFamily": "Blue",
+      "palette": [
+        "#859BB7",
+        "#A5B9D9",
+        "#9BB4D7",
+        "#B7C8E5",
+        "#697D95"
+      ]
+    },
+    "Standard Chartered Ultimate Credit Card.png": {
+      "dominantHex": "#14181A",
+      "colorFamily": "Black",
+      "palette": [
+        "#0C1316",
+        "#080C12",
+        "#1B2325",
+        "#242929",
+        "#171D22"
+      ]
+    },
+    "Uni Credit Card.png": {
+      "dominantHex": "#DAE2EA",
+      "colorFamily": "Blue",
+      "palette": [
+        "#D6DEE8",
+        "#E3EAF3",
+        "#262737",
+        "#E3E4EB",
+        "#181A29"
+      ]
+    },
+    "YES Bank First Exclusive Credit Card.png": {
+      "dominantHex": "#93989B",
+      "colorFamily": "Gray",
+      "palette": [
+        "#C6C8C9",
+        "#A6A6A9",
+        "#161618",
+        "#B6B9BB",
+        "#DD2229"
+      ]
+    },
+    "YES Bank First Preferred Credit Card.png": {
+      "dominantHex": "#272828",
+      "colorFamily": "Gray",
+      "palette": [
+        "#373737",
+        "#474748",
+        "#181818",
+        "#B6B7B8",
+        "#A8A9AB"
+      ]
+    },
+    "YES Bank Kiwi Credit Card.png": {
+      "dominantHex": "#98E42B",
+      "colorFamily": "Lime",
+      "palette": [
+        "#A7EB2E",
+        "#B7F432",
+        "#ACEE31",
+        "#8CDE2A",
+        "#8DE12A"
+      ]
+    },
+    "YES Bank Marquee Credit Card-1.png": {
+      "dominantHex": "#003A77",
+      "colorFamily": "Blue",
+      "palette": [
+        "#014686",
+        "#0468A6",
+        "#015896",
+        "#0679B5",
+        "#0789C5"
+      ]
+    },
+    "YES Bank Marquee Credit Card.png": {
+      "dominantHex": "#24272B",
+      "colorFamily": "Gray",
+      "palette": [
+        "#14171A",
+        "#1D2225",
+        "#1A1E21",
+        "#292E31",
+        "#2D3235"
+      ]
+    },
+    "YES Bank Paisabazaar PaisaSave.png": {
+      "dominantHex": "#2E9590",
+      "colorFamily": "Teal",
+      "palette": [
+        "#2C958D",
+        "#369793",
+        "#469B99",
+        "#32948E",
+        "#57A4A4"
+      ]
+    },
+    "YES Bank Prosperity Edge Credit Card.png": {
+      "dominantHex": "#013976",
+      "colorFamily": "Blue",
+      "palette": [
+        "#02336C",
+        "#034785",
+        "#03427C",
+        "#055896",
+        "#A4A7AB"
+      ]
+    }
+  }
+}

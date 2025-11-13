@@ -2,6 +2,8 @@
 // Card data will be loaded from data.txt
 let cardData = []; // All cards from data.txt
 let renderedCards = []; // Only cards with exact image matches (displayed in grid)
+let cardColorsByImage = {}; // Color metadata loaded from cardColors.json
+let cardColorsLoaded = false;
 
 // Available credit card images in Assets folder
 const availableCardImages = [
@@ -288,53 +290,42 @@ function isMobileViewport() {
     return window.innerWidth <= 768;
 }
 
-// Function to check if a card has an exact image match
-function hasImageMatch(cardName) {
-    if (!cardName) return false;
+function normalizeCardKey(value) {
+    return value
+        .toLowerCase()
+        .trim()
+        .replace(/\s+/g, ' ');
+}
+
+function getImageFileNameForCard(cardName) {
+    if (!cardName) return null;
     
-    // Try exact match first
     const exactMatch = availableCardImages.find(img => 
         img.replace('.png', '') === cardName
     );
     
-    if (exactMatch) return true;
+    if (exactMatch) return exactMatch;
     
-    // Try fuzzy match (case-insensitive, ignore extra spaces)
-    const normalizedCardName = cardName.toLowerCase().trim().replace(/\s+/g, ' ');
+    const normalizedCardName = normalizeCardKey(cardName);
     const fuzzyMatch = availableCardImages.find(img => {
-        const normalizedImgName = img.replace('.png', '').toLowerCase().trim().replace(/\s+/g, ' ');
+        const normalizedImgName = normalizeCardKey(img.replace('.png', ''));
         return normalizedImgName === normalizedCardName;
     });
     
-    return !!fuzzyMatch;
+    return fuzzyMatch || null;
+}
+
+// Function to check if a card has an exact image match
+function hasImageMatch(cardName) {
+    if (!cardName) return false;
+    return !!getImageFileNameForCard(cardName);
 }
 
 // Function to get image path for a card by matching name
 function getImagePathForCard(cardName) {
     if (!cardName) return null;
-    
-    // Try exact match first
-    const exactMatch = availableCardImages.find(img => 
-        img.replace('.png', '') === cardName
-    );
-    
-    if (exactMatch) {
-        return `Assets/${exactMatch}`;
-    }
-    
-    // Try fuzzy match (case-insensitive, ignore extra spaces)
-    const normalizedCardName = cardName.toLowerCase().trim().replace(/\s+/g, ' ');
-    const fuzzyMatch = availableCardImages.find(img => {
-        const normalizedImgName = img.replace('.png', '').toLowerCase().trim().replace(/\s+/g, ' ');
-        return normalizedImgName === normalizedCardName;
-    });
-    
-    if (fuzzyMatch) {
-        return `Assets/${fuzzyMatch}`;
-    }
-    
-    // No match found - return null (card won't be rendered)
-    return null;
+    const matchedFile = getImageFileNameForCard(cardName);
+    return matchedFile ? `Assets/${matchedFile}` : null;
 }
 
 // Grid configuration
@@ -383,11 +374,49 @@ async function loadCardData() {
     }
 }
 
+async function loadCardColors() {
+    if (cardColorsLoaded) {
+        return cardColorsByImage;
+    }
+    
+    try {
+        const response = await fetch('cardColors.json', {
+            cache: 'no-store'
+        });
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const text = await response.text();
+        if (!text) {
+            throw new Error('cardColors.json is empty');
+        }
+        
+        const parsed = JSON.parse(text);
+        if (parsed && typeof parsed === 'object' && parsed.cards && typeof parsed.cards === 'object') {
+            cardColorsByImage = parsed.cards;
+        } else {
+            throw new Error('cardColors.json is missing the "cards" map');
+        }
+        
+        console.log(`Loaded color metadata for ${Object.keys(cardColorsByImage).length} images`);
+    } catch (error) {
+        console.warn('Unable to load card color data:', error);
+        cardColorsByImage = {};
+    } finally {
+        cardColorsLoaded = true;
+    }
+    
+    return cardColorsByImage;
+}
+
 // Initialize canvas
 async function initCanvas() {
     try {
         // Load card data first
         await loadCardData();
+        await loadCardColors();
         
         // If no cards with images, show error
         if (renderedCards.length === 0) {
@@ -656,6 +685,17 @@ function createImageItem(imagePath, card, row, col) {
         imageItem.dataset.feeType = (feeValue && feeValue > 0) ? 'Paid' : 'Free';
     }
     
+    const imageFileName = imagePath ? imagePath.split('/').pop() : null;
+    if (imageFileName && cardColorsByImage && cardColorsByImage[imageFileName]) {
+        const colorInfo = cardColorsByImage[imageFileName];
+        if (colorInfo.dominantHex) {
+            imageItem.dataset.colorHex = colorInfo.dominantHex;
+        }
+        if (colorInfo.colorFamily) {
+            imageItem.dataset.color = colorInfo.colorFamily;
+        }
+    }
+    
     // Create image container
     const imageContainer = document.createElement('div');
     imageContainer.className = 'image-container';
@@ -724,17 +764,53 @@ function extractFilterValues() {
     const networks = new Set();
     const banks = new Set();
     const feeTypes = new Set(['Paid', 'Free']);
+    const colors = new Map();
     
     // Only extract values from cards that are actually rendered
     renderedCards.forEach(card => {
         if (card['Network']) networks.add(card['Network']);
         if (card['Bank/Issuer']) banks.add(card['Bank/Issuer']);
+        
+        if (!cardColorsByImage || Object.keys(cardColorsByImage).length === 0) {
+            return;
+        }
+        
+        const imageFileName = getImageFileNameForCard(card['Card Name']);
+        if (!imageFileName) return;
+        
+        const colorInfo = cardColorsByImage[imageFileName];
+        if (!colorInfo || !colorInfo.colorFamily) return;
+        
+        const family = colorInfo.colorFamily;
+        if (!colors.has(family)) {
+            colors.set(family, {
+                count: 0,
+                sampleHex: colorInfo.dominantHex || ''
+            });
+        }
+        const entry = colors.get(family);
+        entry.count += 1;
+        if (!entry.sampleHex && colorInfo.dominantHex) {
+            entry.sampleHex = colorInfo.dominantHex;
+        }
     });
+    
+    const colorFilters = Array.from(colors.entries())
+        .sort((a, b) => {
+            const countDiff = b[1].count - a[1].count;
+            if (countDiff !== 0) return countDiff;
+            return a[0].localeCompare(b[0]);
+        })
+        .map(([family, data]) => ({
+            family,
+            sampleHex: data.sampleHex
+        }));
     
     return {
         networks: Array.from(networks).sort(),
         banks: Array.from(banks).sort(),
-        feeTypes: Array.from(feeTypes)
+        feeTypes: Array.from(feeTypes),
+        colors: colorFilters
     };
 }
 
@@ -747,6 +823,19 @@ function createFilters() {
     
     // Clear existing filters
     filtersScroll.innerHTML = '';
+    
+    // Color filters (if available)
+    if (Array.isArray(filterValues.colors) && filterValues.colors.length > 0) {
+        filterValues.colors.forEach(color => {
+            const filterTab = createFilterTabElement(
+                color.family,
+                'color',
+                color.family,
+                { colorHex: color.sampleHex }
+            );
+            filtersScroll.appendChild(filterTab);
+        });
+    }
     
     // Network filters
     filterValues.networks.forEach(network => {
@@ -802,27 +891,43 @@ function getFilterLogoPath(filterName) {
     return null;
 }
 
-function createFilterTabElement(label, filterType, filterValue) {
+function createFilterTabElement(label, filterType, filterValue, options = {}) {
     const filterTab = document.createElement('button');
     filterTab.className = 'filter-tab';
     filterTab.dataset.filterType = filterType;
     filterTab.dataset.filterValue = filterValue;
     
-    const logoPath = getFilterLogoPath(label);
-    if (logoPath) {
-        const logoContainer = document.createElement('span');
-        logoContainer.className = 'filter-logo-container';
+    const { colorHex = null } = options;
+    
+    if (filterType === 'color') {
+        filterTab.classList.add('filter-tab-color');
+        if (colorHex) {
+            filterTab.dataset.colorHex = colorHex;
+        }
         
-        const logoImg = document.createElement('img');
-        logoImg.className = 'filter-logo';
-        const logoParts = logoPath.split('/');
-        logoImg.src = logoParts.map(part => encodeURIComponent(part)).join('/');
-        logoImg.alt = '';
-        logoImg.decoding = 'async';
-        logoImg.loading = 'lazy';
-        
-        logoContainer.appendChild(logoImg);
-        filterTab.appendChild(logoContainer);
+        const swatch = document.createElement('span');
+        swatch.className = 'filter-color-swatch';
+        if (colorHex) {
+            swatch.style.background = colorHex;
+        }
+        filterTab.appendChild(swatch);
+    } else {
+        const logoPath = getFilterLogoPath(label);
+        if (logoPath) {
+            const logoContainer = document.createElement('span');
+            logoContainer.className = 'filter-logo-container';
+            
+            const logoImg = document.createElement('img');
+            logoImg.className = 'filter-logo';
+            const logoParts = logoPath.split('/');
+            logoImg.src = logoParts.map(part => encodeURIComponent(part)).join('/');
+            logoImg.alt = '';
+            logoImg.decoding = 'async';
+            logoImg.loading = 'lazy';
+            
+            logoContainer.appendChild(logoImg);
+            filterTab.appendChild(logoContainer);
+        }
     }
     
     const labelSpan = document.createElement('span');
@@ -1032,6 +1137,13 @@ function applyFilter(filterType, filterValue) {
                     return cardFeeType === filterValue;
                 } else if (filterType === 'bank') {
                     return card['Bank/Issuer'] === filterValue;
+                } else if (filterType === 'color') {
+                    if (!cardColorsByImage || Object.keys(cardColorsByImage).length === 0) return false;
+                    const imageFileName = getImageFileNameForCard(card['Card Name']);
+                    if (!imageFileName) return false;
+                    const colorInfo = cardColorsByImage[imageFileName];
+                    if (!colorInfo || !colorInfo.colorFamily) return false;
+                    return colorInfo.colorFamily === filterValue;
                 }
                 return true;
             });

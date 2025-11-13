@@ -4,9 +4,12 @@
   "type": "module",
   "description": "Credit card comparison and recommendation website",
   "scripts": {
-    "dev": "python3 server.py"
+    "dev": "python3 server.py",
+    "generate:colors": "node scripts/generate-card-colors.js"
   },
-  "dependencies": {},
+  "dependencies": {
+    "sharp": "^0.33.5"
+  },
   "devDependencies": {}
 }
 
