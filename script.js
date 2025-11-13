@@ -354,6 +354,38 @@ const GAP = 71; // Horizontal gap between images
 // Grid size will be calculated dynamically to always be square
 let GRID_SIZE = 20; // Will be updated based on card count (rows = cols)
 
+// Sort cards by color order (matching gradient order)
+function sortCardsByColorOrder(cards) {
+    if (!colorGradientFamilies.length || !cardColorsByImage || Object.keys(cardColorsByImage).length === 0) {
+        return cards;
+    }
+    
+    // Create a map of color family to index in gradient
+    const colorOrderMap = new Map();
+    colorGradientFamilies.forEach((color, index) => {
+        colorOrderMap.set(color.family, index);
+    });
+    
+    // Sort cards by their color family's position in gradient
+    return [...cards].sort((a, b) => {
+        const imageA = getImageFileNameForCard(a['Card Name']);
+        const imageB = getImageFileNameForCard(b['Card Name']);
+        
+        const colorA = cardColorsByImage[imageA]?.colorFamily;
+        const colorB = cardColorsByImage[imageB]?.colorFamily;
+        
+        const orderA = colorOrderMap.has(colorA) ? colorOrderMap.get(colorA) : 9999;
+        const orderB = colorOrderMap.has(colorB) ? colorOrderMap.get(colorB) : 9999;
+        
+        if (orderA !== orderB) {
+            return orderA - orderB;
+        }
+        
+        // If same color, maintain original order
+        return 0;
+    });
+}
+
 // Load card data from data.txt and filter to only cards with images
 async function loadCardData() {
     try {
@@ -429,6 +461,63 @@ async function loadCardColors() {
     return cardColorsByImage;
 }
 
+// Scroll to the first card of a specific color family
+function scrollToColorSection(colorFamily) {
+    const canvasContainer = document.getElementById('canvasContainer');
+    if (!canvasContainer) return;
+    
+    // Find the first card item with this color in the currently rendered cards
+    const cardItems = document.querySelectorAll('.image-item');
+    let firstCardIndex = -1;
+    
+    for (let i = 0; i < cardItems.length; i++) {
+        const cardItem = cardItems[i];
+        const imagePath = cardItem.dataset.imagePath;
+        if (!imagePath) continue;
+        
+        const imageFileName = imagePath.replace('Assets/', '');
+        const colorInfo = cardColorsByImage[imageFileName];
+        if (colorInfo && colorInfo.colorFamily === colorFamily) {
+            firstCardIndex = i;
+            break;
+        }
+    }
+    
+    if (firstCardIndex === -1) return;
+    
+    const isMobile = window.innerWidth <= 768;
+    
+    if (isMobile) {
+        // Mobile: scroll to the card item
+        if (cardItems[firstCardIndex]) {
+            cardItems[firstCardIndex].scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+    } else {
+        // Desktop: calculate position in grid
+        const totalCards = cardItems.length;
+        const gridSize = Math.ceil(Math.sqrt(totalCards));
+        const row = Math.floor(firstCardIndex / gridSize);
+        const col = firstCardIndex % gridSize;
+        
+        const CARD_TOTAL_HEIGHT = 200;
+        const cardY = row * (CARD_TOTAL_HEIGHT + GAP) + GAP;
+        const cardX = col * (IMAGE_WIDTH + GAP) + GAP;
+        
+        // Scroll to center the card in viewport
+        const scrollY = cardY - (window.innerHeight / 2) + (CARD_TOTAL_HEIGHT / 2);
+        const scrollX = cardX - (window.innerWidth / 2) + (IMAGE_WIDTH / 2);
+        
+        canvasContainer.scrollTo({
+            left: Math.max(0, scrollX),
+            top: Math.max(0, scrollY),
+            behavior: 'smooth'
+        });
+    }
+}
+
 // Initialize canvas
 async function initCanvas() {
     try {
@@ -443,6 +532,9 @@ async function initCanvas() {
             canvas.innerHTML = '<div style="padding: 50px; text-align: center; color: #999;">No cards with images found. Please add credit card images to Assets folder.</div>';
             return;
         }
+        
+        // Sort cards by color order after colors are loaded
+        // This will happen after createFilters() sets up colorGradientFamilies
     } catch (error) {
         console.error('Failed to initialize:', error);
         const canvas = document.getElementById('canvas');
@@ -626,7 +718,14 @@ function setupSmoothScrolling(canvasContainer) {
 // Create grid of images based on card data
 function createGrid(canvas) {
     const isMobile = window.innerWidth <= 768;
-    const totalCards = renderedCards.length || 0;
+    
+    // Sort cards by color order if gradient is available
+    let cardsToRender = renderedCards;
+    if (colorGradientFamilies.length > 0) {
+        cardsToRender = sortCardsByColorOrder(renderedCards);
+    }
+    
+    const totalCards = cardsToRender.length || 0;
     
     console.log(`Creating grid with ${totalCards} cards with images`);
     
@@ -641,7 +740,7 @@ function createGrid(canvas) {
     if (isMobile) {
         // Mobile: Create vertical stack based on rendered cards
         for (let i = 0; i < totalCards; i++) {
-            const card = renderedCards[i];
+            const card = cardsToRender[i];
             // Get matched image for this card (guaranteed to exist)
             const imagePath = getImagePathForCard(card['Card Name']);
             
@@ -661,7 +760,7 @@ function createGrid(canvas) {
         let cardIndex = 0;
         for (let row = 0; row < GRID_SIZE && cardIndex < totalCards; row++) {
             for (let col = 0; col < GRID_SIZE && cardIndex < totalCards; col++) {
-                const card = renderedCards[cardIndex];
+                const card = cardsToRender[cardIndex];
                 // Get matched image for this card (guaranteed to exist)
                 const imagePath = getImagePathForCard(card['Card Name']);
                 
@@ -683,6 +782,11 @@ function createGrid(canvas) {
     
     // Create filters after cards are created
     createFilters();
+    
+    // After filters are created and gradient is set up, re-sort and re-render cards if needed
+    if (colorGradientFamilies.length > 0) {
+        // Cards are already sorted in createGrid, so we're good
+    }
 }
 
 // Create an image item element with card data (same for mobile and desktop)
@@ -782,6 +886,9 @@ let colorGradientBar = null;
 let colorGradientIndicator = null;
 let colorGradientFamilies = [];
 let colorGradientActiveIndex = null;
+let isDraggingGradient = false;
+let gradientDragStartX = 0;
+let gradientDragStartScrollTop = 0;
 
 // Extract unique filter values from card data
 function extractFilterValues() {
@@ -848,19 +955,8 @@ function createFilters() {
     // Clear existing filters
     filtersScroll.innerHTML = '';
     
-    // Color filters (if available)
-    if (Array.isArray(filterValues.colors) && filterValues.colors.length > 0) {
-        filterValues.colors.forEach(color => {
-            const filterTab = createFilterTabElement(
-                color.family,
-                'color',
-                color.family,
-                { colorHex: color.sampleHex }
-            );
-            filtersScroll.appendChild(filterTab);
-        });
-    }
-    
+    // Render color gradient (but don't add color filters to top list)
+    // This sets up colorGradientFamilies which is needed for sorting
     renderColorGradient(filterValues.colors);
     
     // Network filters
@@ -1021,29 +1117,83 @@ function initializeColorGradientBar() {
         return;
     }
     
-    const handleSelectionFromClientX = (clientX) => {
+    const handleSelectionFromClientX = (clientX, isDrag = false) => {
         if (!colorGradientFamilies.length) return;
         const rect = colorGradientBar.getBoundingClientRect();
         if (rect.width === 0) return;
         const relativeX = (clientX - rect.left) / rect.width;
         const clamped = Math.max(0, Math.min(0.999999, relativeX));
         const index = Math.floor(clamped * colorGradientFamilies.length);
-        selectColorGradientIndex(index, true);
+        
+        if (isDrag) {
+            // During drag, just update indicator and scroll
+            highlightGradientSelection(index);
+            scrollToColorSection(colorGradientFamilies[index].family);
+        } else {
+            // On click/tap, select and filter
+            selectColorGradientIndex(index, true);
+        }
     };
     
+    // Click handler
     colorGradientBar.addEventListener('click', (event) => {
-        handleSelectionFromClientX(event.clientX);
+        if (!isDraggingGradient) {
+            handleSelectionFromClientX(event.clientX, false);
+        }
     });
     
+    // Mouse drag handlers
+    colorGradientBar.addEventListener('mousedown', (event) => {
+        isDraggingGradient = true;
+        gradientDragStartX = event.clientX;
+        const canvasContainer = document.getElementById('canvasContainer');
+        if (canvasContainer) {
+            gradientDragStartScrollTop = canvasContainer.scrollTop;
+        }
+        handleSelectionFromClientX(event.clientX, true);
+        event.preventDefault();
+    });
+    
+    document.addEventListener('mousemove', (event) => {
+        if (isDraggingGradient && colorGradientBar) {
+            handleSelectionFromClientX(event.clientX, true);
+        }
+    });
+    
+    document.addEventListener('mouseup', () => {
+        if (isDraggingGradient) {
+            isDraggingGradient = false;
+        }
+    });
+    
+    // Touch handlers
     colorGradientBar.addEventListener('touchstart', (event) => {
         if (event.touches && event.touches.length > 0) {
-            handleSelectionFromClientX(event.touches[0].clientX);
+            isDraggingGradient = true;
+            gradientDragStartX = event.touches[0].clientX;
+            const canvasContainer = document.getElementById('canvasContainer');
+            if (canvasContainer) {
+                gradientDragStartScrollTop = canvasContainer.scrollTop;
+            }
+            handleSelectionFromClientX(event.touches[0].clientX, true);
         }
-    }, { passive: true });
+    }, { passive: false });
     
     colorGradientBar.addEventListener('touchmove', (event) => {
-        if (event.touches && event.touches.length > 0) {
-            handleSelectionFromClientX(event.touches[0].clientX);
+        if (isDraggingGradient && event.touches && event.touches.length > 0) {
+            handleSelectionFromClientX(event.touches[0].clientX, true);
+            event.preventDefault();
+        }
+    }, { passive: false });
+    
+    colorGradientBar.addEventListener('touchend', (event) => {
+        if (isDraggingGradient && event.changedTouches && event.changedTouches.length > 0) {
+            // Only select if it was a tap (not a drag)
+            const dragDistance = Math.abs(event.changedTouches[0].clientX - gradientDragStartX);
+            if (dragDistance < 10) {
+                handleSelectionFromClientX(event.changedTouches[0].clientX, false);
+            }
+            isDraggingGradient = false;
         }
     }, { passive: true });
 }
@@ -1102,7 +1252,9 @@ function selectColorGradientIndex(index, triggeredByUser = false) {
     };
     
     highlightGradientSelection(clampedIndex);
-    applyFilter('color', selectedColor.family);
+    
+    // Apply filter and scroll to section
+    applyFilter('color', selectedColor.family, true);
 }
 
 // Handle filter click
@@ -1291,7 +1443,7 @@ function filterGridByAI(recommendedCardNames, query) {
 }
 
 // Apply filter with fade transition
-function applyFilter(filterType, filterValue) {
+function applyFilter(filterType, filterValue, scrollToSection = false) {
     const canvas = document.getElementById('canvas');
     if (!canvas) return;
     
@@ -1327,6 +1479,11 @@ function applyFilter(filterType, filterValue) {
                 }
                 return true;
             });
+        }
+        
+        // Sort filtered data by color order if gradient is available
+        if (colorGradientFamilies.length > 0) {
+            filteredData = sortCardsByColorOrder(filteredData);
         }
         
         // Clear canvas
@@ -1366,9 +1523,15 @@ function applyFilter(filterType, filterValue) {
                 });
             }
             
-            // Scroll to top on mobile
+            // Scroll to section if requested, otherwise scroll to top
             if (canvasContainer) {
-                canvasContainer.scrollTo({ top: 0, behavior: 'smooth' });
+                if (scrollToSection && filterType === 'color' && filterValue) {
+                    setTimeout(() => {
+                        scrollToColorSection(filterValue);
+                    }, 100);
+                } else {
+                    canvasContainer.scrollTo({ top: 0, behavior: 'smooth' });
+                }
             }
         } else {
             // Desktop: Calculate square grid dimensions based on filtered data
@@ -1419,19 +1582,25 @@ function applyFilter(filterType, filterValue) {
                 }
             }
             
-            // Scroll to center after grid is recreated - wait for layout
+            // Scroll to section if requested, otherwise scroll to center
             if (canvasContainer) {
                 requestAnimationFrame(() => {
                     requestAnimationFrame(() => {
-                        const actualHeight = canvas.offsetHeight;
-                        const actualWidth = canvas.offsetWidth;
-                        const startX = (actualWidth - window.innerWidth) / 2;
-                        const startY = (actualHeight - window.innerHeight) / 2;
-                        canvasContainer.scrollTo({
-                            left: Math.max(0, startX),
-                            top: Math.max(0, startY),
-                            behavior: 'smooth'
-                        });
+                        if (scrollToSection && filterType === 'color' && filterValue) {
+                            setTimeout(() => {
+                                scrollToColorSection(filterValue);
+                            }, 100);
+                        } else {
+                            const actualHeight = canvas.offsetHeight;
+                            const actualWidth = canvas.offsetWidth;
+                            const startX = (actualWidth - window.innerWidth) / 2;
+                            const startY = (actualHeight - window.innerHeight) / 2;
+                            canvasContainer.scrollTo({
+                                left: Math.max(0, startX),
+                                top: Math.max(0, startY),
+                                behavior: 'smooth'
+                            });
+                        }
                     });
                 });
             }
