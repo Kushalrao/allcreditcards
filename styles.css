@@ -28,7 +28,7 @@ body.detail-open {
 .site-title {
     margin: 0;
     padding: 0;
-    background: #ffffff;
+    background: #EEF2E6;
     position: sticky;
     top: 0;
     z-index: 101;
@@ -59,7 +59,7 @@ body.detail-open {
     position: sticky;
     top: 53px;
     z-index: 100;
-    background: #ffffff;
+    background: #EEF2E6;
     border-bottom: 1px solid #ebebeb;
     padding: 16px 0;
     max-height: 500px;
