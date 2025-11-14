@@ -886,12 +886,48 @@ function createImageItem(imagePath, card, row, col) {
     const encodedPath = pathParts.map(part => encodeURIComponent(part)).join('/');
     img.src = encodedPath;
     img.alt = card ? card['Card Name'] : imagePath.split('/').pop();
-    img.loading = 'lazy';
+    
+    // Performance optimizations
+    const isMobile = window.innerWidth <= 768;
+    
+    // Determine if image is above the fold
+    // Mobile: first 3 cards (row=0, col=0,1,2)
+    // Desktop: first row, first 3 columns
+    let isAboveFold = false;
+    if (isMobile) {
+        isAboveFold = (row === 0 && col < 3);
+    } else {
+        isAboveFold = (row === 0 && col < 3);
+    }
+    
+    // Set dimensions to prevent layout shift
+    if (isMobile) {
+        // Mobile dimensions will be set by CSS, but we set width/height for CLS
+        img.width = 340; // Approximate mobile width (85vw on mobile)
+        img.height = 209; // Approximate mobile height (maintaining aspect ratio)
+    } else {
+        img.width = 257;
+        img.height = 158;
+    }
+    
+    // Optimize loading: eager for above-fold, lazy for others
+    if (isAboveFold) {
+        img.loading = 'eager';
+        if (row === 0 && col === 0) {
+            img.fetchPriority = 'high'; // Highest priority for first image
+        } else {
+            img.fetchPriority = 'auto'; // Auto for other above-fold images
+        }
+    } else {
+        img.loading = 'lazy';
+        img.fetchPriority = 'low';
+    }
+    
+    img.decoding = 'async';
     
     img.onload = () => {
         // On mobile, make visible immediately
         // On desktop, keep opacity 0 until ripple animation
-        const isMobile = window.innerWidth <= 768;
         if (isMobile) {
             imageItem.classList.add('visible');
         }

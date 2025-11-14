@@ -4,16 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FirstCredit Club - Credit Cards</title>
+    
+    <!-- Preconnect to external domains -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="Assets/logo.png" as="image" fetchpriority="high">
+    <link rel="preload" href="styles.css" as="style">
+    
+    <!-- Optimize font loading with display=swap -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Syne:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
         <div class="site-title">
             <div class="logo-container">
-                <img src="Assets/logo.png" alt="Credit Cards Club" class="site-logo">
+                <img src="Assets/logo.png" alt="Credit Cards Club" class="site-logo" width="200" height="53" fetchpriority="high" loading="eager">
             </div>
         </div>
         
@@ -53,7 +62,7 @@
         </div>
     </div>
     
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
 </body>
 </html>
 

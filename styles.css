@@ -46,8 +46,11 @@ body.detail-open {
 .site-logo {
     height: 53px;
     width: auto;
+    max-width: 200px;
     display: block;
     transition: height 0.3s ease;
+    /* Prevent layout shift */
+    aspect-ratio: auto;
 }
 
 .site-title.collapsed .site-logo {
@@ -260,6 +263,8 @@ body.detail-open {
     object-fit: cover;
     display: block;
     border-radius: inherit;
+    /* Prevent layout shift */
+    aspect-ratio: 257 / 158;
 }
 
 /* Card information below image */
@@ -552,6 +557,9 @@ body.card-detail-page {
     .image-item img {
         width: 100%;
         height: auto;
+        /* Prevent layout shift on mobile */
+        aspect-ratio: 340 / 209;
+        object-fit: cover;
     }
     
     .card-info {
