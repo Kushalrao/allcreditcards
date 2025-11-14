@@ -161,37 +161,6 @@ body.detail-open {
     border-color: #222222;
 }
 
-/* Scroll mode toggle */
-.scroll-mode-toggle-container {
-    display: flex;
-    align-items: center;
-    flex-shrink: 0;
-}
-
-.scroll-mode-toggle {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 8px;
-    border: 1px solid #dddddd;
-    border-radius: 24px;
-    background: #ffffff;
-    color: #222222;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    width: 40px;
-    height: 40px;
-    flex-shrink: 0;
-}
-
-.scroll-mode-toggle:hover {
-    border-color: #222222;
-    background: #f5f5f5;
-}
-
-.scroll-mode-toggle svg {
-    display: block;
-}
 
 .canvas-container {
     flex: 1;
@@ -533,7 +502,7 @@ body.card-detail-page {
 }
 /* Mobile specific image styling */
 @media (max-width: 768px) {
-    .image-item:not(.portrait-card) {
+    .image-item {
         width: 85vw;
         max-width: 85vw;
         perspective: 1000px;
@@ -661,43 +630,11 @@ body.card-detail-page {
         scroll-behavior: smooth;
     }
     
-    .container:has(.canvas-container.horizontal-scroll-mode) {
-        height: 100vh;
-        overflow: hidden;
-    }
-    
-    .canvas-container.horizontal-scroll-mode {
-        overflow-y: hidden;
-        overflow-x: auto;
-        height: calc(100vh - 53px - 60px);
-        flex: 0 0 calc(100vh - 53px - 60px);
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-        margin-top: 0;
-        padding-top: 0;
-        margin-bottom: 0;
-        padding-bottom: 0;
-    }
-    
     .canvas {
         display: block;
         padding: 20px 16px;
         width: 100%;
         height: auto;
-    }
-    
-    .canvas.horizontal-scroll {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: flex-start;
-        padding: 0 16px;
-        width: auto;
-        height: auto;
-        min-height: 0;
-        margin: 0;
-        gap: 20px;
     }
     
     .image-item {
@@ -706,53 +643,6 @@ body.card-detail-page {
     
     .image-item:first-child {
         margin-top: 0;
-    }
-    
-    /* Portrait cards for horizontal scroll - must override all other rules */
-    /* Calculate BEFORE rotation: After 90deg rotation, visual width = original container height */
-    /* Desired visual width AFTER rotation: 75vw */
-    /* So container height BEFORE rotation should be: 75vw */
-    /* Container width BEFORE rotation = height × (257/158) = 75vw × (257/158) */
-    /* Image-item width = container width = calc(75vw * 257 / 158) */
-    .canvas.horizontal-scroll .image-item,
-    .canvas.horizontal-scroll .image-item.portrait-card {
-        margin: 0 !important;
-        flex-shrink: 0;
-        width: calc(75vw * 257 / 158) !important;
-        max-width: calc(75vw * 257 / 158) !important;
-        min-width: calc(75vw * 257 / 158) !important;
-        height: auto !important;
-    }
-    
-    .canvas.horizontal-scroll .image-item.portrait-card {
-        perspective: 1000px;
-        transform-style: preserve-3d;
-    }
-    
-    .canvas.horizontal-scroll .image-item.portrait-card .image-container {
-        width: 100% !important;
-        max-width: 100% !important;
-        transform-style: preserve-3d;
-        transition: transform 0.1s ease-out;
-        border-radius: 13px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        /* Maintain aspect ratio: height calculated from width using aspect-ratio */
-        /* After rotation, visual width = container height */
-        /* Desired visual width: 75vw, so height = 75vw */
-        /* Width is calc(75vw * 257 / 158), height should be width × (158/257) = 75vw */
-        aspect-ratio: 158 / 257;
-        height: 75vw !important;
-    }
-    
-    .canvas.horizontal-scroll .image-item.portrait-card img {
-        width: 100% !important;
-        max-width: 100% !important;
-        height: 100% !important;
-        object-fit: contain;
-        transform: rotate(90deg);
-        transform-origin: center center;
     }
     
     .search-bar {
