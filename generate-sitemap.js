@@ -7,7 +7,7 @@ const __dirname = path.dirname(__filename);
 
 // Base URL - update this if you have a custom domain
 // Using HTTPS as Google Search Console prefers secure URLs
-const BASE_URL = 'https://firstcredit.club';
+const BASE_URL = 'https://www.firstclub';
 
 // Get current date in ISO format for lastmod
 const currentDate = new Date().toISOString().split('T')[0];
