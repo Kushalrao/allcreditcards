@@ -467,6 +467,7 @@ function scrollToColorSection(colorFamily) {
     if (!canvasContainer) return;
     
     // Find the first card item with this color in the currently rendered cards
+    // This works with filtered results too - it searches through visible cards only
     const cardItems = document.querySelectorAll('.image-item');
     let firstCardIndex = -1;
     
@@ -483,7 +484,12 @@ function scrollToColorSection(colorFamily) {
         }
     }
     
-    if (firstCardIndex === -1) return;
+    // If no card with this color found in current results, silently return
+    // (This can happen if cards are filtered and this color isn't in the filtered set)
+    if (firstCardIndex === -1) {
+        console.log(`No cards with color "${colorFamily}" found in current view`);
+        return;
+    }
     
     const isMobile = window.innerWidth <= 768;
     
@@ -719,10 +725,37 @@ function setupSmoothScrolling(canvasContainer) {
 function createGrid(canvas) {
     const isMobile = window.innerWidth <= 768;
     
-    // Sort cards by color order if gradient is available
+    // Extract colors and set up gradient BEFORE sorting cards
+    // Gradient is created in natural color spectrum order (rainbow-like)
+    const filterValues = extractFilterValues();
+    renderColorGradient(filterValues.colors);
+    
+    // Debug: Log gradient order
+    if (colorGradientFamilies.length > 0) {
+        console.log('Gradient color order (natural spectrum):', colorGradientFamilies.map(c => c.family).join(' → '));
+    }
+    
+    // Now sort cards by color order (matching gradient order)
+    // Cards are sorted to match the natural gradient order:
+    // First color in gradient → First cards rendered
+    // Last color in gradient → Last cards rendered
     let cardsToRender = renderedCards;
     if (colorGradientFamilies.length > 0) {
         cardsToRender = sortCardsByColorOrder(renderedCards);
+        console.log(`Sorted ${cardsToRender.length} cards to match natural gradient color order`);
+        
+        // Debug: Log first and last few cards' colors to verify sorting
+        const firstFewColors = cardsToRender.slice(0, 5).map(card => {
+            const img = getImageFileNameForCard(card['Card Name']);
+            return cardColorsByImage[img]?.colorFamily || 'unknown';
+        });
+        const lastFewColors = cardsToRender.slice(-5).map(card => {
+            const img = getImageFileNameForCard(card['Card Name']);
+            return cardColorsByImage[img]?.colorFamily || 'unknown';
+        });
+        console.log('First 5 cards colors:', firstFewColors.join(', '));
+        console.log('Last 5 cards colors:', lastFewColors.join(', '));
+        console.log(`Gradient starts with: ${colorGradientFamilies[0]?.family}, ends with: ${colorGradientFamilies[colorGradientFamilies.length - 1]?.family}`);
     }
     
     const totalCards = cardsToRender.length || 0;
@@ -780,13 +813,8 @@ function createGrid(canvas) {
     
     console.log(`Created ${totalCards} card items (all with images)`);
     
-    // Create filters after cards are created
+    // Create filters after cards are created (gradient is already set up)
     createFilters();
-    
-    // After filters are created and gradient is set up, re-sort and re-render cards if needed
-    if (colorGradientFamilies.length > 0) {
-        // Cards are already sorted in createGrid, so we're good
-    }
 }
 
 // Create an image item element with card data (same for mobile and desktop)
@@ -890,6 +918,35 @@ let isDraggingGradient = false;
 let gradientDragStartX = 0;
 let gradientDragStartScrollTop = 0;
 
+// Natural color spectrum order (rainbow-like progression)
+function getNaturalColorOrder() {
+    // Order: Red → Orange → Yellow → Lime → Green → Teal → Cyan → Blue → Indigo → Purple → Pink → Brown → Gray → Black → White
+    return [
+        'Red',
+        'Orange',
+        'Yellow',
+        'Lime',
+        'Green',
+        'Teal',
+        'Cyan',
+        'Blue',
+        'Indigo',
+        'Purple',
+        'Pink',
+        'Brown',
+        'Gray',
+        'Black',
+        'White'
+    ];
+}
+
+// Get position of color in natural spectrum order
+function getColorSpectrumIndex(colorFamily) {
+    const naturalOrder = getNaturalColorOrder();
+    const index = naturalOrder.indexOf(colorFamily);
+    return index >= 0 ? index : 9999; // Unknown colors go to end
+}
+
 // Extract unique filter values from card data
 function extractFilterValues() {
     const networks = new Set();
@@ -926,11 +983,12 @@ function extractFilterValues() {
         }
     });
     
+    // Sort colors by natural spectrum order (not by frequency)
     const colorFilters = Array.from(colors.entries())
         .sort((a, b) => {
-            const countDiff = b[1].count - a[1].count;
-            if (countDiff !== 0) return countDiff;
-            return a[0].localeCompare(b[0]);
+            const orderA = getColorSpectrumIndex(a[0]);
+            const orderB = getColorSpectrumIndex(b[0]);
+            return orderA - orderB; // Sort by natural color order
         })
         .map(([family, data]) => ({
             family,
@@ -955,9 +1013,11 @@ function createFilters() {
     // Clear existing filters
     filtersScroll.innerHTML = '';
     
-    // Render color gradient (but don't add color filters to top list)
-    // This sets up colorGradientFamilies which is needed for sorting
-    renderColorGradient(filterValues.colors);
+    // Gradient is already rendered in createGrid(), so we don't need to render it again
+    // But if it wasn't rendered (edge case), render it now
+    if (colorGradientFamilies.length === 0) {
+        renderColorGradient(filterValues.colors);
+    }
     
     // Network filters
     filterValues.networks.forEach(network => {
@@ -1125,14 +1185,9 @@ function initializeColorGradientBar() {
         const clamped = Math.max(0, Math.min(0.999999, relativeX));
         const index = Math.floor(clamped * colorGradientFamilies.length);
         
-        if (isDrag) {
-            // During drag, just update indicator and scroll
-            highlightGradientSelection(index);
-            scrollToColorSection(colorGradientFamilies[index].family);
-        } else {
-            // On click/tap, select and filter
-            selectColorGradientIndex(index, true);
-        }
+        // Both click and drag: just scroll to section (no filtering)
+        highlightGradientSelection(index);
+        scrollToColorSection(colorGradientFamilies[index].family);
     };
     
     // Click handler
