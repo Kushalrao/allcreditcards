@@ -669,8 +669,8 @@ body.card-detail-page {
     .canvas-container.horizontal-scroll-mode {
         overflow-y: hidden;
         overflow-x: auto;
-        height: 100vh;
-        flex: 0 0 100vh;
+        height: calc(100vh - 53px - 60px);
+        flex: 0 0 calc(100vh - 53px - 60px);
         display: flex;
         align-items: center;
         justify-content: flex-start;
@@ -738,9 +738,12 @@ body.card-detail-page {
         display: flex;
         align-items: center;
         justify-content: center;
-        /* Height BEFORE rotation = visual width AFTER rotation */
-        height: 75vw !important;
+        /* Maintain aspect ratio: height calculated from width using aspect-ratio */
+        /* After rotation, visual width = container height */
+        /* Desired visual width: 75vw, so height = 75vw */
+        /* Width is calc(75vw * 257 / 158), height should be width × (158/257) = 75vw */
         aspect-ratio: 158 / 257;
+        height: 75vw !important;
     }
     
     .canvas.horizontal-scroll .image-item.portrait-card img {
