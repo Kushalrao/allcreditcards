@@ -710,17 +710,17 @@ body.card-detail-page {
     
     /* Portrait cards for horizontal scroll - must override all other rules */
     /* Calculate BEFORE rotation: After 90deg rotation, visual width = original container height */
-    /* Desired visual width AFTER rotation: 25vw */
-    /* So container height BEFORE rotation should be: 25vw */
-    /* Container width BEFORE rotation = height × (257/158) = 25vw × (257/158) ≈ 40.66vw */
-    /* Image-item width = container width = 40.66vw */
+    /* Desired visual width AFTER rotation: 75vw */
+    /* So container height BEFORE rotation should be: 75vw */
+    /* Container width BEFORE rotation = height × (257/158) = 75vw × (257/158) */
+    /* Image-item width = container width = calc(75vw * 257 / 158) */
     .canvas.horizontal-scroll .image-item,
     .canvas.horizontal-scroll .image-item.portrait-card {
         margin: 0 !important;
         flex-shrink: 0;
-        width: calc(25vw * 257 / 158) !important;
-        max-width: calc(25vw * 257 / 158) !important;
-        min-width: calc(25vw * 257 / 158) !important;
+        width: calc(75vw * 257 / 158) !important;
+        max-width: calc(75vw * 257 / 158) !important;
+        min-width: calc(75vw * 257 / 158) !important;
         height: auto !important;
     }
     
@@ -739,7 +739,7 @@ body.card-detail-page {
         align-items: center;
         justify-content: center;
         /* Height BEFORE rotation = visual width AFTER rotation */
-        height: 25vw !important;
+        height: 75vw !important;
         aspect-ratio: 158 / 257;
     }
     
