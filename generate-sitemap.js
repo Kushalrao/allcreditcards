@@ -6,7 +6,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Base URL - update this if you have a custom domain
-const BASE_URL = 'http://firstcredit.club';
+// Using HTTPS as Google Search Console prefers secure URLs
+const BASE_URL = 'https://firstcredit.club';
 
 // Get current date in ISO format for lastmod
 const currentDate = new Date().toISOString().split('T')[0];
@@ -38,6 +39,7 @@ function generateSitemap() {
 
     // Add each card page
     cardFiles.forEach(file => {
+        // Filenames are already URL-safe (hyphens only), so use as-is
         const cardPath = `/cards/${file}`;
         sitemap += `  <url>
     <loc>${BASE_URL}${cardPath}</loc>

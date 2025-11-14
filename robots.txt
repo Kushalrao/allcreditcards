@@ -1,5 +1,5 @@
 User-agent: *
 Allow: /
 
-Sitemap: http://firstcredit.club/sitemap.xml
+Sitemap: https://firstcredit.club/sitemap.xml
 
