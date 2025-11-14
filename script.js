@@ -1046,39 +1046,6 @@ function createFilters() {
     // Clear existing filters
     filtersScroll.innerHTML = '';
     
-    // Add mobile scroll mode toggle (only on mobile)
-    if (window.innerWidth <= 768) {
-        const toggleContainer = document.createElement('div');
-        toggleContainer.className = 'scroll-mode-toggle-container';
-        
-        const toggleButton = document.createElement('button');
-        toggleButton.className = 'scroll-mode-toggle';
-        toggleButton.setAttribute('aria-label', 'Toggle scroll direction');
-        toggleButton.innerHTML = mobileScrollMode === 'vertical' 
-            ? '<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 3L10 17M10 17L6 13M10 17L14 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>'
-            : '<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 10L17 10M17 10L13 6M17 10L13 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-        
-        toggleButton.addEventListener('click', () => {
-            mobileScrollMode = mobileScrollMode === 'vertical' ? 'horizontal' : 'vertical';
-            toggleButton.innerHTML = mobileScrollMode === 'vertical'
-                ? '<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 3L10 17M10 17L6 13M10 17L14 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>'
-                : '<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 10L17 10M17 10L13 6M17 10L13 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-            
-            // Recreate grid with new scroll mode
-            const canvas = document.getElementById('canvas');
-            if (canvas) {
-                applyFilter(activeFilter?.filterType, activeFilter?.filterValue, false);
-                // Reinitialize rotation after a short delay
-                setTimeout(() => {
-                    setupMobileDynamicRotation();
-                }, 400);
-            }
-        });
-        
-        toggleContainer.appendChild(toggleButton);
-        filtersScroll.appendChild(toggleContainer);
-    }
-    
     // Gradient is already rendered in createGrid(), so we don't need to render it again
     // But if it wasn't rendered (edge case), render it now
     if (colorGradientFamilies.length === 0) {
