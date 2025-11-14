@@ -6,7 +6,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Base URL - update this if you have a custom domain
-const BASE_URL = 'https://allcreditcards.vercel.app';
+const BASE_URL = 'http://firstcredit.club';
 
 // Get current date in ISO format for lastmod
 const currentDate = new Date().toISOString().split('T')[0];
