@@ -286,6 +286,9 @@ let cardDetailInitialized = false;
 let activeCardDetail = null;
 let cardDetailAbortController = null;
 
+// Mobile scroll mode state
+let mobileScrollMode = 'vertical'; // 'vertical' or 'horizontal'
+
 
 function isMobileViewport() {
     return window.innerWidth <= 768;
@@ -772,19 +775,48 @@ function createGrid(canvas) {
     allImageItems = [];
     
     if (isMobile) {
-        // Mobile: Create vertical stack based on rendered cards
-        for (let i = 0; i < totalCards; i++) {
-            const card = cardsToRender[i];
-            const imagePath = getImagePathForCard(card['Card Name']);
-            
-            if (i < 5) {
-                console.log(`Card ${i}: "${card['Card Name']}" -> ${imagePath}`);
+        const canvasContainer = document.getElementById('canvasContainer');
+        // Mobile: Create layout based on scroll mode
+        if (mobileScrollMode === 'horizontal') {
+            // Horizontal: Create horizontal row with portrait cards
+            canvas.classList.add('horizontal-scroll');
+            if (canvasContainer) {
+                canvasContainer.classList.add('horizontal-scroll-mode');
             }
-            
-            const imageItem = createImageItem(imagePath, card, 0, i);
-            imageItem.dataset.cardIndex = i;
-            canvas.appendChild(imageItem);
-            allImageItems.push(imageItem);
+            for (let i = 0; i < totalCards; i++) {
+                const card = cardsToRender[i];
+                const imagePath = getImagePathForCard(card['Card Name']);
+                
+                if (i < 5) {
+                    console.log(`Card ${i}: "${card['Card Name']}" -> ${imagePath}`);
+                }
+                
+                const imageItem = createImageItem(imagePath, card, i, 0);
+                imageItem.dataset.cardIndex = i;
+                imageItem.classList.add('portrait-card');
+                canvas.appendChild(imageItem);
+                allImageItems.push(imageItem);
+            }
+        } else {
+            // Vertical: Create vertical stack (existing behavior)
+            canvas.classList.remove('horizontal-scroll');
+            if (canvasContainer) {
+                canvasContainer.classList.remove('horizontal-scroll-mode');
+            }
+            for (let i = 0; i < totalCards; i++) {
+                const card = cardsToRender[i];
+                const imagePath = getImagePathForCard(card['Card Name']);
+                
+                if (i < 5) {
+                    console.log(`Card ${i}: "${card['Card Name']}" -> ${imagePath}`);
+                }
+                
+                const imageItem = createImageItem(imagePath, card, 0, i);
+                imageItem.dataset.cardIndex = i;
+                imageItem.classList.remove('portrait-card');
+                canvas.appendChild(imageItem);
+                allImageItems.push(imageItem);
+            }
         }
     } else {
         // Desktop: Create square grid based on rendered cards
@@ -1010,6 +1042,39 @@ function createFilters() {
     
     // Clear existing filters
     filtersScroll.innerHTML = '';
+    
+    // Add mobile scroll mode toggle (only on mobile)
+    if (window.innerWidth <= 768) {
+        const toggleContainer = document.createElement('div');
+        toggleContainer.className = 'scroll-mode-toggle-container';
+        
+        const toggleButton = document.createElement('button');
+        toggleButton.className = 'scroll-mode-toggle';
+        toggleButton.setAttribute('aria-label', 'Toggle scroll direction');
+        toggleButton.innerHTML = mobileScrollMode === 'vertical' 
+            ? '<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 3L10 17M10 17L6 13M10 17L14 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+            : '<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 10L17 10M17 10L13 6M17 10L13 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+        
+        toggleButton.addEventListener('click', () => {
+            mobileScrollMode = mobileScrollMode === 'vertical' ? 'horizontal' : 'vertical';
+            toggleButton.innerHTML = mobileScrollMode === 'vertical'
+                ? '<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 3L10 17M10 17L6 13M10 17L14 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+                : '<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 10L17 10M17 10L13 6M17 10L13 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+            
+            // Recreate grid with new scroll mode
+            const canvas = document.getElementById('canvas');
+            if (canvas) {
+                applyFilter(activeFilter?.filterType, activeFilter?.filterValue, false);
+                // Reinitialize rotation after a short delay
+                setTimeout(() => {
+                    setupMobileDynamicRotation();
+                }, 400);
+            }
+        });
+        
+        toggleContainer.appendChild(toggleButton);
+        filtersScroll.appendChild(toggleContainer);
+    }
     
     // Gradient is already rendered in createGrid(), so we don't need to render it again
     // But if it wasn't rendered (edge case), render it now
@@ -1396,33 +1461,72 @@ function filterGridByAI(recommendedCardNames, query) {
         const canvasContainer = document.getElementById('canvasContainer');
         
         if (isMobile) {
-            canvas.style.width = '100%';
-            canvas.style.height = 'auto';
-            
-            for (let i = 0; i < filteredData.length; i++) {
-                const card = filteredData[i];
-                const imagePath = getImagePathForCard(card['Card Name']);
-                if (!imagePath) {
-                    console.warn(`No image found for filtered card "${card['Card Name']}", skipping.`);
-                    continue;
-                }
-                const imageItem = createImageItem(imagePath, card, 0, i);
-                imageItem.dataset.cardIndex = i;
-                imageItem.classList.remove('visible');
-                imageItem.style.opacity = '0';
-                canvas.appendChild(imageItem);
-                allImageItems.push(imageItem);
+            if (mobileScrollMode === 'horizontal') {
+                // Horizontal layout
+                canvas.classList.add('horizontal-scroll');
+                canvasContainer?.classList.add('horizontal-scroll-mode');
+                canvas.style.width = 'auto';
+                canvas.style.height = '100%';
                 
-                requestAnimationFrame(() => {
+                for (let i = 0; i < filteredData.length; i++) {
+                    const card = filteredData[i];
+                    const imagePath = getImagePathForCard(card['Card Name']);
+                    if (!imagePath) {
+                        console.warn(`No image found for filtered card "${card['Card Name']}", skipping.`);
+                        continue;
+                    }
+                    const imageItem = createImageItem(imagePath, card, i, 0);
+                    imageItem.dataset.cardIndex = i;
+                    imageItem.classList.add('portrait-card');
+                    imageItem.classList.remove('visible');
+                    imageItem.style.opacity = '0';
+                    canvas.appendChild(imageItem);
+                    allImageItems.push(imageItem);
+                    
                     requestAnimationFrame(() => {
-                        imageItem.classList.add('fade-in');
-                        imageItem.style.removeProperty('opacity');
+                        requestAnimationFrame(() => {
+                            imageItem.classList.add('fade-in');
+                            imageItem.style.removeProperty('opacity');
+                        });
                     });
-                });
-            }
-            
-            if (canvasContainer) {
-                canvasContainer.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+                
+                if (canvasContainer) {
+                    canvasContainer.scrollTo({ left: 0, top: 0, behavior: 'smooth' });
+                }
+            } else {
+                // Vertical layout
+                canvas.classList.remove('horizontal-scroll');
+                canvasContainer?.classList.remove('horizontal-scroll-mode');
+                canvas.style.width = '100%';
+                canvas.style.height = 'auto';
+                
+                for (let i = 0; i < filteredData.length; i++) {
+                    const card = filteredData[i];
+                    const imagePath = getImagePathForCard(card['Card Name']);
+                    if (!imagePath) {
+                        console.warn(`No image found for filtered card "${card['Card Name']}", skipping.`);
+                        continue;
+                    }
+                    const imageItem = createImageItem(imagePath, card, 0, i);
+                    imageItem.dataset.cardIndex = i;
+                    imageItem.classList.remove('portrait-card');
+                    imageItem.classList.remove('visible');
+                    imageItem.style.opacity = '0';
+                    canvas.appendChild(imageItem);
+                    allImageItems.push(imageItem);
+                    
+                    requestAnimationFrame(() => {
+                        requestAnimationFrame(() => {
+                            imageItem.classList.add('fade-in');
+                            imageItem.style.removeProperty('opacity');
+                        });
+                    });
+                }
+                
+                if (canvasContainer) {
+                    canvasContainer.scrollTo({ top: 0, behavior: 'smooth' });
+                }
             }
         } else {
             const totalCards = filteredData.length;
@@ -1548,42 +1652,78 @@ function applyFilter(filterType, filterValue, scrollToSection = false) {
         const canvasContainer = document.getElementById('canvasContainer');
         
         if (isMobile) {
-            // Mobile: Reset canvas styles
-            canvas.style.width = '100%';
-            canvas.style.height = 'auto';
-            
-            // Mobile: Create vertical stack based on filtered data
-            for (let i = 0; i < filteredData.length; i++) {
-                const card = filteredData[i];
-                const imagePath = getImagePathForCard(card['Card Name']);
-                if (!imagePath) {
-                    console.warn(`No image found for filtered card "${card['Card Name']}", skipping.`);
-                    continue;
-                }
-                const imageItem = createImageItem(imagePath, card, 0, i);
-                imageItem.dataset.cardIndex = i;
-                // Remove initial fadeIn animation, start with opacity 0
-                imageItem.classList.remove('visible');
-                imageItem.style.opacity = '0';
-                canvas.appendChild(imageItem);
-                allImageItems.push(imageItem);
-                // Trigger fade in using requestAnimationFrame
-                requestAnimationFrame(() => {
+            // Mobile: Create layout based on scroll mode
+            if (mobileScrollMode === 'horizontal') {
+                // Horizontal layout
+                canvas.classList.add('horizontal-scroll');
+                canvasContainer?.classList.add('horizontal-scroll-mode');
+                canvas.style.width = 'auto';
+                canvas.style.height = '100%';
+                
+                for (let i = 0; i < filteredData.length; i++) {
+                    const card = filteredData[i];
+                    const imagePath = getImagePathForCard(card['Card Name']);
+                    if (!imagePath) {
+                        console.warn(`No image found for filtered card "${card['Card Name']}", skipping.`);
+                        continue;
+                    }
+                    const imageItem = createImageItem(imagePath, card, i, 0);
+                    imageItem.dataset.cardIndex = i;
+                    imageItem.classList.add('portrait-card');
+                    imageItem.classList.remove('visible');
+                    imageItem.style.opacity = '0';
+                    canvas.appendChild(imageItem);
+                    allImageItems.push(imageItem);
                     requestAnimationFrame(() => {
-                        imageItem.classList.add('fade-in');
-                        imageItem.style.removeProperty('opacity');
+                        requestAnimationFrame(() => {
+                            imageItem.classList.add('fade-in');
+                            imageItem.style.removeProperty('opacity');
+                        });
                     });
-                });
-            }
-            
-            // Scroll to section if requested, otherwise scroll to top
-            if (canvasContainer) {
-                if (scrollToSection && filterType === 'color' && filterValue) {
-                    setTimeout(() => {
-                        scrollToColorSection(filterValue);
-                    }, 100);
-                } else {
-                    canvasContainer.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+                
+                // Scroll to left
+                if (canvasContainer) {
+                    canvasContainer.scrollTo({ left: 0, top: 0, behavior: 'smooth' });
+                }
+            } else {
+                // Vertical layout (existing behavior)
+                canvas.classList.remove('horizontal-scroll');
+                canvasContainer?.classList.remove('horizontal-scroll-mode');
+                canvas.style.width = '100%';
+                canvas.style.height = 'auto';
+                
+                for (let i = 0; i < filteredData.length; i++) {
+                    const card = filteredData[i];
+                    const imagePath = getImagePathForCard(card['Card Name']);
+                    if (!imagePath) {
+                        console.warn(`No image found for filtered card "${card['Card Name']}", skipping.`);
+                        continue;
+                    }
+                    const imageItem = createImageItem(imagePath, card, 0, i);
+                    imageItem.dataset.cardIndex = i;
+                    imageItem.classList.remove('portrait-card');
+                    imageItem.classList.remove('visible');
+                    imageItem.style.opacity = '0';
+                    canvas.appendChild(imageItem);
+                    allImageItems.push(imageItem);
+                    requestAnimationFrame(() => {
+                        requestAnimationFrame(() => {
+                            imageItem.classList.add('fade-in');
+                            imageItem.style.removeProperty('opacity');
+                        });
+                    });
+                }
+                
+                // Scroll to section if requested, otherwise scroll to top
+                if (canvasContainer) {
+                    if (scrollToSection && filterType === 'color' && filterValue) {
+                        setTimeout(() => {
+                            scrollToColorSection(filterValue);
+                        }, 100);
+                    } else {
+                        canvasContainer.scrollTo({ top: 0, behavior: 'smooth' });
+                    }
                 }
             }
         } else {
@@ -2325,30 +2465,60 @@ function setupMobileDynamicRotation() {
     let ticking = false;
     
     function updateCardRotations() {
-        const viewportHeight = window.innerHeight;
         const imageItems = document.querySelectorAll('.image-item');
         
-        imageItems.forEach(item => {
-            const imageContainer = item.querySelector('.image-container');
-            if (!imageContainer) return;
+        if (mobileScrollMode === 'horizontal') {
+            // Horizontal scroll: Y-axis rotation (-40deg to +25deg)
+            const viewportWidth = window.innerWidth;
             
-            const rect = item.getBoundingClientRect();
-            const cardTop = rect.top;
-            const cardBottom = rect.bottom;
-            const cardCenter = cardTop + (rect.height / 2);
+            imageItems.forEach(item => {
+                const imageContainer = item.querySelector('.image-container');
+                if (!imageContainer) return;
+                
+                const rect = item.getBoundingClientRect();
+                const cardLeft = rect.left;
+                const cardRight = rect.right;
+                const cardCenter = cardLeft + (rect.width / 2);
+                
+                // Only apply rotation if card is in viewport or near it
+                if (cardRight > -100 && cardLeft < viewportWidth + 100) {
+                    // Calculate normalized position (0 = left, 1 = right)
+                    // Right side of viewport = -40deg, left side = +25deg
+                    const normalizedPosition = Math.max(0, Math.min(1, cardCenter / viewportWidth));
+                    
+                    // Interpolate rotation: right (-40deg) to left (+25deg)
+                    const rotation = -40 + (65 * normalizedPosition);
+                    
+                    // Apply Y-axis rotation
+                    imageContainer.style.transform = `rotateY(${rotation}deg)`;
+                }
+            });
+        } else {
+            // Vertical scroll: X-axis rotation (+23deg to -90deg)
+            const viewportHeight = window.innerHeight;
             
-            // Only apply rotation if card is in viewport or near it
-            if (cardBottom > -100 && cardTop < viewportHeight + 100) {
-                // Calculate normalized position (0 = top, 1 = bottom)
-                const normalizedPosition = Math.max(0, Math.min(1, cardCenter / viewportHeight));
+            imageItems.forEach(item => {
+                const imageContainer = item.querySelector('.image-container');
+                if (!imageContainer) return;
                 
-                // Interpolate rotation: top (+23deg) to bottom (-90deg)
-                const rotation = 23 - (113 * normalizedPosition);
+                const rect = item.getBoundingClientRect();
+                const cardTop = rect.top;
+                const cardBottom = rect.bottom;
+                const cardCenter = cardTop + (rect.height / 2);
                 
-                // Apply X-axis rotation
-                imageContainer.style.transform = `rotateX(${rotation}deg)`;
-            }
-        });
+                // Only apply rotation if card is in viewport or near it
+                if (cardBottom > -100 && cardTop < viewportHeight + 100) {
+                    // Calculate normalized position (0 = top, 1 = bottom)
+                    const normalizedPosition = Math.max(0, Math.min(1, cardCenter / viewportHeight));
+                    
+                    // Interpolate rotation: top (+23deg) to bottom (-90deg)
+                    const rotation = 23 - (113 * normalizedPosition);
+                    
+                    // Apply X-axis rotation
+                    imageContainer.style.transform = `rotateX(${rotation}deg)`;
+                }
+            });
+        }
         
         ticking = false;
     }
