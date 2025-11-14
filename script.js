@@ -793,6 +793,10 @@ function createGrid(canvas) {
                 const imageItem = createImageItem(imagePath, card, i, 0);
                 imageItem.dataset.cardIndex = i;
                 imageItem.classList.add('portrait-card');
+                // Ensure no inline styles override CSS
+                imageItem.style.width = '';
+                imageItem.style.maxWidth = '';
+                imageItem.style.minWidth = '';
                 canvas.appendChild(imageItem);
                 allImageItems.push(imageItem);
             }
@@ -1478,6 +1482,10 @@ function filterGridByAI(recommendedCardNames, query) {
                     imageItem.dataset.cardIndex = i;
                     imageItem.classList.add('portrait-card');
                     imageItem.classList.remove('visible');
+                    // Ensure no inline styles override CSS width
+                    imageItem.style.width = '';
+                    imageItem.style.maxWidth = '';
+                    imageItem.style.minWidth = '';
                     imageItem.style.opacity = '0';
                     canvas.appendChild(imageItem);
                     allImageItems.push(imageItem);
@@ -1670,6 +1678,10 @@ function applyFilter(filterType, filterValue, scrollToSection = false) {
                     imageItem.dataset.cardIndex = i;
                     imageItem.classList.add('portrait-card');
                     imageItem.classList.remove('visible');
+                    // Ensure no inline styles override CSS width
+                    imageItem.style.width = '';
+                    imageItem.style.maxWidth = '';
+                    imageItem.style.minWidth = '';
                     imageItem.style.opacity = '0';
                     canvas.appendChild(imageItem);
                     allImageItems.push(imageItem);

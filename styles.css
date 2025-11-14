@@ -533,7 +533,7 @@ body.card-detail-page {
 }
 /* Mobile specific image styling */
 @media (max-width: 768px) {
-    .image-item {
+    .image-item:not(.portrait-card) {
         width: 85vw;
         max-width: 85vw;
         perspective: 1000px;
@@ -661,10 +661,23 @@ body.card-detail-page {
         scroll-behavior: smooth;
     }
     
+    .container:has(.canvas-container.horizontal-scroll-mode) {
+        height: 100vh;
+        overflow: hidden;
+    }
+    
     .canvas-container.horizontal-scroll-mode {
         overflow-y: hidden;
         overflow-x: auto;
         height: 100vh;
+        flex: 0 0 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        margin-top: 0;
+        padding-top: 0;
+        margin-bottom: 0;
+        padding-bottom: 0;
     }
     
     .canvas {
@@ -678,9 +691,12 @@ body.card-detail-page {
         display: flex;
         flex-direction: row;
         align-items: center;
-        padding: 20px 16px;
+        justify-content: flex-start;
+        padding: 0 16px;
         width: auto;
-        height: 100%;
+        height: auto;
+        min-height: 0;
+        margin: 0;
         gap: 20px;
     }
     
@@ -692,13 +708,20 @@ body.card-detail-page {
         margin-top: 0;
     }
     
-    /* Portrait cards for horizontal scroll */
-    .canvas.horizontal-scroll .image-item {
-        margin: 0;
+    /* Portrait cards for horizontal scroll - must override all other rules */
+    /* Calculate BEFORE rotation: After 90deg rotation, visual width = original container height */
+    /* Desired visual width AFTER rotation: 25vw */
+    /* So container height BEFORE rotation should be: 25vw */
+    /* Container width BEFORE rotation = height × (257/158) = 25vw × (257/158) ≈ 40.66vw */
+    /* Image-item width = container width = 40.66vw */
+    .canvas.horizontal-scroll .image-item,
+    .canvas.horizontal-scroll .image-item.portrait-card {
+        margin: 0 !important;
         flex-shrink: 0;
-        width: 70vw;
-        max-width: 70vw;
-        height: auto;
+        width: calc(25vw * 257 / 158) !important;
+        max-width: calc(25vw * 257 / 158) !important;
+        min-width: calc(25vw * 257 / 158) !important;
+        height: auto !important;
     }
     
     .canvas.horizontal-scroll .image-item.portrait-card {
@@ -707,23 +730,23 @@ body.card-detail-page {
     }
     
     .canvas.horizontal-scroll .image-item.portrait-card .image-container {
-        width: 100%;
+        width: 100% !important;
+        max-width: 100% !important;
         transform-style: preserve-3d;
         transition: transform 0.1s ease-out;
         border-radius: 13px;
-    }
-    
-    .canvas.horizontal-scroll .image-item.portrait-card .image-container {
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 100%;
+        /* Height BEFORE rotation = visual width AFTER rotation */
+        height: 25vw !important;
         aspect-ratio: 158 / 257;
     }
     
     .canvas.horizontal-scroll .image-item.portrait-card img {
-        width: auto;
-        height: 100%;
+        width: 100% !important;
+        max-width: 100% !important;
+        height: 100% !important;
         object-fit: contain;
         transform: rotate(90deg);
         transform-origin: center center;
