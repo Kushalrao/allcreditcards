@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
   <url>
     <loc>https://www.firstcredit.club/</loc>
     <lastmod>2025-11-16</lastmod>
@@ -226,7 +229,7 @@
     <loc>https://www.firstcredit.club/cards/axis-bank-ace-credit-card.html</loc>
     <lastmod>2025-11-16</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.firstcredit.club/cards/axis-bank-ace-rupay-credit-card.html</loc>
@@ -244,7 +247,7 @@
     <loc>https://www.firstcredit.club/cards/axis-bank-atlas-credit-card.html</loc>
     <lastmod>2025-11-16</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.firstcredit.club/cards/axis-bank-atlas-premium-card.html</loc>
@@ -298,7 +301,7 @@
     <loc>https://www.firstcredit.club/cards/axis-bank-flipkart-credit-card.html</loc>
     <lastmod>2025-11-16</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.firstcredit.club/cards/axis-bank-flipkart-kids-credit-card.html</loc>
@@ -346,7 +349,7 @@
     <loc>https://www.firstcredit.club/cards/axis-bank-magnus-credit-card.html</loc>
     <lastmod>2025-11-16</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.firstcredit.club/cards/axis-bank-magnus-for-burgundy.html</loc>
@@ -916,7 +919,7 @@
     <loc>https://www.firstcredit.club/cards/hdfc-diners-club-black.html</loc>
     <lastmod>2025-11-16</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.firstcredit.club/cards/hdfc-diners-club-premium.html</loc>
@@ -958,7 +961,7 @@
     <loc>https://www.firstcredit.club/cards/hdfc-infinia-credit-card.html</loc>
     <lastmod>2025-11-16</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.firstcredit.club/cards/hdfc-infinia-reserve-credit-card.html</loc>
@@ -982,7 +985,7 @@
     <loc>https://www.firstcredit.club/cards/hdfc-millennia-credit-card.html</loc>
     <lastmod>2025-11-16</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.firstcredit.club/cards/hdfc-moneyback-business-card.html</loc>
@@ -1030,7 +1033,7 @@
     <loc>https://www.firstcredit.club/cards/hdfc-regalia-credit-card.html</loc>
     <lastmod>2025-11-16</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.firstcredit.club/cards/hdfc-regalia-first-credit-card.html</loc>
@@ -1072,13 +1075,13 @@
     <loc>https://www.firstcredit.club/cards/hdfc-tata-neu-infinity-credit-card.html</loc>
     <lastmod>2025-11-16</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.firstcredit.club/cards/hdfc-tata-neu-plus-credit-card.html</loc>
     <lastmod>2025-11-16</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.firstcredit.club/cards/hdfc-times-credit-card.html</loc>
@@ -1222,7 +1225,7 @@
     <loc>https://www.firstcredit.club/cards/icici-amazon-pay-credit-card.html</loc>
     <lastmod>2025-11-16</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.firstcredit.club/cards/icici-business-credit-card.html</loc>
@@ -1384,7 +1387,7 @@
     <loc>https://www.firstcredit.club/cards/icici-sapphiro-credit-card.html</loc>
     <lastmod>2025-11-16</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.firstcredit.club/cards/icici-sapphiro-dual-credit-card.html</loc>
@@ -2404,7 +2407,7 @@
     <loc>https://www.firstcredit.club/cards/sbi-card-prime.html</loc>
     <lastmod>2025-11-16</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.firstcredit.club/cards/sbi-card-pulse-plus.html</loc>
@@ -2440,7 +2443,7 @@
     <loc>https://www.firstcredit.club/cards/sbi-cashback-credit-card.html</loc>
     <lastmod>2025-11-16</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.firstcredit.club/cards/sbi-club-vistara-credit-card.html</loc>
@@ -2566,7 +2569,7 @@
     <loc>https://www.firstcredit.club/cards/sbi-simplyclick-credit-card.html</loc>
     <lastmod>2025-11-16</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.firstcredit.club/cards/sbi-simplysave-credit-card.html</loc>
