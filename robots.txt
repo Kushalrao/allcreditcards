@@ -1,5 +1,8 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.firstclub/sitemap.xml
+# Disallow API endpoints
+Disallow: /api/
+
+Sitemap: https://www.firstcredit.club/sitemap.xml
 

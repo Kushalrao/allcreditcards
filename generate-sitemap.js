@@ -7,7 +7,7 @@ const __dirname = path.dirname(__filename);
 
 // Base URL - update this if you have a custom domain
 // Using HTTPS as Google Search Console prefers secure URLs
-const BASE_URL = 'https://www.firstclub';
+const BASE_URL = 'https://www.firstcredit.club';
 
 // Get current date in ISO format for lastmod
 const currentDate = new Date().toISOString().split('T')[0];
@@ -50,6 +50,42 @@ function generateSitemap() {
 `;
     });
 
+    // Add category pages
+    const categoryPages = [
+        'best-travel-cards',
+        'top-cashback-cards',
+        'premium-cards',
+        'lifetime-free-cards',
+        'best-overall-cards-2025'
+    ];
+    
+    categoryPages.forEach(slug => {
+        sitemap += `  <url>
+    <loc>${BASE_URL}/${slug}.html</loc>
+    <lastmod>${currentDate}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+`;
+    });
+
+    // Add comparison pages
+    const comparisonPages = [
+        'hdfc-infinia-vs-axis-magnus',
+        'top-5-travel-cards-comparison',
+        'best-cashback-cards-comparison'
+    ];
+    
+    comparisonPages.forEach(slug => {
+        sitemap += `  <url>
+    <loc>${BASE_URL}/${slug}.html</loc>
+    <lastmod>${currentDate}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+`;
+    });
+
     // Close sitemap
     sitemap += `</urlset>`;
 
@@ -57,8 +93,13 @@ function generateSitemap() {
     const sitemapPath = path.join(__dirname, 'sitemap.xml');
     fs.writeFileSync(sitemapPath, sitemap, 'utf8');
     
+    const totalUrls = 1 + cardFiles.length + categoryPages.length + comparisonPages.length;
     console.log(`✅ Sitemap generated successfully!`);
-    console.log(`   Total URLs: ${cardFiles.length + 1}`);
+    console.log(`   Total URLs: ${totalUrls}`);
+    console.log(`   - Homepage: 1`);
+    console.log(`   - Card pages: ${cardFiles.length}`);
+    console.log(`   - Category pages: ${categoryPages.length}`);
+    console.log(`   - Comparison pages: ${comparisonPages.length}`);
     console.log(`   Saved to: ${sitemapPath}`);
     console.log(`   Sitemap URL: ${BASE_URL}/sitemap.xml`);
 }
