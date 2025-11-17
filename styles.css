@@ -267,6 +267,27 @@ body.detail-open {
     aspect-ratio: 257 / 158;
 }
 
+/* No annual fee diagonal strip */
+.no-fee-strip {
+    position: absolute;
+    top: 12px;
+    right: -28px;
+    background: #90EE90;
+    color: #006400;
+    font-size: 7px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    padding: 4px 32px;
+    transform: rotate(45deg);
+    transform-origin: center;
+    z-index: 10;
+    white-space: nowrap;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+    line-height: 1.3;
+    text-transform: uppercase;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
 /* Card information below image */
 .card-info {
     padding: 0;
@@ -657,6 +678,14 @@ body.card-detail-page {
         /* Prevent layout shift on mobile */
         aspect-ratio: 340 / 209;
         object-fit: cover;
+    }
+    
+    /* Mobile styling for no-fee-strip */
+    .no-fee-strip {
+        top: 10px;
+        right: -25px;
+        font-size: 9px;
+        padding: 4px 30px;
     }
     
     .card-info {

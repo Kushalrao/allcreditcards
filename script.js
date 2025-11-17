@@ -940,6 +940,21 @@ function createImageItem(imagePath, card, row, col) {
     };
     
     imageContainer.appendChild(img);
+    
+    // Add "No annual fee" diagonal strip for free cards
+    if (card) {
+        const annualFee = card['Annual Fee (INR)'];
+        const feeValue = typeof annualFee === 'string' ? parseInt(annualFee.replace(/,/g, '')) : annualFee;
+        
+        // Show strip only if card is free (no annual fee or fee is 0)
+        if (!feeValue || feeValue === 0) {
+            const noFeeStrip = document.createElement('div');
+            noFeeStrip.className = 'no-fee-strip';
+            noFeeStrip.textContent = 'NO ANNUAL FEE';
+            imageContainer.appendChild(noFeeStrip);
+        }
+    }
+    
     imageItem.appendChild(imageContainer);
     
     // Add card information below image if card data exists
