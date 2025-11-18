@@ -698,15 +698,15 @@ body.card-detail-page {
     /* Mobile styling for no-fee-strip - ensure it appears as a diagonal banner */
     .image-container.has-no-fee-strip .no-fee-strip {
         position: absolute !important;
-        top: 8px !important;
-        right: -28px !important;
-        background: #90EE90 !important;
-        background-color: #90EE90 !important;
+        top: 27px !important;
+        right: -24px !important;
+        background: #ee9090 !important;
+        background-color: #c9ff00 !important;
         color: #006400 !important;
         font-size: 8px !important;
         font-weight: 700 !important;
         letter-spacing: 0.08em !important;
-        padding: 5px 27px !important;
+        padding: 5px 20px !important;
         transform: rotate(45deg) translateZ(1px) !important;
         transform-origin: center center !important;
         transform-style: flat !important;
