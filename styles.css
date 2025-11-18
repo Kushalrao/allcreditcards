@@ -727,12 +727,19 @@ body.card-detail-page {
     
     /* Allow strip overflow on mobile - use clip-path for image instead */
     .image-container.has-no-fee-strip {
-        overflow: visible;
+        overflow: visible !important;
     }
     
     .image-container.has-no-fee-strip img {
         clip-path: inset(0 round 13px);
         -webkit-clip-path: inset(0 round 13px);
+        position: relative;
+        z-index: 1;
+    }
+    
+    /* Ensure strip is above the image */
+    .image-container.has-no-fee-strip .no-fee-strip {
+        z-index: 1000 !important;
     }
     
     .card-info {
