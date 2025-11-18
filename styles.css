@@ -277,7 +277,7 @@ body.detail-open {
     font-size: 7px;
     font-weight: 700;
     letter-spacing: 0.08em;
-    padding: 4px 32px;
+    padding: 4px 27px;
     transform: rotate(45deg);
     transform-origin: center;
     z-index: 10;
@@ -706,7 +706,7 @@ body.card-detail-page {
         font-size: 8px !important;
         font-weight: 700 !important;
         letter-spacing: 0.08em !important;
-        padding: 5px 38px !important;
+        padding: 5px 27px !important;
         transform: rotate(45deg) translateZ(1px) !important;
         transform-origin: center center !important;
         transform-style: flat !important;
