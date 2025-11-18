@@ -707,8 +707,9 @@ body.card-detail-page {
         font-weight: 700 !important;
         letter-spacing: 0.08em !important;
         padding: 5px 38px !important;
-        transform: rotate(45deg) !important;
+        transform: rotate(45deg) translateZ(1px) !important;
         transform-origin: center center !important;
+        transform-style: flat !important;
         z-index: 1000 !important;
         white-space: nowrap !important;
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15) !important;
@@ -721,6 +722,7 @@ body.card-detail-page {
         opacity: 1 !important;
         min-width: 100px !important;
         text-align: center !important;
+        will-change: transform !important;
     }
     
     /* Allow strip overflow on mobile - use clip-path for image instead */
