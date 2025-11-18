@@ -952,6 +952,8 @@ function createImageItem(imagePath, card, row, col) {
             noFeeStrip.className = 'no-fee-strip';
             noFeeStrip.textContent = 'NO ANNUAL FEE';
             imageContainer.appendChild(noFeeStrip);
+            // Add class to container for CSS targeting
+            imageContainer.classList.add('has-no-fee-strip');
         }
     }
     
