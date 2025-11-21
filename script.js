@@ -1885,21 +1885,28 @@ function initSearchBar() {
     
     if (!searchBar || !searchBarContainer) return;
     
-    // Handle click on search bar to expand to fullscreen
+    // Check if mobile device
+    function isMobile() {
+        return window.innerWidth <= 768;
+    }
+    
+    // Handle click on search bar to expand to fullscreen (mobile only)
     searchBar.addEventListener('click', (e) => {
         e.stopPropagation();
-        if (!searchBarContainer.classList.contains('fullscreen')) {
+        if (isMobile() && !searchBarContainer.classList.contains('fullscreen')) {
             searchBarContainer.classList.add('fullscreen');
             searchBar.focus();
         }
     });
     
-    // Handle close button click
+    // Handle close button click (mobile only)
     if (searchCloseButton) {
         searchCloseButton.addEventListener('click', (e) => {
             e.stopPropagation();
-            searchBarContainer.classList.remove('fullscreen');
-            searchBar.blur();
+            if (isMobile()) {
+                searchBarContainer.classList.remove('fullscreen');
+                searchBar.blur();
+            }
         });
     }
     
@@ -1913,9 +1920,17 @@ function initSearchBar() {
         }
     });
     
-    // Close on Escape key
+    // Close on Escape key (mobile only)
     searchBar.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && searchBarContainer.classList.contains('fullscreen')) {
+        if (e.key === 'Escape' && isMobile() && searchBarContainer.classList.contains('fullscreen')) {
+            searchBarContainer.classList.remove('fullscreen');
+            searchBar.blur();
+        }
+    });
+    
+    // Handle window resize - remove fullscreen if switching to desktop
+    window.addEventListener('resize', () => {
+        if (!isMobile() && searchBarContainer.classList.contains('fullscreen')) {
             searchBarContainer.classList.remove('fullscreen');
             searchBar.blur();
         }
