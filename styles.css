@@ -773,12 +773,61 @@ body.card-detail-page {
     right: 0;
     display: flex;
     justify-content: center;
+    align-items: center;
     padding: 20px;
     z-index: 1000;
     pointer-events: none;
     background: transparent !important;
     backdrop-filter: none;
+    transition: all 0.3s ease;
+}
+
+.search-bar-container.fullscreen {
+    position: fixed;
+    top: 15px;
+    bottom: 15px;
+    left: 15px;
+    right: 15px;
+    padding: 0;
+    background: rgba(0, 0, 0, 0.95) !important;
+    backdrop-filter: blur(10px);
+    pointer-events: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+}
+
+.search-close-button {
     display: none;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    background: transparent;
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+    color: #ffffff;
+    font-size: 28px;
+    font-weight: 300;
+    line-height: 1;
+    cursor: pointer;
+    z-index: 1001;
+    pointer-events: auto;
+    transition: all 0.2s ease;
+    padding: 0;
+    align-items: center;
+    justify-content: center;
+}
+
+.search-bar-container.fullscreen .search-close-button {
+    display: flex;
+}
+
+.search-close-button:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: scale(1.1);
 }
 
 .search-bar {
@@ -795,6 +844,16 @@ body.card-detail-page {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     -webkit-appearance: none;
     appearance: none;
+    transition: all 0.3s ease;
+}
+
+.search-bar-container.fullscreen .search-bar {
+    width: 100%;
+    max-width: none;
+    border-radius: 12px;
+    margin-top: 60px;
+    padding: 20px 24px;
+    font-size: 18px;
 }
 
 .search-bar::placeholder {

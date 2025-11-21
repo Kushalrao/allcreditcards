@@ -1880,7 +1880,28 @@ let currentController = null; // For aborting pending requests
 // Initialize search bar
 function initSearchBar() {
     const searchBar = document.getElementById('searchBar');
-    if (!searchBar) return;
+    const searchBarContainer = document.getElementById('searchBarContainer');
+    const searchCloseButton = document.getElementById('searchCloseButton');
+    
+    if (!searchBar || !searchBarContainer) return;
+    
+    // Handle click on search bar to expand to fullscreen
+    searchBar.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (!searchBarContainer.classList.contains('fullscreen')) {
+            searchBarContainer.classList.add('fullscreen');
+            searchBar.focus();
+        }
+    });
+    
+    // Handle close button click
+    if (searchCloseButton) {
+        searchCloseButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            searchBarContainer.classList.remove('fullscreen');
+            searchBar.blur();
+        });
+    }
     
     // Handle search input
     searchBar.addEventListener('keypress', (e) => {
@@ -1889,6 +1910,14 @@ function initSearchBar() {
             if (query.length > 0) {
                 handleSearch(query);
             }
+        }
+    });
+    
+    // Close on Escape key
+    searchBar.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && searchBarContainer.classList.contains('fullscreen')) {
+            searchBarContainer.classList.remove('fullscreen');
+            searchBar.blur();
         }
     });
 }
